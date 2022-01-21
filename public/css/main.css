@@ -5,6 +5,7 @@ body {
     font-family: roboto, sans-serif;
     position: relative;
     font-weight: 400px;
+    overflow-x:hidden;
 }
 ul li {
     list-style: none;
@@ -103,6 +104,7 @@ a#scrollUp i {
     background: #ce3c2d;
 }
 .header-middle .container .row {
+
     border-bottom: 1px solid #f5f5f5;
     margin-left: 0;
     margin-right: 0;
@@ -173,8 +175,10 @@ a#scrollUp i {
     background: #fff;
 }
 .header-bottom {
-    padding-bottom: 30px;
-    padding-top: 30px;
+    background-color: #232323;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    max-width: 1920px;
 }
 .navbar-collapse.collapse {
     padding-left: 0;
@@ -187,7 +191,7 @@ a#scrollUp i {
     padding-left: 0;
 }
 .mainmenu ul li a {
-    color: #696763;
+    color: #fff;
     font-family: roboto, sans-serif;
     font-size: 17px;
     font-weight: 300;
@@ -203,17 +207,18 @@ a#scrollUp i {
 .search_box input {
     background: #f0f0e9;
     border: medium;
-    color: #b2b2b2;
+    color: #000000;
     font-family: roboto;
     font-size: 12px;
     font-weight: 300;
     height: 35px;
     outline: medium;
     padding-left: 10px;
-    width: 155px;
+    width: 200px;
     background-image: url(../images/home/searchicon.png);
     background-repeat: no-repeat;
-    background-position: 130px;
+    background-position: 170px;
+    border-radius: 20px;
 }
 .navbar-header .navbar-toggle .icon-bar {
     background-color: #fff;
@@ -244,8 +249,12 @@ ul.sub-menu {
 .navbar-nav li ul.sub-menu li {
     padding: 10px 20px 0;
 }
+
 .navbar-nav li ul.sub-menu li:last-child {
     padding-bottom: 20px;
+}
+.navbar-nav li a{
+    color: #fff;
 }
 .navbar-nav li ul.sub-menu li a {
     color: #fff;
@@ -447,35 +456,31 @@ ul.sub-menu {
     font-style: italic;
     text-decoration: underline;
 }
-#slider {
-    padding-bottom: 45px;
-}
 .carousel-indicators li {
     background: #c4c4be;
 }
 .carousel-indicators li.active {
     background: #fe980f;
 }
-.item {
-    padding-left: 100px;
+.item img{
+    max-width: 1920px;
 }
 .pricing {
     position: absolute;
-    right: 40%;
-    top: 52%;
+    right: 20%;
+    top: 40%;
 }
+.slider-text{
+    position: absolute;
+    left: 20%;
+    top: 35%;
+}
+
 .girl {
     margin-left: 0;
 }
-.item h1 {
-    color: #b4b1ab;
-    font-family: abel;
-    font-size: 48px;
-    margin-top: 115px;
-}
-.item h1 span {
-    color: #fe980f;
-}
+
+
 .item h2 {
     color: #363432;
     font-family: roboto, sans-serif;
@@ -485,8 +490,8 @@ ul.sub-menu {
     margin-top: 10px;
 }
 .item p {
-    color: #363432;
-    font-size: 16px;
+    color: #fff;
+    font-size: 18px;
     font-weight: 300;
     font-family: roboto, sans-serif;
 }
@@ -502,6 +507,60 @@ ul.sub-menu {
 }
 .item button:hover {
     background: #fe980f;
+}
+.item .col-sm-12{
+    padding: 0;
+}
+.item h1 {
+    color: #b4b1ab;
+    font-family: abel;
+    font-size: 48px;
+    margin-top: 115px;
+}
+.item h3 span {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 300;
+    font-family: roboto, sans-serif;
+}
+
+.slider-text h3{
+    font-size: 72px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    text-align: justify;
+}
+.slider-text h3, p {
+    color: white;
+    max-width: 700px;
+}
+
+.feature-inner{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    text-transform: uppercase;
+}
+
+.feature-icon{
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.features-section{
+    margin-bottom: 50px;
+}
+
+.product-container{
+    margin-top: 50px;
+}
+.fade p{
+ color:black;
+    padding: 10px;
+    text-align: justify;
+}
+.orange{
+    background-color: orange;
+    color:white;
 }
 .control-carousel {
     position: absolute;
@@ -520,6 +579,9 @@ ul.sub-menu {
     margin-bottom: 35px;
     padding-bottom: 20px;
     padding-top: 15px;
+}
+.left-sidebar{
+    width: 230px;
 }
 .left-sidebar h2,
 .brands_products h2 {
@@ -691,8 +753,8 @@ h2.title {
     border: 1px solid #f7f7f5;
     overflow: hidden;
     margin-bottom: 30px;
-    height: 450px;
-    width: 300px;
+    height: 490px;
+    width: 270px;
 
 }
 .product-image-wrapper:hover{
@@ -722,7 +784,9 @@ h2.title {
     color: #696763;
 }
 .productinfo img {
-    width: 100%;
+    margin-top: 10px;
+    width: 248px;
+  height: 330px;
 }
 .productinfo {
     position: relative;
@@ -738,10 +802,10 @@ h2.title {
     width: 100%;
     display: block;
 }
-.single-products:hover .product-overlay {
-    display: block;
-    height: 100%;
-}
+/*.single-products:hover .product-overlay {*/
+    /*display: block;*/
+    /*height: 100%;*/
+/*}*/
 .product-overlay .overlay-content {
     bottom: 0;
     position: absolute;
@@ -775,7 +839,7 @@ h2.title {
     color: #696763;
     font-family: roboto, sans-serif;
     font-size: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 .add-to-cart:hover {
     background: #fe980f;
@@ -938,9 +1002,18 @@ h2.title {
     background: #fe980f;
     color: #fff;
 }
+.product-single{
+    text-decoration: none;
+
+}
 .product-details {
     overflow: hidden;
 }
+
+.product-single h5, h4{
+    color: black;
+}
+
 #similar-product {
     margin-top: 40px;
 }

@@ -15,9 +15,10 @@ class HomeController extends Controller
         return redirect('/women');
     }
 
-    public function index($cat_group_name){
-        $group = CategoryGroup::where('name',$cat_group_name)->first();
+    public function index($group_seo_name){
+        $group = CategoryGroup::where('name',$group_seo_name)->first();
         $group_products = Product::where('category_group_id',$group->id)->get();
+
         $brands = ProductBrand::all();
         foreach ($brands as $brand) {
             foreach ($brand->products as $brand_product){
@@ -29,6 +30,7 @@ class HomeController extends Controller
         }
 
         return view('index',[
+           'group' => $group,
            'group_products' => $group_products,
            'group_categories' => $group->categories,
            'brands' => $group_brands,
