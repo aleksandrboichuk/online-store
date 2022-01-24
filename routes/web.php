@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/search',[\App\Http\Controllers\SearchController::class, 'index']);
 Route::get('/','\App\Http\Controllers\HomeController@home');
 Route::get('/{group_seo_name}',[\App\Http\Controllers\HomeController::class,'index']);
 Route::get('/{group_seo_name}/{category_seo_name}',[\App\Http\Controllers\CategoryController::class,'index'])->name('show.category');
