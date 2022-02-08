@@ -12,86 +12,18 @@
             <div class="row">
 
                 <!--sidebar-->
-                <div class="col-sm-3">
-                    <div class="left-sidebar">
-                        <h2>Ціна</h2>
-                        <div class="price-range">
-                            <div class="well text-center">
-                                <input
-                                        type="text"
-                                        class="span2"
-                                        value=""
-                                        data-slider-min="0"
-                                        data-slider-max="600"
-                                        data-slider-step="5"
-                                        data-slider-value="[250,450]"
-                                        id="sl2"
-                                /><br />
-                                <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
-                            </div>
-                        </div>
-                        <h2>Category</h2>
-                        <div class="panel-group category-products" id="accordian">
-
-                            @foreach($group_categories as $group_category)
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a
-                                                    data-toggle="collapse"
-                                                    data-parent="#accordian"
-                                                    href="#{{$group_category->name}}">
-                                                @if(count($group_category->subCategories)>0)
-                                                    <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                                    <a href="{{route('show.category',[$group->seo_name, $group_category->seo_name])}}"><strong>{{$group_category->name}}</strong></a>
-                                                @else
-                                                    <s>{{$group_category->name}}</s>
-                                                @endif
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    @if(count($group_category->subCategories)>0)
-                                        <div id="{{$group_category->name}}" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <ul>
-                                                    @foreach($group_category->subCategories as $single_sub_cat)
-                                                        {{--{{route('show.sub.category',[$group->seo_name, $category->seo_name,$single_sub_cat->seo->name])}}--}}
-                                                        <li><a href="{{route('show.sub.category',[$group->seo_name, $group_category->seo_name,$single_sub_cat->seo_name])}}">{{$single_sub_cat->name}}<span class="pull-right">()</span></a></li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    @endif
-                                </div>
-                            @endforeach
-
-
-                        </div>
-                        <div class="brands_products">
-                            <h2>Brands</h2>
-                            <div class="brands-name">
-                                <ul class="nav nav-pills nav-stacked">
-                                    @if(!empty($brands))
-                                        @foreach($brands as $brand)
-                                            <li>
-                                                <a href="#"> <span class="pull-right">()</span><strong>{{$brand->name}}</strong></a>
-                                            </li>
-                                        @endforeach
-                                    @endif
-                                </ul>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+                @include('parts.sidebar')
 
                 <!--products-->
 
                 <div class="col-sm-9 padding-right">
                     <div class="features_items">
                         <h2 class="title text-center">{{$sub_category->title}}</h2>
+                    </div>
+                    @include('parts.filters')
+                    <div class="products">
                         @foreach($sub_category_products as $item)
-                            <div class="col-sm-4">
+                            <div class="col-sm-4 product">
                                 <div class="product-image-wrapper">
 
                                     <!--single product-->
@@ -116,14 +48,91 @@
 
                                 </div>
                             </div>
-                    @endforeach
-                    <!--end products-->
+                        @endforeach
                     </div>
+                    <!--end products-->
                 </div>
             </div>
         </div>
     </section>
+@endsection
 
+@section('custom-js')
+    <script>
+        $(document).ready(function() {
+            let color = document.querySelectorAll('.color');
+            var colors  = "" ;
 
+            let brand = document.querySelectorAll('.brand');
+            var brands  = "" ;
 
+            let material = document.querySelectorAll('.material');
+            var materials  = "";
+
+            let season = document.querySelectorAll('.season');
+            var seasons  = "";
+
+            let size = document.querySelectorAll('.size');
+            var sizes  = "";
+
+            $('.btn-info').click(function () {
+                /* colors array */
+                for (let i = 0; i < color.length; i++) {
+                    if (color[i].firstChild.checked) {
+                        colors = color[i].textContent;
+                    }
+                }
+                /* brands array */
+
+                for (let i = 0; i < brand.length; i++) {
+                    if (brand[i].firstChild.checked) {
+                        brands = brand[i].textContent;
+                    }
+                }
+
+                /* materials array */
+                for (let i = 0; i < material.length; i++) {
+                    if (material[i].firstChild.checked) {
+                        materials = material[i].textContent;
+                    }
+                }
+
+                /* sizes array */
+                for (let i = 0; i < size.length; i++) {
+                    if (size[i].firstChild.checked) {
+                        sizes = size[i].textContent;
+                    }
+                }
+                /* seasons array */
+                for (let i = 0; i < season.length; i++) {
+                    if (season[i].firstChild.checked) {
+                        seasons = season[i].textContent;
+                    }
+                }
+
+                if ((colors != "") || (brands != "") || (materials != "")  || (seasons != "")  || (sizes != "") ){
+                    $.ajax({
+                        url: "{{route('show.sub.category', [$group->seo_name, $category->seo_name, $sub_category->seo_name])}}"  ,
+                        type: "GET",
+                        data: {
+                            colors: colors,
+                            brands: brands,
+                            materials: materials,
+                            seasons: seasons,
+                            sizes: sizes,
+                            // countries: countries
+                        },
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: (data) =>{
+                            $('.products').html(data)
+                        }
+
+                    });
+                }
+
+            })
+        })
+    </script>
 @endsection

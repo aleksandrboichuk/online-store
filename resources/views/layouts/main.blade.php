@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,6 +13,7 @@
     <link href="/css/animate.css" rel="stylesheet" />
     <link href="/css/main.css" rel="stylesheet" />
     <link href="/css/responsive.css" rel="stylesheet" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!--[if lt IE 9]>
     <script src="/js/html5shiv.js"></script>
     <script src="/js/respond.min.js"></script>
@@ -255,12 +256,13 @@
 
 <!--end footer-->
 
-
+<script src="/js/menu.js"></script>
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/jquery.scrollUp.min.js"></script>
 <script src="/js/price-range.js"></script>
 <!--<script src="/js/jquery.prettyPhoto.js"></script>-->
 <script src="/js/main.js"></script>
+@yield('custom-js')
 </body>
 </html>

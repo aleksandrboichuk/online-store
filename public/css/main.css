@@ -739,6 +739,79 @@ h2.title:before {
 .features_items {
     overflow: hidden;
 }
+
+/*filters*/
+.filters{
+    display: flex;
+    width: 100%;
+    max-width: 150px;
+    margin-bottom: 50px;
+    height: 10px;
+}
+
+.filter-item{
+    display: block;
+    margin-right: 10px;
+    position: relative;
+}
+
+.filter-item label{
+    font-size: 15px;
+    margin-left: 10px;
+}
+
+.filter-title{
+    height: 28px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 0 auto;
+    padding: 0px;
+    text-align: center;
+    width: 140px;
+    font-size: 17px;
+    cursor: pointer;
+
+
+
+}
+.filter-title h2{
+    margin: 10px 0;
+}
+.products{
+    padding: 0;
+    margin: 0;
+}
+.fil-params{
+
+    width: 220px;
+    background-color: white;
+    padding: 5px 0;
+    display:none;
+    border-radius: 5px ;
+}
+
+.fil-params ul{
+    padding: 10px;
+}
+.fil-params li{
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+
+.fil-active{
+    margin: 10px  auto 0 auto;
+    display:block;
+    box-shadow: 1px 1px 1px 1px #8c8c88;
+    position: absolute;
+    z-index: 1000;
+}
+
+.btn-info{
+    margin: 0 0 5px 15px;
+    height: 28px;
+    padding: 0 15px 0 15px ;
+
+}
 h2.title {
     color: #fe980f;
     font-family: roboto, sans-serif;
@@ -756,6 +829,10 @@ h2.title {
     height: 490px;
     width: 270px;
 
+}
+.product{
+    padding-left: 0;
+    padding-right: 30px;
 }
 .product-image-wrapper:hover{
     box-shadow: 1px 1px 3px 1px #d3d3d3;
