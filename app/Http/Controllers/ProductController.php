@@ -20,25 +20,9 @@ class ProductController extends Controller
 
         $recommended_products = Product::where('category_group_id', $group->id)->inRandomOrder()->take(3)->get();
 
-        $brands = ProductBrand::all();
-        foreach ($brands as $brand) {
-            foreach ($brand->products as $brand_product){
-                if($brand_product->category_group_id == $group->id){
-                    $group_brands[] = $brand;
-                    break;
-                }
-            }
-        }
+        $group_brands = $this->getGroupBrand($group->id);
 
-        $colors = ProductColor::all();
-        foreach ($colors as $color) {
-            foreach ($color->products as $color_product){
-                if($color_product->category_group_id == $group->id){
-                    $group_colors[] = $color;
-                    break;
-                }
-            }
-        }
+
         return view('product.product',[
              'group'  => $group,
              'category'  => $category,
@@ -47,7 +31,11 @@ class ProductController extends Controller
             'group_categories' => $group->categories,
             'brands' => $group_brands,
             'recommended_products' =>$recommended_products,
-            'colors' => $group_colors
+            'product_img' => $product->images()
         ]);
+    }
+
+    public function changeImage(){
+
     }
 }
