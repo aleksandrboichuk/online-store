@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
     <meta name="author" content="" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Home | E-Shopper</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/css/font-awesome.min.css" rel="stylesheet" />
@@ -13,7 +14,7 @@
     <link href="/css/animate.css" rel="stylesheet" />
     <link href="/css/main.css" rel="stylesheet" />
     <link href="/css/responsive.css" rel="stylesheet" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!--[if lt IE 9]>
     <script src="/js/html5shiv.js"></script>
     <script src="/js/respond.min.js"></script>
@@ -43,45 +44,6 @@
 <!--start header-->
 
 <header id="header">
-    <div class="header_top">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="contactinfo">
-                        <ul class="nav nav-pills">
-                            <li>
-                                <a href="/#"><i class="fa fa-phone"></i> +2 95 01 88 821</a>
-                            </li>
-                            <li>
-                                <a href="/#"><i class="fa fa-envelope"></i> example@mail.com</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="social-icons pull-right">
-                        <ul class="nav navbar-nav">
-                            <li>
-                                <a href="/#"><i class="fa fa-facebook"></i></a>
-                            </li>
-                            <li>
-                                <a href="/#"><i class="fa fa-twitter"></i></a>
-                            </li>
-                            <li>
-                                <a href="/#"><i class="fa fa-linkedin"></i></a>
-                            </li>
-                            <li>
-                                <a href="/#"><i class="fa fa-dribbble"></i></a>
-                            </li>
-                            <li>
-                                <a href="/#"><i class="fa fa-google-plus"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="header-middle">
         <div class="container">
             <div class="row">
@@ -95,21 +57,24 @@
                 <div class="col-md-8 clearfix">
                     <div class="shop-menu clearfix pull-right">
                         <ul class="nav navbar-nav">
+                            @if(isset($user) && !empty($user))
                             <li>
-                                <a href="/"><i class="fa fa-user"></i> Account</a>
+                                <a href="/"><i class="fa fa-user"></i> Особистий кабінет</a>
                             </li>
                             <li>
-                                <a href="/"><i class="fa fa-star"></i> Wishlist</a>
+                                <a href="/"><i class="fa fa-star"></i> Обране</a>
                             </li>
                             <li>
-                                <a href="/checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a>
+                                <a href="/checkout.html"><i class="fa fa-crosshairs"></i> Виконати замовлення</a>
                             </li>
                             <li>
-                                <a href="/cart.html"><i class="fa fa-shopping-cart"></i> Cart</a>
+                                <a href="{{route('show.cart', $user->id)}}"><i class="fa fa-shopping-cart"></i> Кошик ({{count($user->cart->products)}})</a>
                             </li>
+                            @else
                             <li>
-                                <a href="/login.html"><i class="fa fa-lock"></i> Login</a>
+                                <a href="/login"><i class="fa fa-lock"></i> Увійти</a>
                             </li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -134,10 +99,10 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a href="/women" class="active">Жінкам</a></li>
-                            <li><a href="/men">Чоловікам</a></li>
+                            <li><a href="/women" class="women">Жінкам</a></li>
+                            <li><a href="/men" class="men">Чоловікам</a></li>
                             <li class="dropdown">
-                                <a href="">Дітям<i class="fa fa-angle-down"></i></a>
+                                <a href="" class="kids">Дітям<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li><a href="/girls">Дівчаткам</a></li>
                                     <li><a href="/boys">Хлопчикам</a></li>
@@ -263,6 +228,18 @@
 <script src="/js/price-range.js"></script>
 <!--<script src="/js/jquery.prettyPhoto.js"></script>-->
 <script src="/js/main.js"></script>
+<script>
+    var url = window.location.href;
+    var uri = url.split(",");
+    if(uri[1] === "men"){
+        $('.navbar-collapse').find('.men').addClass("active");
+    }else if(uri[1] === "women"){
+        $('.navbar-collapse').find('.women').addClass("active");
+    }else if(uri[1] === "girls" || uri[1] === "boys" ){
+        $('.navbar-collapse').find('.kids').addClass("active");
+    }
+
+</script>
 @yield('custom-js')
 </body>
 </html>

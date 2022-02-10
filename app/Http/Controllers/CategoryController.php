@@ -79,6 +79,7 @@ class CategoryController extends Controller
         }
 
         return view('category.category', [
+            'user'=> $this->getUser(),
             'category_products' => $category_products,
             'category' =>$category,
             'group' => $group,
@@ -153,6 +154,7 @@ class CategoryController extends Controller
 
         $group_brands = $this->getGroupBrand($group->id);
         return view('SubCategory.subcategory',[
+            'user'=> $this->getUser(),
            'sub_category_products' =>  $sub_category_products,
            'category' =>$category,
            'sub_category' => $sub_category,

@@ -17,7 +17,7 @@
                 <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
             </div>
         </div>
-        <h2>Category</h2>
+        <h2>Категорії</h2>
         <div class="panel-group category-products" id="accordian">
 
             @foreach($group_categories as $group_category)
@@ -54,7 +54,7 @@
 
         @if(!empty($brands))
         <div class="brands_products">
-            <h2>Brands</h2>
+            <h2>Бренди</h2>
             <div class="brands-name">
                 <ul class="nav nav-pills nav-stacked">
                         @foreach($brands as $brand)

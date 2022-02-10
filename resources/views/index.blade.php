@@ -5,6 +5,7 @@
         <div class="container-sm">
             <div class="row">
                 <div class="col-sm-12">
+
                     <div
                             id="slider-carousel"
                             class="carousel slide"
@@ -112,7 +113,8 @@
 
                 <div class="col-sm-9 padding-right">
                     <div class="features_items">
-                        <h2 class="title text-center">Популярні товари</h2>
+                        <h2 class="title text-center">Популярні товари @if($group->name == "Women") для жінок@elseif($group->name == "Men") для чоловіків@else для дітей@endif
+                        </h2>
                     </div>
                     @include('parts.filters')
                     <div class="products">
@@ -125,10 +127,14 @@
                                         <div class="productinfo text-center">
                                             <a class="product-single" href="{{route('show.product.details',[$group->seo_name, $item->categories['seo_name'], $item->subCategories['seo_name'],$item->seo_name ])}}">
                                                 <img src="/images/preview-images/{{$item->preview_img_url}}" alt="" />
-                                                <h4>${{$item->price}}</h4>
+                                                <h4>₴{{$item->price}}</h4>
                                                 <h5><strong>{{$item->brands['name']}}</strong> / {{$item->name}}</h5>
                                             </a>
-                                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>До кошику</a>
+                                            <span class="sizes-info"><strong>Розміри:</strong>
+                                            @foreach($item->sizes as $s)
+                                                    {{ $s->name}};
+                                            @endforeach
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="choose">

@@ -51,6 +51,7 @@ a#scrollUp {
 a#scrollUp i {
     font-size: 30px;
 }
+
 .header_top {
     background: none repeat scroll 0 0 #f0f0e9;
 }
@@ -808,7 +809,7 @@ h2.title:before {
 
 .btn-info{
     margin: 0 0 5px 15px;
-    height: 28px;
+    height: 29px;
     padding: 0 15px 0 15px ;
 
 }
@@ -840,6 +841,7 @@ h2.title {
 }
 .single-products {
     position: relative;
+    height: 450px;
 }
 .new,
 .sale {
@@ -867,6 +869,10 @@ h2.title {
 }
 .productinfo {
     position: relative;
+}
+
+.sizes-info{
+    padding: 0 0 5px 0;
 }
 .product-overlay {
     background: rgba(254, 152, 15, 0.8);
@@ -923,6 +929,7 @@ h2.title {
     border: 0;
     border-radius: 0;
     color: #fff;
+    transition: all .2s linear;
 }
 .add-to {
     margin-bottom: 10px;
@@ -1083,6 +1090,10 @@ h2.title {
     text-decoration: none;
 
 }
+.product-single{
+    text-decoration: none;
+
+}
 .product-details {
     overflow: hidden;
 }
@@ -1107,10 +1118,15 @@ h2.title {
     font-weight: 700;
 }
 
-.product-single h5, h4{
-    color: black;
+.product-single h4{
+    color: #fe980f;
+    font-size: 22px;
 }
 
+.product-single h5{
+    color: black;
+
+}
 #similar-product {
     margin-top: 40px;
 }
@@ -1172,6 +1188,30 @@ h2.title {
     position: relative;
 }
 
+.sizes{
+    display: flex;
+    height: 40px;
+    width: fit-content;
+}
+.size-item{
+    border-radius: 5px;
+    border: 1px solid #dededc;
+    padding: 8px;
+    margin-left: 5px;
+    width: 39px;
+    cursor: pointer;
+
+}
+.active-size{
+    background-color: #fe980f;
+}
+.active-size p{
+   color: #fff;
+}
+.quantity-title{
+    font-size: 16px;
+}
+
 .newarrival {
     position: absolute;
     top: 0;
@@ -1180,7 +1220,7 @@ h2.title {
 .product-information h2 {
     color: #363432;
     font-family: roboto, sans-serif;
-    font-size: 20px;
+    font-size: 25px;
     margin-top: 0;
 }
 .product-information p {
@@ -1469,11 +1509,19 @@ h2.title {
 }
 .cart_info table tr td {
     border-top: 0;
+    padding-top: 10px;
     vertical-align: inherit;
     margin-right: 5px;
 }
+.cart_delete{
+    padding-top: 30px;
+    height: 100px;
+}
 #cart_items .cart_info .image {
     padding-left: 30px;
+}
+.cart_description{
+    width: 350px;
 }
 #cart_items .cart_info .cart_description h4 {
     margin-bottom: 0;
@@ -1497,6 +1545,26 @@ h2.title {
 }
 .cart_product {
     display: block;
+    max-width: 150px;
+}
+
+.cart_delete button{
+    margin-top: 30px;
+
+}
+.cart_delete svg{
+    padding-top: 3px;
+
+}
+
+.product-item{
+    padding: 20px;
+
+}
+.cart_product img{
+    max-width: 100px;
+    max-height: 100px;
+    margin-left: 20px;
 }
 .cart_quantity_button a {
     background: #f0f0e9;
@@ -1549,12 +1617,15 @@ h2.title {
 #do_action .total_area {
     padding-bottom: 18px !important;
 }
-#do_action .total_area,
-#do_action .chose_area {
+
+#do_action .total_area{
     border: 1px solid #e6e4df;
     color: #696763;
     padding: 30px 25px 30px 0;
     margin-bottom: 80px;
+}
+.total_area button{
+    float: right;
 }
 .total_area span {
     float: right;
@@ -1615,11 +1686,11 @@ textarea {
 .update,
 .check_out {
     background: #fe980f;
-    border-radius: 0;
     color: #fff;
     margin-top: 18px;
     border: none;
     padding: 5px 15px;
+    border-radius: 5px;
 }
 .update {
     margin-left: 40px;
