@@ -44,8 +44,7 @@
                                     <div class="choose">
                                         <ul class="nav nav-pills nav-justified">
                                             <li>
-
-                                                <a href="#"><i class="fa fa-star"></i>До обраного</a>
+                                                <a href="{{route('show.product.details',[$group->seo_name, $item->categories['seo_name'], $item->subCategories['seo_name'],$item->seo_name ])}}"><i class="fa fa-star"></i> Переглянути</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -53,6 +52,11 @@
                                 </div>
                             </div>
                         @endforeach
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    {{$sub_category_products->appends(request()->query())->links('parts.pagination')}}
+                                </div>
+                            </div>
                     </div>
                     <!--end products-->
                 </div>

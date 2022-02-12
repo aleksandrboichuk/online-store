@@ -41,30 +41,19 @@ class CartController extends Controller
     }
 
 
-    public function addToCart(Request $request, $product_id,$user_id){
-         $cart = Cart::where('user_id', $user_id)->first();
-        $is_product = false;
-         for($i = 0; $i < count($cart->products);$i++){
-             if ($cart->products[$i]['id'] == $product_id){
-                 $product = $cart->products()->where("product_id",$product_id)->first();
-                 $product->carts()->update(["count" => $request['quantity']]);
-                 $is_product = true;
-                 break;
-             }
-         }
-         if(!$is_product){
-             $cart->products()->attach($user_id,[
-                 'cart_id' => $cart->id,
-                 'product_id' => $product_id,
-                 'count' =>$request['quantity'],
-                 'size' =>22,
-             ]);
-         }
-
-
-
-
+    public function deleteFromCart(Request $request){
+        $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
+        if(!empty($request['delete-id'])) {
+            $user_cart->products()->detach($request['delete-id']);
+        }
          return back();
+    }
 
+    public function checkout($user_id){
+        $user_cart = Cart::where("user_id",$user_id)->first();
+        return view('checkout.checkout',[
+            'user' =>$this->getUser(),
+            'products' => $user_cart->products,
+        ]);
     }
 }

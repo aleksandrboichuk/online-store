@@ -17,30 +17,38 @@
                                 <img class="main-product-img" src="/images/preview-images/{{$product->preview_img_url}}" alt="" />
                                 <h3>ZOOM</h3>
                             </div>
-                            @if(count($product->images)>0)
-                            <div id="similar-product" class="carousel slide" data-ride="carousel">
+                            @if(count($product->images)> 0)
+                            <div id="similar-product"class="carousel slide"data-ride="carousel">
                                 <div class="carousel-inner">
+                                    @if(count($product->images) < 5)
                                     <div class="item active">
-                                        <div class="item">
-                                        @foreach($product->images as $img)
-                                                <img class="product-img product-img-item" src="/images/product-details/{{$img->url}}" alt=""/>
-                                        @endforeach
-                                        </div>
+                                            @for($i = 0; $i < count($product->images); $i++)
+                                                <img class="product-img product-img-item" src="/images/product-details/{{$product->images[$i]['url']}}" alt=""/>
+                                            @endfor
                                     </div>
+                                    @else
+                                        <div class="item active">
+                                            @for($i = 0; $i < 4; $i++)
+                                                <img class="product-img product-img-item" src="/images/product-details/{{$product->images[$i]['url']}}" alt=""/>
+                                            @endfor
+                                        </div>
+                                        <div class="item">
+                                            @for($i = 4; $i < count($product->images); $i++)
+                                                <img class="product-img product-img-item" src="/images/product-details/{{$product->images[$i]['url']}}" alt=""/>
+                                            @endfor
+                                        </div>
+                                     @endif
                                 </div>
-
-                                {{--<a class="left item-control" href="#similar-product" data-slide="prev">--}}
-                                    {{--<i class="fa fa-angle-left"></i>--}}
-                                {{--</a>--}}
-                                {{--<a--}}
-                                        {{--class="right item-control"--}}
-                                        {{--href="#similar-product"--}}
-                                        {{--data-slide="next"--}}
-                                {{-->--}}
-                                    {{--<i class="fa fa-angle-right"></i>--}}
-                                {{--</a>--}}
+                                @if(count($product->images) > 4)
+                                    <a class="left item-control" href="#similar-product" data-slide="prev" >
+                                        <i class="fa fa-angle-left"></i>
+                                    </a>
+                                    <a class="right item-control"  href="#similar-product" data-slide="next" >
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                 @endif
                             </div>
-                          @endif
+                            @endif
                         </div>
                         <div class="col-sm-5 product-info">
                             <div class="product-information">
@@ -51,7 +59,7 @@
                                 />
                                 <h2><b>{{$product->name}}</b></h2>
                                 <p class="product-id" id="{{$product->id}}">ID: {{$product->id}}</p>
-                                <span class="price">₴{{$product->price}}</span>
+                                <span class="product-price">₴{{$product->price}}</span>
                                 <p><b>Наявність:</b>{{$product->in_stock ? " У наявності": "Немає у наявності"}}</p>
                                 <p><b>Бренд: </b>{{$product->brands['name']}}</p>
                                 <p><b>Колір: </b>{{$product->colors['name']}}</p>
@@ -67,14 +75,13 @@
                                 <span>
                                     <label class="quantity-title">Кількість:</label>
                                      <input type="text" class="quantity" name="quantity" @if($user) id="{{$user->id}}"@endif  value="1"/>
-                                    <button type="submit" class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i> До кошику </button>
+                                        <button type="submit" class="btn btn-fefault cart" {{empty($product->sizes[0]['name']) ? "disabled" : ""}}><i class="fa fa-shopping-cart" ></i> До кошику </button>
                                 </span>
 
                             </div>
                         </div>
                     </div>
 
-                    {{--details/reviews--}}
                     <div class="category-tab shop-details-tab">
                         <div class="col-sm-12">
                             <ul class="nav nav-tabs">
@@ -175,6 +182,10 @@
             let userId =  $('.quantity').attr('id');
             let productCount = $('.quantity').val();
             let productSize =  $('.sizes').find('.active-size').find('p').text();
+
+            if(isNaN(parseInt(productSize))){
+                productSize = $('.sizes').find('p').text();
+            }
 
             $(this).text("Додано до кошику!");
             $(".cart").css("background", "green");

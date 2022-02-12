@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CategoryGroup extends Model
 {
+
     use HasFactory;
     public function products() {
         return $this->hasMany('App\Models\Product', 'category_group_id', 'id');

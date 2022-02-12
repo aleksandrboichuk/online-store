@@ -26,6 +26,11 @@
         </div>
     </div>
 @endforeach
+<div class="row">
+    <div class="col-sm-9">
+        {{$products->appends(request()->query())->links('parts.pagination')}}
+    </div>
+</div>
 @else
     <span>...</span>
     @endif

@@ -6,7 +6,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Home | E-Shopper</title>
+    <title>Divisima</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/css/font-awesome.min.css" rel="stylesheet" />
     <link href="/css/prettyPhoto.css" rel="stylesheet" />
@@ -19,26 +19,6 @@
     <script src="/js/html5shiv.js"></script>
     <script src="/js/respond.min.js"></script>
     <![endif]-->
-    <link rel="shortcut icon" href="/images/ico/favicon.ico" />
-    <link
-            rel="apple-touch-icon-precomposed"
-            sizes="144x144"
-            href="/images/ico/apple-touch-icon-144-precomposed.png"
-    />
-    <link
-            rel="apple-touch-icon-precomposed"
-            sizes="114x114"
-            href="/images/ico/apple-touch-icon-114-precomposed.png"
-    />
-    <link
-            rel="apple-touch-icon-precomposed"
-            sizes="72x72"
-            href="/images/ico/apple-touch-icon-72-precomposed.png"
-    />
-    <link
-            rel="apple-touch-icon-precomposed"
-            href="/images/ico/apple-touch-icon-57-precomposed.png"
-    />
 </head>
 <body>
 <!--start header-->
@@ -61,12 +41,14 @@
                             <li>
                                 <a href="/"><i class="fa fa-user"></i> Особистий кабінет</a>
                             </li>
+                            {{--<li>--}}
+                                {{--<a href="/"><i class="fa fa-star"></i> Обране</a>--}}
+                            {{--</li>--}}
+                            @if($user->superuser)
                             <li>
-                                <a href="/"><i class="fa fa-star"></i> Обране</a>
+                                <a href="/admin"><i class="fa fa-crosshairs"></i> Admin</a>
                             </li>
-                            <li>
-                                <a href="/checkout.html"><i class="fa fa-crosshairs"></i> Виконати замовлення</a>
-                            </li>
+                             @endif
                             <li>
                                 <a href="{{route('show.cart', $user->id)}}"><i class="fa fa-shopping-cart"></i> Кошик ({{count($user->cart->products)}})</a>
                             </li>
@@ -74,6 +56,12 @@
                             <li>
                                 <a href="/login"><i class="fa fa-lock"></i> Увійти</a>
                             </li>
+                            <li class="or-a">
+                                <a href="#">або</a>
+                            </li>
+                                <li>
+                                    <a  href="/register"><i class="fa fa-user"></i> Зареєструватися</a>
+                                </li>
                             @endif
                         </ul>
                     </div>
@@ -238,7 +226,6 @@
     }else if(uri[1] === "girls" || uri[1] === "boys" ){
         $('.navbar-collapse').find('.kids').addClass("active");
     }
-
 </script>
 @yield('custom-js')
 </body>

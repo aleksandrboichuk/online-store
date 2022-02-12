@@ -184,6 +184,9 @@ a#scrollUp i {
 .navbar-collapse.collapse {
     padding-left: 0;
 }
+.mainmenu{
+    padding-top: 5px;
+}
 .mainmenu ul li {
     padding-right: 15px;
     padding-left: 15px;
@@ -757,8 +760,13 @@ h2.title:before {
 }
 
 .filter-item label{
-    font-size: 15px;
+    font-size: 16px;
     margin-left: 10px;
+    font-family: roboto, sans-serif;
+}
+
+.no{
+    border-bottom: 1px solid #dedede;
 }
 
 .filter-title{
@@ -808,9 +816,12 @@ h2.title:before {
 }
 
 .btn-info{
+    font-weight: bold;
     margin: 0 0 5px 15px;
     height: 29px;
     padding: 0 15px 0 15px ;
+    border-radius: 5px;
+    font-size: 16px;
 
 }
 h2.title {
@@ -1112,12 +1123,6 @@ h2.title {
     padding: 0;
 }
 
-.price{
-    font-size: 30px;
-    color: #fe980f;
-    font-weight: 700;
-}
-
 .product-single h4{
     color: #fe980f;
     font-size: 22px;
@@ -1231,7 +1236,6 @@ h2.title {
 }
 .product-information span {
     display: inline-block;
-    margin-bottom: 8px;
     margin-top: 8px;
 }
 .product-information span span {
@@ -1388,6 +1392,44 @@ h2.title {
 }
 .login-form {
 }
+.form-control{
+    margin-bottom: 15px;
+}
+.card-header{
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+.offset-md-4 .btn-primary{
+    width: 150px;
+    font-size: 16px;
+
+}
+
+.or-a a:hover{
+    cursor: default;
+    color: black;
+}
+.offset-md-4 .btn-primary:hover{
+    color: black;
+    background-color: white;
+    border: 1px solid #b8b8b8;
+    transition: all .2s linear;
+}
+.offset-md-4 .btn-link{
+    padding-bottom: 0;
+    padding-top: 15px ;
+}
+#email, #password, #firstname, #lastname, #address, #city, #phone, #password-confirm{
+    background-color: #e7e2d4;
+}
+#password{
+    background-color: #e7e2d4;
+}
+
+.offset-md-4 .form-check-label{
+    margin-top: 10px;
+    font-size: 15px;
+}
 .signup-form {
 }
 .login-form h2,
@@ -1461,6 +1503,7 @@ h2.title {
     margin-bottom: 50px;
 }
 .breadcrumbs {
+    margin-top: 30px;
     position: relative;
 }
 .breadcrumbs .breadcrumb {
@@ -1497,21 +1540,33 @@ h2.title {
     font-size: 16px;
     font-family: roboto, sans-serif;
     font-weight: 400;
+    padding: 10px;
 }
 #cart_items .cart_info .table.table-condensed thead tr {
     height: 51px;
 }
 #cart_items .cart_info .table.table-condensed tr {
-    border-bottom: 1px solid#F7F7F0;
+    border-bottom: 1px solid #ecece5;
 }
 #cart_items .cart_info .table.table-condensed tr:last-child {
     border-bottom: 0;
 }
+
 .cart_info table tr td {
+    text-align: center;
     border-top: 0;
-    padding-top: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     vertical-align: inherit;
     margin-right: 5px;
+}
+
+.cart_info table tr td p{
+    color: black;
+    font-size: 16px;
+}
+.table{
+    margin-bottom: 0;
 }
 .cart_delete{
     padding-top: 30px;
@@ -1536,13 +1591,36 @@ h2.title {
     color: #696763;
 }
 #cart_items .cart_info .cart_price p {
+
     color: #696763;
     font-size: 18px;
+}
+.product-price{
+    color: #fe980f;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.cart_price{
+    width: 190px;
+}
+
+.select-size{
+    text-align: center;
+}
+
+.cart_size p{
+    color: #696763;
+    font-size: 18px;
+    text-align: center;
 }
 #cart_items .cart_info .cart_total_price {
     color: #fe980f;
     font-size: 24px;
+    width: 100%;
 }
+
+
 .cart_product {
     display: block;
     max-width: 150px;
@@ -1566,23 +1644,14 @@ h2.title {
     max-height: 100px;
     margin-left: 20px;
 }
-.cart_quantity_button a {
-    background: #f0f0e9;
-    color: #696763;
-    display: inline-block;
-    font-size: 16px;
-    height: 28px;
-    overflow: hidden;
-    text-align: center;
-    width: 35px;
-    float: left;
-    line-height: 28px;
-}
+
+
+
 .cart_quantity_input {
     color: #696763;
-    float: left;
     font-size: 16px;
     text-align: center;
+    margin-bottom: 10px;
     font-family: roboto, sans-serif;
 }
 .cart_delete {
@@ -1619,19 +1688,29 @@ h2.title {
 }
 
 #do_action .total_area{
-    border: 1px solid #e6e4df;
+
     color: #696763;
-    padding: 30px 25px 30px 0;
-    margin-bottom: 80px;
+    padding: 20px 35px 20px 0;
+    margin-bottom: 50px;
 }
-.total_area button{
+.make-order{
+    margin-bottom: 20px;
     float: right;
+    border: 1px solid #e6e4df;
+}
+.table-responsive .check_out{
+    margin-top: 30px;
+    margin-bottom: 80px;
 }
 .total_area span {
     float: right;
 }
+
+.total_area h3{
+    text-align: center;
+}
 .total_area ul li {
-    background: #e6e4df;
+    background: #f0f0e9;
     color: #696763;
     margin-top: 10px;
     padding: 7px 20px;
@@ -1691,13 +1770,22 @@ textarea {
     border: none;
     padding: 5px 15px;
     border-radius: 5px;
+    float: right;
+    width: fit-content;
+    height: 50px;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+.check_out a{
+    color: white;
+}
+.check_out:hover a{
+    color: #333;
 }
 .update {
     margin-left: 40px;
 }
-.check_out {
-    margin-left: 20px;
-}
+
 .step-one {
     margin-bottom: -10px;
 }
@@ -2154,7 +2242,7 @@ textarea {
 }
 .btn.btn-primary {
     background: #fe980f;
-    border: 0;
+    border: 1px solid #b8b8b8;
     border-radius: 0;
     margin-top: 16px;
 }
@@ -2253,4 +2341,58 @@ textarea {
 }
 .contact-info .social-networks ul li a:hover {
     color: #fe980f;
+}
+
+
+/* админка */
+
+
+.add-admin{
+    float: right;
+    margin-right: 15px;
+    margin-bottom: 40px;
+
+}
+
+.add-admin .btn{
+    width: 200px;
+    height: 50px;
+    font-size: 18px;
+    background-color: #fe980f ;
+}
+.add-admin .btn a{
+    color: white;
+}
+
+.form-add{
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.title-add, .name-add, .seo-name-add, .category-group, .active-add{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+}
+
+.form-add .btn{
+    float: right;
+    height: 50px;
+    width: 200px;
+    font-size: 18px;
+    margin-top: 20px;
+}
+.form-add input{
+    width: 500px;
+    font-size: 18px;
+}
+.form-add label{
+    font-size: 18px;
+}
+
+.admin-table a{
+    padding: 6px 12px 6px 12px;
+    color: white;
+    background-color: #2c8bbf;
 }

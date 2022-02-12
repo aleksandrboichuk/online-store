@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
+    protected $fillable = [
+        'title',
+        'name',
+        'seo_name',
+        'active',
+        'created_at',
+        'updated_at',
+        ];
+
     use Searchable;
     public function products() {
         return $this->hasMany('App\Models\Product', 'category_id', 'id');

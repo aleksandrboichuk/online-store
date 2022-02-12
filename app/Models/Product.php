@@ -57,4 +57,8 @@ class Product extends Model
     public function carts(){
         return $this->belongsToMany('App\Models\Cart');
     }
+
+//    public function product($product_id,$user_id){
+//        Product::where()
+//    }
 }

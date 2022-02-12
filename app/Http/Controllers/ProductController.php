@@ -24,15 +24,19 @@ class ProductController extends Controller
         $group_brands = $this->getGroupBrand($group->id);
 
         if((!empty($request->productId)) && (!empty($request->userId))) {
+
             $cart = Cart::where('user_id', $request->userId)->first();
             $is_product = false;
             for ($i = 0; $i < count($cart->products); $i++) {
-                if ($cart->products[$i]['id'] == $request->productId) {
+                if ($cart->products[$i]['id'] == $request->productId ) {
                     $product = $cart->products()->where("product_id", $request->productId)->first();
-                    $product->carts()->update(["count" => $request->productCount]);
-                    $product->carts()->update(["size" => $request->productSize]);
-                    $is_product = true;
-                    break;
+                    for($a = 0; $a < count($product->carts()->pluck('size')); $a++){
+                       if($product->carts()->pluck('size')[$a] == $request->productSize){
+                           $product->carts()->where("size", $request->productSize)->update(["count" => $request->productCount, "size" => $request->productSize]);
+                           $is_product = true;
+                           break;
+                       }
+                    }
                 }
             }
             if (!$is_product) {
