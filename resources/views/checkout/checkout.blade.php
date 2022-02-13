@@ -9,67 +9,7 @@
                     <li class="active">Check out</li>
                 </ol>
             </div>
-            <div class="shopper-informations">
-                <div class="row">
-                    {{--<a class="btn btn-primary" href="">Get Quotes</a>--}}
-                    <div class="col-sm-6 clearfix">
-                        <div class="bill-to">
-                            <p>Контактні дані користувача</p>
-                            <div class="total_area">
-                                <ul>
-                                    <li><b>Ім'я:</b><span>{{$user->first_name}}</span></li>
-                                    <li><b>Прізвище:</b><span>{{$user->last_name}}</span></li>
-                                    <li><b>E-mail:</b><span>{{$user->email}}</span></li>
-                                    <li><b>Місто:</b><span>{{$user->city}}</span></li>
-                                    <li><b>Адреса:</b><span>{{$user->address}}</span></li>
-                                    <li><b>Телефон:</b><span>{{$user->phone}}</span></li>
-                                </ul>
-                            </div>
-                            {{--<div class="form-two">--}}
-                                {{--<form>--}}
-                                    {{--<input type="text" placeholder="Zip / Postal Code *" />--}}
-                                    {{--<select>--}}
-                                        {{--<option>-- Country --</option>--}}
-                                        {{--<option>United States</option>--}}
-                                        {{--<option>Bangladesh</option>--}}
-                                        {{--<option>UK</option>--}}
-                                        {{--<option>India</option>--}}
-                                        {{--<option>Pakistan</option>--}}
-                                        {{--<option>Ucrane</option>--}}
-                                        {{--<option>Canada</option>--}}
-                                        {{--<option>Dubai</option>--}}
-                                    {{--</select>--}}
-                                    {{--<select>--}}
-                                        {{--<option>-- State / Province / Region --</option>--}}
-                                        {{--<option>United States</option>--}}
-                                        {{--<option>Bangladesh</option>--}}
-                                        {{--<option>UK</option>--}}
-                                        {{--<option>India</option>--}}
-                                        {{--<option>Pakistan</option>--}}
-                                        {{--<option>Ucrane</option>--}}
-                                        {{--<option>Canada</option>--}}
-                                        {{--<option>Dubai</option>--}}
-                                    {{--</select>--}}
-                                    {{--<input type="password" placeholder="Confirm password" />--}}
-                                    {{--<input type="text" placeholder="Phone *" />--}}
-                                    {{--<input type="text" placeholder="Mobile Phone" />--}}
-                                    {{--<input type="text" placeholder="Fax" />--}}
-                                {{--</form>--}}
-                            {{--</div>--}}
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="order-message">
-                            <p>Коментар (необов'язково)</p>
-                            <textarea
-                                    name="message"
-                                    placeholder="Напишіть коментар стосовно доставки/замовлення...."
-                                    rows="16"
-                            ></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <div class="review-payment">
                 <h2>Перегляд товарів замовлення</h2>
             </div>
@@ -131,9 +71,72 @@
                     </tr>
                     </tbody>
                 </table>
-                <button class="btn btn-default check_out"><a href="">Перейти до сплати</a></button>
-            </div>
 
+            </div>
+            <div class="shopper-informations">
+                <div class="row">
+                    {{--<a class="btn btn-primary" href="">Get Quotes</a>--}}
+                    <div class="col-sm-6 clearfix">
+                        <div class="bill-to">
+                            <p>Контактні дані користувача</p>
+                            <div class="total_area">
+                                <ul>
+                                    <li><b>Ім'я:</b><span>{{$user->first_name}}</span></li>
+                                    <li><b>Прізвище:</b><span>{{$user->last_name}}</span></li>
+                                    <li><b>E-mail:</b><span>{{$user->email}}</span></li>
+                                    <li><b>Місто:</b><span>{{$user->city}}</span></li>
+                                    <li><b>Адреса:</b><span>{{$user->address}}</span></li>
+                                    <li><b>Телефон:</b><span>{{$user->phone}}</span></li>
+                                </ul>
+                            </div>
+                            {{--<div class="form-two">--}}
+                            {{--<form>--}}
+                            {{--<input type="text" placeholder="Zip / Postal Code *" />--}}
+                            {{--<select>--}}
+                            {{--<option>-- Country --</option>--}}
+                            {{--<option>United States</option>--}}
+                            {{--<option>Bangladesh</option>--}}
+                            {{--<option>UK</option>--}}
+                            {{--<option>India</option>--}}
+                            {{--<option>Pakistan</option>--}}
+                            {{--<option>Ucrane</option>--}}
+                            {{--<option>Canada</option>--}}
+                            {{--<option>Dubai</option>--}}
+                            {{--</select>--}}
+                            {{--<select>--}}
+                            {{--<option>-- State / Province / Region --</option>--}}
+                            {{--<option>United States</option>--}}
+                            {{--<option>Bangladesh</option>--}}
+                            {{--<option>UK</option>--}}
+                            {{--<option>India</option>--}}
+                            {{--<option>Pakistan</option>--}}
+                            {{--<option>Ucrane</option>--}}
+                            {{--<option>Canada</option>--}}
+                            {{--<option>Dubai</option>--}}
+                            {{--</select>--}}
+                            {{--<input type="password" placeholder="Confirm password" />--}}
+                            {{--<input type="text" placeholder="Phone *" />--}}
+                            {{--<input type="text" placeholder="Mobile Phone" />--}}
+                            {{--<input type="text" placeholder="Fax" />--}}
+                            {{--</form>--}}
+                            {{--</div>--}}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <form action="{{route('save.order')}}" method="post">
+                            <div class="order-message">
+                                <p>Коментар (необов'язково)</p>
+                                <textarea
+                                        name="comment"
+                                        placeholder="Напишіть коментар стосовно доставки/замовлення...."
+                                        rows="16"
+                                ></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-default check_out">Перейти до сплати</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     @endsection

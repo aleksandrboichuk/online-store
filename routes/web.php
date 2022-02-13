@@ -48,8 +48,10 @@ Route::prefix('admin')->group(function () {
 //cart
 Route::prefix('cart')->group(function () {
     Route::get('/{user_id}', [\App\Http\Controllers\CartController::class, 'showUserCart'])->name('show.cart');
-    Route::get('/checkout/{user_id}', [\App\Http\Controllers\CartController::class, 'checkout'])->name('checkout');
+    Route::get('/checkout/{user_id}', [\App\Http\Controllers\CheckoutController::class, 'checkout'])->name('checkout');
     Route::post('/delete-from-cart',[\App\Http\Controllers\CartController::class, 'deleteFromCart'])->name('delete.from.cart');
+
+    Route::post('/save-order', [\App\Http\Controllers\CheckoutController::class, 'saveOrder'])->name('save.order');
 });
 
 Route::post('/{product_id}/{user_id}',[\App\Http\Controllers\CartController::class, 'addToCart'])->name('add.to.cart')->middleware('auth');

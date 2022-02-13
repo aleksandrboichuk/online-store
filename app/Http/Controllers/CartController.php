@@ -49,11 +49,4 @@ class CartController extends Controller
          return back();
     }
 
-    public function checkout($user_id){
-        $user_cart = Cart::where("user_id",$user_id)->first();
-        return view('checkout.checkout',[
-            'user' =>$this->getUser(),
-            'products' => $user_cart->products,
-        ]);
-    }
 }
