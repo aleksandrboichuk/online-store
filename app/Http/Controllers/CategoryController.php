@@ -24,6 +24,7 @@ class CategoryController extends Controller
 
         $group_brands = $this->getGroupBrand($group->id);
 
+        /*----------------------  AJAX  ----------------------*/
 
         if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))){
             $category_products = Product::where('category_group_id',$group->id)->where('category_id',$category->id)
@@ -112,6 +113,8 @@ class CategoryController extends Controller
         $category = Category::where('seo_name',$category_seo_name)->first();
         $sub_category = SubCategory::where('seo_name',$sub_category_seo_name)->where('category_id',$category->id)->first();
         $sub_category_products = Product::where('category_group_id', $group->id)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)->paginate(9);
+
+        /*----------------------  AJAX  ----------------------*/
 
         if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))){
         $sub_category_products = Product::where('category_group_id', $group->id)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)

@@ -316,6 +316,11 @@ class AdminController extends Controller
             $selectedSizes[] =  $product->sizes[$i]['id'];
         }
 
+        // count of products every of size
+        $product_sizes = $product->sizes()->where('product_id', $product->id)->get();
+        foreach ($product_sizes as $key => $value) {
+              $count_sizes[$value->id] = $value->pivot->count;
+        }
         return view('admin.product.edit',[
             'user' => $this->getUser(),
             'category_groups' => CategoryGroup::all(),
@@ -326,6 +331,7 @@ class AdminController extends Controller
             'brands' => ProductBrand::all(),
             'materials' => ProductMaterial::all(),
             'sizes' => ProductSize::all(),
+            'count_sizes' => $count_sizes,
             'product' =>  $product,
             'selectedMaterials' => isset($selectedMaterials) ?  $selectedMaterials : [],
             'selectedSizes'=> isset($selectedSizes) ?  $selectedSizes : [],
@@ -366,14 +372,12 @@ class AdminController extends Controller
             }
         }
         if (isset($request['sizes'])) {
+
             $product->sizes()->detach();
             foreach ($request['sizes'] as $key => $value) {
                 $size = ProductSize::find($value);
                 $product->sizes()->save($size);
-
-// --------------------??????
-
-                $product->sizes()->where('product_size_id', $size->id)->update(["count" => $request['size-count'][$key]]);
+                $product->sizes()->where('product_size_id', $size->id)->update(["count" => $request['size-count'][$value-1]]);
 
             }
 

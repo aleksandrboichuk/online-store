@@ -75,7 +75,7 @@
                     <div class="feature-icon">
                         <img src="/images/home/fitem1.png" alt="">
                     </div>
-                    <h2>Fast Secure Payments</h2>
+                    <h2>Швидкі та безпечні платежі</h2>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -83,7 +83,7 @@
                     <div class="feature-icon">
                         <img src="/images/home/fitem2.png" alt="">
                     </div>
-                    <h2>Premium Products</h2>
+                    <h2><b>Преміум товари</b></h2>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -92,7 +92,7 @@
                         <img class="pull-left" src="/images/home/fitem3.png" alt="">
 
                     </div>
-                    <h2>Free & fast Delivery</h2>
+                    <h2>Безкоштовна доставка</h2>
                 </div>
             </div>
         </div>
@@ -164,20 +164,39 @@
 @section('custom-js')
     <script>
         $(document).ready(function() {
+
+            $(document).mouseup( function(e){
+                var div = $( ".filter-item" );
+                if ( !div.is(e.target)
+                    && div.has(e.target).length === 0 ) {
+                    div.find('.fil-params').removeClass('fil-active');
+                }
+            });
+
             let color = document.querySelectorAll('.color');
-            var colors  = "" ;
-
             let brand = document.querySelectorAll('.brand');
-            var brands  = "" ;
-
             let material = document.querySelectorAll('.material');
-            var materials  = "";
-
             let season = document.querySelectorAll('.season');
-            var seasons  = "";
-
             let size = document.querySelectorAll('.size');
-            var sizes  = "";
+            var brands  = "" , colors  = "" , materials  = "", seasons  = "", sizes  = "";
+
+            $('.color').find('input[type="checkbox"]').change(function () {
+                $('.color').find('input[type="checkbox"]').not(this).prop('checked', false);
+            });
+
+            $('.brand').find('input[type="checkbox"]').change(function () {
+                $('.brand').find('input[type="checkbox"]').not(this).prop('checked', false);
+            });
+
+            $('.material').find('input[type="checkbox"]').change(function () {
+                $('.material').find('input[type="checkbox"]').not(this).prop('checked', false);
+            });
+            $('.season').find('input[type="checkbox"]').change(function () {
+                $('.season').find('input[type="checkbox"]').not(this).prop('checked', false);
+            });
+            $('.size').find('input[type="checkbox"]').change(function () {
+                $('.size').find('input[type="checkbox"]').not(this).prop('checked', false);
+            });
 
             $('.btn-info').click(function () {
                 /* colors array */

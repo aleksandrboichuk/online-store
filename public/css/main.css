@@ -654,7 +654,7 @@ h2.title:before {
 .category-products .panel-default .panel-heading .panel-title a {
     color: #696763;
     font-family: roboto, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     text-decoration: none;
     text-transform: uppercase;
 }
@@ -681,8 +681,12 @@ h2.title:before {
 .panel-body ul li a {
     color: #696763;
     font-family: roboto, sans-serif;
-    font-size: 12px;
+    font-size: 14px;
     text-transform: uppercase;
+
+}
+.panel-body ul li{
+    margin-bottom: 7px;
 }
 .brands-name {
     border: 1px solid #f7f7f0;
@@ -1530,6 +1534,9 @@ h2.title {
 }
 .breadcrumbs .breadcrumb > li + li:before {
     content: " ";
+}
+.breadcrumb li{
+    width: 50px;
 }
 #cart_items .cart_info {
     border: 1px solid #e6e4df;
@@ -2462,7 +2469,7 @@ textarea {
 }
 .admin-table-index {
     border: 1px solid #e6e4df;
-    margin-bottom: 50px;
+    margin-bottom: 150px;
 }
 
 .select-option{
@@ -2493,4 +2500,14 @@ textarea {
     border-radius: 0;
     resize: none;
     text-align: center;
+}
+.admin-index-title{
+    margin-top: 300px;
+    text-align: center;
+    font-size: 65px;
+}
+.admin-index-subtitle{
+    text-align: center;
+    color: #000;
+    font-size: 25px;
 }

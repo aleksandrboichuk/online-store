@@ -100,11 +100,12 @@
                     <div class="add-block">
                         <label for="">Розмір </label>
                         <div class="inputs-block">
+
                             @foreach($sizes as $si)
                                 <div class="input-block-item">
                                     <input id="{{$si->seo_name}}" name="sizes[]" type="checkbox" value="{{$si->id}}" class="many-input" {{in_array($si->id, $selectedSizes) ? "checked" :""}} >
                                     <label class="many-input-label" for="{{$si->seo_name}}">{{$si->name}}</label>
-                                    <p class="input-count-p">Кількість (шт.): </p><input type="text" class="input-count" value="" name="size-count[]">
+                                    <p class="input-count-p">Кількість (шт.): </p><input type="text" class="input-count" value="{{isset($count_sizes[$si->id]) ? $count_sizes[$si->id] : 0}}" name="size-count[]">
                                 </div>
 
                             @endforeach

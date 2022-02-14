@@ -6,8 +6,8 @@
         <div class="container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li class="active">Shopping Cart</li>
+                    <li><a href="/admin">Адмін</a></li>
+                    <li class="active">Кольори</li>
                 </ol>
             </div>
             <div class="row">

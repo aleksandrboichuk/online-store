@@ -6,8 +6,8 @@
         <div class="container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li class="active">Shopping Cart</li>
+                    <li><a href="/admin">Адмін</a></li>
+                    <li class="active">Замовлення</li>
                 </ol>
             </div>
             <div class="table-responsive admin-table-index">

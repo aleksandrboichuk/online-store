@@ -23,7 +23,8 @@ class CategoryGroupController extends Controller
 
         $group_brands = $this->getGroupBrand($group->id);
 
-        /*---------------------- returning AJAX */
+        /*----------------------  AJAX  ----------------------*/
+
         if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))){
             $group_products = Product::where('category_group_id',$group->id)
                 ->when(!empty($request->colors), function($query){
@@ -66,6 +67,7 @@ class CategoryGroupController extends Controller
                     }
                 }
             }
+            //найти размеры
             if(isset($request->sizes) && !empty($request->sizes)){
                 if($request->sizes != "Всі") {
                     foreach ($group_products as $key => $value) {

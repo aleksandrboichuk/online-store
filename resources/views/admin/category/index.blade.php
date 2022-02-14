@@ -6,8 +6,8 @@
         <div class="container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li class="active">Shopping Cart</li>
+                    <li><a href="/admin">Адмін</a></li>
+                    <li class="active">Категорії</li>
                 </ol>
             </div>
             <div class="row">
@@ -45,7 +45,7 @@
                                 <p>{{$item->seo_name}}</p>
                             </td>
                             <td>
-                                <p>{{$item->active}}</p>
+                                <input type="checkbox" {{$item->active ? "checked" : ""}} disabled>
                             </td>
                             <td>
                                 <form action="{{route('delete.category',$item->id)}}" method="post">
