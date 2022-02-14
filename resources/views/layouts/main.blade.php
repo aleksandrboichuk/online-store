@@ -39,7 +39,7 @@
                         <ul class="nav navbar-nav">
                             @if(isset($user) && !empty($user))
                             <li>
-                                <a href="/"><i class="fa fa-user"></i> Особистий кабінет</a>
+                                <a href="/personal/orders"><i class="fa fa-user"></i> Особистий кабінет</a>
                             </li>
                             {{--<li>--}}
                                 {{--<a href="/"><i class="fa fa-star"></i> Обране</a>--}}
@@ -50,7 +50,7 @@
                             </li>
                              @endif
                             <li>
-                                <a href="{{route('show.cart', $user->id)}}"><i class="fa fa-shopping-cart"></i> Кошик ({{count($user->cart->products)}})</a>
+                                <a href="{{route('show.cart', $user->id)}}"><i class="fa fa-shopping-cart"></i> Кошик ({{isset($user->cart->products) ? count($user->cart->products) : "0"}})</a>
                             </li>
                             @else
                             <li>

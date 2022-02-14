@@ -10,7 +10,25 @@ class Product extends Model
 {
     use HasFactory;
     use Searchable;
-    //categories
+
+    protected $fillable = [
+        'name',
+        'seo_name',
+        'preview_img_url',
+        'description',
+        'price',
+        'count',
+        'in_stock',
+        'active',
+        'created_at',
+        'updated_at',
+        'category_group_id',
+        'category_id',
+        'category_sub_id',
+        'product_color_id',
+        'product_season_id',
+        'product_brand_id',
+    ];
 
     public function categories()
     {
@@ -46,7 +64,7 @@ class Product extends Model
     }
     public function sizes()
     {
-        return $this->belongsToMany('App\Models\ProductSize');
+        return $this->belongsToMany('App\Models\ProductSize')->withPivot('count');
     }
 
     //images

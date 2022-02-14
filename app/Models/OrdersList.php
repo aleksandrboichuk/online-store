@@ -33,4 +33,8 @@ class OrdersList extends Model
     public function items(){
         return $this->hasMany("App\Models\OrderListItem");
     }
+
+    public  function statuses(){
+        return $this->hasMany('App\Models\StatusList', 'id', 'status');
+    }
 }

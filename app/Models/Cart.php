@@ -9,6 +9,9 @@ class Cart extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id'
+        ];
     public function products(){
         return $this->belongsToMany('App\Models\Product')->withPivot('count', 'size');
     }

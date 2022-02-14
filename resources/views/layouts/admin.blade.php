@@ -91,6 +91,7 @@
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <li><a href="/admin/categories">Категорії</a></li>
                             <li><a href="/admin/products">Товари</a></li>
+                            <li><a href="/admin/orders">Замовлення</a></li>
                             <li class="dropdown">
                                 <a href="">Дітям<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">

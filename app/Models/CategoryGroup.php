@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class CategoryGroup extends Model
 {
 
+    protected $fillable = [
+        'category_group_id',
+        'category_id',
+        'created_at',
+        'updated_at',
+    ];
     use HasFactory;
     public function products() {
         return $this->hasMany('App\Models\Product', 'category_group_id', 'id');

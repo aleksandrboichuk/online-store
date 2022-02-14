@@ -10,23 +10,27 @@
                 {{--<h2>Додавання категорії</h2>--}}
                 <form action="{{route('save.edit.category')}}" method="post">
                     <input type="hidden" name="id" value="{{$category->id}}">
-                    <div class="title-add">
+                    <div class="add-block">
                         <label for="title-field">Заголовок </label>
                         <input type="text" value="{{$category->title}}" name="title-field">
                     </div>
-                    <div class="name-add">
+                    <div class="add-block">
                         <label for="name-field">Назва </label>
                         <input type="text" value="{{$category->name}}" name="name-field">
                     </div>
-                    <div class="seo-name-add">
+                    <div class="add-block">
                         <label for="seo-field">SEO </label>
                         <input type="text" value="{{$category->seo_name}}" name="seo-field">
                     </div>
-                    <div class="category-group">
-                        <label for="cat-field">ID групи категорій </label>
-                        <input type="text" name="cat-field" value="{{$category->categoryGroups[0]['id']}}">
+                    <div class="add-block">
+                        <label for="cat-field">Група категорій </label>
+                        <select size="5" name="cat-field" class="select-option">
+                            @foreach($category_groups as $group)
+                                <option value="{{$group->id}}" {{$group->id == $category->categoryGroups[0]['id'] ? "selected" : "" }}>{{$group->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="active-add">
+                    <div class="add-block">
                         <label for="active-field">Активність </label>
                         <input type="checkbox" name="active-field" {{$category->active ? "checked" : ""}}>
                     </div>

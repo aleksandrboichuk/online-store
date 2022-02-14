@@ -16,6 +16,7 @@ class OrderListItem extends Model
         'price',
         'count',
         'total_cost',
+        "size"
     ];
 
     public function product() {

@@ -23,7 +23,7 @@
                     </tr>
                     </thead>
                     <tbody class="cart-table">
-
+        @if(isset($products) && !empty($products))
                     @foreach($products as $item)
                     <tr>
                         <td class="cart_product">
@@ -65,6 +65,7 @@
                         </td>
                     </tr>
                     @endforeach
+            @endif
                     </tbody>
                 </table>
             </div>

@@ -15,7 +15,7 @@ class CartController extends Controller
 
         if(!empty($request->value) && !empty($request->updateId)) {
             $product = $user_cart->products()->where("product_id",$request->updateId)->first();
-            $product->carts()->update(["count" => $request->value]);
+            $product->carts()->where('user_id', $this->getUser()->id)->update(["count" => $request->value]);
             if($request->ajax()){
                 return view('ajax.ajax-cart',[
                     'user' =>$this->getUser(),
@@ -36,7 +36,7 @@ class CartController extends Controller
 
         return view('cart.cart', [
             'user' =>$this->getUser(),
-            'products' => $user_cart->products
+            'products' => isset($user_cart->products) ? $user_cart->products : null
         ]);
     }
 

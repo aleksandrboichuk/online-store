@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -67,6 +68,12 @@ class RegisterController extends Controller
             $user->city =  $request['city'];
             $user->phone = $request['phone'];
         $user->save();
+
+        $registeredUser = User::where('email',$request['email'] )->first();
+
+        Cart::create([
+            'user_id' => $registeredUser->id
+        ]);
 
         return redirect('/women');
 
