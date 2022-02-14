@@ -186,6 +186,7 @@ a#scrollUp i {
 }
 .mainmenu{
     padding-top: 5px;
+    width: 800px;
 }
 .mainmenu ul li {
     padding-right: 15px;

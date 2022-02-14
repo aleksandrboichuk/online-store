@@ -49,6 +49,15 @@ Route::group([
     Route::post('/categories/save-edit', [\App\Http\Controllers\AdminController::class, 'saveEditCategory'])->name('save.edit.category');
     Route::post('/categories/delete/{category_id}',[\App\Http\Controllers\AdminController::class, 'delCategory'])->name('delete.category');
 
+    // sub categories
+    Route::get('/subcategories', [\App\Http\Controllers\AdminController::class, 'subcategoryIndex']);
+    Route::get('/subcategories/add', [\App\Http\Controllers\AdminController::class, 'addSubCategory']);
+    Route::get('/subcategories/edit/{subcategory_id}', [\App\Http\Controllers\AdminController::class, 'editSubCategory'])->name('edit.subcategory');
+
+    Route::post('/subcategories/add',[\App\Http\Controllers\AdminController::class, 'saveAddSubCategory'])->name('save.subcategory');
+    Route::post('/subcategories/save-edit', [\App\Http\Controllers\AdminController::class, 'saveEditSubCategory'])->name('save.edit.subcategory');
+    Route::post('/subcategories/delete/{subcategory_id}',[\App\Http\Controllers\AdminController::class, 'delSubCategory'])->name('delete.subcategory');
+
     //products
 
     Route::get('/products', [\App\Http\Controllers\AdminController::class, 'productIndex']);
@@ -64,6 +73,54 @@ Route::group([
     Route::get('/orders/edit/{order_id}', [\App\Http\Controllers\AdminController::class, 'editOrder'])->name('edit.order');
     Route::post('/orders/save-edit', [\App\Http\Controllers\AdminController::class, 'saveEditOrder'])->name('save.edit.order');
     Route::post('/orders/delete/{order_id}',[\App\Http\Controllers\AdminController::class, 'delOrder'])->name('delete.order');
+
+    //users
+
+    Route::get('/users', [\App\Http\Controllers\AdminController::class, 'userIndex']);
+    Route::get('/users/edit/{user_id}', [\App\Http\Controllers\AdminController::class, 'editUser'])->name('edit.user');
+    Route::post('/users/save-edit', [\App\Http\Controllers\AdminController::class, 'saveEditUser'])->name('save.edit.user');
+    Route::post('/users/delete/{user_id}',[\App\Http\Controllers\AdminController::class, 'delUser'])->name('delete.user');
+
+    //colors
+
+    Route::get('/colors', [\App\Http\Controllers\AdminController::class, 'colorIndex']);
+    Route::get('/colors/add', [\App\Http\Controllers\AdminController::class, 'addColor']);
+    Route::get('/colors/edit/{color_id}', [\App\Http\Controllers\AdminController::class, 'editColor'])->name('edit.color');
+
+    Route::post('/colors/add',[\App\Http\Controllers\AdminController::class, 'saveAddColor'])->name('save.color');
+    Route::post('/colors/save-edit', [\App\Http\Controllers\AdminController::class, 'saveEditColor'])->name('save.edit.color');
+    Route::post('/colors/delete/{color_id}',[\App\Http\Controllers\AdminController::class, 'delColor'])->name('delete.color');
+
+    //brands
+
+    Route::get('/brands', [\App\Http\Controllers\AdminController::class, 'brandIndex']);
+    Route::get('/brands/add', [\App\Http\Controllers\AdminController::class, 'addBrand']);
+    Route::get('/brands/edit/{brand_id}', [\App\Http\Controllers\AdminController::class, 'editBrand'])->name('edit.brand');
+
+    Route::post('/brands/add',[\App\Http\Controllers\AdminController::class, 'saveAddBrand'])->name('save.brand');
+    Route::post('/brands/save-edit', [\App\Http\Controllers\AdminController::class, 'saveEditBrand'])->name('save.edit.brand');
+    Route::post('/brands/delete/{brand_id}',[\App\Http\Controllers\AdminController::class, 'delBrand'])->name('delete.brand');
+
+
+    //materials
+
+    Route::get('/materials', [\App\Http\Controllers\AdminController::class, 'materialIndex']);
+    Route::get('/materials/add', [\App\Http\Controllers\AdminController::class, 'addMaterial']);
+    Route::get('/materials/edit/{material_id}', [\App\Http\Controllers\AdminController::class, 'editMaterial'])->name('edit.material');
+
+    Route::post('/materials/add',[\App\Http\Controllers\AdminController::class, 'saveAddMaterial'])->name('save.material');
+    Route::post('/materials/save-edit', [\App\Http\Controllers\AdminController::class, 'saveEditMaterial'])->name('save.edit.material');
+    Route::post('/materials/delete/{material_id}',[\App\Http\Controllers\AdminController::class, 'delMaterial'])->name('delete.material');
+
+    //sizes
+
+    Route::get('/sizes', [\App\Http\Controllers\AdminController::class, 'sizeIndex']);
+    Route::get('/sizes/add', [\App\Http\Controllers\AdminController::class, 'addSize']);
+    Route::get('/sizes/edit/{size_id}', [\App\Http\Controllers\AdminController::class, 'editSize'])->name('edit.size');
+
+    Route::post('/sizes/add',[\App\Http\Controllers\AdminController::class, 'saveAddSize'])->name('save.size');
+    Route::post('/sizes/save-edit', [\App\Http\Controllers\AdminController::class, 'saveEditSize'])->name('save.edit.size');
+    Route::post('/sizes/delete/{size_id}',[\App\Http\Controllers\AdminController::class, 'delSize'])->name('delete.size');
 
 });
 //cart

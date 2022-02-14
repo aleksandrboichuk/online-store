@@ -13,6 +13,7 @@ use App\Models\ProductSeason;
 use App\Models\ProductSize;
 use App\Models\StatusList;
 use App\Models\SubCategory;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use PHPUnit\Util\Color;
@@ -26,7 +27,14 @@ class AdminController extends Controller
         ]);
     }
 
-    // -----------------------------------------------  categories -----------------------------------------------
+            /*
+             *
+             * Editing/Adding/Saving CATEGORIES
+             *
+            */
+
+
+
 
     public function categoryIndex()
     {
@@ -119,8 +127,103 @@ class AdminController extends Controller
         return redirect("/admin/categories");
     }
 
+            /*
+                 *
+                 * Editing/Adding/Saving SUB-CATEGORIES
+                 *
+                */
 
-    // -----------------------------------------------  products -----------------------------------------------
+    public function subcategoryIndex()
+    {
+        return view('admin.subcategory.index',[
+            'user'=>$this->getUser(),
+            'subcategories' => SubCategory::all()
+        ]);
+    }
+
+    //show adding form
+
+    public function addSubCategory(){
+
+        return view('admin.subcategory.add',[
+            'user'=>$this->getUser(),
+            'categories' => Category::all()
+        ]);
+    }
+
+    //saving add
+
+    public function saveAddSubCategory(Request $request){
+        Validator::make($request->all(), [
+            'title-field' => ['required', 'string', 'max:255', 'unique:sub_categories'],
+            'name-field' => ['required', 'string', 'max:255', 'unique:sub_categories'],
+            'seo-field' => ['required', 'string', 'min:8',  'unique:sub_categories']
+        ]);
+
+        $subcategory = new SubCategory;
+        $active = false;
+        if($request['active-field'] == "on"){
+            $active = true;
+        }
+        $subcategory->create([
+            'title' => $request['title-field'],
+            'name' => $request['name-field'],
+            'seo_name' => $request['seo-field'],
+            'category_id' => $request['cat-field'],
+            'active' => $active,
+        ]);
+
+        return redirect('/admin/subcategories');
+    }
+
+    //editing
+
+    public function editSubCategory($subcategory_id){
+
+        return view('admin.subcategory.edit',[
+            'user' => $this->getUser(),
+            'subcategory' =>  SubCategory::find($subcategory_id),
+            'categories' => Category::all()
+        ]);
+    }
+
+
+    //saving edit
+
+    public function saveEditSubCategory(Request $request){
+
+        $subcategory = SubCategory::find($request['id']);
+        $active = false;
+        if($request['active-field'] == "on"){
+            $active = true;
+        }
+        $subcategory->update([
+            'title' => $request['title-field'],
+            'name' => $request['name-field'],
+            'seo_name' => $request['seo-field'],
+            'category_id' =>  $request['cat-field'],
+            'active' => $active,
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+        return redirect("/admin/subcategories");
+    }
+
+    //delete
+
+    public function delSubCategory($subcategory_id){
+        $subcategory = SubCategory::find($subcategory_id);
+        $subcategory->delete();
+
+        return redirect("/admin/subcategories");
+    }
+
+            /*
+             *
+             * Editing/Adding/Saving PRODUCTS
+             *
+            */
+
 
     public function productIndex(){
         return view('admin.product.index', [
@@ -287,7 +390,13 @@ class AdminController extends Controller
         return redirect("/admin/products");
     }
 
-    // -----------------------------------------------  orders -----------------------------------------------
+
+                /*
+                         *
+                         * Editing/Adding/Saving ORDERS
+                         *
+                        */
+
 
     public  function orderIndex(){
 
@@ -350,5 +459,313 @@ class AdminController extends Controller
         OrdersList::find($order_id)->delete();
         return redirect("/admin/orders");
     }
+
+
+                    /*
+                       *
+                       * Editing/Saving USERS
+                       *
+                      */
+
+    public function userIndex(){
+
+
+        return view('admin.user.index', [
+            'user' => $this->getUser(),
+            'adm_users'=> User::all()
+        ]);
+    }
+
+    public function editUser($user_id){
+        $user = User::find($user_id);
+
+        return view('admin.user.edit',[
+            'user' => $this->getUser(),
+            'adm_user' => $user,
+        ]);
+    }
+
+    public function saveEditUser(Request $request){
+        $user = User::find($request['id']);
+
+        $active = false;
+        if($request['active-field'] == "on"){
+            $active = true;
+        }
+        $superuser = false;
+        if($request['admin-field'] == "on"){
+            $superuser = true;
+        }
+        $phone = intval($request['phone-field']);
+        $user->update([
+            'first_name'=> $request['firstname-field'],
+            'last_name'=> $request['lastname-field'],
+            'email'=> $request['email-field'],
+            'phone'=> $phone,
+            'address'=> $request['address-field'],
+            'city'=> $request['city-field'],
+            'active'=> $active,
+            'superuser'=> $superuser,
+
+        ]);
+        return redirect('/admin/users');
+    }
+
+    public function delUser($user_id){
+         User::find($user_id)->delete();
+         return redirect('/admin/users');
+    }
+
+                        /*
+                           *
+                           * Editing/Adding/Saving COLORS
+                           *
+                          */
+
+    public function colorIndex(){
+        return view('admin.additional-to-products.color.index', [
+           'user' => $this->getUser(),
+           'colors' => ProductColor::all()
+        ]);
+    }
+
+    public function addColor(){
+
+        return view('admin.additional-to-products.color.add',[
+            'user' => $this->getUser(),
+        ]);
+    }
+    public function saveAddColor(Request $request){
+
+        $active = false;
+        if($request['active-field'] == "on"){
+            $active = true;
+        }
+        ProductColor::create([
+            'name' => $request['name-field'],
+            'seo_name'=> $request['seo-field'],
+            'active' => $active
+
+        ]);
+        return redirect('/admin/colors');
+    }
+    public function editColor($color_id){
+        $color = ProductColor::find($color_id);
+
+        return view('admin.additional-to-products.color.edit',[
+            'user' => $this->getUser(),
+            'color' => $color
+        ]);
+    }
+
+    public function saveEditColor(Request $request){
+        $color = ProductColor::find($request['id']);
+        $active = false;
+        if($request['active-field'] == "on"){
+            $active = true;
+        }
+        $color->update([
+            'name' => $request['name-field'],
+            'seo_name'=> $request['seo-field'],
+            'active' => $active
+        ]);
+        return redirect('admin/colors');
+    }
+
+    public function delColor($color_id){
+        ProductColor::find($color_id)->delete();
+        return redirect('admin/colors');
+    }
+
+
+                        /*
+                           *
+                           * Editing/Adding/Saving BRANDS
+                           *
+                          */
+
+
+    public function brandIndex(){
+        return view('admin.additional-to-products.brand.index', [
+            'user' => $this->getUser(),
+            'brands' => ProductBrand::all()
+        ]);
+    }
+
+    public function addBrand(){
+
+        return view('admin.additional-to-products.brand.add',[
+            'user' => $this->getUser(),
+        ]);
+    }
+    public function saveAddBrand(Request $request){
+
+        $active = false;
+        if($request['active-field'] == "on"){
+            $active = true;
+        }
+        ProductBrand::create([
+            'name' => $request['name-field'],
+            'seo_name'=> $request['seo-field'],
+            'active' => $active
+
+        ]);
+        return redirect('/admin/brands');
+    }
+    public function editBrand($brand_id){
+        $brand = ProductBrand::find($brand_id);
+
+        return view('admin.additional-to-products.brand.edit',[
+            'user' => $this->getUser(),
+            'brand' => $brand
+        ]);
+    }
+
+    public function saveEditBrand(Request $request){
+        $brand = ProductBrand::find($request['id']);
+        $active = false;
+        if($request['active-field'] == "on"){
+            $active = true;
+        }
+        $brand->update([
+            'name' => $request['name-field'],
+            'seo_name'=> $request['seo-field'],
+            'active' => $active
+        ]);
+        return redirect('admin/brands');
+    }
+
+    public function delBrand($brand_id){
+        ProductBrand::find($brand_id)->delete();
+        return redirect('admin/brands');
+    }
+
+
+    /*
+                           *
+                           * Editing/Adding/Saving MATERIALS
+                           *
+                          */
+
+
+    public function materialIndex(){
+        return view('admin.additional-to-products.material.index', [
+            'user' => $this->getUser(),
+            'materials' => ProductMaterial::all()
+        ]);
+    }
+
+    public function addMaterial(){
+
+        return view('admin.additional-to-products.material.add',[
+            'user' => $this->getUser(),
+        ]);
+    }
+    public function saveAddMaterial(Request $request){
+
+        $active = false;
+        if($request['active-field'] == "on"){
+            $active = true;
+        }
+        ProductMaterial::create([
+            'name' => $request['name-field'],
+            'seo_name'=> $request['seo-field'],
+            'active' => $active
+
+        ]);
+        return redirect('/admin/brands');
+    }
+    public function editMaterial($material_id){
+        $material = ProductMaterial::find($material_id);
+
+        return view('admin.additional-to-products.material.edit',[
+            'user' => $this->getUser(),
+            'material' => $material
+        ]);
+    }
+
+    public function saveEditMaterial(Request $request){
+        $material = ProductMaterial::find($request['id']);
+        $active = false;
+        if($request['active-field'] == "on"){
+            $active = true;
+        }
+        $material->update([
+            'name' => $request['name-field'],
+            'seo_name'=> $request['seo-field'],
+            'active' => $active
+        ]);
+        return redirect('admin/materials');
+    }
+
+    public function delMaterial($material_id){
+        ProductMaterial::find($material_id)->delete();
+        return redirect('admin/materials');
+    }
+
+
+    /*
+                           *
+                           * Editing/Adding/Saving SIZES
+                           *
+                          */
+
+
+    public function sizeIndex(){
+        return view('admin.additional-to-products.size.index', [
+            'user' => $this->getUser(),
+            'sizes' => ProductSize::all()
+        ]);
+    }
+
+    public function addSize(){
+
+        return view('admin.additional-to-products.size.add',[
+            'user' => $this->getUser(),
+        ]);
+    }
+    public function saveAddSize(Request $request){
+
+        $active = false;
+        if($request['active-field'] == "on"){
+            $active = true;
+        }
+        ProductSize::create([
+            'name' => $request['name-field'],
+            'seo_name'=> $request['seo-field'],
+            'active' => $active
+
+        ]);
+        return redirect('/admin/sizes');
+    }
+    public function editSize($size_id){
+        $size = ProductSize::find($size_id);
+
+        return view('admin.additional-to-products.size.edit',[
+            'user' => $this->getUser(),
+            'size' => $size
+        ]);
+    }
+
+    public function saveEditSize(Request $request){
+        $size = ProductSize::find($request['id']);
+        $active = false;
+        if($request['active-field'] == "on"){
+            $active = true;
+        }
+        $size->update([
+            'name' => $request['name-field'],
+            'seo_name'=> $request['seo-field'],
+            'active' => $active
+        ]);
+        return redirect('admin/sizes');
+    }
+
+    public function delSize($size_id){
+        ProductSize::find($size_id)->delete();
+        return redirect('admin/sizes');
+    }
+
+
 
 }

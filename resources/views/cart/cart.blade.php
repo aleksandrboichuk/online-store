@@ -40,7 +40,7 @@
                             <p>{{$item->pivot->size}}</p>
                         </td>
                         <td class="cart_quantity">
-                                <input
+                                 <input
                                         onkeyup="this.value = this.value.replace(/[^\d]/g,'');"
                                         class="cart_quantity_input"
                                         type="text"

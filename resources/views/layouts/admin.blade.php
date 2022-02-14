@@ -42,16 +42,14 @@
                                 <li>
                                     <a href="/"><i class="fa fa-user"></i> Особистий кабінет</a>
                                 </li>
-                                <li>
-                                    <a href="/"><i class="fa fa-star"></i> Обране</a>
-                                </li>
+
                                 @if($user->superuser)
                                     <li>
                                         <a href="/admin"><i class="fa fa-crosshairs"></i> Admin</a>
                                     </li>
                                 @endif
                                 <li>
-                                    <a href="{{route('show.cart', $user->id)}}"><i class="fa fa-shopping-cart"></i> Кошик ({{count($user->cart->products)}})</a>
+                                    <a href="{{route('show.cart', $user->id)}}"><i class="fa fa-shopping-cart"></i> Кошик ({{isset($user->cart->products) ? count($user->cart->products) : "0"}})</a>
                                 </li>
                             @else
                                 <li>
@@ -73,7 +71,7 @@
     <div class="header-bottom">
         <div class="container">
             <div class="row">
-                <div class="col-sm-3"></div>
+                <div class="col-sm-2"></div>
                 <div class="col-sm-6">
                     <div class="navbar-header">
                         <button
@@ -90,13 +88,17 @@
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <li><a href="/admin/categories">Категорії</a></li>
+                            <li><a href="/admin/subcategories">Підкатегорії</a></li>
                             <li><a href="/admin/products">Товари</a></li>
                             <li><a href="/admin/orders">Замовлення</a></li>
+                            <li><a href="/admin/users">Користувачі</a></li>
                             <li class="dropdown">
-                                <a href="">Дітям<i class="fa fa-angle-down"></i></a>
+                                <a href="#">Параметри товарів<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
-                                    <li><a href="/girls">Дівчаткам</a></li>
-                                    <li><a href="/boys">Хлопчикам</a></li>
+                                    <li><a href="/admin/colors">Кольори</a></li>
+                                    <li><a href="/admin/brands">Бренди</a></li>
+                                    <li><a href="/admin/materials">Матеріали</a></li>
+                                    <li><a href="/admin/sizes">Розміри</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -191,15 +193,6 @@
     </div>
     <div class="footer-bottom">
         <div class="container">
-            <div class="row">
-                <p class="pull-left">
-                    Copyright © 2013 E-SHOPPER Inc. All rights reserved.
-                </p>
-                <p class="pull-right">
-                    Designed by
-                    <span><a target="_blank" href="/../../index.htm">Themeum</a></span>
-                </p>
-            </div>
         </div>
     </div>
 </footer>
