@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserMessage;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,5 +25,23 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function contact(){
+
+        return view('contact.contact', [
+           'user' => $this->getUser()
+        ]);
+    }
+    public function sendMessage(Request $request)
+    {
+       UserMessage::create([
+          'user_id' => $request['id'],
+           'email' => $request['email'],
+           'theme' => $request['theme'],
+           'message'=> $request['message']
+       ]);
+       return redirect('/women');
+
     }
 }

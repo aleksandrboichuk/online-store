@@ -11,53 +11,52 @@
                             class="carousel slide"
                             data-ride="carousel">
                         <ol class="carousel-indicators">
-                            <li
-                                    data-target="#slider-carousel"
-                                    data-slide-to="0"
-                                    class="active"></li>
-                            <li data-target="#slider-carousel" data-slide-to="1"></li>
-                            <li data-target="#slider-carousel" data-slide-to="2"></li>
+                            @foreach($banners as $key => $value)
+                                @if($key == 0)
+                                <li data-target="#slider-carousel" data-slide-to="{{$value->id-1}}" class="active"></li>
+                                @else
+                                 <li data-target="#slider-carousel" data-slide-to="{{$value->id-1}}"></li>
+                                @endif
+                            @endforeach
+                                <li data-target="#slider-carousel" style="visibility: hidden" data-slide-to="{{$value->id}}"></li>
                         </ol>
                         <div class="carousel-inner">
-                            <div class="item active">
-                                <div class="col-sm-12">
-                                    <img
-                                            src="/images/home/slide1.jpg"
-                                            class="girl img-responsive"
-                                            alt=""
-                                    />
-                                    <img src="/images/home/pricing.png" class="pricing" alt="" />
-                                    <div class="slider-text">
-                                        <h3>Скидки</h3>
-                                        <p>Lorem ipsum — классический текст-«рыба». Является искажённым отрывком из философского трактата Марка Туллия Цицерона «О пределах добра и зла», написанного в 45 году до н. э. на латинском языке, обнаружение сходства приписывается Ричарду МакКлинтоку</p>
+                            @foreach($banners as $key => $value)
+                                @if($key == 0)
+                                    <div class="item active">
+                                        <div class="col-sm-12">
+                                            <img src="/images/home/{{$value->image_url}}" class="girl img-responsive" alt="" />
+                                            @if(isset($value->mini_img_url) && !empty($value->mini_img_url))
+                                            <img src="/images/home/{{$value->mini_img_url}}" class="pricing" alt="" />
+                                            @endif
+                                            <div class="slider-text">
+                                                <h3>{{$value->title}}</h3>
+                                                <p>{{$value->description}}</p>
+                                                {{--<button type="button" class="btn btn-warning"><a href="{{$value->details_url}}">Додати</a></button>--}}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="col-sm-12">
-                                    <img
-                                            src="/images/home/slide2.jpg"
-                                            class="girl img-responsive"
-                                            alt=""
-                                    />
-                                    <img src="/images/home/pricing.png" class="pricing" alt="" />
-                                    <div class="slider-text">
-                                        <h3>Скидки</h3>
-                                        <p>Lorem ipsum — классический текст-«рыба». Является искажённым отрывком из философского трактата Марка Туллия Цицерона «О пределах добра и зла», написанного в 45 году до н. э. на латинском языке, обнаружение сходства приписывается Ричарду МакКлинтоку</p>
+                                @else
+                                    <div class="item">
+                                        <div class="col-sm-12">
+                                            <img src="/images/home/{{$value->image_url}}" class="girl img-responsive" alt="" />
+                                            @if(isset($value->mini_img_url) && !empty($value->mini_img_url))
+                                                <img src="/images/home/{{$value->mini_img_url}}" class="pricing" alt="" />
+                                            @endif
+                                            <div class="slider-text">
+                                                <h3>{{$value->title}}</h3>
+                                                <p>{{$value->description}}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                @endif
+                            @endforeach
+
                         </div>
-                        <a
-                                href="#slider-carousel"
-                                class="left control-carousel hidden-xs"
-                                data-slide="prev">
+                        <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
                             <i class="fa fa-angle-left"></i>
                         </a>
-                        <a
-                                href="#slider-carousel"
-                                class="right control-carousel hidden-xs"
-                                data-slide="next">
+                        <a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
                             <i class="fa fa-angle-right"></i>
                         </a>
                     </div>
@@ -170,6 +169,7 @@
                 if ( !div.is(e.target)
                     && div.has(e.target).length === 0 ) {
                     div.find('.fil-params').removeClass('fil-active');
+                    div.find('.filter-img').attr('src', '/images/home/arrow-down.png')
                 }
             });
 
@@ -199,6 +199,9 @@
             });
 
             $('.btn-info').click(function () {
+
+                let from_price = parseInt($('input[name="from-price"]').val());
+                let to_price = parseInt($('input[name="to-price"]').val());
                 /* colors array */
                 for (let i = 0; i < color.length; i++) {
                     if (color[i].firstChild.checked) {
@@ -233,7 +236,7 @@
                     }
                 }
 
-                if ((colors != "") || (brands != "") || (materials != "")  || (seasons != "")  || (sizes != "") ){
+                if ((colors != "") || (brands != "") || (materials != "")  || (seasons != "")  || (sizes != "") || !isNaN(from_price) || !isNaN(to_price)){
                     $.ajax({
                         url: "{{route('index', $group->seo_name)}}"  ,
                         type: "GET",
@@ -243,6 +246,8 @@
                             materials: materials,
                             seasons: seasons,
                             sizes: sizes,
+                            from_price: !isNaN(from_price) ? from_price : 0,
+                            to_price: !isNaN(to_price) ? to_price : 1000000
                             // countries: countries
                         },
                         headers: {

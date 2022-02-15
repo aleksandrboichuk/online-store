@@ -4,7 +4,7 @@
 body {
     font-family: roboto, sans-serif;
     position: relative;
-    font-weight: 400px;
+    font-weight: 400;
     overflow-x:hidden;
 }
 ul li {
@@ -31,7 +31,7 @@ h6 {
     font-family: roboto, sans-serif;
 }
 .btn:hover,
-.btn:focus {
+.btn:focus{
     outline: none;
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -186,7 +186,6 @@ a#scrollUp i {
 }
 .mainmenu{
     padding-top: 5px;
-    width: 800px;
 }
 .mainmenu ul li {
     padding-right: 15px;
@@ -399,7 +398,7 @@ ul.sub-menu {
 .single-widget h2 i {
     margin-right: 15px;
 }
-.single-widget ul li a {
+.single-widget ul li, a {
     color: #8c8c88;
     font-family: roboto, sans-serif;
     font-size: 14px;
@@ -408,6 +407,9 @@ ul.sub-menu {
 }
 .single-widget ul li a i {
     margin-right: 18px;
+}
+.single-widget img{
+    margin-top: 10px;
 }
 .single-widget ul li a:hover {
     background: 0 0;
@@ -455,6 +457,8 @@ ul.sub-menu {
     font-family: roboto, sans-serif;
     font-weight: 300;
     margin-left: 15px;
+    text-align: center;
+    width: 1140px;
 }
 .footer-bottom p span a {
     color: #fe980f;
@@ -480,7 +484,16 @@ ul.sub-menu {
     left: 20%;
     top: 35%;
 }
+.slider-text .btn{
+    width: 200px;
+    height: 50px;
+    background: #fe980f;
 
+}
+.slider-text .btn a{
+    color: white;
+    font-size: 18px;
+}
 .girl {
     margin-left: 0;
 }
@@ -535,7 +548,11 @@ ul.sub-menu {
     text-transform: uppercase;
     text-align: justify;
 }
-.slider-text h3, p {
+.slider-text h3  {
+    color: white;
+    max-width: 700px;
+}
+.slider-text  p {
     color: white;
     max-width: 700px;
 }
@@ -558,6 +575,8 @@ ul.sub-menu {
 .product-container{
     margin-top: 50px;
 }
+
+
 .fade p{
  color:black;
     padding: 10px;
@@ -750,6 +769,22 @@ h2.title:before {
 }
 
 /*filters*/
+.to-price,.from-price{
+    color: #000;
+    font-size: 17px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+.to-size-input, .from-size-input{
+    max-height: 30px;
+    max-width: 60px;
+    margin-right: 10px;
+    font-size: 15px;
+}
+.from-to-price{
+    display: flex;
+    padding: 10px;
+}
 .filters{
     display: flex;
     width: 100%;
@@ -802,10 +837,13 @@ h2.title:before {
     padding: 5px 0;
     display:none;
     border-radius: 5px ;
+    max-height: 200px;
+    overflow: auto;
 }
 
 .fil-params ul{
     padding: 10px;
+
 }
 .fil-params li{
     margin-bottom: 5px;
@@ -838,6 +876,9 @@ h2.title {
     text-transform: uppercase;
     margin-bottom: 30px;
     position: relative;
+}
+.title-contact{
+    margin-top: 70px;
 }
 .product-image-wrapper {
     border: 1px solid #f7f7f5;
@@ -1274,13 +1315,29 @@ h2.title {
 }
 .cart {
     background: #fe980f;
-    border: 0;
-    border-radius: 0;
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
     color: #fff;
     font-family: roboto, sans-serif;
-    font-size: 15px;
+    font-size: 16px;
     margin-bottom: 10px;
     margin-left: 20px;
+}
+.cart:hover{
+    background-color: #fff;
+    color: #333;
+}
+.cart:focus{
+    background: #fe980f;
+    border: 1px solid #d3d3d3;
+    color: #fff;
+}
+.added:focus{
+    background: #009100;
+    color: #fff;
+}
+.added{
+    background: #009100;
 }
 .shop-details-tab {
     border: 1px solid #f7f7f0;
@@ -1373,10 +1430,12 @@ h2.title {
 .content-404 img {
     margin: 0 auto;
 }
+
 .content-404 p {
     color: #363432;
     font-family: roboto, sans-serif;
     font-size: 18px;
+    width: 1140px;
 }
 .content-404 h2 {
     margin-top: 50px;
@@ -1388,6 +1447,7 @@ h2.title {
     font-size: 44px;
     font-weight: 300;
     padding: 8px 40px;
+
 }
 #form {
     display: block;
@@ -1396,6 +1456,12 @@ h2.title {
     overflow: hidden;
 }
 .login-form {
+}
+.invalid-feedback {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #dc3545;
 }
 .form-control{
     margin-bottom: 15px;
@@ -1703,6 +1769,15 @@ h2.title {
     border: 1px solid #e6e4df;
 }
 .table-responsive .check_out{
+    background: #fe980f;
+    color: #fff;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+    float: right;
+    width: fit-content;
+    height: 50px;
+    font-size: 18px;
     margin-top: 30px;
     margin-bottom: 80px;
 }
@@ -2296,6 +2371,10 @@ textarea {
     resize: none;
 }
 #main-contact-form .btn-primary {
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
     margin-bottom: 15px;
     margin-top: 20px;
 }
@@ -2313,10 +2392,11 @@ textarea {
     margin-top: -5px;
 }
 #contact-page .contact-info p {
-    margin-bottom: 0;
+
     color: #696763;
     font-size: 16px;
     line-height: 25px;
+    margin-bottom: 10px;
 }
 .social-networks {
     overflow: hidden;

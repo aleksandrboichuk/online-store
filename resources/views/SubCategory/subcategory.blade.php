@@ -3,7 +3,6 @@
 
     <section id="advertisement">
         <div class="container">
-            <img src="images/shop/advertisement.jpg" alt="" />
         </div>
     </section>
 
@@ -74,6 +73,7 @@
                 if ( !div.is(e.target)
                     && div.has(e.target).length === 0 ) {
                     div.find('.fil-params').removeClass('fil-active');
+                    div.find('.filter-img').attr('src', '/images/home/arrow-down.png')
                 }
             });
 
@@ -103,6 +103,8 @@
             });
 
             $('.btn-info').click(function () {
+                let from_price = parseInt($('input[name="from-price"]').val());
+                let to_price = parseInt($('input[name="to-price"]').val());
                 /* colors array */
                 for (let i = 0; i < color.length; i++) {
                     if (color[i].firstChild.checked) {
@@ -137,7 +139,7 @@
                     }
                 }
 
-                if ((colors != "") || (brands != "") || (materials != "")  || (seasons != "")  || (sizes != "") ){
+                if ((colors != "") || (brands != "") || (materials != "")  || (seasons != "")  || (sizes != "") || !isNaN(from_price) || !isNaN(to_price)){
                     $.ajax({
                         url: "{{route('show.sub.category', [$group->seo_name, $category->seo_name, $sub_category->seo_name])}}"  ,
                         type: "GET",
@@ -147,6 +149,8 @@
                             materials: materials,
                             seasons: seasons,
                             sizes: sizes,
+                            from_price: !isNaN(from_price) ? from_price : 0,
+                            to_price: !isNaN(to_price) ? to_price : 1000000
                             // countries: countries
                         },
                         headers: {

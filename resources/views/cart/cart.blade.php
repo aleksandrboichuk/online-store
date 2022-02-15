@@ -5,8 +5,8 @@
         <div class="container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li class="active">Shopping Cart</li>
+                    {{--<li><a href="#">Home</a></li>--}}
+                    {{--<li class="active">Shopping Cart</li>--}}
                 </ol>
             </div>
             <div class="table-responsive cart_info">
@@ -40,6 +40,7 @@
                             <p>{{$item->pivot->size}}</p>
                         </td>
                         <td class="cart_quantity">
+                            <input type="hidden" name="size" id="size" value="{{$item->pivot->size}}">
                                  <input
                                         onkeyup="this.value = this.value.replace(/[^\d]/g,'');"
                                         class="cart_quantity_input"
@@ -57,6 +58,7 @@
                         <td class="cart_delete">
                             <form action="{{route('delete.from.cart')}}" method="post">
                                 <input type="hidden" name="delete-id" value="{{$item->id}}">
+                                <input type="hidden" name="size" value="{{$item->pivot->size}}">
                                 <button type="submit" class="btn btn-danger"><svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
                                         <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
@@ -65,7 +67,7 @@
                         </td>
                     </tr>
                     @endforeach
-            @endif
+                @endif
                     </tbody>
                 </table>
             </div>
@@ -78,8 +80,6 @@
                 <div class="col-sm-6 make-order" style="float: right">
                     <div class="total_area">
                         <ul>
-                            <li><b>Вартість товарів в кошику:</b><span class="total-cart"></span></li>
-                            <li><b>Вартість доставки:</b><span class="delivery">₴12</span></li>
                             <li><b>Всього до сплати:</b><span class="total-price"></span></li>
                         </ul>
                         <button class="btn btn-default check_out"><a href="{{route('checkout', $user->id)}}">Оформити замовлення</a></button>
@@ -100,9 +100,7 @@
             for (let i=1; i < price.length; i++) {
                 subtotal = subtotal + parseInt(price[i]);
             }
-            $('.total-cart').text("₴" + subtotal);
-            let delivery = $('.delivery').text().split('₴');
-            $('.total-price').text("₴" + (subtotal + parseInt(delivery[1])));
+            $('.total-price').text("₴" + (subtotal));
 
         });
         $(document.body).on("change",".cart_quantity_input", function () {
@@ -110,13 +108,14 @@
 
            let value = $(this).val();
            let updateId = $(this).attr('id');
-
+           let updateSize = parseInt($(this).parent().find('#size').val());
             if ((value > 0)){
                 $.ajax({
                     url: "{{route('show.cart', [$user->id])}}"  ,
                     type: "GET",
                     data: {
                         updateId: updateId,
+                        updateSize:updateSize,
                         value: value,
                     },
                     headers: {

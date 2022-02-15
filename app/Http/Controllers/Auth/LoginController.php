@@ -58,11 +58,11 @@ class LoginController extends Controller
 
             return  redirect('/women');
         } else{
-            return redirect()->back()->withInput($request->all())->withErrors(
+            session(
                 [
-                    'email' => 'These credentials do not match our records.'
-                ]
-            );
+                    'error' => 'Логін або пароль невірний'
+                ]);
+            return redirect()->back()->withInput($request->all());
         }
 
 

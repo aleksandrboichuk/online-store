@@ -15,7 +15,6 @@
                         <div class="col-sm-7 product-images">
                             <div class="view-product">
                                 <img class="main-product-img" src="/images/preview-images/{{$product->preview_img_url}}" alt="" />
-                                <h3>ZOOM</h3>
                             </div>
                             @if(count($product->images)> 0)
                             <div id="similar-product"class="carousel slide"data-ride="carousel">
@@ -52,11 +51,13 @@
                         </div>
                         <div class="col-sm-5 product-info">
                             <div class="product-information">
+                                @if($product->created_at > date('Y-m-d H:i:s', strtotime('-7 days')) )
                                 <img
                                         src="/images/product-details/new.jpg"
                                         class="newarrival"
                                         alt=""
                                 />
+                                @endif
                                 <h2><b>{{$product->name}}</b></h2>
                                 <p class="product-id" id="{{$product->id}}">ID: {{$product->id}}</p>
                                 <span class="product-price">₴{{$product->price}}</span>
@@ -74,7 +75,7 @@
                                 </div>
                                 <span>
                                     <label class="quantity-title">Кількість:</label>
-                                     <input type="text" class="quantity" name="quantity" @if($user) id="{{$user->id}}"@endif  value="1"/>
+                                     <input type="text" class="quantity" name="quantity"  value="1"/>
                                         <button type="submit" class="btn btn-fefault cart" {{empty($product->sizes[0]['name']) ? "disabled" : ""}}><i class="fa fa-shopping-cart" ></i> До кошику </button>
                                 </span>
 
@@ -130,7 +131,7 @@
                                                     <ul class="nav nav-pills nav-justified">
                                                         <li>
 
-                                                            <a href="#"><i class="fa fa-star"></i>До обраного</a>
+                                                            <a href="{{route('show.product.details',[$group->seo_name, $item->categories['seo_name'], $item->subCategories['seo_name'],$item->seo_name ])}}"><i class="fa fa-star"></i> Переглянути</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -188,16 +189,21 @@
             }
 
             $(this).text("Додано до кошику!");
-            $(".cart").css("background", "green");
+            $(".cart").addClass("added");
 
+            function btn() {
+                $(".cart").removeClass("added");
+                $('.btn-fefault').append('<i class="fa fa-shopping-cart" ></i>').text(" До кошику ")
+            }
 
-            if ( productId > 0 && userId > 0){
+            setTimeout(btn, 1000);
+
+            if ( productId > 0 ){
                 $.ajax({
                     url: "{{route('show.product.details', [$group->seo_name, $category->seo_name, $sub_category->seo_name, $product->seo_name])}}" ,
                     type: "GET",
                     data: {
                         productId: productId,
-                        userId: userId,
                         productCount: productCount,
                         productSize: parseInt(productSize)
                     },

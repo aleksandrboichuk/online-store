@@ -12,8 +12,11 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::get('/home', function (){
+    return redirect('/women');
+});
+Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
+Route::post('/send-message',  [App\Http\Controllers\HomeController::class, 'sendMessage'])->name('send.message');
 if(preg_match("#^\/women#", \request()->getRequestUri()) == false
     && preg_match("#^\/men#", \request()->getRequestUri()) == false
     && preg_match("#^\/girls#", \request()->getRequestUri()) == false
@@ -36,10 +39,38 @@ if(preg_match("#^\/women#", \request()->getRequestUri()) == false
     })->middleware('app.auth');
 }
 
+//404
+if(preg_match("#^\/women#", \request()->getRequestUri()) == false
+    && preg_match("#^\/men#", \request()->getRequestUri()) == false
+    && preg_match("#^\/girls#", \request()->getRequestUri()) == false
+    && preg_match("#^\/boys#", \request()->getRequestUri()) == false
+    && preg_match("#^\/register#", \request()->getRequestUri()) == false
+    && preg_match("#^\/login#", \request()->getRequestUri()) == false
+    && preg_match("#^\/search#", \request()->getRequestUri()) == false
+    && preg_match("#^\/admin#", \request()->getRequestUri()) == false
+    && preg_match("#^\/personal#", \request()->getRequestUri()) == false) {
+
+    Route::get('/{code}/',function($code){
+       return view('404.404');
+    });
+
+    }
+
 Route::group([
     'prefix' => 'admin', // префикс маршрута, например user/index
     'middleware' => ['auth'] // один или несколько посредников
 ],function () {
+
+    //banner
+
+    Route::get('/banner', [\App\Http\Controllers\AdminController::class, 'bannerIndex']);
+    Route::get('/banner/add', [\App\Http\Controllers\AdminController::class, 'addBanner']);
+    Route::get('/banner/edit/{banner_id}', [\App\Http\Controllers\AdminController::class, 'editBanner'])->name('edit.banner');
+
+    Route::post('/banner/add',[\App\Http\Controllers\AdminController::class, 'saveAddBanner'])->name('save.banner');
+    Route::post('/banner/save-edit', [\App\Http\Controllers\AdminController::class, 'saveEditBanner'])->name('save.edit.banner');
+    Route::post('/banner/delete/{banner_id}',[\App\Http\Controllers\AdminController::class, 'delBanner'])->name('delete.banner');
+
     // categories
     Route::get('/categories', [\App\Http\Controllers\AdminController::class, 'categoryIndex']);
     Route::get('/categories/add', [\App\Http\Controllers\AdminController::class, 'addCategory']);
@@ -143,6 +174,7 @@ Route::group([
     Route::get('/orders',[\App\Http\Controllers\UserController::class, 'getUserOrders'])->name('user.orders');
     Route::get('/orders/view-order/{order_id}', [\App\Http\Controllers\UserController::class, 'viewUserOrder'])->name('view.order');
 });
+
 
 Route::post('/{product_id}/{user_id}',[\App\Http\Controllers\CartController::class, 'addToCart'])->name('add.to.cart')->middleware('auth');
 Route::get('/search',[\App\Http\Controllers\SearchController::class, 'index']);

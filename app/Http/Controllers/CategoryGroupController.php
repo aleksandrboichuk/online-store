@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\CategoryGroup;
 use App\Models\Product;
 use App\Models\ProductBrand;
@@ -25,7 +26,7 @@ class CategoryGroupController extends Controller
 
         /*----------------------  AJAX  ----------------------*/
 
-        if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))){
+        if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))  || (!empty($request->from_price)) || (!empty($request->to_price))){
             $group_products = Product::where('category_group_id',$group->id)
                 ->when(!empty($request->colors), function($query){
                     if(request('colors') == "Всі"){
@@ -48,6 +49,8 @@ class CategoryGroupController extends Controller
                     }
                     $season = ProductSeason::where('name', request('seasons'))->first();
                     return $query->where('product_season_id',$season->id);
+                })->when($request->to_price > $request->from_price , function($query){
+                    return $query->whereBetween('price', [request('from_price'), request('to_price')]);
                 })->paginate(9);
 
             // найти материалы
@@ -96,6 +99,7 @@ class CategoryGroupController extends Controller
 
 
         return view('index',[
+            'banners' => Banner::where('active', 1)->get(),
             'user'=> $this->getUser(),
             'group' => $group,
             'group_products' => $group_products,

@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function showProductDetails (Request $request, $group_seo_name,$category_seo_name,$sub_category_seo_name, $product_seo_name){
+    public function showProductDetails (Request $request, $group_seo_name, $category_seo_name,$sub_category_seo_name, $product_seo_name){
         $group = CategoryGroup::where('name',$group_seo_name)->first();
         $category = Category::where('seo_name',$category_seo_name)->first();
         $sub_category = SubCategory::where('seo_name',$sub_category_seo_name)->where('category_id',$category->id)->first();
@@ -23,9 +23,10 @@ class ProductController extends Controller
 
         $group_brands = $this->getGroupBrand($group->id);
 
-        if((!empty($request->productId)) && (!empty($request->userId))) {
+        if(!empty($request->productId)) {
 
-            $cart = Cart::where('user_id', $request->userId)->first();
+            $cart = Cart::where('user_id',$this->getUser()->id)->first();
+
             $is_product = false;
             for ($i = 0; $i < count($cart->products); $i++) {
                 if ($cart->products[$i]['id'] == $request->productId ) {

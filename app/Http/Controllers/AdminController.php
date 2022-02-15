@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Category;
 use App\Models\CategoryGroup;
 use App\Models\OrdersList;
@@ -26,6 +27,98 @@ class AdminController extends Controller
             'user'=>$this->getUser(),
         ]);
     }
+
+
+    /*
+     *
+     * Editing/Adding/Saving CATEGORIES
+     *
+    */
+
+
+
+
+    public function bannerIndex()
+    {
+        return view('admin.banner.index',[
+            'user'=>$this->getUser(),
+            'banners' => Banner::all()
+        ]);
+    }
+
+    //show adding form
+
+    public function addBanner(){
+
+        return view('admin.banner.add',[
+            'user'=>$this->getUser(),
+        ]);
+    }
+
+    //saving add
+
+    public function saveAddBanner(Request $request){
+
+        $banner = new Banner;
+        $active = false;
+        if($request['active-field'] == "on"){
+            $active = true;
+        }
+        $banner->create([
+            'title' => $request['title-field'],
+            'description' => $request['description-field'],
+            'image_url' => $request['main-img-field'],
+            'mini_img_url' => $request['mini-img-field'],
+            'active' => $active,
+        ]);
+
+
+        return redirect('/admin/banner');
+    }
+
+    //editing
+
+    public function editBanner($banner_id){
+
+        return view('admin.banner.edit',[
+            'user' => $this->getUser(),
+            'banner' =>  Banner::find($banner_id),
+
+        ]);
+    }
+
+
+    //saving edit
+
+    public function saveEditBanner(Request $request){
+
+        $banner = Banner::find($request['id']);
+        $active = false;
+        if($request['active-field'] == "on"){
+            $active = true;
+        }
+        $banner->update([
+            'title' => $request['title-field'],
+            'description' => $request['description-field'],
+            'image_url' => $request['main-img-field'],
+            'mini_img_url' => $request['mini-img-field'],
+            'active' => $active,
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
+
+        return redirect("/admin/banner");
+    }
+
+    //delete
+
+    public function delBanner($banner_id){
+        $banner = Banner::find($banner_id);
+        $banner->delete();
+
+        return redirect("/admin/banner");
+    }
+
 
             /*
              *
@@ -769,6 +862,8 @@ class AdminController extends Controller
         ProductSize::find($size_id)->delete();
         return redirect('admin/sizes');
     }
+
+
 
 
 

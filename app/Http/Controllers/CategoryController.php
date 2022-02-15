@@ -26,7 +26,7 @@ class CategoryController extends Controller
 
         /*----------------------  AJAX  ----------------------*/
 
-        if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))){
+        if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))|| (!empty($request->from_price)) || (!empty($request->to_price))){
             $category_products = Product::where('category_group_id',$group->id)->where('category_id',$category->id)
                 ->when(!empty($request->colors), function($query){
                     if(request('colors') == "Всі"){
@@ -49,6 +49,8 @@ class CategoryController extends Controller
                     }
                     $season = ProductSeason::where('name', request('seasons'))->first();
                     return $query->where('product_season_id',$season->id);
+                })->when($request->to_price > $request->from_price, function($query){
+                    return $query->whereBetween('price', [request('from_price'), request('to_price')]);
                 })->paginate(9);
 
             // найти материалы
@@ -116,7 +118,7 @@ class CategoryController extends Controller
 
         /*----------------------  AJAX  ----------------------*/
 
-        if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))){
+        if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes)) || (!empty($request->from_price)) || (!empty($request->to_price))){
         $sub_category_products = Product::where('category_group_id', $group->id)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)
             ->when(!empty($request->colors), function($query){
                 if(request('colors') == "Всі"){
@@ -138,6 +140,8 @@ class CategoryController extends Controller
                 }
                 $season = ProductSeason::where('name', request('seasons'))->first();
                 return $query->where('product_season_id',$season->id);
+            })->when($request->to_price > $request->from_price, function($query){
+                return $query->whereBetween('price', [request('from_price'), request('to_price')]);
             })->paginate(9);
 
         // найти материалы

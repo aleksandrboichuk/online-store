@@ -15,13 +15,14 @@
                         <div class="row mb-3">
                             {{--<label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>--}}
                             <div class="col-md-6">
-                                <input id="email" type="email" placeholder="E-mail" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
-                                @error('email')
+                                <input id="email" type="email" placeholder="E-mail" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}"  name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                @if (session()->has('error'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                        <strong>{{ session()->get('error') }}</strong>
+                                        @php(session()->forget('error'))
                                     </span>
-                                @enderror
+                                @endif
                             </div>
                         </div>
 
@@ -71,4 +72,23 @@
     </div>
 </div>
     </section>
+@endsection
+@section('custom-js')
+    <script>
+        $('#email').click(function () {
+            $('.invalid-feedback').css('display', 'none');
+        });
+        $('input').on('input invalid', function() {
+            this.setCustomValidity('');
+            if (this.validity.valueMissing) {
+                this.setCustomValidity("Будь-ласка, заповніть це поле")
+            }
+            if (this.validity.typeMismatch) {
+                this.setCustomValidity("Не відповідає типу поля")
+            }
+            if (this.validity.patternMismatch) {
+                this.setCustomValidity("Не відповідає патерну")
+            }
+        })
+    </script>
 @endsection

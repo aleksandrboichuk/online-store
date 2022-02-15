@@ -2,6 +2,19 @@
         <div class="col-sm-9 filters">
             <div class="filter-item">
                 <div class="filter-title">
+                    <span>Ціна</span>
+                    <img class="filter-img" src="/images/home/arrow-down.png" alt="">
+                </div>
+                <div class="fil-params">
+                    <div class="from-to-price">
+                        <p class="from-price">Від</p><input class="from-size-input" type="text" name="from-price" required>
+                        <p class="to-price">До</p><input  class="to-size-input"type="text" name="to-price" required>
+                    </div>
+
+                </div>
+            </div>
+            <div class="filter-item">
+                <div class="filter-title">
                     <span>Бренд</span>
                     <img class="filter-img" src="/images/home/arrow-down.png" alt="">
                 </div>
@@ -72,6 +85,8 @@
                     </ul>
                 </div>
             </div>
+
+
 
             <button type="submit" class="btn btn-info aaa">Застосувати</button>
         </div>
