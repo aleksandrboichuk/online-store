@@ -15,10 +15,10 @@
                     <tr class="cart_menu">
                         <td class="image"></td>
                         <td class="description"><b>Назва товару</b></td>
-                        <td class="price"><b>Вартість</b></td>
+                        <td class="price"><b>Ціна</b></td>
                         <td class="select-size"><b>Розмір</b></td>
                         <td class="quantity"> <b>Кількість</b></td>
-                        <td class="total"><b>Ціна</b></td>
+                        <td class="total"><b>Усього</b></td>
                         <td></td>
                     </tr>
                     </thead>

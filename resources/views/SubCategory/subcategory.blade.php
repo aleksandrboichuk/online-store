@@ -6,7 +6,7 @@
         </div>
     </section>
 
-    <section>
+    <section class="products-section">
         <div class="container">
             <div class="row">
 
@@ -20,6 +20,16 @@
                         <h2 class="title text-center">{{$sub_category->title}}</h2>
                     </div>
                     @include('parts.filters')
+                    <div class="row">
+                        <div class="col-sm-9 select-order-by" >
+                            <select name="order-by">
+                                <option value="count">За популярністю</option>
+                                <option value="price-asc">За зростанням ціни</option>
+                                <option value="price-desc">За спаданням ціни</option>
+                                <option value="created_at">За новинками</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="products">
                         @foreach($sub_category_products as $item)
                             <div class="col-sm-4 product">
@@ -103,6 +113,7 @@
             });
 
             $('.btn-info').click(function () {
+                let orderBy = $('select[name="order-by"]').val();
                 let from_price = parseInt($('input[name="from-price"]').val());
                 let to_price = parseInt($('input[name="to-price"]').val());
                 /* colors array */
@@ -149,6 +160,7 @@
                             materials: materials,
                             seasons: seasons,
                             sizes: sizes,
+                            orderBy: orderBy,
                             from_price: !isNaN(from_price) ? from_price : 0,
                             to_price: !isNaN(to_price) ? to_price : 1000000
                             // countries: countries

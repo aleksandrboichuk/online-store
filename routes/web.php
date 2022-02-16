@@ -40,6 +40,7 @@ if(preg_match("#^\/women#", \request()->getRequestUri()) == false
 }
 
 //404
+
 if(preg_match("#^\/women#", \request()->getRequestUri()) == false
     && preg_match("#^\/men#", \request()->getRequestUri()) == false
     && preg_match("#^\/girls#", \request()->getRequestUri()) == false
@@ -50,11 +51,9 @@ if(preg_match("#^\/women#", \request()->getRequestUri()) == false
     && preg_match("#^\/admin#", \request()->getRequestUri()) == false
     && preg_match("#^\/personal#", \request()->getRequestUri()) == false) {
 
-    Route::get('/{code}/',function($code){
-       return view('404.404');
-    });
+    Route::get('/{code}/',[\App\Http\Controllers\HomeController::class, 'throwError']);
 
-    }
+}
 
 Route::group([
     'prefix' => 'admin', // префикс маршрута, например user/index
@@ -154,6 +153,7 @@ Route::group([
     Route::post('/sizes/delete/{size_id}',[\App\Http\Controllers\AdminController::class, 'delSize'])->name('delete.size');
 
 });
+
 //cart
 Route::group([
     'prefix' => 'cart',
@@ -175,6 +175,7 @@ Route::group([
     Route::get('/orders/view-order/{order_id}', [\App\Http\Controllers\UserController::class, 'viewUserOrder'])->name('view.order');
 });
 
+//shop management routes
 
 Route::post('/{product_id}/{user_id}',[\App\Http\Controllers\CartController::class, 'addToCart'])->name('add.to.cart')->middleware('auth');
 Route::get('/search',[\App\Http\Controllers\SearchController::class, 'index']);
@@ -183,6 +184,9 @@ Route::get('/{group_seo_name}', [\App\Http\Controllers\CategoryGroupController::
 Route::get('/{group_seo_name}/{category_seo_name}',[\App\Http\Controllers\CategoryController::class,'index'])->name('show.category');
 Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}',[\App\Http\Controllers\CategoryController::class,'showSubCategoryProducts'])->name('show.sub.category');
 Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}/{product_seo_name}',[\App\Http\Controllers\ProductController::class, 'showProductDetails'])->name('show.product.details');
+
+
+//authentication
 
 Auth::routes();
 

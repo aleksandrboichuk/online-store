@@ -98,7 +98,7 @@
     </section>
     <!--start content-->
 
-    <section>
+    <section class="products-section">
         <div class="container">
             <div class="row">
 
@@ -112,10 +112,20 @@
 
                 <div class="col-sm-9 padding-right">
                     <div class="features_items">
-                        <h2 class="title text-center">Популярні товари @if($group->name == "Women") для жінок@elseif($group->name == "Men") для чоловіків@else для дітей@endif
+                        <h2 class="title text-center">Популярні товари @if($group->seo_name == "women") для жінок@elseif($group->seo_name == "men") для чоловіків@elseif($group->seo_name == "girls") для дівчаток@else для хлопчиків@endif
                         </h2>
                     </div>
                     @include('parts.filters')
+                    <div class="row">
+                        <div class="col-sm-9 select-order-by" >
+                            <select name="order-by">
+                                <option value="count">За популярністю</option>
+                                <option value="price-asc">За зростанням ціни</option>
+                                <option value="price-desc">За спаданням ціни</option>
+                                <option value="created_at">За новинками</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="products">
                         @foreach($group_products as $item)
                             <div class="col-sm-4 product">
@@ -178,6 +188,7 @@
             let material = document.querySelectorAll('.material');
             let season = document.querySelectorAll('.season');
             let size = document.querySelectorAll('.size');
+
             var brands  = "" , colors  = "" , materials  = "", seasons  = "", sizes  = "";
 
             $('.color').find('input[type="checkbox"]').change(function () {
@@ -199,7 +210,7 @@
             });
 
             $('.btn-info').click(function () {
-
+                let orderBy = $('select[name="order-by"]').val();
                 let from_price = parseInt($('input[name="from-price"]').val());
                 let to_price = parseInt($('input[name="to-price"]').val());
                 /* colors array */
@@ -246,6 +257,7 @@
                             materials: materials,
                             seasons: seasons,
                             sizes: sizes,
+                            orderBy: orderBy,
                             from_price: !isNaN(from_price) ? from_price : 0,
                             to_price: !isNaN(to_price) ? to_price : 1000000
                             // countries: countries

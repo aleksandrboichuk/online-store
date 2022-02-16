@@ -27,7 +27,12 @@ class Controller extends BaseController
                 }
             }
         }
-        return $group_brands;
+        if(isset($group_brands)){
+            return $group_brands;
+        }else{
+            return  null ;
+        }
+
     }
 
 

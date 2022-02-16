@@ -575,7 +575,17 @@ ul.sub-menu {
 .product-container{
     margin-top: 50px;
 }
+.products-section .container{
+    margin-bottom: 100px;
+}
 
+.no-found{
+    margin-top: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
 
 .fade p{
  color:black;
@@ -808,7 +818,10 @@ h2.title:before {
 .no{
     border-bottom: 1px solid #dedede;
 }
-
+.select-order-by{
+    width: 200px;
+    margin-bottom:30px;
+}
 .filter-title{
     height: 28px;
     border: 1px solid black;
@@ -2446,6 +2459,7 @@ textarea {
 }
 .add-admin .btn a{
     color: white;
+    font-size: 18px;
 }
 
 .form-add{

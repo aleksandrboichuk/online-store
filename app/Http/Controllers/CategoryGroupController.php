@@ -19,7 +19,7 @@ class CategoryGroupController extends Controller
     }
 
     public function index(Request $request,$group_seo_name){
-        $group = CategoryGroup::where('name',$group_seo_name)->first();
+        $group = CategoryGroup::where('seo_name',$group_seo_name)->first();
         $group_products = Product::where('category_group_id',$group->id)->paginate(9);
 
         $group_brands = $this->getGroupBrand($group->id);
@@ -51,6 +51,16 @@ class CategoryGroupController extends Controller
                     return $query->where('product_season_id',$season->id);
                 })->when($request->to_price > $request->from_price , function($query){
                     return $query->whereBetween('price', [request('from_price'), request('to_price')]);
+                })->when(isset($request->orderBy) , function($query){
+                    if(request('orderBy') == 'count'){
+                        return $query->orderBy('count','desc');
+                    }else if(request('orderBy') == 'price-asc'){
+                        return $query->orderBy('price','asc');
+                    }else if(request('orderBy') == 'price-desc'){
+                        return $query->orderBy('price','desc');
+                    }else{
+                        return $query->orderBy('created_at','desc');
+                    }
                 })->paginate(9);
 
             // найти материалы

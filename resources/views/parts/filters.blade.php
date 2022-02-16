@@ -13,6 +13,7 @@
 
                 </div>
             </div>
+            @if(isset($brands) && !empty($brands))
             <div class="filter-item">
                 <div class="filter-title">
                     <span>Бренд</span>
@@ -28,6 +29,8 @@
 
                 </div>
             </div>
+            @endif
+            @if(isset($colors) && !empty($colors))
             <div class="filter-item">
                 <div class="filter-title">
                     <span>Колір</span>
@@ -43,6 +46,8 @@
 
                 </div>
             </div>
+            @endif
+            @if(isset($materials) && !empty($materials))
             <div class="filter-item">
                 <div class="filter-title">
                     <span>Матеріал</span>
@@ -57,6 +62,8 @@
                     </ul>
                 </div>
             </div>
+            @endif
+            @if(isset($seasons) && !empty($seasons))
             <div class="filter-item">
                 <div class="filter-title">
                     <span>Сезон</span>
@@ -71,6 +78,8 @@
                     </ul>
                 </div>
             </div>
+            @endif
+            @if(isset($sizes) && !empty($sizes))
             <div class="filter-item">
                 <div class="filter-title">
                     <span>Розмір</span>
@@ -85,6 +94,7 @@
                     </ul>
                 </div>
             </div>
+            @endif
 
 
 

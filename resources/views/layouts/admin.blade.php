@@ -10,7 +10,6 @@
     <title>Divisima</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="/css/prettyPhoto.css" rel="stylesheet" />
     <link href="/css/price-range.css" rel="stylesheet" />
     <link href="/css/animate.css" rel="stylesheet" />
     <link href="/css/main.css" rel="stylesheet" />
@@ -40,7 +39,7 @@
                         <ul class="nav navbar-nav">
                             @if(isset($user) && !empty($user))
                                 <li>
-                                    <a href="/"><i class="fa fa-user"></i> Особистий кабінет</a>
+                                    <a href="/personal/orders"><i class="fa fa-user"></i> Особистий кабінет</a>
                                 </li>
 
                                 @if($user->superuser)

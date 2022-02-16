@@ -40,9 +40,10 @@ class AdminController extends Controller
 
     public function bannerIndex()
     {
+        $banners = Banner::orderBy('id', 'desc')->get();
         return view('admin.banner.index',[
             'user'=>$this->getUser(),
-            'banners' => Banner::all()
+            'banners' => $banners
         ]);
     }
 
@@ -131,9 +132,10 @@ class AdminController extends Controller
 
     public function categoryIndex()
     {
+        $categories = Category::orderBy('id', 'desc')->get();
         return view('admin.category.index',[
             'user'=>$this->getUser(),
-            'categories' => Category::all()
+            'categories' => $categories
         ]);
     }
 
@@ -228,9 +230,10 @@ class AdminController extends Controller
 
     public function subcategoryIndex()
     {
+        $subcategories =  SubCategory::orderBy('id', 'desc')->get();
         return view('admin.subcategory.index',[
             'user'=>$this->getUser(),
-            'subcategories' => SubCategory::all()
+            'subcategories' => $subcategories
         ]);
     }
 
@@ -319,9 +322,10 @@ class AdminController extends Controller
 
 
     public function productIndex(){
+        $products = Product::orderBy('id', 'desc')->get();
         return view('admin.product.index', [
             'user' => $this->getUser(),
-            'products' => Product::all()
+            'products' => $products
         ]);
     }
 
@@ -496,11 +500,11 @@ class AdminController extends Controller
 
 
     public  function orderIndex(){
-
+    $orders = OrdersList::orderBy('status', 'asc')->get();
         return view('admin.order.orders',[
             'user' => $this->getUser(),
             'statuses' => StatusList::all(),
-            'orders' => OrdersList::all()
+            'orders' =>$orders
         ]);
     }
     public function editOrder($order_id){
@@ -566,10 +570,10 @@ class AdminController extends Controller
 
     public function userIndex(){
 
-
+        $adm_users = User::orderBy('id','asc')->get();
         return view('admin.user.index', [
             'user' => $this->getUser(),
-            'adm_users'=> User::all()
+            'adm_users'=> $adm_users
         ]);
     }
 
@@ -620,9 +624,10 @@ class AdminController extends Controller
                           */
 
     public function colorIndex(){
+        $colors = ProductColor::orderBy('id', 'desc')->get();
         return view('admin.additional-to-products.color.index', [
            'user' => $this->getUser(),
-           'colors' => ProductColor::all()
+           'colors' =>$colors
         ]);
     }
 
@@ -683,9 +688,10 @@ class AdminController extends Controller
 
 
     public function brandIndex(){
+        $brands =  ProductBrand::orderBy('id', 'desc')->get();
         return view('admin.additional-to-products.brand.index', [
             'user' => $this->getUser(),
-            'brands' => ProductBrand::all()
+            'brands' => $brands
         ]);
     }
 
@@ -746,9 +752,10 @@ class AdminController extends Controller
 
 
     public function materialIndex(){
+        $materials = ProductMaterial::orderBy('id', 'desc')->get();
         return view('admin.additional-to-products.material.index', [
             'user' => $this->getUser(),
-            'materials' => ProductMaterial::all()
+            'materials' => $materials
         ]);
     }
 
@@ -809,9 +816,10 @@ class AdminController extends Controller
 
 
     public function sizeIndex(){
+       $sizes =  ProductSize::orderBy('id', 'desc')->get();
         return view('admin.additional-to-products.size.index', [
             'user' => $this->getUser(),
-            'sizes' => ProductSize::all()
+            'sizes' => $sizes
         ]);
     }
 

@@ -12,7 +12,7 @@
             </div>
             <div class="row">
                 <div class="add-admin">
-                    <button type="button" class="btn btn-warning"><a href="/admin/banner/add">Додати</a></button>
+                    <a href="/admin/banner/add"><button type="button" class="btn btn-warning">Додати</button></a>
                 </div>
             </div>
             <div class="table-responsive admin-table-index">

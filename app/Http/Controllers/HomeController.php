@@ -44,4 +44,10 @@ class HomeController extends Controller
        return redirect('/women');
 
     }
+
+    public function throwError($code){
+        return view('404.404', [
+            'user'=>$this->getUser()
+        ]);
+    }
 }
