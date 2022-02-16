@@ -96,7 +96,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="search_box pull-right">
-                        <form action="{{url('search')}}" method="get" ><input type="text" placeholder="Search" value="{{ request('q') }}"/></form>
+                        <form action="{{route('search', [request()->getRequestUri()])}}" method="get" ><input type="text" name="q" placeholder="Search" value=""/></form>
                     </div>
                 </div>
             </div>

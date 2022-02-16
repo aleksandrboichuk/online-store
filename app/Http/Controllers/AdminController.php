@@ -467,17 +467,18 @@ class AdminController extends Controller
                 $material = ProductMaterial::find($m);
                 $product->materials()->save($material);
             }
+        }else{
+            $product->materials()->detach();
         }
         if (isset($request['sizes'])) {
-
             $product->sizes()->detach();
             foreach ($request['sizes'] as $key => $value) {
                 $size = ProductSize::find($value);
                 $product->sizes()->save($size);
                 $product->sizes()->where('product_size_id', $size->id)->update(["count" => $request['size-count'][$value-1]]);
-
             }
-
+        }else{
+            $product->sizes()->detach();
         }
 
         return redirect("/admin/products");
@@ -492,7 +493,7 @@ class AdminController extends Controller
     }
 
 
-                /*
+                        /*
                          *
                          * Editing/Adding/Saving ORDERS
                          *

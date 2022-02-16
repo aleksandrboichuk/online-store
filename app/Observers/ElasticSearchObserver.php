@@ -12,7 +12,7 @@ use Elasticsearch\Client;
 
 class ElasticSearchObserver
 {
-
+//
 //    private $elasticsearch;
 //
 //    public function __construct(Client $elasticsearch )
