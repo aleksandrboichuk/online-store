@@ -16,6 +16,7 @@
                         <h2 class="title text-center">Рузультати пошуку</h2>
                     </div>
                     <div class="products">
+                        @if(isset($products) && !empty($products))
                         @foreach($products as $item)
                             <div class="col-sm-4 product">
                                 <div class="product-image-wrapper">
@@ -46,6 +47,11 @@
                                 </div>
                             </div>
                         @endforeach
+                        @else
+                            <div class="col-sm-12 no-found">
+                                Товари не знайдені
+                            </div>
+                            @endif
                         <div class="row">
                             <div class="col-sm-9">
                                 {{--{{$products->appends(request()->query())->links('parts.pagination')}}--}}
@@ -58,111 +64,4 @@
 
         </div>
     </section>
-@endsection
-
-@section('custom-js')
-    <script>
-        $(document).ready(function() {
-
-            $(document).mouseup( function(e){
-                var div = $( ".filter-item" );
-                if ( !div.is(e.target)
-                    && div.has(e.target).length === 0 ) {
-                    div.find('.fil-params').removeClass('fil-active');
-                    div.find('.filter-img').attr('src', '/images/home/arrow-down.png')
-                }
-            });
-
-            let color = document.querySelectorAll('.color');
-            let brand = document.querySelectorAll('.brand');
-            let material = document.querySelectorAll('.material');
-            let season = document.querySelectorAll('.season');
-            let size = document.querySelectorAll('.size');
-            var brands  = "" , colors  = "" , materials  = "", seasons  = "", sizes  = "";
-
-            $('.color').find('input[type="checkbox"]').change(function () {
-                $('.color').find('input[type="checkbox"]').not(this).prop('checked', false);
-            });
-
-            $('.brand').find('input[type="checkbox"]').change(function () {
-                $('.brand').find('input[type="checkbox"]').not(this).prop('checked', false);
-            });
-
-            $('.material').find('input[type="checkbox"]').change(function () {
-                $('.material').find('input[type="checkbox"]').not(this).prop('checked', false);
-            });
-            $('.season').find('input[type="checkbox"]').change(function () {
-                $('.season').find('input[type="checkbox"]').not(this).prop('checked', false);
-            });
-            $('.size').find('input[type="checkbox"]').change(function () {
-                $('.size').find('input[type="checkbox"]').not(this).prop('checked', false);
-            });
-
-
-            $('.btn-info').click(function () {
-                let orderBy = $('select[name="order-by"]').val();
-                let from_price = parseInt($('input[name="from-price"]').val());
-                let to_price = parseInt($('input[name="to-price"]').val());
-                /* colors array */
-                for (let i = 0; i < color.length; i++) {
-                    if (color[i].firstChild.checked) {
-                        colors = color[i].textContent;
-                    }
-                }
-                /* brands array */
-
-                for (let i = 0; i < brand.length; i++) {
-                    if (brand[i].firstChild.checked) {
-                        brands = brand[i].textContent;
-                    }
-                }
-
-                /* materials array */
-                for (let i = 0; i < material.length; i++) {
-                    if (material[i].firstChild.checked) {
-                        materials = material[i].textContent;
-                    }
-                }
-
-                /* sizes array */
-                for (let i = 0; i < size.length; i++) {
-                    if (size[i].firstChild.checked) {
-                        sizes = size[i].textContent;
-                    }
-                }
-                /* seasons array */
-                for (let i = 0; i < season.length; i++) {
-                    if (season[i].firstChild.checked) {
-                        seasons = season[i].textContent;
-                    }
-                }
-
-                if ((colors != "") || (brands != "") || (materials != "")  || (seasons != "")  || (sizes != "") || !isNaN(from_price) || !isNaN(to_price)){
-                    $.ajax({
-                        url: "{{route('search', $group->seo_name)}}"  ,
-                        type: "GET",
-                        data: {
-                            colors: colors,
-                            brands: brands,
-                            materials: materials,
-                            seasons: seasons,
-                            sizes: sizes,
-                            orderBy: orderBy,
-                            from_price: !isNaN(from_price) ? from_price : 0,
-                            to_price: !isNaN(to_price) ? to_price : 1000000
-                            // countries: countries
-                        },
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: (data) =>{
-                            $('.products').html(data)
-                        }
-
-                    });
-                }
-
-            })
-        })
-    </script>
 @endsection

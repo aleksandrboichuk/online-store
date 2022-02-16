@@ -580,7 +580,8 @@ ul.sub-menu {
 }
 
 .no-found{
-    margin-top: 50px;
+    margin-top: 100px;
+    margin-bottom: 90px;
     font-size: 20px;
     font-weight: bold;
     text-align: center;
@@ -1794,6 +1795,16 @@ h2.title {
     margin-top: 30px;
     margin-bottom: 80px;
 }
+.checkout-area{
+    display: flex;
+}
+.checkout-area .order-message{
+    margin-left: 50px;
+    width: 500px;
+}
+.checkout-area .bill-to{
+    width:600px;
+}
 .total_area span {
     float: right;
 }
@@ -2476,13 +2487,16 @@ textarea {
 .add-block textarea{
     max-width: 500px;
 }
-.add-block input{
+.total_area span input{
     background: #f0f0e9;
     border: 0;
     color: #696763;
     border-radius: 0;
     resize: none;
+    text-align: center;
+    border: 1px solid #2c8bbf;
 }
+
 
 .form-add .btn:not(.add-size){
     float: right;

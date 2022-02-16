@@ -27,10 +27,10 @@ class CheckoutController extends Controller
         try{
             $ordersList = OrdersList::create([
                 "user_id"=> $this->getUser()->id,
-                "name" => $this->getUser()->first_name . ' ' . $this->getUser()->last_name,
-                "email"=> $this->getUser()->email,
-                "phone"=> $this->getUser()->phone,
-                "address"=> $this->getUser()->address,
+                "name" =>$request['user-firstname'] . ' ' . $request['user-lastname'],
+                "email"=> $request['user-email'],
+                "phone"=> $request['user-phone'],
+                "address"=> $request['user-address'],
                 "comment"=> $request['comment'],
                 "total_cost" => $totalSum
             ]);
