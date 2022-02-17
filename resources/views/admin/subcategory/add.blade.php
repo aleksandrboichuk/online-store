@@ -24,7 +24,7 @@
                     <label for="cat-field">Група категорій </label>
                         <select size="5" name="cat-field" class="select-option">
                             @foreach($categories as $c)
-                                <option value="{{$c->id}}">{{$c->name}}</option>
+                                <option value="{{$c->id}}">{{$c->title}}</option>
                             @endforeach
                         </select>
                 </div>

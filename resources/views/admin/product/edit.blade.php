@@ -48,7 +48,7 @@
                         <label for="category-field">Категорія </label>
                         <select size="5" name="category-field" class="select-option">
                             @foreach($categories as $c)
-                                <option value="{{$c->id}}" {{$c->id == $product->category_id ? "selected": ""}}>{{$c->name}}</option>
+                                <option value="{{$c->id}}" {{$c->id == $product->category_id ? "selected": ""}}>{{$c->title}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -56,7 +56,7 @@
                         <label for="sub-category-field">Підкатегорія </label>
                         <select size="5" name="sub-category-field" class="select-option">
                             @foreach($sub_categories as $sc)
-                                <option value="{{$sc->id}}" {{$sc->id == $product->category_sub_id ? "selected": ""}}>{{$sc->name}}</option>
+                                <option value="{{$sc->id}}" {{$sc->id == $product->category_sub_id ? "selected": ""}}>{{$sc->title}}</option>
                             @endforeach
                         </select>
                     </div>

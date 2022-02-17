@@ -51,7 +51,7 @@ class CategoryController extends Controller
                     return $query->where('product_season_id',$season->id);
                 })->when($request->to_price > $request->from_price, function($query){
                     return $query->whereBetween('price', [request('from_price'), request('to_price')]);
-                })->when(isset($request->orderBy) , function($query){
+                })->when(isset($request->orderBy)  && $request->orderBy != "none" , function($query){
                     if(request('orderBy') == 'count'){
                         return $query->orderBy('count','desc');
                     }else if(request('orderBy') == 'price-asc'){
@@ -152,7 +152,7 @@ class CategoryController extends Controller
                 return $query->where('product_season_id',$season->id);
             })->when($request->to_price > $request->from_price, function($query){
                 return $query->whereBetween('price', [request('from_price'), request('to_price')]);
-            })->when(isset($request->orderBy) , function($query){
+            })->when(isset($request->orderBy)  && $request->orderBy != "none" , function($query){
                 if(request('orderBy') == 'count'){
                     return $query->orderBy('count','desc');
                 }else if(request('orderBy') == 'price-asc'){

@@ -22,6 +22,7 @@
                         <label for="seo-field">SEO </label>
                         <input type="text" value="{{$category->seo_name}}" name="seo-field">
                     </div>
+                    @if(isset($category->categoryGroups))
                     <div class="add-block">
                         <label for="cat-field">Група категорій </label>
                         <select size="5" name="cat-field" class="select-option">
@@ -30,6 +31,7 @@
                             @endforeach
                         </select>
                     </div>
+                    @endif
                     <div class="add-block">
                         <label for="active-field">Активність </label>
                         <input type="checkbox" name="active-field" {{$category->active ? "checked" : ""}}>

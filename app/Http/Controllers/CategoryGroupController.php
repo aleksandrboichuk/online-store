@@ -41,24 +41,29 @@ class CategoryGroupController extends Controller
                     }
                     $brand = ProductBrand::where('name', request('brands'))->first();
                     return $query->where('product_brand_id',$brand->id);
-                })
-
-                ->when(!empty($request->seasons), function($query){
+                })->when(!empty($request->seasons), function($query){
                     if(request('seasons') == "Всі"){
                         return $query->where('product_season_id',"!=", 0);
                     }
                     $season = ProductSeason::where('name', request('seasons'))->first();
                     return $query->where('product_season_id',$season->id);
-                })->when($request->to_price > $request->from_price , function($query){
+
+                })->when($request->to_price > $request->from_price, function($query){
+
                     return $query->whereBetween('price', [request('from_price'), request('to_price')]);
-                })->when(isset($request->orderBy) , function($query){
+                })->when(isset($request->orderBy) && $request->orderBy != "none" , function($query){
+
                     if(request('orderBy') == 'count'){
+
                         return $query->orderBy('count','desc');
                     }else if(request('orderBy') == 'price-asc'){
+
                         return $query->orderBy('price','asc');
                     }else if(request('orderBy') == 'price-desc'){
+
                         return $query->orderBy('price','desc');
                     }else{
+
                         return $query->orderBy('created_at','desc');
                     }
                 })->paginate(9);
@@ -98,6 +103,7 @@ class CategoryGroupController extends Controller
                 }
             }
             if($request->ajax()){
+
                 return view('ajax.ajax',[
                     'products' => $group_products,
                     'group' => $group
@@ -106,7 +112,23 @@ class CategoryGroupController extends Controller
         }
 
         /*-------------------------- standard view */
-
+//        foreach ($sizes as $key => $value){
+//            $sizes[$key]['count'] = 0;
+//            foreach ($products as $product) {
+//                foreach ($product->sizes as $s)
+//                    if($s->id == $value->id){
+//                        $sizes[$key]['count'] += 1;
+//                    }
+//            }
+//        }
+//        foreach ($seasons as $key => $value){
+//            $seasons[$key]['count'] = 0;
+//            foreach ($products as $product) {
+//                if($product->product_season_id == $value->id){
+//                    $seasons[$key]['count'] += 1;
+//                }
+//            }
+//        }
 
         return view('index',[
             'banners' => Banner::where('active', 1)->get(),

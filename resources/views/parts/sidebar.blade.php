@@ -11,11 +11,11 @@
                                     data-toggle="collapse"
                                     data-parent="#accordian"
                                     href="#{{$group_category->name}}">
-                                @if(count($group_category->subCategories)>0)
+                                @if(count($group_category->subCategories) > 0)
                                     <span class="badge pull-right"><i class="fa fa-plus"></i></span>
                                     <a href="{{route('show.category',[$group->seo_name, $group_category->seo_name])}}"><strong>{{$group_category->name}}</strong></a>
                                 @else
-                                    <s>{{$group_category->name}}</s>
+                                    <a href="{{route('show.category',[$group->seo_name, $group_category->seo_name])}}"><strong>{{$group_category->name}}</strong></a>
                                 @endif
                             </a>
                         </h4>

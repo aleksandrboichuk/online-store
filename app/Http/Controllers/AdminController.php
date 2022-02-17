@@ -390,11 +390,18 @@ class AdminController extends Controller
             ]);
         }
 
+        if (isset($request['sizes'])) {
+            foreach ($request['size-count'] as $k => $val) {
+                if ($val != null) {
+                    $sizeCount[] = $val;
+                }
+            }
+        }
         for($i = 0; $i < count($request['sizes']); $i++){
             $getProduct->sizes()->attach($getProduct->id,[
                 'product_id' => $getProduct->id,
                 'product_size_id' => $request['sizes'][$i],
-                'count' =>  $request['size-count'][$i]
+                'count' =>  $sizeCount[$i]
             ]);
         }
 
@@ -428,7 +435,7 @@ class AdminController extends Controller
             'brands' => ProductBrand::all(),
             'materials' => ProductMaterial::all(),
             'sizes' => ProductSize::all(),
-            'count_sizes' => $count_sizes,
+            'count_sizes' => isset($count_sizes) ? $count_sizes : null,
             'product' =>  $product,
             'selectedMaterials' => isset($selectedMaterials) ?  $selectedMaterials : [],
             'selectedSizes'=> isset($selectedSizes) ?  $selectedSizes : [],
@@ -471,11 +478,16 @@ class AdminController extends Controller
             $product->materials()->detach();
         }
         if (isset($request['sizes'])) {
+            foreach ($request['size-count'] as $k => $val) {
+                if($val != "0"){
+                    $sizeCount[] = $val;
+                }
+            }
             $product->sizes()->detach();
             foreach ($request['sizes'] as $key => $value) {
                 $size = ProductSize::find($value);
                 $product->sizes()->save($size);
-                $product->sizes()->where('product_size_id', $size->id)->update(["count" => $request['size-count'][$value-1]]);
+                $product->sizes()->where('product_size_id', $size->id)->update(["count" => $sizeCount[$key]]);
             }
         }else{
             $product->sizes()->detach();
@@ -501,7 +513,8 @@ class AdminController extends Controller
 
 
     public  function orderIndex(){
-    $orders = OrdersList::orderBy('status', 'asc')->get();
+    $orders = OrdersList::orderBy('status', 'asc')->orderBy('created_at', 'desc')->get();
+    $orders = OrdersList::orderBy('status', 'asc')->orderBy('created_at', 'desc')->get();
         return view('admin.order.orders',[
             'user' => $this->getUser(),
             'statuses' => StatusList::all(),

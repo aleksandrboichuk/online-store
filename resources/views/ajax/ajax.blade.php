@@ -1,4 +1,4 @@
-@if(isset($products[0]) && !empty($products[0]))
+@if(count($products) > 0 )
     @foreach($products as $item)
         <div class="col-sm-4">
             <div class="product-image-wrapper">

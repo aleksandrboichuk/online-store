@@ -22,6 +22,7 @@
                     <div class="row">
                         <div class="col-sm-9 select-order-by" >
                             <select name="order-by">
+                                <option value="none" selected >За замовчуванням</option>
                                 <option value="count">За популярністю</option>
                                 <option value="price-asc">За зростанням ціни</option>
                                 <option value="price-desc">За спаданням ціни</option>
@@ -163,7 +164,7 @@
                             sizes: sizes,
                             orderBy: orderBy,
                             from_price: !isNaN(from_price) ? from_price : 0,
-                            to_price: !isNaN(to_price) ? to_price : 1000000
+                            to_price: !isNaN(to_price) || to_price == 0  ?  to_price : 1000000
                             // countries: countries
                         },
                         headers: {

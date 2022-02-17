@@ -49,7 +49,7 @@
                         <label for="category-field">Категорія </label>
                         <select size="5" name="category-field" class="select-option">
                             @foreach($categories as $c)
-                                <option value="{{$c->id}}">{{$c->name}}</option>
+                                <option value="{{$c->id}}">{{$c->title}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -57,7 +57,7 @@
                         <label for="sub-category-field">Підкатегорія </label>
                         <select size="5" name="sub-category-field" class="select-option">
                             @foreach($sub_categories as $sc)
-                                <option value="{{$sc->id}}">{{$sc->name}}</option>
+                                <option value="{{$sc->id}}">{{$sc->title}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -122,3 +122,11 @@
     </section>
 
 @endsection
+{{--@section('custom-js')--}}
+
+    {{--<script>--}}
+        {{--$('input[name="sizes\[\]"]').change(function () {--}}
+            {{----}}
+        {{--});--}}
+    {{--</script>--}}
+    {{--@endsection--}}

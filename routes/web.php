@@ -190,8 +190,6 @@ Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}',[\App
 Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}/{product_seo_name}',[\App\Http\Controllers\ProductController::class, 'showProductDetails'])->name('show.product.details');
 
 
-
-
 //authentication
 
 Auth::routes();

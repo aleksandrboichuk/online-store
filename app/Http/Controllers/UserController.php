@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     public function getUserOrders(){
-        $user_orders = OrdersList::where('user_id', $this->getUser()->id)->get();
+        $user_orders = OrdersList::where('user_id', $this->getUser()->id)->orderBy('status', 'asc')->orderBy('created_at', 'desc')->get();
 
         return view('personal-area.orders',[
             'user' => $this->getUser(),

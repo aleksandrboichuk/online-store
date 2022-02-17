@@ -64,7 +64,11 @@
                                 <p><b>Наявність:</b>{{$product->in_stock ? " У наявності": "Немає у наявності"}}</p>
                                 <p><b>Бренд: </b>{{$product->brands['name']}}</p>
                                 <p><b>Колір: </b>{{$product->colors['name']}}</p>
-
+                                    <p><b>Матеріал: </b>
+                                    @foreach($product->materials as $material)
+                                        {{$material->name}},
+                                    @endforeach
+                                    </p>
                                 <p><b>Наявні розміри: </b></p>
                                 <div class="sizes">
                                     @foreach($product->sizes as $size)
@@ -76,7 +80,7 @@
                                 <span>
                                     <label class="quantity-title">Кількість:</label>
                                      <input type="text" class="quantity" name="quantity"  value="1"/>
-                                        <button type="submit" class="btn btn-fefault cart" {{empty($product->sizes[0]['name']) ? "disabled" : ""}}><i class="fa fa-shopping-cart" ></i> До кошику </button>
+                                        <button type="submit" class="btn btn-fefault cart" {{empty($product->sizes[0]['name']) || !isset($user) ? "disabled" : ""}}><i class="fa fa-shopping-cart" ></i> До кошику </button>
                                 </span>
 
                             </div>
