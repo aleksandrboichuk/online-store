@@ -92,6 +92,11 @@ Route::group([
     //products
 
     Route::get('/products', [\App\Http\Controllers\AdminController::class, 'productIndex']);
+    Route::get('/products/men', [\App\Http\Controllers\AdminController::class, 'productIndexMen']);
+    Route::get('/products/women', [\App\Http\Controllers\AdminController::class, 'productIndexWomen']);
+    Route::get('/products/boys', [\App\Http\Controllers\AdminController::class, 'productIndexBoys']);
+    Route::get('/products/girls', [\App\Http\Controllers\AdminController::class, 'productIndexGirls']);
+
     Route::get('/products/add', [\App\Http\Controllers\AdminController::class, 'addProduct']);
     Route::get('/products/edit/{product_id}', [\App\Http\Controllers\AdminController::class, 'editProduct'])->name('edit.product');
 

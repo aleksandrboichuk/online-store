@@ -60,7 +60,14 @@
                                 @endif
                                 <h2><b>{{$product->name}}</b></h2>
                                 <p class="product-id" id="{{$product->id}}">ID: {{$product->id}}</p>
-                                <span class="product-price">₴{{$product->price}}</span>
+                               @if(isset($product->discount) && !empty($product->discount))
+                                        <div class="prices">
+                                            <span class="product-price-old">₴{{$product->price}}</span>
+                                            <h4 class="product-price-discount">₴{{$product->price - (round($product->price * ($product->discount * 0.01)))}}</h4>
+                                        </div>
+                                   @else
+                                        <span class="product-price">₴{{$product->price}}</span>
+                                   @endif
                                 <p><b>Наявність:</b>{{$product->in_stock ? " У наявності": "Немає у наявності"}}</p>
                                 <p><b>Бренд: </b>{{$product->brands['name']}}</p>
                                 <p><b>Колір: </b>{{$product->colors['name']}}</p>
@@ -80,7 +87,7 @@
                                 <span>
                                     <label class="quantity-title">Кількість:</label>
                                      <input type="text" class="quantity" name="quantity"  value="1"/>
-                                        <button type="submit" class="btn btn-fefault cart" {{empty($product->sizes[0]['name']) || !isset($user) ? "disabled" : ""}}><i class="fa fa-shopping-cart" ></i> До кошику </button>
+                                        <button type="submit" class="btn btn-fefault cart" {{empty($product->sizes[0]['name']) || !isset($user) ? "disabled" : ""}}><i class="fa fa-shopping-cart" ></i>{{!isset($user) ? "  Авторизуйтесь " : " До кошику "}} </button>
                                 </span>
 
                             </div>
@@ -189,7 +196,7 @@
             let productSize =  $('.sizes').find('.active-size').find('p').text();
 
             if(isNaN(parseInt(productSize))){
-                productSize = $('.sizes').find('p').text();
+                productSize = $('.sizes').find('p').first().text();
             }
 
             $(this).text("Додано до кошику!");

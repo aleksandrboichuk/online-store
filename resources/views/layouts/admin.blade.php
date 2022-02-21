@@ -39,7 +39,7 @@
                         <ul class="nav navbar-nav">
                             @if(isset($user) && !empty($user))
                                 <li>
-                                    <a href="/personal/orders"><i class="fa fa-user"></i> Особистий кабінет</a>
+                                    <a href="/personal/orders"><i class="fa fa-user"></i> Мої замовлення</a>
                                 </li>
 
                                 @if($user->superuser)
@@ -73,8 +73,8 @@
     <div class="header-bottom">
         <div class="container">
             <div class="row">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-9">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
                     <div class="navbar-header">
                         <button
                                 type="button"
@@ -89,11 +89,18 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
+                            <li><a href="/admin/orders">Замовлення</a></li>
                             <li><a href="/admin/banner">Банер</a></li>
                             <li><a href="/admin/categories">Категорії</a></li>
                             <li><a href="/admin/subcategories">Підкатегорії</a></li>
-                            <li><a href="/admin/products">Товари</a></li>
-                            <li><a href="/admin/orders">Замовлення</a></li>
+                            <li><a href="/admin/products">Товари<i class="fa fa-angle-down"></i></a>
+                                <ul role="menu" class="sub-menu">
+                                    <li><a href="/admin/products/women">Жіночі</a></li>
+                                    <li><a href="/admin/products/men">Чоловічі</a></li>
+                                    <li><a href="/admin/products/boys">Для хлопчиків</a></li>
+                                    <li><a href="/admin/products/girls">Для дівчаток</a></li>
+                                </ul>
+                            </li>
                             <li><a href="/admin/users">Користувачі</a></li>
                             <li class="dropdown">
                                 <a href="#">Параметри товарів<i class="fa fa-angle-down"></i></a>

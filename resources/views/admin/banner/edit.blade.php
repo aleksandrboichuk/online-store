@@ -12,7 +12,7 @@
                     <input type="hidden" name="id" value="{{$banner->id}}">
                     <div class="add-block">
                         <label for="title-field">Заголовок </label>
-                        <input type="text" name="title-field" value="{{$banner->description}}">
+                        <input type="text" name="title-field" value="{{$banner->title}}">
                     </div>
                     <div class="add-block">
                         <label for="description-field">Опис </label>

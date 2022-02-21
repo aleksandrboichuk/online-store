@@ -17,6 +17,7 @@ class Product extends Model
         'preview_img_url',
         'description',
         'price',
+        'discount',
         'count',
         'in_stock',
         'active',

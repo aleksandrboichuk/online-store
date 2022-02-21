@@ -16,7 +16,7 @@
             @if(isset($brands) && !empty($brands))
             <div class="filter-item">
                 <div class="filter-title">
-                    <span>Бренд</span>
+                    <span id="brand-title">Бренд</span>
                     <img class="filter-img" src="/images/home/arrow-down.png" alt="">
                 </div>
                 <div class="fil-params">
@@ -33,7 +33,7 @@
             @if(isset($colors) && !empty($colors))
             <div class="filter-item">
                 <div class="filter-title">
-                    <span>Колір</span>
+                    <span id="color-title">Колір</span>
                     <img class="filter-img" src="/images/home/arrow-down.png" alt="">
                 </div>
                 <div class="fil-params">
@@ -50,7 +50,7 @@
             @if(isset($materials) && !empty($materials))
             <div class="filter-item">
                 <div class="filter-title">
-                    <span>Матеріал</span>
+                    <span id="material-title">Матеріал</span>
                     <img class="filter-img" src="/images/home/arrow-down.png" alt="">
                 </div>
                 <div class="fil-params">
@@ -66,7 +66,7 @@
             @if(isset($seasons) && !empty($seasons))
             <div class="filter-item">
                 <div class="filter-title">
-                    <span>Сезон</span>
+                    <span id="season-title">Сезон</span>
                     <img class="filter-img" src="/images/home/arrow-down.png" alt="">
                 </div>
                 <div class="fil-params">
@@ -82,7 +82,7 @@
             @if(isset($sizes) && !empty($sizes))
             <div class="filter-item">
                 <div class="filter-title">
-                    <span>Розмір</span>
+                    <span id="size-title">Розмір</span>
                     <img class="filter-img" src="/images/home/arrow-down.png" alt="">
                 </div>
                 <div class="fil-params">

@@ -33,7 +33,7 @@
                         <ul class="nav navbar-nav">
                             @if(isset($user) && !empty($user))
                             <li>
-                                <a href="/personal/orders"><i class="fa fa-user"></i> Особистий кабінет</a>
+                                <a href="/personal/orders"><i class="fa fa-user"></i> Мої замовлення</a>
                             </li>
                             {{--<li>--}}
                                 {{--<a href="/"><i class="fa fa-star"></i> Обране</a>--}}
@@ -84,10 +84,10 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a href="/women" class="women">Жінкам</a></li>
+                            <li><a href="/shop/women" class="women">Жінкам</a></li>
                             <li><a href="/shop/men" class="men">Чоловікам</a></li>
                             <li class="dropdown">
-                                <a href="" class="kids">Дітям<i class="fa fa-angle-down"></i></a>
+                                <a href="#" class="kids">Дітям<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li><a href="/shop/girls">Дівчаткам</a></li>
                                     <li><a href="/shop/boys">Хлопчикам</a></li>
@@ -123,11 +123,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-3"></div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="single-widget">
                         <h2><b>Про нас</b></h2>
                         <ul class="nav nav-pills nav-stacked">
-                            <li>Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил без заметных изменений пять веков,</li>
+                            <li>
+                                <b>Divisima</b> - це український онлайн-магазин шопінгу. Тут представлені тисячі товарів одягу, аксесуарів та взуття для чоловіків, жінок та навіть дітей.
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -144,7 +146,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <div class="single-widget">
                         <img src="/images/home/logo.png" alt="">
                     </div>

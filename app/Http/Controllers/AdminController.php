@@ -329,6 +329,35 @@ class AdminController extends Controller
         ]);
     }
 
+    public function productIndexMen(){
+        $products = Product::where('category_group_id', 1)->orderBy('id', 'desc')->get();
+        return view('admin.product.index', [
+            'user' => $this->getUser(),
+            'products' => $products
+        ]);
+    }
+    public function productIndexWomen(){
+        $products = Product::where('category_group_id', 2)->orderBy('id', 'desc')->get();
+        return view('admin.product.index', [
+            'user' => $this->getUser(),
+            'products' => $products
+        ]);
+    }
+    public function productIndexBoys(){
+        $products = Product::where('category_group_id', 3)->orderBy('id', 'desc')->get();
+        return view('admin.product.index', [
+            'user' => $this->getUser(),
+            'products' => $products
+        ]);
+    }
+    public function productIndexGirls(){
+        $products = Product::where('category_group_id', 4)->orderBy('id', 'desc')->get();
+        return view('admin.product.index', [
+            'user' => $this->getUser(),
+            'products' => $products
+        ]);
+    }
+
     //show adding form
 
     public function addProduct(){
@@ -357,6 +386,7 @@ class AdminController extends Controller
             'image-field'=>['required', 'string', 'min:5',  'unique:products'],
             'description-field'=>['required', 'string'],
             'price-field'=>['required', 'integer'],
+            'discount-field'=>['required', 'integer'],
             'count-field'=>['required', 'integer'],
         ]);
 
@@ -371,6 +401,7 @@ class AdminController extends Controller
             'preview_img_url' => $request['image-field'],
             'description' => $request['description-field'],
             'price' => $request['price-field'],
+            'discount' => isset($request['discount-field']) ? intval($request['discount-field']) : null ,
             'count' => $request['count-field'],
             'active' => $active,
             'category_group_id' => $request['cat-field'],
@@ -396,14 +427,15 @@ class AdminController extends Controller
                     $sizeCount[] = $val;
                 }
             }
+            for($i = 0; $i < count($request['sizes']); $i++){
+                $getProduct->sizes()->attach($getProduct->id,[
+                    'product_id' => $getProduct->id,
+                    'product_size_id' => $request['sizes'][$i],
+                    'count' =>  $sizeCount[$i]
+                ]);
+            }
         }
-        for($i = 0; $i < count($request['sizes']); $i++){
-            $getProduct->sizes()->attach($getProduct->id,[
-                'product_id' => $getProduct->id,
-                'product_size_id' => $request['sizes'][$i],
-                'count' =>  $sizeCount[$i]
-            ]);
-        }
+
 
         return redirect('/admin/products');
     }
@@ -451,12 +483,14 @@ class AdminController extends Controller
         if($request['active-field'] == "on"){
             $active = true;
         }
+
         $product->update([
             'name' => $request['name-field'],
             'seo_name' => $request['seo-field'],
             'preview_img_url' => $request['image-field'],
             'description' => $request['description-field'],
             'price' => $request['price-field'],
+            'discount' => isset($request['discount-field']) ? intval($request['discount-field']) : null ,
             'count' => $request['count-field'],
             'active' => $active,
             'category_group_id' => $request['cat-field'],

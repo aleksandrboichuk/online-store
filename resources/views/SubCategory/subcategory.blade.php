@@ -41,7 +41,14 @@
                                         <div class="productinfo text-center">
                                             <a class="product-single" href="{{route('show.product.details',[$group->seo_name, $item->categories['seo_name'], $item->subCategories['seo_name'],$item->seo_name ])}}">
                                                 <img src="/images/preview-images/{{$item->preview_img_url}}" alt="" />
-                                                <h4>₴{{$item->price}}</h4>
+                                                @if(isset($item->discount) && !empty($item->discount))
+                                                    <div class="product-single-prices">
+                                                        <span class="product-single-old-price">₴{{$item->price}}</span>
+                                                        <span class="product-single-discount">₴{{$item->price - (round($item->price * ($item->discount * 0.01)))}}</span>
+                                                    </div>
+                                                @else
+                                                    <h4>₴{{$item->price}}</h4>
+                                                @endif
                                                 <h5><strong>{{$item->brands['name']}}</strong> / {{$item->name}}</h5>
                                             </a>
                                             <span class="sizes-info"><strong>Розміри:</strong>
@@ -121,6 +128,10 @@
                 for (let i = 0; i < color.length; i++) {
                     if (color[i].firstChild.checked) {
                         colors = color[i].textContent;
+                        if(colors != "Всі") {
+                            document.getElementById('color-title').textContent = "Колір (1)";
+                        }else{
+                            document.getElementById('color-title').textContent = "Колір";                        }
                     }
                 }
                 /* brands array */
@@ -128,6 +139,11 @@
                 for (let i = 0; i < brand.length; i++) {
                     if (brand[i].firstChild.checked) {
                         brands = brand[i].textContent;
+                        if(brands != "Всі") {
+                            document.getElementById('brand-title').textContent = "Бренд (1)";
+                        }else{
+                            document.getElementById('brand-title').textContent = "Бренд";
+                        }
                     }
                 }
 
@@ -135,6 +151,11 @@
                 for (let i = 0; i < material.length; i++) {
                     if (material[i].firstChild.checked) {
                         materials = material[i].textContent;
+                        if(materials != "Всі") {
+                            document.getElementById('material-title').textContent = "Матеріал (1)";
+                        }else{
+                            document.getElementById('material-title').textContent = "Матеріал";
+                        }
                     }
                 }
 
@@ -142,12 +163,22 @@
                 for (let i = 0; i < size.length; i++) {
                     if (size[i].firstChild.checked) {
                         sizes = size[i].textContent;
+                        if(sizes != "Всі") {
+                            document.getElementById('size-title').textContent = "Розмір (1)";
+                        }else{
+                            document.getElementById('size-title').textContent = "Розмір";
+                        }
                     }
                 }
                 /* seasons array */
                 for (let i = 0; i < season.length; i++) {
                     if (season[i].firstChild.checked) {
                         seasons = season[i].textContent;
+                        if(seasons != "Всі"){
+                            document.getElementById('season-title').textContent = "Сезон (1)";
+                        }else{
+                            document.getElementById('season-title').textContent = "Сезон";
+                        }
                     }
                 }
 

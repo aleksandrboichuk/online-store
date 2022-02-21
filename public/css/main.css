@@ -478,6 +478,8 @@ ul.sub-menu {
     position: absolute;
     right: 20%;
     top: 40%;
+    max-width: 180px;
+    max-height: 180px;
 }
 .slider-text{
     position: absolute;
@@ -1186,8 +1188,26 @@ h2.title {
 .product-single h4{
     color: #fe980f;
     font-size: 22px;
+    font-weight: bold;
 }
 
+.product-single-prices{
+    text-align: center;
+    margin-top: 10px;
+}
+.product-single-old-price{
+    font-size: 18px;
+    color: black;
+    text-decoration: line-through;
+    margin-right: 10px;
+
+}
+.product-single-discount{
+    font-size: 22px;
+    color: red;
+    font-weight: bold;
+
+}
 .product-single h5{
     color: black;
 
@@ -1684,6 +1704,24 @@ h2.title {
     font-size: 30px;
     font-weight: bold;
     margin-bottom: 20px;
+}
+
+.product-price-old{
+    color: #000;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-decoration: line-through;
+}
+.product-price-discount{
+    color: red;
+    font-size: 27px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+.prices{
+    display: flex;
 }
 .cart_price{
     width: 190px;
@@ -2604,6 +2642,7 @@ textarea {
     font-size: 18px;
     background: #f0f0e9;
     border: 0;
+    padding: 5px;
     color: #696763;
     border-radius: 0;
     resize: none;

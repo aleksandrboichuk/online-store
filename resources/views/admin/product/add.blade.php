@@ -9,27 +9,31 @@
                 {{--<h2>Додавання категорії</h2>--}}
                 <form action="{{route('save.product')}}" method="post">
                     <div class="add-block">
-                        <label for="name-field">Назва </label>
+                        <label for="name-field">Назва* </label>
                         <input type="text" name="name-field">
                     </div>
                     <div class="add-block">
-                        <label for="seo-field">SEO </label>
+                        <label for="seo-field">SEO* </label>
                         <input type="text" name="seo-field">
                     </div>
                     <div class="add-block">
-                        <label for="image-field">Посилання на зображення </label>
+                        <label for="image-field">Посилання на зображення* </label>
                         <input type="text" name="image-field">
                     </div>
                     <div class="add-block">
-                        <label for="description-field">Опис </label>
+                        <label for="description-field">Опис* </label>
                         <textarea rows="10" name="description-field"> </textarea>
                     </div>
                     <div class="add-block">
-                        <label for="price-field">Ціна </label>
+                        <label for="price-field">Ціна* </label>
                         <input type="text" name="price-field">
                     </div>
                     <div class="add-block">
-                        <label for="count-field">Кількість </label>
+                        <label for="discount-field">Знижка (%) </label>
+                        <input type="text" name="discount-field">
+                    </div>
+                    <div class="add-block">
+                        <label for="count-field">Кількість* </label>
                         <input type="text" name="count-field">
                     </div>
                     <div class="add-block">
@@ -37,7 +41,7 @@
                         <input type="checkbox" name="active-field">
                     </div>
                     <div class="add-block">
-                        <label for="cat-field">Група категорій </label>
+                        <label for="cat-field">Група категорій* </label>
                         <select size="5" name="cat-field" class="select-option">
                             @foreach($category_groups as $g)
                                 <option value="{{$g->id}}">{{$g->name}}</option>
@@ -46,7 +50,7 @@
 
                     </div>
                     <div class="add-block">
-                        <label for="category-field">Категорія </label>
+                        <label for="category-field">Категорія* </label>
                         <select size="5" name="category-field" class="select-option">
                             @foreach($categories as $c)
                                 <option value="{{$c->id}}">{{$c->title}}</option>
@@ -54,7 +58,7 @@
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="sub-category-field">Підкатегорія </label>
+                        <label for="sub-category-field">Підкатегорія* </label>
                         <select size="5" name="sub-category-field" class="select-option">
                             @foreach($sub_categories as $sc)
                                 <option value="{{$sc->id}}">{{$sc->title}}</option>
@@ -62,7 +66,7 @@
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="color-field">Колір </label>
+                        <label for="color-field">Колір* </label>
                         <select size="5" name="color-field" class="select-option">
                             @foreach($colors as $col)
                                 <option value="{{$col->id}}">{{$col->name}}</option>
@@ -70,7 +74,7 @@
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="season-field">Сезон </label>
+                        <label for="season-field">Сезон* </label>
                         <select size="5" name="season-field" class="select-option">
                             @foreach($seasons as $s)
                                 <option value="{{$s->id}}">{{$s->name}}</option>
@@ -78,7 +82,7 @@
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="brand-field">Бренд </label>
+                        <label for="brand-field">Бренд* </label>
                         <select size="5" name="brand-field" class="select-option">
                             @foreach($brands as $b)
                                 <option value="{{$b->id}}">{{$b->name}}</option>
@@ -86,7 +90,7 @@
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="">Матеріал </label>
+                        <label for="">Матеріал* </label>
                         <div class="inputs-block">
                                 @foreach($materials as $m)
                                 <div class="input-block-item">
@@ -97,7 +101,7 @@
                         </div>
                     </div>
                     <div class="add-block">
-                        <label for="">Розмір </label>
+                        <label for="">Розмір* </label>
                         <div class="inputs-block">
                             @foreach($sizes as $si)
                                 <div class="input-block-item">
@@ -117,7 +121,6 @@
             </div>
             <div class="col-sm-2"></div>
         </div>
-{{----}}
 
     </section>
 
