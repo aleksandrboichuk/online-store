@@ -41,7 +41,9 @@ if(preg_match("#^\/login#", \request()->getRequestUri()) == true
     })->middleware('app.auth');
 }
 
-//404
+/**
+ * 404
+ */
 
 if(preg_match("#^\/register#", \request()->getRequestUri()) == false
     && preg_match("#^\/logout#", \request()->getRequestUri()) == false
@@ -56,7 +58,7 @@ if(preg_match("#^\/register#", \request()->getRequestUri()) == false
 
 Route::group([
     'prefix' => 'admin',
-    'middleware' => ['auth']
+    'middleware' => ['app.auth', 'auth']
 ],function () {
 
     //banner
@@ -153,7 +155,11 @@ Route::group([
 
 });
 
-//cart
+
+/**
+ * cart
+ */
+
 Route::group([
     'prefix' => 'cart',
     'middleware' => ['auth']
@@ -174,7 +180,10 @@ Route::group([
     Route::get('/orders/view-order/{order_id}', [\App\Http\Controllers\UserController::class, 'viewUserOrder'])->name('view.order');
 });
 
-//shop management routes
+/**
+ * shop
+ */
+
 Route::group([
     'prefix' => 'shop',
 ], function () {
@@ -193,7 +202,10 @@ Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}/{produ
 });
 
 
-//authentication
+/**
+ * auth
+ */
+
 
 Auth::routes();
 

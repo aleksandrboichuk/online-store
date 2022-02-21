@@ -9,7 +9,9 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -73,6 +75,13 @@ class RegisterController extends Controller
 
         Cart::create([
             'user_id' => $registeredUser->id
+        ]);
+
+        $credentials = $request->only('email', 'password');
+        Auth::attempt($credentials);
+        User::where('email', $request['email'])->update([
+            'session_token' => Str::random(60),
+            'last_logged_in' => date("Y-m-d H:i:s"),
         ]);
 
         return redirect('/shop/women');

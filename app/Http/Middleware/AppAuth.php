@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,13 @@ class AppAuth
         if($request->getRequestUri() == '/login' || $request->getRequestUri() == '/register' ){
             if (Auth::check()) {
                 return redirect('/shop/women');
+            }
+        }elseif(preg_match('/^\/admin/',$request->getRequestUri())){
+            if (Auth::check()) {
+                $user = User::find(Auth::id());
+                if (!$user->superuser) {
+                    return redirect('/shop/women');
+                }
             }
         }
         return $next($request);

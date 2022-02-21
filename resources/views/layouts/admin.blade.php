@@ -44,7 +44,7 @@
 
                                 @if($user->superuser)
                                     <li>
-                                        <a href="/admin"><i class="fa fa-crosshairs"></i> Admin</a>
+                                        <a href="/admin"><i class="fa fa-crosshairs"></i> Панель Адміністратора</a>
                                     </li>
                                 @endif
                                 <li>
