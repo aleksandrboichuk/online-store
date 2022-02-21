@@ -21,7 +21,7 @@
                         </h4>
                     </div>
                     @if(count($group_category->subCategories)>0)
-                        <div id="{{$group_category->name}}" class="panel-collapse collapse">
+                        <div id="{{$group_category->name}}" class="panel-collapse in">
                             <div class="panel-body">
                                 <ul>
                                     @foreach($group_category->subCategories as $single_sub_cat)
