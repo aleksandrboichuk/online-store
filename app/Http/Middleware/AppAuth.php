@@ -19,7 +19,7 @@ class AppAuth
     {
         if($request->getRequestUri() == '/login' || $request->getRequestUri() == '/register' ){
             if (Auth::check()) {
-                return redirect('/women');
+                return redirect('/shop/women');
             }
         }
         return $next($request);

@@ -12,17 +12,17 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/home', function (){
-    return redirect('/women');
+Route::get('/', function (){
+    return redirect('/shop/women');
 });
 
 
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
 Route::post('/send-message',  [App\Http\Controllers\HomeController::class, 'sendMessage'])->name('send.message');
-if(preg_match("#^\/women#", \request()->getRequestUri()) == false
-    && preg_match("#^\/men#", \request()->getRequestUri()) == false
-    && preg_match("#^\/girls#", \request()->getRequestUri()) == false
-    && preg_match("#^\/boys#", \request()->getRequestUri()) == false){
+
+if(preg_match("#^\/login#", \request()->getRequestUri()) == true
+    || preg_match("#^\/register#", \request()->getRequestUri()) == true
+    || preg_match("#^\/admin#", \request()->getRequestUri()) == true){
 
     Route::get('/{code}/',function($code){
         if($code === 'login'){
@@ -43,11 +43,8 @@ if(preg_match("#^\/women#", \request()->getRequestUri()) == false
 
 //404
 
-if(preg_match("#^\/women#", \request()->getRequestUri()) == false
-    && preg_match("#^\/men#", \request()->getRequestUri()) == false
-    && preg_match("#^\/girls#", \request()->getRequestUri()) == false
-    && preg_match("#^\/boys#", \request()->getRequestUri()) == false
-    && preg_match("#^\/register#", \request()->getRequestUri()) == false
+if(preg_match("#^\/register#", \request()->getRequestUri()) == false
+    && preg_match("#^\/logout#", \request()->getRequestUri()) == false
     && preg_match("#^\/login#", \request()->getRequestUri()) == false
     && preg_match("#^\/search#", \request()->getRequestUri()) == false
     && preg_match("#^\/admin#", \request()->getRequestUri()) == false
@@ -58,8 +55,8 @@ if(preg_match("#^\/women#", \request()->getRequestUri()) == false
 }
 
 Route::group([
-    'prefix' => 'admin', // префикс маршрута, например user/index
-    'middleware' => ['auth'] // один или несколько посредников
+    'prefix' => 'admin',
+    'middleware' => ['auth']
 ],function () {
 
     //banner
@@ -178,6 +175,10 @@ Route::group([
 });
 
 //shop management routes
+Route::group([
+    'prefix' => 'shop',
+], function () {
+
 
 Route::get('/{seo_names}/search',[\App\Http\Controllers\SearchController::class, 'index'])->name('search');
 
@@ -189,12 +190,18 @@ Route::get('/{group_seo_name}/{category_seo_name}',[\App\Http\Controllers\Catego
 Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}',[\App\Http\Controllers\CategoryController::class,'showSubCategoryProducts'])->name('show.sub.category');
 Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}/{product_seo_name}',[\App\Http\Controllers\ProductController::class, 'showProductDetails'])->name('show.product.details');
 
+});
+
 
 //authentication
 
 Auth::routes();
 
 Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class, 'toLogin'])->name('login');
+Route::get('/logout', function(){
+    Auth::logout();
+    return redirect('/login');
+});
 Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'toRegister'])->name('register');
 
 

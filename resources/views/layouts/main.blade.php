@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-md-4 clearfix">
                     <div class="logo pull-left">
-                        <a href="/women"><img src="/images/home/logo.png" alt=""
+                        <a href="/shop/women"><img src="/images/home/logo.png" alt=""
                             /></a>
                     </div>
 
@@ -46,6 +46,9 @@
                             <li>
                                 <a href="{{route('show.cart', $user->id)}}"><i class="fa fa-shopping-cart"></i> Кошик ({{isset($user->cart->products) ? count($user->cart->products) : "0"}})</a>
                             </li>
+                                <li>
+                                    <a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Вихід</a>
+                                </li>
                             @else
                             <li>
                                 <a href="/login"><i class="fa fa-lock"></i> Увійти</a>
@@ -82,12 +85,12 @@
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <li><a href="/women" class="women">Жінкам</a></li>
-                            <li><a href="/men" class="men">Чоловікам</a></li>
+                            <li><a href="/shop/men" class="men">Чоловікам</a></li>
                             <li class="dropdown">
                                 <a href="" class="kids">Дітям<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
-                                    <li><a href="/girls">Дівчаткам</a></li>
-                                    <li><a href="/boys">Хлопчикам</a></li>
+                                    <li><a href="/shop/girls">Дівчаткам</a></li>
+                                    <li><a href="/shop/boys">Хлопчикам</a></li>
                                 </ul>
                             </li>
                             <li><a href="/contact">Контакти</a></li>

@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 class CategoryGroupController extends Controller
 {
     public function home(){
-        return redirect('/women');
+        return redirect('/shop/women');
     }
 
     public function index(Request $request,$group_seo_name){

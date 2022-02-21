@@ -41,7 +41,7 @@ class HomeController extends Controller
            'theme' => $request['theme'],
            'message'=> $request['message']
        ]);
-       return redirect('/women');
+       return redirect('/shop/women');
 
     }
 

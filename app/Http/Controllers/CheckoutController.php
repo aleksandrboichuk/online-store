@@ -68,6 +68,6 @@ class CheckoutController extends Controller
 
 
 
-        return redirect('/women');
+        return redirect('/personal/orders');
     }
 }

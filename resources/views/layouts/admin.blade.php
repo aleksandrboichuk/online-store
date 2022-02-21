@@ -29,7 +29,7 @@
             <div class="row">
                 <div class="col-md-4 clearfix">
                     <div class="logo pull-left">
-                        <a href="/women"><img src="/images/home/logo.png" alt=""
+                        <a href="/shop/women"><img src="/images/home/logo.png" alt=""
                             /></a>
                     </div>
 
@@ -49,6 +49,9 @@
                                 @endif
                                 <li>
                                     <a href="{{route('show.cart', $user->id)}}"><i class="fa fa-shopping-cart"></i> Кошик ({{isset($user->cart->products) ? count($user->cart->products) : "0"}})</a>
+                                </li>
+                                <li>
+                                    <a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Вихід</a>
                                 </li>
                             @else
                                 <li>

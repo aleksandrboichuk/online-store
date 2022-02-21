@@ -56,7 +56,7 @@ class LoginController extends Controller
                 'last_logged_in' => date("Y-m-d H:i:s"),
             ]);
 
-            return  redirect('/women');
+            return  redirect('/shop/women');
         } else{
             session(
                 [

@@ -75,7 +75,7 @@ class RegisterController extends Controller
             'user_id' => $registeredUser->id
         ]);
 
-        return redirect('/women');
+        return redirect('/shop/women');
 
     }
 }
