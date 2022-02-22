@@ -129,7 +129,7 @@
                     </div>
                     <div class="products">
                         @foreach($group_products as $item)
-                            <div class="col-sm-4 product">
+                            <div class="col-xs-9 col-sm-9 col-md-6 col-lg-4 product">
                                 <div class="product-image-wrapper">
 
                                     <!--single product-->
@@ -217,6 +217,13 @@
                 $('.size').find('input[type="checkbox"]').not(this).prop('checked', false);
             });
 
+
+            $('.btn-danger-filters').click(function () {
+                var a = location.href;
+                var b = a.split('?');
+                window.location.href = b[0];
+            });
+
             $('.btn-info').click(function () {
                 let orderBy = $('select[name="order-by"]').val();
                 let from_price = parseInt($('input[name="from-price"]').val());
@@ -297,10 +304,9 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        success: (data) =>{
+                        success: function(data){
                             $('.products').html(data)
                         }
-
                     });
                 }
 

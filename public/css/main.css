@@ -184,6 +184,9 @@ a#scrollUp i {
 .navbar-collapse.collapse {
     padding-left: 0;
 }
+.nav > li > a:hover, .nav > li > a:focus{
+    background-color:#232323 ;
+}
 .mainmenu{
     padding-top: 5px;
 }
@@ -799,11 +802,7 @@ h2.title:before {
     padding: 10px;
 }
 .filters{
-    display: flex;
     width: 100%;
-    max-width: 150px;
-    margin-bottom: 50px;
-    height: 10px;
 }
 
 .filter-item{
@@ -829,7 +828,6 @@ h2.title:before {
     height: 28px;
     border: 1px solid black;
     border-radius: 5px;
-    margin: 0 auto;
     padding: 0px;
     text-align: center;
     width: 140px;
@@ -874,14 +872,23 @@ h2.title:before {
     z-index: 1000;
 }
 
-.btn-info{
-    font-weight: bold;
-    margin: 0 0 5px 15px;
+.btn-info-filters{
+
+    margin: 20px 0 20px 0;
     height: 29px;
-    padding: 0 15px 0 15px ;
+    padding: 0 10px 0 10px ;
     border-radius: 5px;
     font-size: 16px;
 
+}
+
+.btn-danger-filters{
+
+    margin: 20px 0 20px 0;
+    height: 29px;
+    padding: 0 5px 0 5px ;
+    border-radius: 5px;
+    font-size: 16px;
 }
 h2.title {
     color: #fe980f;
@@ -2657,4 +2664,74 @@ textarea {
     text-align: center;
     color: #000;
     font-size: 25px;
+}
+
+
+@media screen and (max-width: 850px) {
+    .slider-text h3 {
+        font-size: 52px;
+        max-width: 320px;
+    }
+    .slider-text p{
+        max-width: 320px;
+    }
+
+    h2, .h2{
+        font-size: 18px;
+    }
+    .filter-title{
+        margin-bottom: 20px;
+    }
+
+    .fil-params{
+        max-height: 100px;
+        width: 200px;
+    }
+    .products,.left-sidebar{
+        padding-left: 40px;
+    }
+
+
+}
+
+@media screen and (min-width: 851px) and  (max-width: 1000px){
+    .slider-text h3 {
+        font-size: 52px;
+        max-width: 320px;
+    }
+    .slider-text p{
+        max-width: 320px;
+    }
+
+    h2, .h2{
+        font-size: 18px;
+    }
+    .filter-title{
+        margin-bottom: 20px;
+    }
+
+    .fil-params{
+        max-height: 100px;
+        width: 200px;
+    }
+    .products,.left-sidebar{
+        padding-left: 40px;
+    }
+    .btn-danger-filters{
+        margin: 20px 0 20px 0;
+    }
+    .btn-info-filters{
+        margin: 20px 0 20px 0;
+    }
+}
+
+@media screen and (min-width: 1000px) and  (max-width: 1200px) {
+    .filter-title{
+        margin-bottom: 20px;
+    }
+    .fil-params{
+        max-height: 120px;
+        width: 200px;
+    }
+
 }
