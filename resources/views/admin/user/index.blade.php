@@ -36,7 +36,7 @@
                                 <p>{{$adm_user->email}}</p>
                             </td>
                             <td>
-                                <p>{{$adm_user->superuser ? "Админ" : "Користувач"}}</p>
+                                <p>{{$adm_user->superuser ? "Адмін" : "Користувач"}}</p>
                             </td>
                             <td>
                                 <p>{{$adm_user->first_name . ' ' . $adm_user->last_name}}</p>
@@ -48,7 +48,7 @@
                                 <input type="checkbox" {{$adm_user->active ? "checked" : ""}} disabled>
                             </td>
                             <td>
-                                <p>{{$adm_user->last_logged_in}}</p>
+                                <p>{{date("d.m.Y - H:i", strtotime($adm_user->last_logged_in))}}</p>
                             </td>
                             <td>
                                 <form action="{{route('delete.user',$adm_user->id)}}" method="post">

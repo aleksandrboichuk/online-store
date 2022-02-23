@@ -184,9 +184,7 @@ a#scrollUp i {
 .navbar-collapse.collapse {
     padding-left: 0;
 }
-.nav > li > a:hover, .nav > li > a:focus{
-    background-color:#232323 ;
-}
+
 .mainmenu{
     padding-top: 5px;
 }
@@ -1176,10 +1174,11 @@ h2.title {
 }
 .product-details {
     overflow: hidden;
+
 }
 
 .product-images{
-    height: 700px;
+    height: 800px;
     width: 470px;
 }
 .product-img{
@@ -1220,14 +1219,15 @@ h2.title {
 
 }
 #similar-product {
-    margin-top: 40px;
+    margin-top: 20px;
 }
 #reviews {
     padding-left: 25px;
     padding-right: 25px;
 }
 .product-details {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
+    height: 800px;
     overflow: hidden;
     margin-top: 10px;
 }
@@ -1236,7 +1236,8 @@ h2.title {
 }
 .view-product img {
     border: 1px solid #f7f7f0;
-    height: 550px;
+    padding: 5px;
+    height: 600px;
     width: 100%;
 }
 .view-product h3 {
@@ -1257,6 +1258,8 @@ h2.title {
 #similar-product .carousel-inner .item img {
     display: inline-block;
     margin-left: 15px;
+    border: 1px solid #e4e4e0;
+    padding: 3px;
 }
 .item-control {
     position: absolute;
@@ -1293,6 +1296,15 @@ h2.title {
     width: 39px;
     cursor: pointer;
 
+}
+.size-item:hover{
+    background-color: #fe980f;
+    color: #fff;
+    transition: all .2s linear;
+}
+.size-item:hover p{
+    color: #fff;
+    transition: all .2s linear;
 }
 .active-size{
     background-color: #fe980f;
@@ -2391,7 +2403,7 @@ textarea {
 .btn.btn-primary {
     background: #fe980f;
     border: 1px solid #b8b8b8;
-    border-radius: 0;
+    border-radius: 5px;
     margin-top: 16px;
 }
 .blank-arrow {
@@ -2526,7 +2538,7 @@ textarea {
 .add-block{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 
 }
 .add-block textarea{
@@ -2578,6 +2590,7 @@ textarea {
     margin-bottom: 0;
     margin-left: 10px;
     font-weight: 400;
+    margin-top: 6px;
 }
 
 .admin-table a{
@@ -2666,6 +2679,16 @@ textarea {
     font-size: 25px;
 }
 
+
+.add-sizes{
+    max-height: 550px;
+    overflow: auto;
+}
+.add-materials{
+    max-height: 400px;
+    overflow: auto;
+
+}
 
 @media screen and (max-width: 850px) {
     .slider-text h3 {

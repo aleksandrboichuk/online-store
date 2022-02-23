@@ -1,5 +1,7 @@
 @extends('layouts.main')
-
+@section('custom-css')
+    <link rel="stylesheet" href="/css/jquery.fancybox.min.css">
+    @endsection
 @section('content')
 
     <section>
@@ -14,7 +16,9 @@
                     <div class="product-details">
                         <div class="col-sm-7 product-images">
                             <div class="view-product">
-                                <img class="main-product-img" src="/images/preview-images/{{$product->preview_img_url}}" alt="" />
+                                <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/images/preview-images/{{$product->preview_img_url}}">
+                                    <img class="main-product-img" src="/images/preview-images/{{$product->preview_img_url}}" alt="" />
+                                </a>
                             </div>
                             @if(count($product->images)> 0)
                             <div id="similar-product"class="carousel slide"data-ride="carousel">
@@ -175,9 +179,11 @@
 
 @endsection
 @section('custom-js')
+    <script src="/js/jquery.fancybox.min.js"></script>
     <script>
         $('.product-img-item').click(function () {
             $('.main-product-img').attr('src', $(this).attr('src'));
+            $('#fancybox').attr('href', $(this).attr('src'));
         });
 
 

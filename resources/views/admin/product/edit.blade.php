@@ -42,7 +42,7 @@
                     </div>
                     <div class="add-block">
                         <label for="cat-field">Група категорій </label>
-                        <select size="5" name="cat-field" class="select-option">
+                        <select size="4" name="cat-field" class="select-option">
                             @foreach($category_groups as $g)
                                 <option value="{{$g->id}}" {{$g->id == $product->category_group_id ? "selected": ""}}>{{$g->name}}</option>
                             @endforeach
@@ -50,7 +50,7 @@
                     </div>
                     <div class="add-block">
                         <label for="category-field">Категорія </label>
-                        <select size="5" name="category-field" class="select-option">
+                        <select size="7" name="category-field" class="select-option">
                             @foreach($categories as $c)
                                 <option value="{{$c->id}}" {{$c->id == $product->category_id ? "selected": ""}}>{{$c->title}}</option>
                             @endforeach
@@ -58,7 +58,7 @@
                     </div>
                     <div class="add-block">
                         <label for="sub-category-field">Підкатегорія </label>
-                        <select size="5" name="sub-category-field" class="select-option">
+                        <select size="7" name="sub-category-field" class="select-option">
                             @foreach($sub_categories as $sc)
                                 <option value="{{$sc->id}}" {{$sc->id == $product->category_sub_id ? "selected": ""}}>{{$sc->title}}</option>
                             @endforeach
@@ -66,7 +66,7 @@
                     </div>
                     <div class="add-block">
                         <label for="color-field">Колір </label>
-                        <select size="5" name="color-field" class="select-option">
+                        <select size="7" name="color-field" class="select-option">
                             @foreach($colors as $col)
                                 <option value="{{$col->id}}"  {{$col->id == $product->product_color_id ? "selected": ""}}>{{$col->name}}</option>
                             @endforeach
@@ -74,7 +74,7 @@
                     </div>
                     <div class="add-block">
                         <label for="season-field">Сезон </label>
-                        <select size="5" name="season-field" class="select-option">
+                        <select size="7" name="season-field" class="select-option">
                             @foreach($seasons as $s)
                                 <option value="{{$s->id}}"  {{$s->id == $product->product_season_id ? "selected": ""}}>{{$s->name}}</option>
                             @endforeach
@@ -82,14 +82,14 @@
                     </div>
                     <div class="add-block">
                         <label for="brand-field">Бренд </label>
-                        <select size="5" name="brand-field" class="select-option">
+                        <select size="7" name="brand-field" class="select-option">
                             @foreach($brands as $b)
                                 <option value="{{$b->id}}" {{$b->id == $product->product_brand_id ? "selected": ""}}>{{$b->name}}</option>
                             @endforeach
                         </select>
                     </div>
 
-                    <div class="add-block">
+                    <div class="add-block add-materials">
                         <label for="">Матеріал </label>
                         <div class="inputs-block">
                             @foreach($materials as $m)
@@ -101,7 +101,7 @@
 
                         </div>
                     </div>
-                    <div class="add-block">
+                    <div class="add-block add-sizes">
                         <label for="">Розмір </label>
                         <div class="inputs-block">
 

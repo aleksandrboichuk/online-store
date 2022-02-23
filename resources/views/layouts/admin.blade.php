@@ -89,8 +89,9 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a href="/admin/orders">Замовлення</a></li>
-                            <li><a href="/admin/banner">Банер</a></li>
+                            <li><a href="/admin/orders"><u>Замовлення</u></a></li>
+                            <li><a href="/admin/users"><u>Користувачі</u></a></li>
+                            <li><a href="/admin/banner">Банери</a></li>
                             <li><a href="/admin/categories">Категорії</a></li>
                             <li><a href="/admin/subcategories">Підкатегорії</a></li>
                             <li><a href="/admin/products">Товари<i class="fa fa-angle-down"></i></a>
@@ -101,7 +102,6 @@
                                     <li><a href="/admin/products/girls">Для дівчаток</a></li>
                                 </ul>
                             </li>
-                            <li><a href="/admin/users">Користувачі</a></li>
                             <li class="dropdown">
                                 <a href="#">Параметри товарів<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
