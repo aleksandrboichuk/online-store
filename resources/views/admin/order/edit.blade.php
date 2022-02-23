@@ -62,7 +62,7 @@
                         <input type="text" value="{{$order->address}}" name="address-field">
                     </div>
                     <div class="add-block">
-                        <label for="comment-field">Коментарій </label>
+                        <label for="comment-field">Коментар </label>
                         <input type="text" value="{{$order->comment}}" name="comment-field">
                     </div>
                     <div class="add-block">

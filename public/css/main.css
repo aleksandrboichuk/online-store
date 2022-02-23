@@ -1317,6 +1317,7 @@ h2.title {
 }
 
 .newarrival {
+    z-index: 1000;
     position: absolute;
     top: 0;
     left: 0;
@@ -1861,6 +1862,9 @@ h2.title {
 }
 .checkout-area .bill-to{
     width:600px;
+}
+.btn-default[disabled]{
+    background-color: #febb62;
 }
 .total_area span {
     float: right;

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/', function (){
     return redirect('/shop/women');
 });
@@ -50,10 +51,12 @@ if(preg_match("#^\/register#", \request()->getRequestUri()) == false
     && preg_match("#^\/login#", \request()->getRequestUri()) == false
     && preg_match("#^\/search#", \request()->getRequestUri()) == false
     && preg_match("#^\/admin#", \request()->getRequestUri()) == false
-    && preg_match("#^\/personal#", \request()->getRequestUri()) == false) {
-
-    Route::get('/{code}/',[\App\Http\Controllers\HomeController::class, 'throwError']);
-
+    && preg_match("#^\/personal#", \request()->getRequestUri()) == false
+    && preg_match("#^\/cart#", \request()->getRequestUri()) == false
+    && preg_match("#^\/shop#", \request()->getRequestUri()) == false) {
+    Route::get('{any?}', function ($any) {
+        return response()->view('404.404', ['user' => Auth::user()], 404);
+    })->where('any', '.*');
 }
 
 Route::group([
@@ -72,6 +75,7 @@ Route::group([
     Route::post('/banner/delete/{banner_id}',[\App\Http\Controllers\AdminController::class, 'delBanner'])->name('delete.banner');
 
     // categories
+
     Route::get('/categories', [\App\Http\Controllers\AdminController::class, 'categoryIndex']);
     Route::get('/categories/add', [\App\Http\Controllers\AdminController::class, 'addCategory']);
     Route::get('/categories/edit/{category_id}', [\App\Http\Controllers\AdminController::class, 'editCategory'])->name('edit.category');
@@ -81,6 +85,7 @@ Route::group([
     Route::post('/categories/delete/{category_id}',[\App\Http\Controllers\AdminController::class, 'delCategory'])->name('delete.category');
 
     // sub categories
+
     Route::get('/subcategories', [\App\Http\Controllers\AdminController::class, 'subcategoryIndex']);
     Route::get('/subcategories/add', [\App\Http\Controllers\AdminController::class, 'addSubCategory']);
     Route::get('/subcategories/edit/{subcategory_id}', [\App\Http\Controllers\AdminController::class, 'editSubCategory'])->name('edit.subcategory');

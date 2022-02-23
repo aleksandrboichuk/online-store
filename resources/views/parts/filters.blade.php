@@ -102,14 +102,6 @@
                     </div>
                 @endif</div>
 
-
-
-                <div class="col-sm-6 col-xs-6 col-md-4 col-lg-2 ">
-                    <div class="btn-accept">
-                        <button type="submit" class="btn btn-info btn-info-filters">Застосувати</button>
-                    </div>
-                </div>
-
                 <div class="col-sm-6 col-xs-6 col-md-4 col-lg-2 ">
                     <div class="btn-cancel">
                         <button type="button" class="btn btn-danger btn-danger-filters">Очистити фільтри</button>

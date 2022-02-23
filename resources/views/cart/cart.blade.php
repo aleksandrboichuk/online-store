@@ -23,7 +23,7 @@
                     </tr>
                     </thead>
                     <tbody class="cart-table">
-        @if(isset($products) && !empty($products))
+        @if(isset($products) && !empty($products) && count($products) > 0 )
                     @foreach($products as $item)
                     <tr>
                         <td class="cart_product">
@@ -67,7 +67,15 @@
                         </td>
                     </tr>
                     @endforeach
-                @endif
+            @else
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><p style="font-size: 25px">Ваш кошик наразі порожній</p></td>
+            </tr>
+
+            @endif
                     </tbody>
                 </table>
             </div>
@@ -80,9 +88,9 @@
                 <div class="col-sm-6 make-order" style="float: right">
                     <div class="total_area">
                         <ul>
-                            <li><b>Всього до сплати:</b><span class="total-price"></span></li>
+                            <li><b>Усього до сплати:</b><span class="total-price"></span></li>
                         </ul>
-                        <button class="btn btn-default check_out"><a href="{{route('checkout', $user->id)}}">Оформити замовлення</a></button>
+                        <button class="btn btn-default check_out" {{count($products) > 0 ?: "disabled"}}><a href="{{route('checkout', $user->id)}}">Оформити замовлення</a></button>
                     </div>
                 </div>
             </div>
@@ -122,7 +130,13 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: (data) =>{
-                        $('.cart-table').html(data)
+                        $('.cart-table').html(data);
+                        let price = $('.cart_total_price').text().split('₴');
+                        let subtotal = 0;
+                        for (let i=1; i < price.length; i++) {
+                            subtotal = subtotal + parseInt(price[i]);
+                        }
+                        $('.total-price').text("₴" + (subtotal));
                     }
 
                 });

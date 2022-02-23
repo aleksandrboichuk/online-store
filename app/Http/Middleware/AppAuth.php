@@ -22,12 +22,14 @@ class AppAuth
             if (Auth::check()) {
                 return redirect('/shop/women');
             }
-        }elseif(preg_match('/^\/admin/',$request->getRequestUri())){
+        }elseif(preg_match('#^\/admin#',$request->getRequestUri())){
             if (Auth::check()) {
                 $user = User::find(Auth::id());
                 if (!$user->superuser) {
                     return redirect('/shop/women');
                 }
+            }else{
+                return redirect('/login');
             }
         }
         return $next($request);

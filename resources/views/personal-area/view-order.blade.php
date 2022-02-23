@@ -61,7 +61,7 @@
                         <p>{{$order->address}}</p>
                     </div>
                     <div class="add-block">
-                        <label for="comment-field">Коментарій </label>
+                        <label for="comment-field">Коментар </label>
                         <p>{{$order->comment}}</p>
                     </div>
                     <div class="add-block">
