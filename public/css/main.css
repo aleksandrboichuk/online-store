@@ -799,9 +799,6 @@ h2.title:before {
     display: flex;
     padding: 10px;
 }
-.filters{
-    width: 100%;
-}
 
 .filter-item{
     display: block;
@@ -819,17 +816,18 @@ h2.title:before {
     border-bottom: 1px solid #dedede;
 }
 .select-order-by{
+    margin-top: 20px;
     width: 200px;
     margin-bottom:30px;
 }
 .filter-title{
-    height: 28px;
+    height: 22px;
     border: 1px solid black;
     border-radius: 5px;
     padding: 0px;
     text-align: center;
-    width: 140px;
-    font-size: 17px;
+    width: 90px;
+    font-size: 14px;
     cursor: pointer;
 
 
@@ -838,13 +836,18 @@ h2.title:before {
 .filter-title h2{
     margin: 10px 0;
 }
+.filters{
+    padding: 0;
+    margin-right: 20px;
+
+}
 .products{
     padding: 0;
     margin: 0;
 }
 .fil-params{
 
-    width: 250px;
+    width: 220px;
     background-color: white;
     padding: 5px 0;
     display:none;
@@ -882,11 +885,11 @@ h2.title:before {
 
 .btn-danger-filters{
 
-    margin: 20px 0 20px 0;
-    height: 29px;
+    margin-left: 10px;
+    height: 22px;
     padding: 0 5px 0 5px ;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 14px;
 }
 h2.title {
     color: #fe980f;

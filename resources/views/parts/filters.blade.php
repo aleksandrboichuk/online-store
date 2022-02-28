@@ -1,6 +1,7 @@
-        <div class="filters">
-            <div class="row">
-            <div class="col-sm-6 col-xs-6 col-md-4 col-lg-2 ">
+<div class="row">
+        <div class="filters-all">
+
+            <div class="col-sm-6 col-xs-6 col-md-4 col-lg-1 filters ">
                 <div class="filter-item">
                     <div class="filter-title">
                         <span>Ціна</span>
@@ -15,7 +16,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-xs-6 col-md-4 col-lg-2 "> @if(isset($brands) && !empty($brands))
+            <div class="col-sm-6 col-xs-6 col-md-4 col-lg-1 filters"> @if(isset($brands) && !empty($brands))
                     <div class="filter-item">
                         <div class="filter-title">
                             <span id="brand-title">Бренд</span>
@@ -33,7 +34,7 @@
                     </div>
                 @endif</div>
 
-            <div class="col-sm-6 col-xs-6 col-md-4 col-lg-2 ">@if(isset($colors) && !empty($colors))
+            <div class="col-sm-6 col-xs-6 col-md-4 col-lg-1 filters ">@if(isset($colors) && !empty($colors))
                     <div class="filter-item">
                         <div class="filter-title">
                             <span id="color-title">Колір</span>
@@ -51,7 +52,7 @@
                     </div>
                 @endif</div>
 
-            <div class="col-sm-6 col-xs-6 col-md-4 col-lg-2 "> @if(isset($materials) && !empty($materials))
+            <div class="col-sm-6 col-xs-6 col-md-4 col-lg-1 filters "> @if(isset($materials) && !empty($materials))
                     <div class="filter-item">
                         <div class="filter-title">
                             <span id="material-title">Матеріал</span>
@@ -68,7 +69,7 @@
                     </div>
                 @endif</div>
 
-            <div class="col-sm-6 col-xs-6 col-md-4 col-lg-2"> @if(isset($seasons) && !empty($seasons))
+            <div class="col-sm-6 col-xs-6 col-md-4 col-lg-1 filters"> @if(isset($seasons) && !empty($seasons))
                     <div class="filter-item">
                         <div class="filter-title">
                             <span id="season-title">Сезон</span>
@@ -85,7 +86,7 @@
                     </div>
                 @endif</div>
 
-            <div class="col-sm-6 col-xs-6 col-md-4 col-lg-2 ">@if(isset($sizes) && !empty($sizes))
+            <div class="col-sm-6 col-xs-6 col-md-4 col-lg-1 filters ">@if(isset($sizes) && !empty($sizes))
                     <div class="filter-item">
                         <div class="filter-title">
                             <span id="size-title">Розмір</span>
@@ -102,11 +103,20 @@
                     </div>
                 @endif</div>
 
-                <div class="col-sm-6 col-xs-6 col-md-4 col-lg-2 ">
-                    <div class="btn-cancel">
+                <div class="col-sm-6 col-xs-6 col-md-4 col-lg-1 filters ">
                         <button type="button" class="btn btn-danger btn-danger-filters">Очистити фільтри</button>
-
-                    </div>
                 </div>
         </div>
         </div>
+
+<div class="row">
+    <div class="col-sm-9 select-order-by filters" >
+        <select name="order-by">
+            <option value="none" selected >За замовчуванням</option>
+            <option value="count">За популярністю</option>
+            <option value="price-asc">За зростанням ціни</option>
+            <option value="price-desc">За спаданням ціни</option>
+            <option value="created_at">За новинками</option>
+        </select>
+    </div>
+</div>
