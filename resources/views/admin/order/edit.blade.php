@@ -5,8 +5,8 @@
 
     <section class="form-add">
         <div class="container">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10">
                 <div class="review-payment">
                     <h2>Перегляд товарів замовлення</h2>
                 </div>
@@ -28,11 +28,11 @@
 
                             <tr>
                                 <td class="cart_product">
-                                    <a href=""><img src="/images/preview-images/{{$i->product->preview_img_url}}" alt="" /></a>
+                                    <a href="{{route('show.product.details', [$i->product->categoryGroups->seo_name, $i->product->categories->seo_name, $i->product->subCategories->seo_name, $i->product->seo_name])}}"><img src="/images/preview-images/{{$i->product->preview_img_url}}" alt="" /></a>
                                 </td>
                                 <td class="cart_description">
-                                    <h4><a href="">{{$i->name}}</a></h4>
-                                    <p class="product-id">ID: {{$i->id}}</p>
+                                    <h4><a href="{{route('show.product.details', [$i->product->categoryGroups->seo_name, $i->product->categories->seo_name, $i->product->subCategories->seo_name, $i->product->seo_name])}}">{{$i->name}}</a></h4>
+                                    <p class="product-id">ID: {{$i->product->id}}</p>
                                 </td>
                                 @if(isset($i->product->discount) && !empty($i->product->discount))
                                     <td class="cart_price">
@@ -97,7 +97,7 @@
                     </div>
                     <div class="add-block">
                         <label for="status-field">Статус </label>
-                        <select size="5" name="status-field" class="select-option">
+                        <select size="6" name="status-field" class="select-option">
                             @foreach($statuses as $status)
                                 <option value="{{$status->id}}" {{$status->id == $order->statuses[0]['id'] ? "selected" : "" }}>{{$status->name}}</option>
                             @endforeach
@@ -106,7 +106,7 @@
                     <button type="submit" class="btn btn-default todo-btn">Зберегти</button>
                 </form>
             </div>
-            <div class="col-sm-2"></div>
+            <div class="col-sm-1"></div>
         </div>
     </section>
 

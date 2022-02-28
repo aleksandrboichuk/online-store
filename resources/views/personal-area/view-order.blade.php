@@ -28,11 +28,11 @@
 
                             <tr>
                                 <td class="cart_product">
-                                    <a href=""><img src="/images/preview-images/{{$i->product->preview_img_url}}" alt="" /></a>
+                                    <a href="{{route('show.product.details', [$i->product->categoryGroups->seo_name, $i->product->categories->seo_name, $i->product->subCategories->seo_name, $i->product->seo_name])}}"><img src="/images/preview-images/{{$i->product->preview_img_url}}" alt="" /></a>
                                 </td>
                                 <td class="cart_description">
-                                    <h4><a href="">{{$i->name}}</a></h4>
-                                    <p class="product-id">ID: {{$i->id}}</p>
+                                    <h4><a href="{{route('show.product.details', [$i->product->categoryGroups->seo_name, $i->product->categories->seo_name, $i->product->subCategories->seo_name, $i->product->seo_name])}}">{{$i->name}}</a></h4>
+                                    <p class="product-id">ID: {{$i->product->id}}</p>
                                 </td>
                                 @if(isset($i->product->discount) && !empty($i->product->discount))
                                     <td class="cart_price">

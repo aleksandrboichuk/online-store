@@ -28,10 +28,10 @@
                     @foreach($products as $item)
                     <tr>
                         <td class="cart_product">
-                            <a href=""><img src="/images/preview-images/{{$item->preview_img_url}}" alt="" /></a>
+                            <a href="{{route('show.product.details', [$item->categoryGroups->seo_name, $item->categories->seo_name, $item->subCategories->seo_name, $item->seo_name])}}"><img src="/images/preview-images/{{$item->preview_img_url}}" alt="" /></a>
                         </td>
                         <td class="cart_description">
-                            <h4><a href="">{{$item->name}}</a></h4>
+                            <h4><a href="{{route('show.product.details', [$item->categoryGroups->seo_name, $item->categories->seo_name, $item->subCategories->seo_name, $item->seo_name])}}">{{$item->name}}</a></h4>
                             <p class="product-id">ID: {{$item->id}}</p>
                         </td>
                         @if(isset($item->discount) && !empty($item->discount))
@@ -96,21 +96,24 @@
         </div>
     </section>
     <section id="do_action">
-        <div class="container">
+        @if(isset($products) && count($products) > 0)
 
+        <div class="container">
             <div class="row">
                 <div class="col-sm-6 make-order" style="float: right">
                     <div class="total_area">
                         <ul>
                             <li><b>Усього до сплати:</b><span class="total-price"></span></li>
                         </ul>
-                        <a href="{{route('checkout')}}"><button class="btn btn-default check_out" {{isset($products) && count($products) > 0 ?: "disabled"}}>Оформити замовлення</button></a>
+                        <a href="{{route('checkout')}}"><button class="btn btn-default check_out">Оформити замовлення</button></a>
                     </div>
                 </div>
             </div>
         </div>
+        @endif
+
     </section>
-    
+
     
 @endsection
 

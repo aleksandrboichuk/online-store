@@ -16,6 +16,7 @@
                     <thead>
                     <tr class="admin_menu">
                         <td>ID користувача</td>
+                        <td>Дата</td>
                         <td><b>Ім'я</b></td>
                         <td><b>Телефон</b></td>
                         <td><b>Адреса</b></td>
@@ -30,6 +31,9 @@
                         <tr>
                             <td>
                                 <p>{{$item->user_id}}</p>
+                            </td>
+                            <td>
+                                <p>{{date("d.m.Y - H:i", strtotime($item->created_at))}}</p>
                             </td>
                             <td>
                                 <p class="product-id">{{$item->name}}</p>
