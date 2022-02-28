@@ -22,7 +22,7 @@
                         <label for="active-field">Активність </label>
                         <input type="checkbox" name="active-field" {{$size->active ? "checked" : ""}}>
                     </div>
-                    <button type="submit" class="btn btn-warning">Зберегти</button>
+                    <button type="submit" class="btn btn-default todo-btn">Зберегти</button>
                 </form>
             </div>
             <div class="col-sm-2"></div>

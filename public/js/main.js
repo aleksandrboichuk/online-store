@@ -8,6 +8,18 @@ var RGBChange = function () {
   );
 };
 $(document).ready(function () {
+  var a = location.href;
+  var b = a.split('/');
+ if(b.length > 4) {
+   if (b[4] == "women") {
+     $('.mainmenu').find('a[class="women"]').css("color", "#fdb45e");
+   } else if (b[4] == "men") {
+     $('.mainmenu').find('a[class="men"]').css("color", "#fdb45e");
+   } else if (b[4] == "girls" || b[4] == "boys"){
+     $('.mainmenu').find('a[class="kids"]').css("color", "#fdb45e");
+   }
+ }
+
   $(function () {
     $.scrollUp({
       scrollName: "scrollUp",

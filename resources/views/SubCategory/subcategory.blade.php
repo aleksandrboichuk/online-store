@@ -1,13 +1,27 @@
 @extends('layouts.main')
 @section('content')
 
-    <section id="advertisement">
-        <div class="container">
-        </div>
-    </section>
-
     <section class="products-section">
         <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    @if($group->name == "Жінки")
+                        <li><a href="/shop/women">Жінкам</a><i class="fa fa-arrow-right"></i></li>
+                        <li><a href="/shop/women/{{$category->seo_name}}">{{$category->title}}</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    @elseif($group->name == "Чоловіки")
+                        <li><a href="/shop/men">Чоловікам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                        <li><a href="/shop/men/{{$category->seo_name}}">{{$category->title}}</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    @elseif($group->name == "Хлопчики")
+                        <li><a href="/shop/boys">Хлопчикам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                        <li><a href="/shop/boys/{{$category->seo_name}}">{{$category->title}}</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    @elseif($group->name == "Дівчатки")
+                        <li><a href="/shop/girls">Дівчаткам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                        <li><a href="/shop/girls/{{$category->seo_name}}">{{$category->title}}</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    @endif
+
+                        <li class="active">{{$sub_category->title}}</li>
+                </ol>
+            </div>
             <div class="row">
 
                 <!--sidebar-->
@@ -52,7 +66,7 @@
                                         <div class="choose">
                                             <ul class="nav nav-pills nav-justified">
                                                 <li>
-                                                    <a href="{{route('show.product.details',[$group->seo_name, $item->categories['seo_name'], $item->subCategories['seo_name'],$item->seo_name ])}}"><i class="fa fa-star"></i> Переглянути</a>
+                                                    <a href="{{route('show.product.details',[$group->seo_name, $item->categories['seo_name'], $item->subCategories['seo_name'],$item->seo_name ])}}"><i class="fa fa-eye" aria-hidden="true"></i>Переглянути</a>
                                                 </li>
                                             </ul>
                                         </div>

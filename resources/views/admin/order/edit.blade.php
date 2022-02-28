@@ -17,22 +17,48 @@
                             <td class="image"></td>
                             <td class="description"><b>Назва товару</b></td>
                             <td class="price"><b>Вартість</b></td>
+                            <td class="select-size"><b>Розмір</b></td>
+                            <td class="quantity"> <b>Кількість</b></td>
+                            <td class="total"><b>Загальна вартість</b></td>
                         </tr>
                         </thead>
                         <tbody class="cart-table">
 
                         @foreach($items as $i)
+
                             <tr>
                                 <td class="cart_product">
                                     <a href=""><img src="/images/preview-images/{{$i->product->preview_img_url}}" alt="" /></a>
                                 </td>
                                 <td class="cart_description">
-                                    <h4><a href="">{{$i->product->name}}</a></h4>
-                                    <p class="product-id">ID: {{$i->product->id}}</p>
+                                    <h4><a href="">{{$i->name}}</a></h4>
+                                    <p class="product-id">ID: {{$i->id}}</p>
                                 </td>
-                                <td class="cart_price">
-                                    <p>${{$i->product->price}}</p>
+                                @if(isset($i->product->discount) && !empty($i->product->discount))
+                                    <td class="cart_price">
+                                        <p><s>₴{{$i->product->price}}</s></p>
+                                        <p>₴{{$i->product->price - (round($i->product->price * ($i->product->discount * 0.01)))}}</p>
+                                    </td>
+                                @else
+                                    <td class="cart_price">
+                                        <p>₴{{$i->product->price}}</p>
+                                    </td>
+                                @endif
+                                <td class="cart_size">
+                                    <p>{{$i->size}}</p>
                                 </td>
+                                <td class="cart_quantity">
+                                    <p>{{$i->count}}</p>
+                                </td>
+                                @if(isset($i->discount) && !empty($i->discount))
+                                    <td class="cart_total">
+                                        <p class="cart_total_price"><b>₴{{$i->count * ($i->price - (round($i->price * ($i->discount * 0.01))))}}</b></p>
+                                    </td>
+                                @else
+                                    <td class="cart_total">
+                                        <p class="cart_total_price"><b>₴{{$i->count * $i->price}}</b></p>
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                         </tbody>
@@ -77,7 +103,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-warning">Зберегти</button>
+                    <button type="submit" class="btn btn-default todo-btn">Зберегти</button>
                 </form>
             </div>
             <div class="col-sm-2"></div>

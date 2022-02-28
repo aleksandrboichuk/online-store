@@ -5,10 +5,11 @@
         <div class="container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
-                    {{--<li><a href="#">Home</a></li>--}}
-                    {{--<li class="active">Shopping Cart</li>--}}
+                    <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    <li class="active">Кошик</li>
                 </ol>
             </div>
+            <div class="title-page"><h2>Кошик</h2></div>
             <div class="table-responsive cart_info">
                 <table class="table table-condensed">
                     <thead>
@@ -33,9 +34,16 @@
                             <h4><a href="">{{$item->name}}</a></h4>
                             <p class="product-id">ID: {{$item->id}}</p>
                         </td>
-                        <td class="cart_price">
-                            <p>${{$item->price}}</p>
-                        </td>
+                        @if(isset($item->discount) && !empty($item->discount))
+                            <td class="cart_price">
+                                <p><s>₴{{$item->price}}</s></p>
+                                <p><b>₴{{$item->price - (round($item->price * ($item->discount * 0.01)))}}</b></p>
+                            </td>
+                        @else
+                            <td class="cart_price">
+                                <p>₴{{$item->price}}</p>
+                            </td>
+                        @endif
                         <td class="cart_size">
                             <p>{{$item->pivot->size}}</p>
                         </td>
@@ -52,9 +60,15 @@
                                         id="{{$item->id}}"
                                 />
                         </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">₴{{$item->pivot->count * $item->price}}</p>
-                        </td>
+                        @if(isset($item->discount) && !empty($item->discount))
+                            <td class="cart_total">
+                                <p class="cart_total_price">₴{{$item->pivot->count * ($item->price - (round($item->price * ($item->discount * 0.01))))}}</p>
+                            </td>
+                        @else
+                            <td class="cart_total">
+                                <p class="cart_total_price">₴{{$item->pivot->count * $item->price}}</p>
+                            </td>
+                        @endif
                         <td class="cart_delete">
                             <form action="{{route('delete.from.cart')}}" method="post">
                                 <input type="hidden" name="delete-id" value="{{$item->id}}">
@@ -90,7 +104,7 @@
                         <ul>
                             <li><b>Усього до сплати:</b><span class="total-price"></span></li>
                         </ul>
-                        <button class="btn btn-default check_out" {{count($products) > 0 ?: "disabled"}}><a href="{{route('checkout', $user->id)}}">Оформити замовлення</a></button>
+                        <a href="{{route('checkout')}}"><button class="btn btn-default check_out" {{isset($products) && count($products) > 0 ?: "disabled"}}>Оформити замовлення</button></a>
                     </div>
                 </div>
             </div>

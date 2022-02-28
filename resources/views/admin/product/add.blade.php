@@ -114,7 +114,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-warning">Додати</button>
+                    <button type="submit" class="btn btn-default todo-btn">Додати</button>
 
                 </form>
 

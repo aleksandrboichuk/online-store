@@ -174,8 +174,8 @@ Route::group([
     'prefix' => 'cart',
     'middleware' => ['auth']
 ], function () {
-    Route::get('/{user_id}', [\App\Http\Controllers\CartController::class, 'showUserCart'])->name('show.cart');
-    Route::get('/checkout/{user_id}', [\App\Http\Controllers\CheckoutController::class, 'checkout'])->name('checkout');
+    Route::get('', [\App\Http\Controllers\CartController::class, 'showUserCart'])->name('show.cart');
+    Route::get('/checkout', [\App\Http\Controllers\CheckoutController::class, 'checkout'])->name('checkout');
     Route::post('/delete-from-cart',[\App\Http\Controllers\CartController::class, 'deleteFromCart'])->name('delete.from.cart');
 
     Route::post('/save-order', [\App\Http\Controllers\CheckoutController::class, 'saveOrder'])->name('save.order');

@@ -36,7 +36,7 @@
                                 <a href="/personal/orders"><i class="fa fa-user"></i> Мої замовлення</a>
                             </li>
                             {{--<li>--}}
-                                {{--<a href="/"><i class="fa fa-star"></i> Обране</a>--}}
+                                {{--<a href="/"><i class="fa fa-eye"></i> Обране</a>--}}
                             {{--</li>--}}
                             @if($user->superuser)
                             <li>
@@ -44,7 +44,7 @@
                             </li>
                              @endif
                             <li>
-                                <a href="{{route('show.cart', $user->id)}}"><i class="fa fa-shopping-cart"></i> Кошик ({{isset($user->cart->products) ? count($user->cart->products) : "0"}})</a>
+                                <a href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик ({{isset($user->cart->products) ? count($user->cart->products) : "0"}})</a>
                             </li>
                                 <li>
                                     <a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Вихід</a>
@@ -157,7 +157,7 @@
     <div class="footer-bottom">
         <div class="container">
             <div class="col-sm-12">
-                <p> Copyright &#169;2022 Всі права захищені</p>
+                <p> Divisima &#169;2022 Всі права захищені</p>
             </div>
         </div>
     </div>

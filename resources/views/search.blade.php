@@ -112,7 +112,7 @@
                                         <ul class="nav nav-pills nav-justified">
                                             <li>
 
-                                                <a href="#"><i class="fa fa-star"></i>До обраного</a>
+                                                <a href="#"><i class="fa fa-eye"></i>До обраного</a>
                                             </li>
                                         </ul>
                                     </div>

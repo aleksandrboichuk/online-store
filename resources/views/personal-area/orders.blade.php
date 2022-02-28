@@ -6,11 +6,11 @@
         <div class="container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
-                    {{--<li><a href="#">Головна</a></li>--}}
-                    {{--<li class="active">Замовлення</li>--}}
+                    <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    <li class="active">Мої замовлення</li>
                 </ol>
             </div>
-
+            <div class="title-page"><h2>Мої замовлення</h2></div>
             <div class="table-responsive admin-table-index">
                 <table class="table table-condensed">
                     <thead>

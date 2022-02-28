@@ -8,9 +8,16 @@
             <h4><a href="">{{$item->name}}</a></h4>
             <p class="product-id">ID: {{$item->id}}</p>
         </td>
-        <td class="cart_price">
-            <p>${{$item->price}}</p>
-        </td>
+        @if(isset($item->discount) && !empty($item->discount))
+            <td class="cart_price">
+                <p><s>₴{{$item->price}}</s></p>
+                <p><b>₴{{$item->price - (round($item->price * ($item->discount * 0.01)))}}</b></p>
+            </td>
+        @else
+            <td class="cart_price">
+                <p>₴{{$item->price}}</p>
+            </td>
+        @endif
         <td class="cart_size">
             <p>{{$item->pivot->size}}</p>
         </td>
@@ -27,9 +34,15 @@
                     id="{{$item->id}}"
             />
         </td>
-        <td class="cart_total">
-            <p class="cart_total_price">₴{{$item->pivot->count * $item->price}}</p>
-        </td>
+        @if(isset($item->discount) && !empty($item->discount))
+            <td class="cart_total">
+                <p class="cart_total_price">₴{{$item->pivot->count * ($item->price - (round($item->price * ($item->discount * 0.01))))}}</p>
+            </td>
+        @else
+            <td class="cart_total">
+                <p class="cart_total_price">₴{{$item->pivot->count * $item->price}}</p>
+            </td>
+        @endif
         <td class="cart_delete">
             <form action="{{route('delete.from.cart')}}" method="post">
                 <input type="hidden" name="delete-id" value="{{$item->id}}">

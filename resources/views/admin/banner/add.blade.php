@@ -28,7 +28,7 @@
                     <label for="active-field">Активність </label>
                     <input type="checkbox" name="active-field">
                 </div>
-                <button type="submit" class="btn btn-warning">Додати</button>
+                <button type="submit" class="btn btn-default todo-btn">Додати</button>
 
             </form>
         </div>

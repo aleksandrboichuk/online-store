@@ -27,6 +27,7 @@ class UserController extends Controller
                 $status = $s->name;
             }
         }
+
         return view('personal-area.view-order',[
             'user' => $this->getUser(),
             'status' => isset($status) ? $status : "-",

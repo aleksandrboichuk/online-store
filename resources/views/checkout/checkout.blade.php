@@ -36,18 +36,31 @@
                                 <h4><a href="">{{$item->name}}</a></h4>
                                 <p class="product-id">ID: {{$item->id}}</p>
                             </td>
-                            <td class="cart_price">
-                                <p>${{$item->price}}</p>
-                            </td>
+                            @if(isset($item->discount) && !empty($item->discount))
+                                <td class="cart_price">
+                                    <p><s>₴{{$item->price}}</s></p>
+                                    <p><b>₴{{$item->price - (round($item->price * ($item->discount * 0.01)))}}</b></p>
+                                </td>
+                            @else
+                                <td class="cart_price">
+                                    <p>₴{{$item->price}}</p>
+                                </td>
+                            @endif
                             <td class="cart_size">
                                 <p>{{$item->pivot->size}}</p>
                             </td>
                             <td class="cart_quantity">
                                 <p>{{$item->pivot->count}}</p>
                             </td>
-                            <td class="cart_total">
-                                <p class="cart_total_price">₴{{$item->pivot->count * $item->price}}</p>
-                            </td>
+                            @if(isset($item->discount) && !empty($item->discount))
+                                <td class="cart_total">
+                                    <p class="cart_total_price">₴{{$item->pivot->count * ($item->price - (round($item->price * ($item->discount * 0.01))))}}</p>
+                                </td>
+                            @else
+                                <td class="cart_total">
+                                    <p class="cart_total_price">₴{{$item->pivot->count * $item->price}}</p>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                     <tr>
@@ -57,10 +70,6 @@
                                 <tr>
                                     <td>Сума вартості товарів:</td>
                                     <td class="total-cart"></td>
-                                </tr>
-                                <tr class="shipping-cost">
-                                    <td>Вартість доставки:</td>
-                                    <td class="delivery">₴15</td>
                                 </tr>
                                 <tr>
                                     <td><b>Усього до сплати:</b></td>
@@ -119,8 +128,7 @@
                 subtotal = subtotal + parseInt(price[i]);
             }
             $('.total-cart').text("₴" + subtotal);
-            let delivery = $('.delivery').text().split('₴');
-            $('.total-price').text("₴" + (subtotal + parseInt(delivery[1])));
+            $('.total-price').text("₴" + subtotal);
 
         });
         </script>

@@ -6,13 +6,35 @@
 
     <section>
         <div class="container product-container">
+            <div class="breadcrumbs product-breadcrumbs">
+                <ol class="breadcrumb">
+                    @if($group->name == "Жінки")
+                        <li><a href="/shop/women">Жінкам</a><i class="fa fa-arrow-right"></i></li>
+                        <li><a href="/shop/women/{{$category->seo_name}}">{{$category->title}}</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                        <li><a href="/shop/women/{{$category->seo_name}}/{{$sub_category->seo_name}}">{{$sub_category->title}}</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    @elseif($group->name == "Чоловіки")
+                        <li><a href="/shop/men">Чоловікам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                        <li><a href="/shop/men/{{$category->seo_name}}">{{$category->title}}</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                        <li><a href="/shop/men/{{$category->seo_name}}/{{$sub_category->seo_name}}">{{$sub_category->title}}</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    @elseif($group->name == "Хлопчики")
+                        <li><a href="/shop/boys">Хлопчикам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                        <li><a href="/shop/boys/{{$category->seo_name}}">{{$category->title}}</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                        <li><a href="/shop/boys/{{$category->seo_name}}/{{$sub_category->seo_name}}">{{$sub_category->title}}</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    @elseif($group->name == "Дівчатки")
+                        <li><a href="/shop/girls">Дівчаткам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                        <li><a href="/shop/girls/{{$category->seo_name}}">{{$category->title}}</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                        <li><a href="/shop/girls/{{$category->seo_name}}/{{$sub_category->seo_name}}">{{$sub_category->title}}</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    @endif
+                    <li class="active">{{$product->name}}</li>
+                </ol>
+            </div>
             <div class="row">
-                <div class="col-sm-3">
+                {{--<div class="col-sm-3">--}}
 
-                   @include('parts.sidebar')
+                   {{--@include('parts.sidebar')--}}
 
-                </div>
-                <div class="col-sm-9 padding-right">
+                {{--</div>--}}
+                <div class="col-sm-12 padding-right product-main-info">
                     <div class="product-details">
                         <div class="col-sm-7 product-images">
                             <div class="view-product">
@@ -21,23 +43,29 @@
                                 </a>
                             </div>
                             @if(count($product->images)> 0)
-                            <div id="similar-product"class="carousel slide"data-ride="carousel">
+                            <div id="similar-product" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner">
                                     @if(count($product->images) < 5)
                                     <div class="item active">
                                             @for($i = 0; $i < count($product->images); $i++)
-                                                <img class="product-img product-img-item" src="/images/product-details/{{$product->images[$i]['url']}}" alt=""/>
+                                            <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/images/product-details/{{$product->images[$i]['url']}}">
+                                                <img class="product-img product-img-item" src="/images/product-details/{{$product->images[$i]['url']}}" alt="" />
+                                            </a>
                                             @endfor
                                     </div>
                                     @else
                                         <div class="item active">
                                             @for($i = 0; $i < 4; $i++)
-                                                <img class="product-img product-img-item" src="/images/product-details/{{$product->images[$i]['url']}}" alt=""/>
+                                                <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/images/product-details/{{$product->images[$i]['url']}}">
+                                                    <img class="product-img product-img-item" src="/images/product-details/{{$product->images[$i]['url']}}" alt="" />
+                                                </a>
                                             @endfor
                                         </div>
                                         <div class="item">
                                             @for($i = 4; $i < count($product->images); $i++)
-                                                <img class="product-img product-img-item" src="/images/product-details/{{$product->images[$i]['url']}}" alt=""/>
+                                                <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/images/product-details/{{$product->images[$i]['url']}}">
+                                                    <img class="product-img product-img-item" src="/images/product-details/{{$product->images[$i]['url']}}" alt="" />
+                                                </a>
                                             @endfor
                                         </div>
                                      @endif
@@ -62,7 +90,7 @@
                                         alt=""
                                 />
                                 @endif
-                                <h2><b>{{$product->name}}</b></h2>
+                                <h2>{{$product->name}}</h2>
                                 <p class="product-id" id="{{$product->id}}">ID: {{$product->id}}</p>
                                @if(isset($product->discount) && !empty($product->discount))
                                         <div class="prices">
@@ -72,15 +100,28 @@
                                    @else
                                         <span class="product-price">₴{{$product->price}}</span>
                                    @endif
-                                <p><b>Наявність:</b>{{$product->in_stock ? " У наявності": "Немає у наявності"}}</p>
-                                <p><b>Бренд: </b>{{$product->brands['name']}}</p>
-                                <p><b>Колір: </b>{{$product->colors['name']}}</p>
-                                    <p><b>Матеріал: </b>
-                                    @foreach($product->materials as $material)
-                                        {{$material->name}},
-                                    @endforeach
-                                    </p>
-                                <p><b>Наявні розміри: </b></p>
+                                <div class="product-characteristics">
+                                    <b>Наявність:</b>
+                                    <p>
+                                        {{$product->in_stock ? " У наявності": "Немає у наявності"}}</p>
+                                </div>
+                                    <div class="product-characteristics">
+                                        <b>Бренд: </b>
+                                        <p>{{$product->brands['name']}}</p>
+                                    </div>
+                                    <div class="product-characteristics">
+                                        <b>Колір: </b>
+                                        <p>{{$product->colors['name']}}</p>
+                                    </div>
+                                    <div class="product-characteristics">
+                                        <b>Матеріал: </b>
+                                        <p>
+                                            @foreach($product->materials as $material)
+                                                {{$material->name}},
+                                            @endforeach
+                                        </p>
+                                    </div>
+                                <p><b>Наявні розміри (укр): </b></p>
                                 <div class="sizes">
                                     @foreach($product->sizes as $size)
                                     <div class="size-item">
@@ -88,32 +129,35 @@
                                     </div>
                                         @endforeach
                                 </div>
-                                <span>
-                                    <label class="quantity-title">Кількість:</label>
+                                <div class="product-characteristics">
+                                    <span>
+                                      <label class="quantity-title">Кількість:</label>
                                      <input type="text" class="quantity" name="quantity"  value="1"/>
-                                        <button type="submit" class="btn btn-fefault cart" {{empty($product->sizes[0]['name']) || !isset($user) ? "disabled" : ""}}><i class="fa fa-shopping-cart" ></i>{{!isset($user) ? "  Авторизуйтесь " : " До кошику "}} </button>
-                                </span>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="category-tab shop-details-tab">
-                        <div class="col-sm-12">
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a href="#details" data-toggle="tab">Опис</a></li>
-                            </ul>
-                        </div>
-
-
-                        <div class="tab-content">
-                            <div class="tab-pane fade active in" id="details">
-                                <div class="col-sm-12">
-                                    <p> {{$product->description}}</p>
+                                    </span>
+                                    <button type="submit" class="btn btn-fefault cart" {{empty($product->sizes[0]['name']) || !isset($user) ? "disabled" : ""}}><i class="fa fa-shopping-cart" ></i>{{!isset($user) ? "  Авторизуйтесь " : " До кошику "}} </button>
                                 </div>
+                                <h3 class="about-product">Про товар:</h3>
+                                <p>{{$product->description}}</p>
                             </div>
                         </div>
                     </div>
+
+                    {{--<div class="category-tab shop-details-tab">--}}
+                        {{--<div class="col-sm-12">--}}
+                            {{--<ul class="nav nav-tabs">--}}
+                                {{--<li class="active"><a href="#details" data-toggle="tab">Опис</a></li>--}}
+                            {{--</ul>--}}
+                        {{--</div>--}}
+
+
+                        {{--<div class="tab-content">--}}
+                            {{--<div class="tab-pane fade active in" id="details">--}}
+                                {{--<div class="col-sm-12">--}}
+                                    {{--<p> {{$product->description}}</p>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <div class="recommended_items">
                         <h2 class="title text-center">Рекомендації</h2>
                         <div
@@ -146,7 +190,7 @@
                                                     <ul class="nav nav-pills nav-justified">
                                                         <li>
 
-                                                            <a href="{{route('show.product.details',[$group->seo_name, $item->categories['seo_name'], $item->subCategories['seo_name'],$item->seo_name ])}}"><i class="fa fa-star"></i> Переглянути</a>
+                                                            <a href="{{route('show.product.details',[$group->seo_name, $item->categories['seo_name'], $item->subCategories['seo_name'],$item->seo_name ])}}"><i class="fa fa-eye"></i> Переглянути</a>
                                                         </li>
                                                     </ul>
                                                 </div>

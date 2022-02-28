@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
-    public function checkout($user_id){
-        $user_cart = Cart::where("user_id",$user_id)->first();
+    public function checkout(){
+        $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
         return view('checkout.checkout',[
             'user' =>$this->getUser(),
             'products' => $user_cart->products,
@@ -40,13 +40,14 @@ class CheckoutController extends Controller
 
         try{
             foreach ($cart->products as $product){
+                $productPrice =  isset($product->discount) && !empty($product->discount) ? $product->price - (round($product->price * ($product->discount * 0.01))) : $product->price;
                 $ordersList->items()->create([
                     "order_id" =>  $ordersList->id,
                     "product_id" => $product->id,
                     "name" => $product->name,
-                    "price" => $product->price,
+                    "price" => $productPrice,
                     "count" => $product->pivot->count,
-                    "total_cost" => $product->price * $product->pivot->count,
+                    "total_cost" => $productPrice * $product->pivot->count,
                     "size" => $product->pivot->size,
                 ]);
 

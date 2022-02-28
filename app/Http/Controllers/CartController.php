@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 class CartController extends Controller
 {
 
-    public function showUserCart(Request $request, $user_id){
-        $user_cart = Cart::where("user_id",$user_id)->first();
+    public function showUserCart(Request $request){
+        $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
 
         if(!empty($request->value) && !empty($request->updateId) && !empty($request->updateSize)) {
             $product = $user_cart->products()->where("product_id",$request->updateId)->first();
