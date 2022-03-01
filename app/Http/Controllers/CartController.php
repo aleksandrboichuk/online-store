@@ -11,16 +11,33 @@ class CartController extends Controller
 {
 
     public function showUserCart(Request $request){
-        $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
 
-        if(!empty($request->value) && !empty($request->updateId) && !empty($request->updateSize)) {
-            $product = $user_cart->products()->where("product_id",$request->updateId)->first();
-            $product->carts()->where('user_id', $this->getUser()->id)->where('size', $request->updateSize)->update(["count" => $request->value]);
-            if($request->ajax()){
-                return view('ajax.ajax-cart',[
-                    'user' =>$this->getUser(),
-                    'products' => $user_cart->products
-                ])->render();
+        if(!$this->getUser()){
+            $user_cart = Cart::where('token', session('_token'))->first();
+
+            if(!empty($request->value) && !empty($request->updateId) && !empty($request->updateSize)) {
+                $product = $user_cart->products()->where("product_id",$request->updateId)->first();
+                $product->carts()->where('token', session('_token'))->where('size', $request->updateSize)->update(["count" => $request->value]);
+                if($request->ajax()){
+                    return view('ajax.ajax-cart',[
+                        'user' =>$this->getUser(),
+                        'cart' => $user_cart,
+                        'products' => $user_cart->products
+                    ])->render();
+                }
+            }
+        }else{
+            $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
+            if(!empty($request->value) && !empty($request->updateId) && !empty($request->updateSize)) {
+                $product = $user_cart->products()->where("product_id",$request->updateId)->first();
+                $product->carts()->where('user_id', $this->getUser()->id)->where('size', $request->updateSize)->update(["count" => $request->value]);
+                if($request->ajax()){
+                    return view('ajax.ajax-cart',[
+                        'user' =>$this->getUser(),
+                        'cart' => $user_cart,
+                        'products' => $user_cart->products
+                    ])->render();
+                }
             }
         }
 
@@ -36,13 +53,20 @@ class CartController extends Controller
 
         return view('cart.cart', [
             'user' =>$this->getUser(),
+            'cart' => $user_cart,
             'products' => isset($user_cart->products) ? $user_cart->products : null
         ]);
     }
 
 
     public function deleteFromCart(Request $request){
-        $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
+
+        if(!$this->getUser()){
+            $user_cart = Cart::where('token', session('_token'))->first();
+        }else{
+            $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
+        }
+
         if(!empty($request['delete-id'])) {
             $user_cart->products()->detach($request['delete-id']);
         }

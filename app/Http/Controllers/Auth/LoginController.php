@@ -48,7 +48,6 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required|string',
         ]);
-
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             User::where('email', $request['email'])->update([
@@ -64,9 +63,5 @@ class LoginController extends Controller
                 ]);
             return redirect()->back()->withInput($request->all());
         }
-
-
     }
-
-
 }

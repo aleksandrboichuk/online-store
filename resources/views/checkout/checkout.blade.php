@@ -91,14 +91,25 @@
                                 <div class="bill-to">
                                     <p>Контактні дані користувача</p>
                                     <div class="total_area">
+                                        @if(isset($user) && !empty($user))
                                         <ul>
-                                            <li><b>Ім'я:</b><span><input type="text" name="user-firstname" value="{{$user->first_name}}"></span></li>
-                                            <li><b>Прізвище:</b><span><input type="text" name="user-lastname" value="{{$user->last_name}}"></span></li>
-                                            <li><b>E-mail:</b><span><input type="text" name="user-email" value="{{$user->email}}"></span></li>
-                                            <li><b>Місто:</b><span><input type="text" name="user-city" value="{{$user->city}}"></span></li>
-                                            <li><b>Адреса:</b><span><input type="text" name="user-address" value="{{$user->address}}"></span></li>
-                                            <li><b>Телефон:</b><span><input type="text" name="user-phone" value="{{$user->phone}}"></span></li>
+                                            <li><b>Ім'я:</b><span><input type="text" name="user-firstname" value="{{$user->first_name}}" required></span></li>
+                                            <li><b>Прізвище:</b><span><input type="text" name="user-lastname" value="{{$user->last_name}}" required></span></li>
+                                            <li><b>E-mail:</b><span><input type="text" name="user-email" value="{{$user->email}}" required></span></li>
+                                            <li><b>Місто:</b><span><input type="text" name="user-city" value="{{$user->city}}" required></span></li>
+                                            <li><b>Адреса:</b><span><input type="text" name="user-address" value="{{$user->address}}" required></span></li>
+                                            <li><b>Телефон:</b><span><input type="text" name="user-phone" value="{{$user->phone}}" required></span></li>
                                         </ul>
+                                            @else
+                                            <ul>
+                                                <li><b>Ім'я:</b><span><input type="text" name="user-firstname" value="" required></span></li>
+                                                <li><b>Прізвище:</b><span><input type="text" name="user-lastname" value="" required></span></li>
+                                                <li><b>E-mail:</b><span><input type="text" name="user-email" value="" required></span></li>
+                                                <li><b>Місто:</b><span><input type="text" name="user-city" value="" required></span></li>
+                                                <li><b>Адреса:</b><span><input type="text" name="user-address" value="" required></span></li>
+                                                <li><b>Телефон:</b><span><input type="text" name="user-phone" value="" required></span></li>
+                                            </ul>
+                                            @endif
                                     </div>
                                 </div>
                                 <div class="order-message">

@@ -24,10 +24,12 @@ class ProductController extends Controller
         $group_brands = $this->getGroupBrand($group->id);
 
 // ------------------------------------------------- AJAX --------------------------------------------------------
-
-        if(!empty($request->productId)) {
-
+        if(!$this->getUser()){
+            $cart = Cart::where('token', session('_token'))->first();
+        }else{
             $cart = Cart::where('user_id',$this->getUser()->id)->first();
+        }
+        if(!empty($request->productId)) {
 
             $is_product = false;
             for ($i = 0; $i < count($cart->products); $i++) {
@@ -55,6 +57,7 @@ class ProductController extends Controller
 
         return view('product.product',[
             'user'=> $this->getUser(),
+            'cart' => $cart,
              'group'  => $group,
              'category'  => $category,
              'sub_category'  => $sub_category,

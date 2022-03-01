@@ -136,7 +136,7 @@
            let updateSize = parseInt($(this).parent().find('#size').val());
             if ((value > 0)){
                 $.ajax({
-                    url: "{{route('show.cart', [$user->id])}}"  ,
+                    url: "{{route('show.cart')}}"  ,
                     type: "GET",
                     data: {
                         updateId: updateId,

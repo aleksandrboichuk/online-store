@@ -134,7 +134,7 @@
                                       <label class="quantity-title">Кількість:</label>
                                      <input type="text" class="quantity" name="quantity"  value="1"/>
                                     </span>
-                                    <button type="submit" class="btn btn-fefault cart" {{empty($product->sizes[0]['name']) || !isset($user) ? "disabled" : ""}}><i class="fa fa-shopping-cart" ></i>{{!isset($user) ? "  Авторизуйтесь " : " До кошику "}} </button>
+                                    <button type="submit" class="btn btn-fefault cart" {{empty($product->sizes[0]['name'])  ? "disabled" : ""}}><i class="fa fa-shopping-cart" ></i> До кошику</button>
                                 </div>
                                 <h3 class="about-product">Про товар:</h3>
                                 <p>{{$product->description}}</p>

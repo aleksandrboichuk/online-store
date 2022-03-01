@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\CategoryGroup;
 use App\Models\Product;
@@ -25,7 +26,9 @@ class CategoryController extends Controller
         $group_brands = $this->getGroupBrand($group->id);
 
         /*----------------------  AJAX  ----------------------*/
-
+        if(!$this->getUser()){
+            $cart = Cart::where('token', session('_token'))->first();
+        }
         if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))|| (!empty($request->from_price)) || (!empty($request->to_price))){
             $category_products = Product::where('category_group_id',$group->id)->where('category_id',$category->id)
                 ->when(!empty($request->colors), function($query){
@@ -107,6 +110,7 @@ class CategoryController extends Controller
 
         return view('category.category', [
             'user'=> $this->getUser(),
+            'cart' => isset($cart) && !empty($cart) ? $cart : null,
             'category_products' => $category_products,
             'category' =>$category,
             'group' => $group,
@@ -126,6 +130,9 @@ class CategoryController extends Controller
         $sub_category = SubCategory::where('seo_name',$sub_category_seo_name)->where('category_id',$category->id)->first();
         $sub_category_products = Product::where('category_group_id', $group->id)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)->paginate(9);
 
+        if(!$this->getUser()){
+            $cart = Cart::where('token', session('_token'))->first();
+        }
         /*----------------------  AJAX  ----------------------*/
 
         if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes)) || (!empty($request->from_price)) || (!empty($request->to_price))){
@@ -208,6 +215,7 @@ class CategoryController extends Controller
         $group_brands = $this->getGroupBrand($group->id);
         return view('SubCategory.subcategory',[
             'user'=> $this->getUser(),
+            'cart' => isset($cart) && !empty($cart) ? $cart : null,
            'sub_category_products' =>  $sub_category_products,
            'category' =>$category,
            'sub_category' => $sub_category,

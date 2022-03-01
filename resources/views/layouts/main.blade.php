@@ -43,13 +43,25 @@
                                 <a href="/admin"><i class="fa fa-crosshairs"></i> Панель Адміністратора</a>
                             </li>
                              @endif
-                            <li>
-                                <a href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик ({{isset($user->cart->products) ? count($user->cart->products) : "0"}})</a>
-                            </li>
+                                <li>
+                                    @if(isset($user->cart->products))
+                                        <a href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик ({{count($user->cart->products)}})</a>
+                                    @else
+                                        <a href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик (0)</a>
+                                    @endif
+                                </li>
                                 <li>
                                     <a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Вихід</a>
                                 </li>
+
                             @else
+                                <li>
+                                @if(!empty($cart->products))
+                                    <a href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик ({{count($cart->products)}})</a>
+                                @else
+                                    <a href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик (0)</a>
+                                 @endif
+                                </li>
                             <li>
                                 <a href="/login"><i class="fa fa-lock"></i> Увійти</a>
                             </li>

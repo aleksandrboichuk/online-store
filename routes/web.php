@@ -172,7 +172,6 @@ Route::group([
 
 Route::group([
     'prefix' => 'cart',
-    'middleware' => ['auth']
 ], function () {
     Route::get('', [\App\Http\Controllers\CartController::class, 'showUserCart'])->name('show.cart');
     Route::get('/checkout', [\App\Http\Controllers\CheckoutController::class, 'checkout'])->name('checkout');
@@ -196,6 +195,7 @@ Route::group([
 
 Route::group([
     'prefix' => 'shop',
+    'middleware' => ['cart.by.token']
 ], function () {
 
 

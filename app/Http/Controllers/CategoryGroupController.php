@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Banner;
+use App\Models\Cart;
 use App\Models\CategoryGroup;
 use App\Models\Product;
 use App\Models\ProductBrand;
@@ -23,7 +24,10 @@ class CategoryGroupController extends Controller
         $group_products = Product::where('category_group_id',$group->id)->paginate(9);
 
         $group_brands = $this->getGroupBrand($group->id);
-    dd(session('_token'));
+    //dd(session('_token'));
+        if(!$this->getUser()){
+            $cart = Cart::where('token', session('_token'))->first();
+        }
         /*----------------------  AJAX  ----------------------*/
 
         if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))  || (!empty($request->from_price)) || (!empty($request->to_price))){
@@ -133,6 +137,7 @@ class CategoryGroupController extends Controller
         return view('index',[
             'banners' => Banner::where('active', 1)->get(),
             'user'=> $this->getUser(),
+            'cart' => isset($cart) && !empty($cart) ? $cart : null,
             'group' => $group,
             'group_products' => $group_products,
             'group_categories' => $group->categories,

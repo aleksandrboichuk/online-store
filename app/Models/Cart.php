@@ -10,7 +10,8 @@ class Cart extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id'
+        'user_id',
+        'token',
         ];
     public function products(){
         return $this->belongsToMany('App\Models\Product')->withPivot('count', 'size');

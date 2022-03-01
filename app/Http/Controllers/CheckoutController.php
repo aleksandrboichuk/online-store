@@ -10,32 +10,61 @@ use Illuminate\Http\Request;
 class CheckoutController extends Controller
 {
     public function checkout(){
-        $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
+        if(!$this->getUser()){
+            $user_cart = Cart::where('token', session('_token'))->first();
+        }else{
+            $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
+        }
         return view('checkout.checkout',[
+            'cart' => $user_cart,
             'user' =>$this->getUser(),
             'products' => $user_cart->products,
         ]);
     }
 
     public  function saveOrder(Request $request){
-        $cart = Cart::where('user_id', $this->getUser()->id)->first();
+
+        if(!$this->getUser()){
+            $cart = Cart::where('token', session('_token'))->first();
+
+
+        }else{
+            $cart = Cart::where("user_id",$this->getUser()->id)->first();
+        }
+
         $totalSum = 0;
         for ($i = 0; $i < count($cart->products); $i++ ){
             $totalSum += $cart->products[$i]->pivot->count *  $cart->products[$i]['price'];
         }
+        if(!$this->getUser()) {
+            try{
+                $ordersList = OrdersList::create([
+                    "token"=> session('_token'),
+                    "name" =>$request['user-firstname'] . ' ' . $request['user-lastname'],
+                    "email"=> $request['user-email'],
+                    "phone"=> $request['user-phone'],
+                    "address"=> $request['user-address'],
+                    "comment"=> $request['comment'],
+                    "total_cost" => $totalSum
+                ]);
+            }catch(\Exception $e){
+                return response()->json(['Adding new order error: ' . $e->getMessage()]);
+            }
 
-        try{
-            $ordersList = OrdersList::create([
-                "user_id"=> $this->getUser()->id,
-                "name" =>$request['user-firstname'] . ' ' . $request['user-lastname'],
-                "email"=> $request['user-email'],
-                "phone"=> $request['user-phone'],
-                "address"=> $request['user-address'],
-                "comment"=> $request['comment'],
-                "total_cost" => $totalSum
-            ]);
-        }catch(\Exception $e){
-            return response()->json(['Adding new order error: ' . $e->getMessage()]);
+        }else{
+            try{
+                $ordersList = OrdersList::create([
+                    "user_id"=> $this->getUser()->id,
+                    "name" =>$request['user-firstname'] . ' ' . $request['user-lastname'],
+                    "email"=> $request['user-email'],
+                    "phone"=> $request['user-phone'],
+                    "address"=> $request['user-address'],
+                    "comment"=> $request['comment'],
+                    "total_cost" => $totalSum
+                ]);
+            }catch(\Exception $e){
+                return response()->json(['Adding new order error: ' . $e->getMessage()]);
+            }
         }
 
         try{
@@ -67,8 +96,12 @@ class CheckoutController extends Controller
             $product->pivot->delete();
         }
 
+        if(!$this->getUser()){
+            return redirect('/cart');
+        }else{
+            return redirect('/personal/orders');
+        }
 
 
-        return redirect('/personal/orders');
     }
 }

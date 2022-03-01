@@ -14,7 +14,12 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function getUser(){
-        return Auth::user();
+        if(Auth::check()){
+            return Auth::user();
+        }else{
+            return null;
+        }
+
     }
 
     public function getGroupBrand($group_id){

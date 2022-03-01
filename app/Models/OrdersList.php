@@ -13,6 +13,7 @@ class OrdersList extends Model
 
     protected $fillable = [
         'user_id',
+        'token',
         'name',
         'email',
         'phone',
