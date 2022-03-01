@@ -23,6 +23,8 @@ class ProductController extends Controller
 
         $group_brands = $this->getGroupBrand($group->id);
 
+// ------------------------------------------------- AJAX --------------------------------------------------------
+
         if(!empty($request->productId)) {
 
             $cart = Cart::where('user_id',$this->getUser()->id)->first();

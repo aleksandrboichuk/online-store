@@ -60,6 +60,7 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'app.auth' =>\App\Http\Middleware\AppAuth::class,
+        'cart.by.token' =>\App\Http\Middleware\CartByToken::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,

@@ -23,7 +23,7 @@ class CategoryGroupController extends Controller
         $group_products = Product::where('category_group_id',$group->id)->paginate(9);
 
         $group_brands = $this->getGroupBrand($group->id);
-
+    dd(session('_token'));
         /*----------------------  AJAX  ----------------------*/
 
         if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))  || (!empty($request->from_price)) || (!empty($request->to_price))){
