@@ -8,6 +8,7 @@ use App\Models\CategoryGroup;
 use App\Models\Product;
 use App\Models\ProductBrand;
 use App\Models\ProductColor;
+use App\Models\ProductImage;
 use App\Models\ProductMaterial;
 use App\Models\ProductSeason;
 use App\Models\ProductSize;
@@ -103,7 +104,8 @@ class CategoryController extends Controller
             if($request->ajax()){
                 return view('ajax.ajax',[
                     'products' => $category_products,
-                    'group' => $group
+                    'group' => $group,
+                    "images"=> ProductImage::all(),
                 ])->render();
             }
         }
@@ -120,6 +122,7 @@ class CategoryController extends Controller
             "materials"=> ProductMaterial::all(),
             "seasons" => ProductSeason::all(),
             "sizes" => ProductSize::all(),
+            "images"=> ProductImage::all(),
 
         ]);
 
@@ -207,7 +210,8 @@ class CategoryController extends Controller
         if($request->ajax()){
             return view('ajax.ajax',[
                 'products' => $sub_category_products,
-                'group' => $group
+                'group' => $group,
+                "images"=> ProductImage::all(),
             ])->render();
         }
     }
@@ -226,6 +230,7 @@ class CategoryController extends Controller
             "materials"=> ProductMaterial::all(),
             "seasons" => ProductSeason::all(),
             "sizes" => ProductSize::all(),
+            "images"=> ProductImage::all(),
         ]);
     }
 }

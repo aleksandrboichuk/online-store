@@ -914,9 +914,20 @@ h2.title {
     border: 1px solid #f7f7f5;
     overflow: hidden;
     margin-bottom: 30px;
-    height: 490px;
+    height: 500px;
     width: 270px;
 
+}
+.img{
+    display: flex;
+}
+.hidden-img{
+    height: 100%;
+    width: 100%;
+
+}
+.hidden-img:hover{
+    border-top: 2px solid black;
 }
 .product{
     padding-left: 0;
@@ -949,10 +960,12 @@ h2.title {
     font-weight: 400;
     color: #696763;
 }
-.productinfo img {
-    margin-top: 10px;
+.productinfo .img {
+    margin: 10px auto 0 auto;
     width: 248px;
-  height: 330px;
+    height: 330px;
+    background-size:248px 330px;
+
 }
 .productinfo {
     position: relative;

@@ -133,7 +133,14 @@
                                             @endif
                                             <div class="productinfo text-center">
                                                <a class="product-single" href="{{route('show.product.details',[$group->seo_name, $item->categories['seo_name'], $item->subCategories['seo_name'],$item->seo_name ])}}">
-                                                    <img src="/images/preview-images/{{$item->preview_img_url}}" alt="" />
+                                                    {{--<img src="/images/preview-images/{{$item->preview_img_url}}" alt="" />--}}
+                                                   <div class="img" style="background-image: url('/images/preview-images/{{$item->preview_img_url}}')" id="{{$item->preview_img_url}}">
+                                                   @foreach ($images as $img)
+                                                        @if($img->product_id == $item->id)
+                                                            <div class="hidden-img" id="{{$img->url}}"></div>
+                                                        @endif
+                                                   @endforeach
+                                                   </div>
                                                    @if(isset($item->discount) && !empty($item->discount))
                                                        <div class="product-single-prices">
                                                            <span class="product-single-old-price">₴{{$item->price}}</span>
@@ -180,5 +187,13 @@
     <script src="/js/ajax-filters.js"></script>
     <script>
         indexAjax("{{route('index', $group->seo_name)}}");
+    </script>
+    <script>
+        $('.hidden-img').hover(function () {
+            $(this).parent().css("background-image", "url('/images/product-details/" + $(this).attr('id') +  "')");
+        });
+        $('.hidden-img').mouseout(function () {
+            $(this).parent().css("background-image", "url('/images/preview-images/" + $(this).parent().attr('id') +  "')");
+        })
     </script>
 @endsection

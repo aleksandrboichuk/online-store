@@ -8,6 +8,7 @@ use App\Models\CategoryGroup;
 use App\Models\Product;
 use App\Models\ProductBrand;
 use App\Models\ProductColor;
+use App\Models\ProductImage;
 use App\Models\ProductMaterial;
 use App\Models\ProductSeason;
 use App\Models\ProductSize;
@@ -24,7 +25,6 @@ class CategoryGroupController extends Controller
         $group_products = Product::where('category_group_id',$group->id)->paginate(9);
 
         $group_brands = $this->getGroupBrand($group->id);
-    //dd(session('_token'));
         if(!$this->getUser()){
             $cart = Cart::where('token', session('_token'))->first();
         }
@@ -110,7 +110,8 @@ class CategoryGroupController extends Controller
 
                 return view('ajax.ajax',[
                     'products' => $group_products,
-                    'group' => $group
+                    'group' => $group,
+                    "images"=> ProductImage::all(),
                 ])->render();
             }
         }
@@ -146,6 +147,7 @@ class CategoryGroupController extends Controller
             "materials"=> ProductMaterial::all(),
             "seasons" => ProductSeason::all(),
             "sizes" => ProductSize::all(),
+            "images"=> ProductImage::all(),
 
 
         ]);
