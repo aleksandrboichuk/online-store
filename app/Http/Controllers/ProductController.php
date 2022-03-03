@@ -8,6 +8,7 @@ use App\Models\CategoryGroup;
 use App\Models\Product;
 use App\Models\ProductBrand;
 use App\Models\ProductColor;
+use App\Models\ProductImage;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
@@ -65,7 +66,8 @@ class ProductController extends Controller
             'group_categories' => $group->categories,
             'brands' => $group_brands,
             'recommended_products' =>$recommended_products,
-            'product_img' => $product->images()
+            'product_img' => $product->images(),
+            "images"=> ProductImage::all(),
         ]);
     }
 

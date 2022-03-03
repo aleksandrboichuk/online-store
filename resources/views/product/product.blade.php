@@ -171,25 +171,46 @@
                                     @foreach($recommended_products as $item)
                                         <div class="col-sm-4">
                                             <div class="product-image-wrapper">
+
                                                 <!--single product-->
                                                 <div class="single-products">
+                                                    @if($item->created_at > date('Y-m-d H:i:s', strtotime('-7 days')) )
+                                                        <img
+                                                                src="/images/product-details/new.jpg"
+                                                                class="newarrival"
+                                                                alt=""
+                                                        />
+                                                    @endif
                                                     <div class="productinfo text-center">
                                                         <a class="product-single" href="{{route('show.product.details',[$group->seo_name, $item->categories['seo_name'], $item->subCategories['seo_name'],$item->seo_name ])}}">
-                                                            <img src="/images/preview-images/{{$item->preview_img_url}}" alt="" />
-                                                            <h4>₴{{$item->price}}</h4>
+                                                            {{--<img src="/images/preview-images/{{$item->preview_img_url}}" alt="" />--}}
+                                                            <div class="img" style="background-image: url('/images/preview-images/{{$item->preview_img_url}}')" id="{{$item->preview_img_url}}">
+                                                                @foreach ($images as $img)
+                                                                    @if($img->product_id == $item->id)
+                                                                        <div class="hidden-img" id="{{$img->url}}"></div>
+                                                                    @endif
+                                                                @endforeach
+                                                            </div>
+                                                            @if(isset($item->discount) && !empty($item->discount))
+                                                                <div class="product-single-prices">
+                                                                    <span class="product-single-old-price">₴{{$item->price}}</span>
+                                                                    <span class="product-single-discount">₴{{$item->price - (round($item->price * ($item->discount * 0.01)))}}</span>
+                                                                </div>
+                                                            @else
+                                                                <h4>₴{{$item->price}}</h4>
+                                                            @endif
                                                             <h5><strong>{{$item->brands['name']}}</strong> / {{$item->name}}</h5>
                                                         </a>
                                                         <span class="sizes-info"><strong>Розміри:</strong>
-                                                         @foreach($item->sizes as $s)
+                                                @foreach($item->sizes as $s)
                                                                 {{ $s->name}};
                                                             @endforeach
-                                            </span>
+                                                </span>
                                                     </div>
                                                 </div>
                                                 <div class="choose">
                                                     <ul class="nav nav-pills nav-justified">
                                                         <li>
-
                                                             <a href="{{route('show.product.details',[$group->seo_name, $item->categories['seo_name'], $item->subCategories['seo_name'],$item->seo_name ])}}"><i class="fa fa-eye"></i> Переглянути</a>
                                                         </li>
                                                     </ul>
@@ -224,58 +245,9 @@
 @endsection
 @section('custom-js')
     <script src="/js/jquery.fancybox.min.js"></script>
+    <script src="/js/product-single.js"></script>
     <script>
-        $('.product-img-item').click(function () {
-            $('.main-product-img').attr('src', $(this).attr('src'));
-            $('#fancybox').attr('href', $(this).attr('src'));
-        });
-
-
-        $('.size-item').click(function () {
-            $('.sizes').find('.active-size').removeClass("active-size");
-            $('.sizes').find('p').css("color", "#696763");
-            $(this).addClass("active-size");
-            $(this).find('p').css("color", "#fff");
-        });
-
-
-        $('.btn-fefault').click(function () {
-            let productId = $('.product-id').attr('id');
-            let userId =  $('.quantity').attr('id');
-            let productCount = $('.quantity').val();
-            let productSize =  $('.sizes').find('.active-size').find('p').text();
-
-            if(isNaN(parseInt(productSize))){
-                productSize = $('.sizes').find('p').first().text();
-            }
-
-            $(this).text("Додано до кошику!");
-            $(".cart").addClass("added");
-
-            function btn() {
-                $(".cart").removeClass("added");
-                $('.btn-fefault').append('<i class="fa fa-shopping-cart" ></i>').text(" До кошику ")
-            }
-
-            setTimeout(btn, 1000);
-
-            if ( productId > 0 ){
-                $.ajax({
-                    url: "{{route('show.product.details', [$group->seo_name, $category->seo_name, $sub_category->seo_name, $product->seo_name])}}" ,
-                    type: "GET",
-                    data: {
-                        productId: productId,
-                        productCount: productCount,
-                        productSize: parseInt(productSize)
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: (data) =>{}
-                });
-            }
-        })
-
-
+        addToCart("{{route('show.product.details', [$group->seo_name, $category->seo_name, $sub_category->seo_name, $product->seo_name])}}");
+        animatePreview()
     </script>
     @endsection
