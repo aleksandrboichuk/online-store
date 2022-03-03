@@ -24,12 +24,12 @@ class CartByToken
                  Cart::create([
                     'token' => session('_token')
                 ]);
-            }else{
-                if($cart->created_at < date('Y-m-d H:i:s', strtotime('-5 hours'))){
-                    $cart->delete();
+                // не практично, но сойдет
+                $cart = Cart::where('user_id', null)->where('created_at', '<', date('Y-m-d H:i:s', strtotime('-5 hours')))->get();
+                foreach ($cart as $c){
+                    $c->delete();
                 }
             }
-
         }
         return $next($request);
     }
