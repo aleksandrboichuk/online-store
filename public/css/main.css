@@ -500,7 +500,15 @@ ul.sub-menu {
     width: 200px;
     height: 50px;
     background: #fe980f;
+    border: none;
+    margin-top: 50px;
+    border-radius: 30px;
 
+}
+
+.slider-text .btn:hover{
+    background: transparent;
+    border: 1px solid #fff;
 }
 .slider-text .btn a{
     color: white;

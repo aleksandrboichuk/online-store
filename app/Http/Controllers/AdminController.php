@@ -43,7 +43,8 @@ class AdminController extends Controller
         $banners = Banner::orderBy('id', 'desc')->get();
         return view('admin.banner.index',[
             'user'=>$this->getUser(),
-            'banners' => $banners
+            'banners' => $banners,
+
         ]);
     }
 
@@ -53,6 +54,7 @@ class AdminController extends Controller
 
         return view('admin.banner.add',[
             'user'=>$this->getUser(),
+            'category_groups' => CategoryGroup::all(),
         ]);
     }
 
@@ -67,6 +69,8 @@ class AdminController extends Controller
         }
         $banner->create([
             'title' => $request['title-field'],
+            'category_group_id' => $request['cat-field'],
+            'seo_name' => $request['seo-field'],
             'description' => $request['description-field'],
             'image_url' => $request['main-img-field'],
             'mini_img_url' => $request['mini-img-field'],
@@ -84,6 +88,7 @@ class AdminController extends Controller
         return view('admin.banner.edit',[
             'user' => $this->getUser(),
             'banner' =>  Banner::find($banner_id),
+            'category_groups' => CategoryGroup::all()
 
         ]);
     }
@@ -100,6 +105,8 @@ class AdminController extends Controller
         }
         $banner->update([
             'title' => $request['title-field'],
+            'category_group_id' => $request['cat-field'],
+            'seo_name' => $request['seo-field'],
             'description' => $request['description-field'],
             'image_url' => $request['main-img-field'],
             'mini_img_url' => $request['mini-img-field'],
@@ -367,6 +374,7 @@ class AdminController extends Controller
             'category_groups' => CategoryGroup::all(),
             'categories' => Category::all(),
             'sub_categories' => SubCategory::all(),
+            'banners' => Banner::all(),
             'colors' => ProductColor::all(),
             'seasons' => ProductSeason::all(),
             'brands' => ProductBrand::all(),
@@ -402,6 +410,7 @@ class AdminController extends Controller
             'description' => $request['description-field'],
             'price' => $request['price-field'],
             'discount' => isset($request['discount-field']) ? intval($request['discount-field']) : null ,
+            'banner_id' => isset($request['banner-field']) ? $request['banner-field'] : null ,
             'count' => $request['count-field'],
             'active' => $active,
             'category_group_id' => $request['cat-field'],
@@ -467,6 +476,7 @@ class AdminController extends Controller
             'brands' => ProductBrand::all(),
             'materials' => ProductMaterial::all(),
             'sizes' => ProductSize::all(),
+            'banners' => Banner::all(),
             'count_sizes' => isset($count_sizes) ? $count_sizes : null,
             'product' =>  $product,
             'selectedMaterials' => isset($selectedMaterials) ?  $selectedMaterials : [],
@@ -491,6 +501,7 @@ class AdminController extends Controller
             'description' => $request['description-field'],
             'price' => $request['price-field'],
             'discount' => isset($request['discount-field']) ? intval($request['discount-field']) : null ,
+            'banner_id' => isset($request['banner-field']) ? $request['banner-field'] : null ,
             'count' => $request['count-field'],
             'active' => $active,
             'category_group_id' => $request['cat-field'],

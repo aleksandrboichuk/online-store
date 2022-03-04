@@ -52,6 +52,7 @@ if(preg_match("#^\/register#", \request()->getRequestUri()) == false
     && preg_match("#^\/search#", \request()->getRequestUri()) == false
     && preg_match("#^\/admin#", \request()->getRequestUri()) == false
     && preg_match("#^\/personal#", \request()->getRequestUri()) == false
+    && preg_match("#^\/promotions#", \request()->getRequestUri()) == false
     && preg_match("#^\/cart#", \request()->getRequestUri()) == false
     && preg_match("#^\/shop#", \request()->getRequestUri()) == false) {
     Route::get('{any?}', function ($any) {
@@ -187,6 +188,16 @@ Route::group([
 
     Route::get('/orders',[\App\Http\Controllers\UserController::class, 'getUserOrders'])->name('user.orders');
     Route::get('/orders/view-order/{order_id}', [\App\Http\Controllers\UserController::class, 'viewUserOrder'])->name('view.order');
+});
+/**
+ * promotions
+ */
+
+Route::group([
+    'prefix' => 'promotions',
+],function () {
+
+    Route::get('/{group_seo_name}/{seo_name_banner}',[\App\Http\Controllers\PromotionController::class, 'index'])->name('show.promotion.details');
 });
 
 /**

@@ -21,16 +21,16 @@
                     <input type="text" name="seo-field">
                 </div>
                 <div class="add-block">
-                    <label for="cat-field">Група категорій </label>
-                        <select size="5" name="cat-field" class="select-option">
-                            @foreach($category_groups as $group)
-                                <option value="{{$group->id}}">{{$group->name}}</option>
-                            @endforeach
-                        </select>
-                </div>
-                <div class="add-block">
                     <label for="active-field">Активність </label>
                     <input type="checkbox" name="active-field">
+                </div>
+                <div class="add-block">
+                    <label for="cat-field">Група категорій </label>
+                    <select size="5" name="cat-field" class="select-option">
+                        @foreach($category_groups as $group)
+                            <option value="{{$group->id}}">{{$group->name}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-default todo-btn">Додати</button>
 

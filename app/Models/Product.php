@@ -18,6 +18,7 @@ class Product extends Model
         'description',
         'price',
         'discount',
+        'banner_id',
         'count',
         'in_stock',
         'active',

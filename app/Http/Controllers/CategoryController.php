@@ -45,9 +45,7 @@ class CategoryController extends Controller
                     }
                     $brand = ProductBrand::where('name', request('brands'))->first();
                     return $query->where('product_brand_id',$brand->id);
-                })
-
-                ->when(!empty($request->seasons), function($query){
+                })->when(!empty($request->seasons), function($query){
                     if(request('seasons') == "Всі"){
                         return $query->where('product_season_id',"!=", 0);
                     }

@@ -33,6 +33,14 @@
                         <input type="text" value="{{isset($product->discount) ? $product->discount : "0"}}" name="discount-field">
                     </div>
                     <div class="add-block">
+                        <label for="banner-field">Акція(якщо є) </label>
+                        <select size="4" name="banner-field" class="select-option">
+                            @foreach($banners as $banner)
+                                <option value="{{$banner->id}}" {{$banner->id == $product->banner_id ? "selected": ""}}>{{$banner->title}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="add-block">
                         <label for="count-field">Кількість </label>
                         <input type="text" value="{{$product->count}}" name="count-field">
                     </div>

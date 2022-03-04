@@ -32,7 +32,7 @@
                                             <div class="slider-text">
                                                 <h3>{{$value->title}}</h3>
                                                 <p>{{$value->description}}</p>
-                                                {{--<button type="button" class="btn btn-warning"><a href="{{$value->details_url}}">Додати</a></button>--}}
+                                                <button type="button" class="btn btn-default "><a href="/promotions/{{$value->categoryGroups[0]->seo_name}}/{{$value->seo_name}}">Переглянути</a></button>
                                             </div>
                                         </div>
                                     </div>
@@ -46,6 +46,7 @@
                                             <div class="slider-text">
                                                 <h3>{{$value->title}}</h3>
                                                 <p>{{$value->description}}</p>
+                                                <button type="button" class="btn btn-default "><a href="/promotions/{{$value->categoryGroups[0]->seo_name}}/{{$value->seo_name}}">Переглянути</a></button>
                                             </div>
                                         </div>
                                     </div>

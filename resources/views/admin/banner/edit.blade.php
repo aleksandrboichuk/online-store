@@ -19,6 +19,10 @@
                         <input type="text" name="description-field" value="{{$banner->description}}">
                     </div>
                     <div class="add-block">
+                        <label for="description-field">SEO </label>
+                        <input type="text" name="seo-field" value="{{$banner->seo_name}}">
+                    </div>
+                    <div class="add-block">
                         <label for="mini-img-field">Міні-зображення (справа) </label>
                         <input type="text" name="mini-img-field" value="{{$banner->mini_img_url}}">
                     </div>
@@ -30,6 +34,14 @@
                         <label for="active-field">Активність </label>
                         <input type="checkbox" name="active-field" {{$banner->active ? "checked" : ""}}>
                     </div>
+                        <div class="add-block">
+                            <label for="cat-field">Група категорій </label>
+                            <select size="5" name="cat-field" class="select-option">
+                                @foreach($category_groups as $group)
+                                    <option value="{{$group->id}}" {{$group->id == $banner->categoryGroups[0]->id ? "selected" : "" }}>{{$group->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     <button type="submit" class="btn btn-default todo-btn">Зберегти</button>
                 </form>
             </div>
