@@ -14,6 +14,10 @@ a:hover {
     outline: none;
     text-decoration: none;
 }
+hr{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
 a:focus {
     outline: none;
     outline-offset: 0;
@@ -1681,6 +1685,32 @@ h2.title {
 }
 .breadcrumb li{
     width: 50px;
+}
+.alert-success{
+    display: none;
+    width: 600px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    box-shadow: 1px 1px 1px 0 #b4b1ab;
+}
+
+.alert-active{
+    display: block;
+}
+.alert-success hr{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.alert-btn{
+    background-color: #fe980f;
+    color: #fff;
+    float: right;
+    font-size: 15px;
+    margin-left: 10px;
+}
+.alert-btn-close{
+    background-color: #ff6868;
 }
 #cart_items .cart_info {
     border: 1px solid #e6e4df;

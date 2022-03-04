@@ -97,8 +97,16 @@ class CheckoutController extends Controller
         }
 
         if(!$this->getUser()){
+            session(
+                [
+                    'success-message' => 'Ви успішно виконали замовлення. У найближчий час з вами зв\'яжеться адміністратор для уточнення деталей.'
+                ]);
             return redirect('/cart');
         }else{
+            session(
+                [
+                    'success-message' => 'Ви успішно виконали замовлення. У найближчий час з вами зв\'яжеться адміністратор для уточнення деталей.'
+                ]);
             return redirect('/personal/orders');
         }
 
