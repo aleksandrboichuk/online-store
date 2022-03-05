@@ -593,7 +593,10 @@ ul.sub-menu {
 }
 
 .product-container{
-    margin-top: 50px;
+    margin-top: 20px;
+}
+#recommended-item-carousel{
+    margin-bottom: 100px;
 }
 .products-section .products-container{
     margin-bottom: 100px;
@@ -1154,8 +1157,8 @@ h2.title {
 }
 .pagination {
     display: inline-block;
-    margin-bottom: 25px;
-    margin-top: 0;
+    margin-bottom: 75px;
+    margin-top: 20px;
     padding-left: 15px;
 }
 .pagination li:first-child a,
@@ -1304,6 +1307,7 @@ h2.title {
     background: #ccccc6;
 }
 .product-information {
+    height: 1000px;
     border: 1px solid #f7f7f0;
     overflow: hidden;
     padding: 50px;
@@ -1720,9 +1724,13 @@ h2.title {
 .alert-btn-close{
     background-color: #ff6868;
 }
-#cart_items .cart_info {
+#cart_items .cart_info:not(.cart-table) {
     border: 1px solid #e6e4df;
     margin-bottom: 50px;
+}
+.cart-table{
+    border: 1px solid #e6e4df;
+    margin-bottom: 300px;
 }
 #cart_items .cart_info .cart_menu {
     background: #fe980f;
@@ -2533,12 +2541,13 @@ textarea {
     resize: none;
 }
 #main-contact-form .btn-primary {
+    border: none;
     padding: 10px;
     font-size: 16px;
-    font-weight: bold;
     border-radius: 5px;
-    margin-bottom: 15px;
+    margin-bottom: 105px;
     margin-top: 20px;
+    width: 150px;
 }
 #contact-page .form-control:focus,
 #contact-page .form-control:hover {

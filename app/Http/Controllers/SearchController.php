@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\CategoryGroup;
 use App\Models\ProductColor;
@@ -23,7 +24,9 @@ class SearchController extends Controller
                 $readyProducts[$key] = $value;
             }
         }
-
+        if(!$this->getUser()){
+            $cart = Cart::where('token', session('_token'))->first();
+        }
 
         return view($view, [
             'products' => isset($readyProducts) ? $readyProducts : null,
@@ -33,6 +36,7 @@ class SearchController extends Controller
             "materials"=> ProductMaterial::all(),
             "seasons" => ProductSeason::all(),
             "sizes" => ProductSize::all(),
+            'cart' => isset($cart) && !empty($cart) ? $cart : null,
         ]);
 
 

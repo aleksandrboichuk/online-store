@@ -193,6 +193,7 @@
         $('.navbar-collapse').find('.kids').addClass("active");
     }
 </script>
+<script src="/js/validity.js"></script>
 @yield('custom-js')
 </body>
 </html>

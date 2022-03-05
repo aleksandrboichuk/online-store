@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\UserMessage;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,6 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
     }
 
     /**
@@ -28,9 +28,12 @@ class HomeController extends Controller
     }
 
     public function contact(){
-
+        if(!$this->getUser()){
+            $cart = Cart::where('token', session('_token'))->first();
+        }
         return view('contact.contact', [
-           'user' => $this->getUser()
+           'user' => $this->getUser(),
+            'cart' => isset($cart) && !empty($cart) ? $cart : null,
         ]);
     }
     public function sendMessage(Request $request)
@@ -43,11 +46,5 @@ class HomeController extends Controller
        ]);
        return redirect('/shop/women');
 
-    }
-
-    public function throwError($code){
-        return view('404.404', [
-            'user'=>$this->getUser()
-        ]);
     }
 }

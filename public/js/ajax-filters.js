@@ -130,26 +130,36 @@ function indexAjax(url) {
                 let from_price = parseInt($('input[name="from-price"]').val());
                 let to_price = parseInt($('input[name="to-price"]').val());
 
+                var isColor = false, isBrand = false, isMaterial = false, isSeason = false, isSize = false;
                 /* colors array */
                 for (let i = 0; i < color.length; i++) {
                     if (color[i].firstChild.checked) {
                         colors = color[i].textContent;
+                        isColor = true;
                         if(colors != "Всі") {
                             document.getElementById('color-title').textContent = "Колір (1)";
                         }else{
                             document.getElementById('color-title').textContent = "Колір";                        }
                     }
+                    if( i+1 == color.length && !isColor){
+                        color[0].firstChild.checked = true;
+                    }
                 }
+
                 /* brands array */
 
                 for (let i = 0; i < brand.length; i++) {
                     if (brand[i].firstChild.checked) {
                         brands = brand[i].textContent;
+                        isBrand = true;
                         if(brands != "Всі") {
                             document.getElementById('brand-title').textContent = "Бренд (1)";
                         }else{
                             document.getElementById('brand-title').textContent = "Бренд";
                         }
+                    }
+                    if( i+1 == brand.length && !isBrand){
+                        brand[0].firstChild.checked = true;
                     }
                 }
 
@@ -157,11 +167,15 @@ function indexAjax(url) {
                 for (let i = 0; i < material.length; i++) {
                     if (material[i].firstChild.checked) {
                         materials = material[i].textContent;
+                        isMaterial = true;
                         if(materials != "Всі") {
                             document.getElementById('material-title').textContent = "Матеріал (1)";
                         }else{
                             document.getElementById('material-title').textContent = "Матеріал";
                         }
+                    }
+                    if( i+1 == material.length && !isMaterial){
+                        material[0].firstChild.checked = true;
                     }
                 }
 
@@ -169,22 +183,30 @@ function indexAjax(url) {
                 for (let i = 0; i < size.length; i++) {
                     if (size[i].firstChild.checked) {
                         sizes = size[i].textContent;
+                        isSize = true;
                         if(sizes != "Всі") {
                             document.getElementById('size-title').textContent = "Розмір (1)";
                         }else{
                             document.getElementById('size-title').textContent = "Розмір";
                         }
                     }
+                    if( i+1 == size.length && !isSize){
+                        size[0].firstChild.checked = true;
+                    }
                 }
                 /* seasons array */
                 for (let i = 0; i < season.length; i++) {
                     if (season[i].firstChild.checked) {
                         seasons = season[i].textContent;
+                        isSeason = true;
                         if(seasons != "Всі"){
                             document.getElementById('season-title').textContent = "Сезон (1)";
                         }else{
                             document.getElementById('season-title').textContent = "Сезон";
                         }
+                    }
+                    if( i+1 == season.length && !isSeason){
+                        season[0].firstChild.checked = true;
                     }
                 }
 

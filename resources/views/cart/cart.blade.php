@@ -19,7 +19,7 @@
                 </ol>
             </div>
             <div class="title-page"><h2>Кошик</h2></div>
-            <div class="table-responsive cart_info">
+            <div class="table-responsive cart_info {{isset($products) && !empty($products) && count($products) > 0 ? "" : "cart-table" }}">
                 <table class="table table-condensed">
                     <thead>
                     <tr class="cart_menu">

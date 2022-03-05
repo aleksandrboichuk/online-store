@@ -127,7 +127,6 @@ class PromotionController extends Controller
             "seasons" => ProductSeason::all(),
             "sizes" => ProductSize::all(),
             "images"=> ProductImage::all(),
-
         ]);
     }
 }

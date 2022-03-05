@@ -60,6 +60,11 @@ if(preg_match("#^\/register#", \request()->getRequestUri()) == false
     })->where('any', '.*');
 }
 
+
+/**
+ * admin
+ */
+
 Route::group([
     'prefix' => 'admin',
     'middleware' => ['app.auth', 'auth']
@@ -143,7 +148,6 @@ Route::group([
     Route::post('/brands/save-edit', [\App\Http\Controllers\AdminController::class, 'saveEditBrand'])->name('save.edit.brand');
     Route::post('/brands/delete/{brand_id}',[\App\Http\Controllers\AdminController::class, 'delBrand'])->name('delete.brand');
 
-
     //materials
 
     Route::get('/materials', [\App\Http\Controllers\AdminController::class, 'materialIndex']);
@@ -181,6 +185,11 @@ Route::group([
     Route::post('/save-order', [\App\Http\Controllers\CheckoutController::class, 'saveOrder'])->name('save.order');
 });
 
+
+/**
+ * personal
+ */
+
 Route::group([
     'prefix' => 'personal',
     'middleware' => ['auth']
@@ -189,6 +198,7 @@ Route::group([
     Route::get('/orders',[\App\Http\Controllers\UserController::class, 'getUserOrders'])->name('user.orders');
     Route::get('/orders/view-order/{order_id}', [\App\Http\Controllers\UserController::class, 'viewUserOrder'])->name('view.order');
 });
+
 /**
  * promotions
  */
@@ -217,7 +227,7 @@ Route::post('/{product_id}/{user_id}',[\App\Http\Controllers\CartController::cla
 Route::get('/','\App\Http\Controllers\CategoryGroupController@home');
 Route::get('/{group_seo_name}', [\App\Http\Controllers\CategoryGroupController::class,'index'])->name('index');
 Route::get('/{group_seo_name}/{category_seo_name}',[\App\Http\Controllers\CategoryController::class,'index'])->name('show.category');
-Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}',[\App\Http\Controllers\CategoryController::class,'showSubCategoryProducts'])->name('show.sub.category');
+Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}',[\App\Http\Controllers\SubCategoryController::class,'index'])->name('show.sub.category');
 Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}/{product_seo_name}',[\App\Http\Controllers\ProductController::class, 'showProductDetails'])->name('show.product.details');
 
 });

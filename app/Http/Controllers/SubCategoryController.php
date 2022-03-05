@@ -12,25 +12,24 @@ use App\Models\ProductImage;
 use App\Models\ProductMaterial;
 use App\Models\ProductSeason;
 use App\Models\ProductSize;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class SubCategoryController extends Controller
 {
-
-
-    public function index(Request $request, $group_seo_name,$category_seo_name){
+    public function index(Request $request, $group_seo_name,$category_seo_name,$sub_category_seo_name){
         $group = CategoryGroup::where('seo_name',$group_seo_name)->first();
         $category = Category::where('seo_name',$category_seo_name)->first();
-        $category_products = Product::where('category_group_id',$group->id)->where('category_id',$category->id)->paginate(9);
+        $sub_category = SubCategory::where('seo_name',$sub_category_seo_name)->where('category_id',$category->id)->first();
+        $sub_category_products = Product::where('category_group_id', $group->id)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)->paginate(9);
 
-        $group_brands = $this->getGroupBrand($group->id);
-
-        /*----------------------  AJAX  ----------------------*/
         if(!$this->getUser()){
             $cart = Cart::where('token', session('_token'))->first();
         }
-        if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))|| (!empty($request->from_price)) || (!empty($request->to_price))){
-            $category_products = Product::where('category_group_id',$group->id)->where('category_id',$category->id)
+        /*----------------------  AJAX  ----------------------*/
+
+        if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes)) || (!empty($request->from_price)) || (!empty($request->to_price))){
+            $sub_category_products = Product::where('category_group_id', $group->id)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)
                 ->when(!empty($request->colors), function($query){
                     if(request('colors') == "Всі"){
                         return $query->where('product_color_id',"!=", 0);
@@ -44,7 +43,8 @@ class CategoryController extends Controller
                     }
                     $brand = ProductBrand::where('name', request('brands'))->first();
                     return $query->where('product_brand_id',$brand->id);
-                })->when(!empty($request->seasons), function($query){
+                })
+                ->when(!empty($request->seasons), function($query){
                     if(request('seasons') == "Всі"){
                         return $query->where('product_season_id',"!=", 0);
                     }
@@ -66,52 +66,53 @@ class CategoryController extends Controller
 
             // найти материалы
             if(isset($request->materials) && !empty($request->materials)){
-                if($request->materials != "Всі"){
-                    foreach ($category_products as $key => $value){
+                if($request->materials != "Всі") {
+                    foreach ($sub_category_products as $key => $value) {
                         $is_material = false;
-                        for($a = 0; $a < $value->materials->count(); $a++){
-                            if($value->materials[$a]['name'] == $request->materials){
+                        for ($a = 0; $a < $value->materials->count(); $a++) {
+                            if ($value->materials[$a]['name'] == $request->materials) {
                                 $is_material = true;
                                 break;
                             }
                         }
-                        if(!$is_material){
-                            unset($category_products[$key]);
+                        if (!$is_material) {
+                            unset($sub_category_products[$key]);
                         }
                     }
                 }
-
             }
             if(isset($request->sizes) && !empty($request->sizes)){
                 if($request->sizes != "Всі") {
-                    foreach ($category_products as $key => $value){
+                    foreach ($sub_category_products as $key => $value) {
                         $is_size = false;
-                        for($a = 0; $a < $value->sizes->count(); $a++){
-                            if($value->sizes[$a]['name'] == $request->sizes){
+                        for ($a = 0; $a < $value->sizes->count(); $a++) {
+                            if ($value->sizes[$a]['name'] == $request->sizes) {
                                 $is_size = true;
                                 break;
                             }
                         }
-                        if(!$is_size){
-                            unset($category_products[$key]);
+                        if (!$is_size) {
+                            unset($sub_category_products[$key]);
                         }
                     }
                 }
             }
             if($request->ajax()){
                 return view('ajax.ajax',[
-                    'products' => $category_products,
+                    'products' => $sub_category_products,
                     'group' => $group,
                     "images"=> ProductImage::all(),
                 ])->render();
             }
         }
 
-        return view('category.category', [
+        $group_brands = $this->getGroupBrand($group->id);
+        return view('SubCategory.subcategory',[
             'user'=> $this->getUser(),
             'cart' => isset($cart) && !empty($cart) ? $cart : null,
-            'category_products' => $category_products,
+            'sub_category_products' =>  $sub_category_products,
             'category' =>$category,
+            'sub_category' => $sub_category,
             'group' => $group,
             'group_categories' => $group->categories,
             'brands' => $group_brands,
@@ -120,9 +121,6 @@ class CategoryController extends Controller
             "seasons" => ProductSeason::all(),
             "sizes" => ProductSize::all(),
             "images"=> ProductImage::all(),
-
         ]);
-
     }
-
 }
