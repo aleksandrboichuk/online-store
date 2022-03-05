@@ -69,7 +69,7 @@ class CheckoutController extends Controller
 
         try{
             foreach ($cart->products as $product){
-                $productPrice =  isset($product->discount) && !empty($product->discount) ? $product->price - (round($product->price * ($product->discount * 0.01))) : $product->price;
+                $productPrice =  $product->discount != 0 ? $product->price - (round($product->price * ($product->discount * 0.01))) : $product->price;
                 $ordersList->items()->create([
                     "order_id" =>  $ordersList->id,
                     "product_id" => $product->id,

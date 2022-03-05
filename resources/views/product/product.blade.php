@@ -92,7 +92,7 @@
                                 @endif
                                 <h2>{{$product->name}}</h2>
                                 <p class="product-id" id="{{$product->id}}">ID: {{$product->id}}</p>
-                               @if(isset($product->discount) && !empty($product->discount))
+                               @if($product->discount != 0)
                                         <div class="prices">
                                             <span class="product-price-old">₴{{$product->price}}</span>
                                             <h4 class="product-price-discount">₴{{$product->price - (round($product->price * ($product->discount * 0.01)))}}</h4>
@@ -191,7 +191,7 @@
                                                                     @endif
                                                                 @endforeach
                                                             </div>
-                                                            @if(isset($item->discount) && !empty($item->discount))
+                                                            @if($item->discount != 0)
                                                                 <div class="product-single-prices">
                                                                     <span class="product-single-old-price">₴{{$item->price}}</span>
                                                                     <span class="product-single-discount">₴{{$item->price - (round($item->price * ($item->discount * 0.01)))}}</span>

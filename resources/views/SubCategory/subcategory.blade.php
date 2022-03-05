@@ -60,7 +60,7 @@
                                                             @endif
                                                         @endforeach
                                                     </div>
-                                                    @if(isset($item->discount) && !empty($item->discount))
+                                                    @if($item->discount != 0)
                                                         <div class="product-single-prices">
                                                             <span class="product-single-old-price">₴{{$item->price}}</span>
                                                             <span class="product-single-discount">₴{{$item->price - (round($item->price * ($item->discount * 0.01)))}}</span>

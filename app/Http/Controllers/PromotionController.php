@@ -21,16 +21,17 @@ class PromotionController extends Controller
         if(!$this->getUser()){
             $cart = Cart::where('token', session('_token'))->first();
         }
-        $banner = Banner::where('seo_name', $seo_name_banner)->first();
-        $products = Product::where('banner_id', $banner->id)->paginate(6);
-
         $group = CategoryGroup::where('seo_name',$group_seo_name)->first();
         $brands = $this->getGroupBrand($group->id);
+
+        $banner = Banner::where('seo_name', $seo_name_banner)->first();
+        $products = Product::where('banner_id', $banner->id)->where('category_group_id', $group->id)->paginate(6);
+
 
         /*----------------------  AJAX  ----------------------*/
 
         if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))  || (!empty($request->from_price)) || (!empty($request->to_price))){
-            $products = Product::where('category_group_id',$group->id)->where('banner_id',$banner->id )
+            $products = Product::where('category_group_id',$group->id)->where('banner_id',$banner->id )->where('category_group_id', $group->id)
                 ->when(!empty($request->colors), function($query){
                     if(request('colors') == "Всі"){
                         return $query->where('product_color_id',"!=", 0);

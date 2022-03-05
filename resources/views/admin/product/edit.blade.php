@@ -30,7 +30,7 @@
                     </div>
                     <div class="add-block">
                         <label for="discount-field">Знижка (%) </label>
-                        <input type="text" value="{{isset($product->discount) ? $product->discount : "0"}}" name="discount-field">
+                        <input type="text" value="{{$product->discount ? $product->discount  : "0"}}" name="discount-field">
                     </div>
                     <div class="add-block">
                         <label for="banner-field">Акція(якщо є) </label>

@@ -34,7 +34,7 @@
                                     <h4><a href="{{route('show.product.details', [$i->product->categoryGroups->seo_name, $i->product->categories->seo_name, $i->product->subCategories->seo_name, $i->product->seo_name])}}">{{$i->name}}</a></h4>
                                     <p class="product-id">ID: {{$i->product->id}}</p>
                                 </td>
-                                @if(isset($i->product->discount) && !empty($i->product->discount))
+                                @if($i->product->discount != 0)
                                     <td class="cart_price">
                                         <p><s>₴{{$i->product->price}}</s></p>
                                         <p>₴{{$i->product->price - (round($i->product->price * ($i->product->discount * 0.01)))}}</p>
@@ -50,7 +50,7 @@
                                 <td class="cart_quantity">
                                     <p>{{$i->count}}</p>
                                 </td>
-                                @if(isset($i->discount) && !empty($i->discount))
+                                @if($i->discount != 0)
                                     <td class="cart_total">
                                         <p class="cart_total_price"><b>₴{{$i->count * ($i->price - (round($i->price * ($i->discount * 0.01))))}}</b></p>
                                     </td>
