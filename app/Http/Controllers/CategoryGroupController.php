@@ -115,25 +115,7 @@ class CategoryGroupController extends Controller
                 ])->render();
             }
         }
-
-        /*-------------------------- standard view */
-//        foreach ($sizes as $key => $value){
-//            $sizes[$key]['count'] = 0;
-//            foreach ($products as $product) {
-//                foreach ($product->sizes as $s)
-//                    if($s->id == $value->id){
-//                        $sizes[$key]['count'] += 1;
-//                    }
-//            }
-//        }
-//        foreach ($seasons as $key => $value){
-//            $seasons[$key]['count'] = 0;
-//            foreach ($products as $product) {
-//                if($product->product_season_id == $value->id){
-//                    $seasons[$key]['count'] += 1;
-//                }
-//            }
-//        }
+        
 
         return view('index',[
             'banners' => Banner::where('active', 1)->get(),
