@@ -17,7 +17,7 @@ trait Searchable
 //    }
 
     public function getSearchIndex(){
-        return env('APP_NAME') . $this->getTable();
+        return "elastic_products";
     }
 
     public function getSearchType(){

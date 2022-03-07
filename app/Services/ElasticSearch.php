@@ -34,10 +34,10 @@ class ElasticSearch
     private function searchOnElasticsearch($query = ""){
         //dd($query);
         return $this->elasticsearch->search([
-           'index' => $this->productModel->getSearchIndex(),
-           'type' => $this->productModel->getSearchType(),
+            'index' => 'elastic_products',
+            'type' => '_doc',
            'body' => [
-               'size'=>1000,
+               'size'=> 1000,
                'query' => [
                    'multi_match' => [
                        'fields' => ['name'],
@@ -49,8 +49,34 @@ class ElasticSearch
         ]);
     }
 
+    public function searchByFilters($query = ""){
+        return $this->buildCollection(
+            $this->searchByFiltersOnElasticsearch($query)
+        );
+    }
+
+    private function searchByFiltersOnElasticsearch($query = ""){
+
+        return $this->elasticsearch->search([
+            'index' => 'elastic_products',
+            'type' => '_doc',
+            'body' => [
+                'size'=>1000,
+                'query' => [
+                    'multi_match' => [
+                        'fields' => ['name'],
+                        'query' => $query,
+                        'fuzziness' => 'AUTO'
+                    ]
+                ]
+            ],
+        ]);
+    }
+
+
     private function buildCollection( array $items){
         $ids = Arr::pluck($items['hits']['hits'], '_id');
+        dd($ids);
         return Product::findMany($ids)
             ->sortBy(function ($article) use ($ids) {
                 return array_search($article->getKey(), $ids);

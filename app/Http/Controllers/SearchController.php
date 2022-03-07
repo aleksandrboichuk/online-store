@@ -14,10 +14,11 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-    public function index($seo_names,Request $request, ElasticSearch $elasticSearch ){
-        $seo_name[] = explode('/', $seo_names);
-        $group = CategoryGroup::where('seo_name', $seo_name[0])->first();
+    public function index($seo_names, Request $request, ElasticSearch $elasticSearch){
+        $seo_name[] = explode('/', request()->getRequestUri());
+        $group = CategoryGroup::where('seo_name', $seo_name[0][2])->first();
         $products = $elasticSearch->search($request['q']);
+        dd($products);
         $view = 'search.cg-search';
         foreach ($products as $key => $value){
             if($value->category_group_id == $group->id){
@@ -40,6 +41,17 @@ class SearchController extends Controller
         ]);
 
 
+
+    }
+
+
+    public function filtersRequest($seo_names, Request $request, ElasticSearch $elasticSearch ){
+
+        //explode query string
+        $mainQueryString = explode('?', request()->getRequestUri());
+        $arrSeoNames = explode('/', $mainQueryString[0]); // start from 2
+
+        $products = $elasticSearch->search($request['q']);
 
     }
 }

@@ -19,7 +19,7 @@ class ReindexProduct extends Command
     protected $signature = 'search:reindex';
     protected $description = 'indexes all products';
     private $elasticsearch;
-    private $product;
+    private $items;
 
     /**
      * The console command description.
@@ -32,12 +32,12 @@ class ReindexProduct extends Command
      *
      * @return void
      */
-    public function __construct(Client $elasticsearch, Product $product)
+    public function __construct(Client $elasticsearch)
     {
         parent::__construct();
 
         $this->elasticsearch = $elasticsearch;
-        $this->product = $product;
+        $this->items = DB::table('elastic_products')->orderBy('id')->get();
     }
 
     /**
@@ -48,28 +48,44 @@ class ReindexProduct extends Command
     public function handle()
     {
         $this->info('Indexing...');
-        try {
-            $this->elasticsearch->indices()->delete(['index' => $this->product->getSearchIndex()]);
-        } catch (\Exception $e) {
+        if($this->elasticsearch->indices()->exists(['index' => 'elastic_products'])) {
+            try {
+                $this->elasticsearch->indices()->delete(['index' => 'elastic_products']);
+            } catch (\Exception $e) {
+                print_r($e->getMessage() . PHP_EOL);
+            }
+        }else{
+            //creating index
+            try{
+                $this->elasticsearch->indices()->create($this->params());
+            }catch(\Exception $e){
+                print_r($e->getMessage() . PHP_EOL);
+            }
         }
-        $this->elasticsearch->indices()->create($this->createIndex($this->product));
-        foreach (Product::cursor() as $article) {
-            $this->elasticsearch->index([
-                'index' => $article->getSearchIndex(),
-                'type' => $article->getSearchType(),
-                'id' => $article->getKey(),
-                'body' => $article->toSearchArray(),
-            ]);
 
-            $this->output->write('.');
+        // to Elastic
+        foreach ($this->items as $item) {
+            $params = [
+                'index' => 'elastic_products',
+                'body' => $item
+            ];
+
+            try {
+                $this->elasticsearch->index($params);
+
+            } catch (\Exception $e) {
+                print_r($e->getMessage() . PHP_EOL);
+                exit;
+            }
         }
+
         $this->info('\nDone');
     }
 
 
-    private function createIndex($product){
+    private function params(){
        return [
-               'index' => $product->getSearchIndex(),
+               'index' => 'elastic_products',
                'body' =>[
                    'settings'=>[
                        'analysis'=> [
@@ -95,7 +111,7 @@ class ReindexProduct extends Command
                                ],
                            ],
                            'analyzer' => [
-                               'name'=> [
+                               'rebuilt_russian'=> [
                                    'type' => 'custom',
                                    'tokenizer' =>'standard',
                                    'filter' => [
@@ -113,10 +129,140 @@ class ReindexProduct extends Command
                    ],
                    'mappings' => [
                        'properties' =>[
-                           'name' =>[
+                           'id' =>[
                                'type' => 'text',
-                               'analyzer' => 'name'
                            ],
+                           'name' => [
+                               'type' => 'keyword',
+                               'fields' => [
+                                   'raw' => [
+                                       'type' => 'keyword',
+                                   ],
+                                   'rebuilt_russian' => [
+                                       'type' => 'text',
+                                       'analyzer' => 'rebuilt_russian',
+                                   ],
+                               ],
+                           ],
+                           'seo_name' =>[
+                               'type' => 'text',
+                           ],
+                           'preview_img_url' =>[
+                               'type' => 'text',
+                           ],
+                           'description' =>[
+                               'type' => 'text',
+                               'fields' => [
+                                   'raw' => [
+                                       'type' => 'keyword',
+                                   ],
+                                   'rebuilt_russian' => [
+                                       'type' => 'text',
+                                       'analyzer' => 'rebuilt_russian',
+                                   ],
+                               ],
+                           ],
+                           'price' =>[
+                               'type' => 'integer',
+                           ],
+                           'discount' =>[
+                               'type' => 'integer',
+                           ],
+                           'count' =>[
+                               'type' => 'integer',
+                           ],
+                           'created_at' =>[
+                               'type' => 'date',
+                               'format' => 'yyyy-MM-dd HH:mm:ss'
+                           ],
+                           'product_category_group' =>[
+                               'type' => 'integer',
+                           ],
+                           'product_category' =>[
+                               'type' => 'integer',
+                           ],
+                           'product_category_sub_' =>[
+                               'type' => 'integer',
+                           ],
+                           'product_color' =>[
+                               'type' => 'integer',
+                           ],
+                           'product_season' =>[
+                               'type' => 'integer',
+                           ],
+                           'product_brand' =>[
+                               'type' => 'integer',
+                           ],
+                           'cg_name' =>[
+                               'type' => 'text',
+                           ],
+                           'cg_seo_name' =>[
+                               'type' => 'text',
+                           ],
+                           'c_title' =>[
+                               'type' => 'text',
+                           ],
+                           'c_name' =>[
+                               'type' => 'text',
+                           ],
+                           'c_seo_name' =>[
+                               'type' => 'text',
+                           ],
+                           'sc_title' =>[
+                               'type' => 'text',
+                           ],
+                           'sc_name' =>[
+                               'type' => 'text',
+                           ],
+                           'sc_seo_name' =>[
+                               'type' => 'text',
+                           ],
+                           'pc_id' =>[
+                               'type' => 'text',
+                           ],
+                           'pc_name' =>[
+                               'type' => 'text',
+                           ],
+                           'pc_seo_name' =>[
+                               'type' => 'text',
+                           ],
+                           'ps_id' =>[
+                               'type' => 'text',
+                           ],
+                           'ps_name' =>[
+                               'type' => 'text',
+                           ],
+                           'ps_seo_name' =>[
+                               'type' => 'text',
+                           ],
+                           'pb_id' =>[
+                               'type' => 'text',
+                           ],
+                           'pb_name' =>[
+                               'type' => 'text',
+                           ],
+                           'pb_seo_name' =>[
+                               'type' => 'text',
+                           ],
+                           'pm_id' =>[
+                               'type' => 'text',
+                           ],
+                           'pm_name' =>[
+                               'type' => 'text',
+                           ],
+                           'pm_seo_name' =>[
+                               'type' => 'text',
+                           ],
+                           'psize_id' =>[
+                               'type' => 'text',
+                           ],
+                           'psize_name' =>[
+                               'type' => 'text',
+                           ],
+                           'psize_seo_name' => [
+                               'type' => 'text',
+                           ],
+
                        ]
                    ]
                ]

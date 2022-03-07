@@ -236,11 +236,11 @@ function indexAjax(url) {
 //                 }
 //             }
 
-            if ( !div.is(e.target)
-                && div.has(e.target).length === 0 ) {
-                div.find('.fil-params').removeClass('fil-active');
-                div.find('.filter-img').attr('src', '/images/home/arrow-down.png')
-            }
+            // if ( !div.is(e.target)
+            //     && div.has(e.target).length === 0 ) {
+            //     div.find('.fil-params').removeClass('fil-active');
+            //     div.find('.filter-img').attr('src', '/images/home/arrow-down.png')
+            // }
 
         })
      })
