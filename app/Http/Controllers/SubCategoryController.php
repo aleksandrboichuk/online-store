@@ -110,7 +110,7 @@ class SubCategoryController extends Controller
         return view('SubCategory.subcategory',[
             'user'=> $this->getUser(),
             'cart' => isset($cart) && !empty($cart) ? $cart : null,
-            'sub_category_products' =>  $sub_category_products,
+            'products' =>  $sub_category_products,
             'category' =>$category,
             'sub_category' => $sub_category,
             'group' => $group,

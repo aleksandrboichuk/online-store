@@ -110,7 +110,7 @@ class CategoryController extends Controller
         return view('category.category', [
             'user'=> $this->getUser(),
             'cart' => isset($cart) && !empty($cart) ? $cart : null,
-            'category_products' => $category_products,
+            'products' => $category_products,
             'category' =>$category,
             'group' => $group,
             'group_categories' => $group->categories,

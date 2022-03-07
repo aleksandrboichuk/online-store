@@ -223,8 +223,8 @@ Route::get('/{seo_names}/search',[\App\Http\Controllers\SearchController::class,
 Route::post('/{product_id}/{user_id}',[\App\Http\Controllers\CartController::class, 'addToCart'])->name('add.to.cart')->middleware('auth');
 Route::get('/','\App\Http\Controllers\CategoryGroupController@home');
 
-if(preg_match("/\?/", request()->getRequestUri() && preg_match("/search\?/", request()->getRequestUri()) == false )){
-    Route::any('/{seo_names}/{queryString?}', [\App\Http\Controllers\SearchController::class, 'filtersRequest'])->name('filters.request');
+if(preg_match("/\?/", request()->getRequestUri())){
+    Route::any('/{seo_name}/{queryString?}', [\App\Http\Controllers\SearchController::class, 'filtersRequest'])->name('filters.request');
 }
 
 Route::get('/{group_seo_name}', [\App\Http\Controllers\CategoryGroupController::class,'index'])->name('index');

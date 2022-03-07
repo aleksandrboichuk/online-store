@@ -64,11 +64,14 @@ class ReindexProduct extends Command
         }
 
         // to Elastic
-        foreach ($this->items as $item) {
+        foreach ($this->items as $k => $l) {
+            $arEntryParams[$k] = $l;
+        }
+        foreach ($arEntryParams as $item) {
             $params = [
                 'index' => 'elastic_products',
                 'type' => '_doc',
-                'id' => $item->getKey(),
+                'id' => $item->id,
                 'body' => $item
             ];
 
@@ -132,19 +135,11 @@ class ReindexProduct extends Command
                    'mappings' => [
                        'properties' =>[
                            'id' =>[
-                               'type' => 'text',
+                               'type' => 'integer',
                            ],
                            'name' => [
-                               'type' => 'keyword',
-                               'fields' => [
-                                   'raw' => [
-                                       'type' => 'keyword',
-                                   ],
-                                   'rebuilt_russian' => [
-                                       'type' => 'text',
-                                       'analyzer' => 'rebuilt_russian',
-                                   ],
-                               ],
+                               'type' => 'text',
+                               'analyzer' => 'rebuilt_russian'
                            ],
                            'seo_name' =>[
                                'type' => 'text',
@@ -154,15 +149,7 @@ class ReindexProduct extends Command
                            ],
                            'description' =>[
                                'type' => 'text',
-                               'fields' => [
-                                   'raw' => [
-                                       'type' => 'keyword',
-                                   ],
-                                   'rebuilt_russian' => [
-                                       'type' => 'text',
-                                       'analyzer' => 'rebuilt_russian',
-                                   ],
-                               ],
+                               'analyzer' => 'rebuilt_russian'
                            ],
                            'price' =>[
                                'type' => 'integer',

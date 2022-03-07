@@ -122,7 +122,7 @@ class CategoryGroupController extends Controller
             'user'=> $this->getUser(),
             'cart' => isset($cart) && !empty($cart) ? $cart : null,
             'group' => $group,
-            'group_products' => $group_products,
+            'products' => $group_products,
             'group_categories' => $group->categories,
             'brands' => $group_brands,
             'colors' => ProductColor::all(),

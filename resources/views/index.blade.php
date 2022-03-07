@@ -119,7 +119,7 @@
                     @include('parts.filters')
                     <div class="row">
                         <div class="products">
-                            @foreach($group_products as $item)
+                            @foreach($products as $item)
                                 <div class="col-xs-9 col-sm-9 col-md-6 col-lg-4 product">
                                     <div class="product-image-wrapper">
 
@@ -172,7 +172,7 @@
                             @endforeach
                                 <div class="row pagination-block">
                                     <div class="col-sm-9">
-                                        {{$group_products->appends(request()->query())->links('parts.pagination')}}
+                                        {{--{{$products->appends(request()->query())->links('parts.pagination')}}--}}
                                     </div>
                                 </div>
                         </div>

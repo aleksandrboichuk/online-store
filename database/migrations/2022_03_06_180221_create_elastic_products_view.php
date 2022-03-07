@@ -14,11 +14,11 @@ clASs CreateElasticProductsView extends Migration
     public function up()
     {
         \Illuminate\Support\Facades\DB::statement(
-            "CREATE VIEW elastic_products 
+            "CREATE VIEW elastic_products
                    AS
                    SELECT DISTINCT
-                    products.id AS id, 
-                    products.name AS name, 
+                    p.id AS id, 
+                    p.name AS name, 
                     p.seo_name AS seo_name, 
                     p.preview_img_url AS preview_img_url, 
                     p.description AS description, 
@@ -57,19 +57,19 @@ clASs CreateElasticProductsView extends Migration
                     pm.seo_name AS pm_seo_name,
                     psize.id AS psize_id,
                     psize.name AS psize_name,
-                    psize.seo_name AS psize_seo_name,
+                    psize.seo_name AS psize_seo_name
                 FROM
                     products p 
-                    LEFT JOIN category_groups cg ON category_groups.id = p.category_group_id                
-                    LEFT JOIN categories c ON categories.id = p.category_id
-                    LEFT JOIN sub_categories sc ON sub_categories.id = p.category_sub_id
-                    LEFT JOIN product_colors pc ON product_colors.id = p.product_color_id
-                    LEFT JOIN product_seasons ps ON product_seasons.id = p.product_season_id
-                    LEFT JOIN product_brands pb ON product_brands.id = p.product_brand_id               
+                    LEFT JOIN category_groups cg ON cg.id = p.category_group_id                
+                    LEFT JOIN categories c ON c.id = p.category_id
+                    LEFT JOIN sub_categories sc ON sc.id = p.category_sub_id
+                    LEFT JOIN product_colors pc ON pc.id = p.product_color_id
+                    LEFT JOIN product_seasons ps ON ps.id = p.product_season_id
+                    LEFT JOIN product_brands pb ON pb.id = p.product_brand_id               
                     LEFT JOIN product_product_size ppsi ON p.id = ppsi.product_id
-                    LEFT JOIN product_sizes psi ON psi.id = ppsi.product_size_id
+                    LEFT JOIN product_sizes psize ON psize.id = ppsi.product_size_id
                     LEFT JOIN product_product_material ppm ON p.id = ppm.product_id
-                    LEFT JOIN product_materials pm ON product_materials.id = ppm.product_material_id where p.active != false
+                    LEFT JOIN product_materials pm ON pm.id = ppm.product_material_id where p.active != false
                     ORDER BY p.id desc"
         );
     }

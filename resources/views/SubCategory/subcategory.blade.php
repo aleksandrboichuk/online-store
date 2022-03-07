@@ -37,7 +37,7 @@
                     <div class="row">
 
                         <div class="products">
-                            @foreach($sub_category_products as $item)
+                            @foreach($products as $item)
                                 <div class="col-xs-9 col-sm-9 col-md-6 col-lg-4 product">
                                     <div class="product-image-wrapper">
 

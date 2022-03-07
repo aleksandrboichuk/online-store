@@ -25,13 +25,15 @@ class ElasticSearch
         $this->productModel = $product;
     }
 
-    public function search($query = ""){
+    // ----------------------------------- simple search ----------------------------------
+
+    public function search($seo_names, $query = ""){
         return $this->buildCollection(
-          $this->searchOnElasticsearch($query)
+          $this->searchOnElasticsearch($seo_names,$query)
         );
     }
 
-    private function searchOnElasticsearch($query = ""){
+    private function searchOnElasticsearch($seo_names, $query){
         //dd($query);
         return $this->elasticsearch->search([
             'index' => 'elastic_products',
@@ -39,34 +41,44 @@ class ElasticSearch
            'body' => [
                'size'=> 1000,
                'query' => [
-                   'multi_match' => [
-                       'fields' => ['name'],
-                       'query' => $query,
-                       'fuzziness' => 'AUTO'
+                   'bool'=>[
+                       'must'=>[
+                           'multi_match' => [
+                               'query' => $query,
+                               'fields' => ['name']
+                           ],
+                           'match' => ['cg_seo_name' => $seo_names]
+                       ],
                    ]
                ]
            ],
         ]);
     }
 
-    public function searchByFilters($query = ""){
+
+    // ----------------------------------- search by filters ----------------------------------
+
+
+    public function searchByFilters($seo_name, $colors = null){
         return $this->buildCollection(
-            $this->searchByFiltersOnElasticsearch($query)
+            $this->searchByFiltersOnElasticsearch($seo_name, $colors)
         );
     }
 
-    private function searchByFiltersOnElasticsearch($query = ""){
-
+    private function searchByFiltersOnElasticsearch($seo_name, $arData = []){
         return $this->elasticsearch->search([
             'index' => 'elastic_products',
+            'size' => 6,
             'type' => '_doc',
             'body' => [
-                'size'=>1000,
                 'query' => [
-                    'multi_match' => [
-                        'fields' => ['name'],
-                        'query' => $query,
-                        'fuzziness' => 'AUTO'
+                    'bool'=>[
+                        'must'=>[
+                            ['match' => ['cg_seo_name' => $seo_name]]
+                        ],
+                        'filter' => [
+                            $arData
+                        ]
                     ]
                 ]
             ],
@@ -74,9 +86,11 @@ class ElasticSearch
     }
 
 
+
+    // -------------------------------- prepare elastic results ----------------------------------
+
     private function buildCollection( array $items){
         $ids = Arr::pluck($items['hits']['hits'], '_id');
-        dd($ids);
         return Product::findMany($ids)
             ->sortBy(function ($article) use ($ids) {
                 return array_search($article->getKey(), $ids);
