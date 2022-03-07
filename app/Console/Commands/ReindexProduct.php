@@ -207,7 +207,7 @@ class ReindexProduct extends Command
                                'type' => 'text',
                            ],
                            'pc_id' =>[
-                               'type' => 'text',
+                               'type' => 'integer',
                            ],
                            'pc_name' =>[
                                'type' => 'text',
@@ -216,7 +216,7 @@ class ReindexProduct extends Command
                                'type' => 'text',
                            ],
                            'ps_id' =>[
-                               'type' => 'text',
+                               'type' => 'integer',
                            ],
                            'ps_name' =>[
                                'type' => 'text',
@@ -225,7 +225,7 @@ class ReindexProduct extends Command
                                'type' => 'text',
                            ],
                            'pb_id' =>[
-                               'type' => 'text',
+                               'type' => 'integer',
                            ],
                            'pb_name' =>[
                                'type' => 'text',
@@ -234,7 +234,7 @@ class ReindexProduct extends Command
                                'type' => 'text',
                            ],
                            'pm_id' =>[
-                               'type' => 'text',
+                               'type' => 'integer',
                            ],
                            'pm_name' =>[
                                'type' => 'text',
@@ -243,7 +243,7 @@ class ReindexProduct extends Command
                                'type' => 'text',
                            ],
                            'psize_id' =>[
-                               'type' => 'text',
+                               'type' => 'integer',
                            ],
                            'psize_name' =>[
                                'type' => 'text',
