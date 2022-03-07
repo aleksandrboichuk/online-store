@@ -67,6 +67,8 @@ class ReindexProduct extends Command
         foreach ($this->items as $item) {
             $params = [
                 'index' => 'elastic_products',
+                'type' => '_doc',
+                'id' => $item->getKey(),
                 'body' => $item
             ];
 
