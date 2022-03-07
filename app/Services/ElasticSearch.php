@@ -41,15 +41,11 @@ class ElasticSearch
            'body' => [
                'size'=> 1000,
                'query' => [
-                   'multi_match' => [
-                       'fields' => ['name'],
-                       'query' => $query,
-                       'fuzziness' => 'AUTO'
-                   ],
                    'bool'=>[
-                       'must'=>[
-                           'match' => ['cg_seo_name' => $seo_names]
-                       ],
+                       'should'=>[
+                           ['match' => ['name' => $query]],
+                           ['match' => ['cg_seo_name' => $seo_names]]
+                       ]
                    ]
                ]
            ],
