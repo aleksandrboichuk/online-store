@@ -44,8 +44,9 @@ class ElasticSearch
                    'bool'=>[
                        'must'=>[
                            'multi_match' => [
+                               'fields' => ['name'],
                                'query' => $query,
-                               'fields' => ['name']
+                               'fuzziness' => 'AUTO'
                            ],
                            'match' => ['cg_seo_name' => $seo_names]
                        ],
