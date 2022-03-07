@@ -27,27 +27,32 @@ class ElasticSearch
 
     // ----------------------------------- simple search ----------------------------------
 
-    public function search($seo_names, $query = ""){
+    public function search($seo_name, $query = ""){
         return $this->buildCollection(
-          $this->searchOnElasticsearch($seo_names,$query)
+          $this->searchOnElasticsearch($seo_name,$query)
         );
     }
 
-    private function searchOnElasticsearch($seo_names, $query){
+    private function searchOnElasticsearch($seo_name, $query){
         //dd($query);
+        //['match' => ['cg_seo_name' => $seo_names]]
         return $this->elasticsearch->search([
             'index' => 'elastic_products',
             'type' => '_doc',
            'body' => [
                'size'=> 1000,
                'query' => [
-                   'bool'=>[
-                       'should'=>[
-                           ['match' => ['name' => $query]],
-                           ['match' => ['cg_seo_name' => $seo_names]]
-                       ]
+                   'bool' => [
+                       'must' => [
+                           ['match' => ['cg_seo_name' => $seo_name]],
+                           ['multi_match' => [
+                               'fields' => ['name'],
+                               'query' => $query,
+                               'fuzziness' => 'AUTO'
+                           ]]
+                       ],
                    ]
-               ]
+               ],
            ],
         ]);
     }
