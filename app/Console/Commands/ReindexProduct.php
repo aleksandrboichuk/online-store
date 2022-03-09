@@ -51,13 +51,22 @@ class ReindexProduct extends Command
         if($this->elasticsearch->indices()->exists(['index' => 'elastic_products'])) {
             try {
                 $this->elasticsearch->indices()->delete(['index' => 'elastic_products']);
+                $this->info('Index has been deleted');
             } catch (\Exception $e) {
                 print_r($e->getMessage() . PHP_EOL);
             }
-        }else{
+
             //creating index
             try{
                 $this->elasticsearch->indices()->create($this->params());
+                $this->info('Index has been created');
+            }catch(\Exception $e){
+                print_r($e->getMessage() . PHP_EOL);
+            }
+        }else{
+            try{
+                $this->elasticsearch->indices()->create($this->params());
+                $this->info('Index has been created');
             }catch(\Exception $e){
                 print_r($e->getMessage() . PHP_EOL);
             }
@@ -67,11 +76,11 @@ class ReindexProduct extends Command
         foreach ($this->items as $k => $l) {
             $arEntryParams[$k] = $l;
         }
-        foreach ($arEntryParams as $item) {
+        foreach ($arEntryParams as $key => $item) {
             $params = [
                 'index' => 'elastic_products',
                 'type' => '_doc',
-                'id' => $item->id,
+                'id' => $key + 1,
                 'body' => $item
             ];
 

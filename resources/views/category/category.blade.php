@@ -84,7 +84,7 @@
                             @endforeach
                                 <div class="row">
                                     <div class="col-sm-9">
-                                        {{$category_products->appends(request()->query())->links('parts.pagination')}}
+                                        {{$products->appends(request()->query())->links('parts.pagination')}}
                                     </div>
                                 </div>
                         </div>
@@ -98,10 +98,10 @@
 @endsection
 
 @section('custom-js')
-    <script src="/js/ajax-filters.js"></script>
-    <script>
-        indexAjax("{{route('show.category', [$group->seo_name, $category->seo_name])}}");
-    </script>
+    {{--<script src="/js/ajax-filters.js"></script>--}}
+    {{--<script>--}}
+        {{--indexAjax("{{route('show.category', [$group->seo_name, $category->seo_name])}}");--}}
+    {{--</script>--}}
     <script>
         $('.hidden-img').hover(function () {
             $(this).parent().css("background-image", "url('/images/product-details/" + $(this).attr('id') +  "')")
@@ -110,4 +110,5 @@
             $(this).parent().css("background-image", "url('/images/preview-images/" + $(this).parent().attr('id') +  "')");
         })
     </script>
+    <script src="/js/elastic-filters.js"></script>
 @endsection

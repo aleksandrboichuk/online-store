@@ -6,29 +6,42 @@ use App\Models\Banner;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\CategoryGroup;
+use App\Models\ProductBrand;
 use App\Models\ProductColor;
 use App\Models\ProductImage;
 use App\Models\ProductMaterial;
 use App\Models\ProductSeason;
 use App\Models\ProductSize;
+use App\Models\SubCategory;
 use App\Services\ElasticSearch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SearchController extends Controller
 {
-    public function index($seo_names, Request $request, ElasticSearch $elasticSearch){
-        $group = CategoryGroup::where('seo_name', $seo_names)->first();
-        $products = $elasticSearch->search($seo_names, $request['q']);
-        $view = 'search.cg-search';
+    public function index($group_seo_name,Request $request, ElasticSearch $elasticSearch){
+        $group = CategoryGroup::where('seo_name', $group_seo_name)->first();
 
+        $view = 'search.cg-search';
+        $group_brands = $this->getGroupBrand($group->id);
         if(!$this->getUser()){
             $cart = Cart::where('token', session('_token'))->first();
         }
 
+        if(isset($request['orderBy'])){
+            $sort = $request['orderBy'];
+            $products = $elasticSearch->search($group_seo_name, $request['q'], $sort);
+        }else{
+            $products = $elasticSearch->search($group_seo_name, $request['q']);
+        }
+
+
         return view($view, [
+            'user' => $this->getUser(),
             'products' => isset($products) ? $products : null,
             'group' =>  $group,
+            'brands' => $group_brands,
+            'group_categories' => $group->categories,
             'category' => isset($category) ? $category : null,
             'colors' => ProductColor::all(),
             "materials"=> ProductMaterial::all(),
@@ -55,17 +68,17 @@ class SearchController extends Controller
         $group = CategoryGroup::where('seo_name',$arrSeoNames[2])->first();
         $group_brands = $this->getGroupBrand($group->id);
 
-        $view = '';
-        if(count($arrSeoNames) == 3){
-            $view = 'index';
-            $banners = Banner::where('active', 1)->get();
-        }elseif(count($arrSeoNames) == 4){
-            $view = 'category.category';
-        }elseif(count($arrSeoNames) == 5){
-            $view = 'SubCategory.subcategory';
+
+        if(isset($arrSeoNames[3])){
+            $category =  Category::where('seo_name',$arrSeoNames[3])->first();
+        }
+        if(isset($arrSeoNames[4])){
+            $subCategory =  SubCategory::where('seo_name',$arrSeoNames[4])->first();
         }
 
-        $arData = [];
+
+
+        //гибкость поиска
 
 //        if(isset($request['sizes']) && !empty($request['sizes']) && isset($request['materials']) && !empty($request['materials'])) {
 //            if(count(explode(',', $request['sizes'])) > 1 || count(explode(',', $request['materials'])) > 1) {
@@ -76,49 +89,175 @@ class SearchController extends Controller
 //        } else {
 //
 //        }
+
+        //  --------------------------------------- сама фильтрация, собственно ------------------------------------------
+
+        $arData = [];
+
+        //Эластик лучше всего находит цифры, соотв. нужны айдишники
         $filterType = 'should';
         if(isset($request['colors'])){
-            $colors[] = explode(',', $request['colors']);
+            $requestColors[] = explode(' ', $request['colors']);
+            $colors = [];
+            foreach ($requestColors as $rc){
+               $colorModel = ProductColor::where('seo_name', $rc)->first();
+               array_push($colors, $colorModel->id );
+            }
             $arData["bool"][$filterType][] =  [
                 'terms' => [
-                    'pc_seo_name' => $colors[0]
+                    'pc_id' => $colors
                 ]
             ];
         }
         if(isset($request['brands'])){
-            $brands[] = explode(',', $request['brands']);
+            $requestBrands[] =  explode(' ', $request['brands']);
+            $brands = [];
+            foreach ($requestBrands[0] as $rb){
+                $brandModel = ProductBrand::where('seo_name', $rb)->first();
+                array_push($brands, $brandModel->id );
+            }
             $arData["bool"][$filterType][] =  [
                 'terms' => [
-                    'pb_seo_name' => $brands[0]
+                    'pb_id' => $brands
                 ]
             ];
         }
         if(isset($request['seasons'])){
-            $seasons[] = explode(',', $request['seasons']);
+            $requestSeasons[] =  explode(' ', $request['seasons']);
+            $seasons = [];
+            foreach ($requestSeasons[0] as $rs){
+                $seasonModel = ProductSeason::where('seo_name', $rs)->first();
+                array_push($seasons, $seasonModel->id );
+            }
             $arData["bool"][$filterType][] =  [
                 'terms' => [
-                    'ps_seo_name' => $seasons[0]
+                    'ps_id' => $seasons
                 ]
             ];
         }
         if(isset($request['materials'])){
-            $materials[] = explode(',', $request['materials']);
+            $filterType = 'must';
+            $requestMaterials[] =  explode(' ', $request['materials']);
+            $materials = [];
+            foreach ($requestMaterials[0] as $rm){
+                $materialModel = ProductMaterial::where('seo_name', $rm)->first();
+                array_push($materials, $materialModel->id );
+            }
             $arData["bool"][$filterType][] =  [
                 'terms' => [
-                    'pm_seo_name' => $materials[0]
+                    'pm_id' => $materials
                 ]
             ];
         }
         if(isset($request['sizes'])){
-            $sizes[] = explode(',', $request['sizes']);
+            $filterType = 'must';
+            $requestSizes[] =  explode(' ', $request['sizes']);
+            $sizes = [];
+            foreach ($requestSizes[0] as $rsize){
+                $sizeModel = ProductSize::where('seo_name', $rsize)->first();
+                array_push($sizes, $sizeModel->id );
+            }
             $arData["bool"][$filterType][] =  [
                 'terms' => [
-                    'psize_seo_name' => $sizes[0]
+                    'psize_id' => $sizes
                 ]
             ];
         }
-     //   dd($arData);
-        $products = $elasticSearch->searchByFilters($arrSeoNames[2],$arData);
+
+        if(isset($request['priceFrom']) && isset($request['priceTo'])){
+            $filterType = 'must';
+
+            // и такое может случиться: пользователь полез
+            // в строку запроса и поставил пробел в числе фильтра цены
+
+            $requestPriceFrom = explode(' ', $request['priceFrom']);
+            $requestPriceTo = explode(' ', $request['priceTo']);
+            if(count($requestPriceFrom) > 1){
+                $priceFrom = $requestPriceFrom[0];
+            }else{
+                $priceFrom = $request['priceFrom'];
+            }
+            if(count($requestPriceTo) > 1){
+                $priceTo = $requestPriceTo[0];
+            }else{
+                $priceTo = $request['priceTo'];
+            }
+            $arData["bool"][$filterType][] =  [
+                'range' => [
+                    'price' => [
+                        "gte" => $priceFrom,
+                        "lte" => $priceTo
+                    ]
+                ]
+            ];
+        }
+
+        if(isset($request['sizes'])){
+            $filterType = 'must';
+            $requestSizes[] =  explode(' ', $request['sizes']);
+            $sizes = [];
+            foreach ($requestSizes[0] as $rsize){
+                $sizeModel = ProductSize::where('seo_name', $rsize)->first();
+                array_push($sizes, $sizeModel->id );
+            }
+            $arData["bool"][$filterType][] =  [
+                'terms' => [
+                    'psize_id' => $sizes
+                ]
+            ];
+        }
+
+        $seo_names = [empty($group) ? "" :$group->seo_name, !isset($category) ? "" : $category->seo_name, !isset($subCategory) ? "" : $subCategory->seo_name];
+
+        // определение всех ..категорий.. и вьюх
+        // в соответствии которым отдавать конкретные продукты
+
+            if($seo_names[0] != "women" && $seo_names[0] != "men" && $seo_names[0] != "girls" && $seo_names[0] != "boys"){
+                $must = ['match' => ['cg_seo_name' => "women"]];
+                $view = 'index';
+                $banners = Banner::where('active', 1)->get();
+            }else{
+
+                //Эластик лучше всего находит цифры, соотв. нужны айдишники
+
+                if($seo_names[0] != "" && $seo_names[1] == "" && $seo_names[2] == ""){
+                    $must = [
+                        ['match' => ['cg_seo_name' => $seo_names[0]]],
+                    ];
+                    $view = 'index';
+                    $banners = Banner::where('active', 1)->get();
+                }
+                if($seo_names[0] != "" && $seo_names[1] != "" && $seo_names[2] == ""){
+                    $cg = CategoryGroup::where('seo_name',$seo_names[0] )->first();
+                    $c = Category::where('seo_name', $seo_names[1] )->first();
+                    $must = [
+                        ['match' => ['product_category_group' => $cg->id]],
+                        ['match' => ['product_category' => $c->id]]
+                    ];
+                    $view = 'category.category';
+                }
+                if($seo_names[0] != "" && $seo_names[1] != "" && $seo_names[2] != ""){
+                    $cg = CategoryGroup::where('seo_name',$seo_names[0] )->first();
+                    $c = Category::where('seo_name', $seo_names[1] )->first();
+                    $sc = SubCategory::where('seo_name', $seo_names[2] )->first();
+                    $must = [
+                        ['match' => ['product_category_group' => $cg->id]],
+                        ['match' => ['product_category' => $c->id]],
+                        ['match' => ['product_category_sub' => $sc->id]]
+                    ];
+                    $view = 'SubCategory.subcategory';
+                }
+            }
+        if(isset($request['orderBy'])){
+            //dd($arData);
+            $sort = $request['orderBy'];
+            $products = $elasticSearch->searchByFilters($must, $arData, $sort);
+
+        }else{
+            //dd($arData);
+            $products = $elasticSearch->searchByFilters($must, $arData);
+        }
+
 
         return view( $view, [
             'user' => $this->getUser(),
@@ -128,6 +267,8 @@ class SearchController extends Controller
             'group_categories' => $group->categories,
             'products' => $products,
             'brands' => $group_brands,
+            'category' => isset($category) &&  !empty($category) ? $category : null,
+            'sub_category' => isset($subCategory) &&  !empty($subCategory) ? $subCategory : null,
             'colors' => ProductColor::all(),
             "materials"=> ProductMaterial::all(),
             "seasons" => ProductSeason::all(),

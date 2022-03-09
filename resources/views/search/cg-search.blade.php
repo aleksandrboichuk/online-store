@@ -1,23 +1,49 @@
 @extends('layouts.main')
 @section('content')
 
-    <section id="advertisement">
-        <div class="container">
-        </div>
-    </section>
 
     <section class="products-section">
         <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    @if($group->name == "Жінки")
+                        <li><a href="/shop/women">Жінкам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    @elseif($group->name == "Чоловіки")
+                        <li><a href="/shop/men">Чоловікам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    @elseif($group->name == "Хлопчики")
+                        <li><a href="/shop/boys">Хлопчикам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    @elseif($group->name == "Дівчатки")
+                        <li><a href="/shop/girls">Дівчаткам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    @endif
+                    <li class="active">Пошук: "{{request('q')}}"</li>
+                </ol>
+            </div>
             <div class="row">
 
+                <!--sidebar-->
+            @include('parts.sidebar')
+
             <!--products-->
-                <div class="col-sm-12">
+                <div class="col-sm-9 padding-right">
                     <div class="features_items">
-                        <h2 class="title text-center">Рузультати пошуку</h2>
+                        <h2 class="title text-center">Результати пошуку</h2>
                     </div>
-                    <div class="products">
-                        @if(isset($products) && !empty($products))
-                        @foreach($products as $item)
+                    <div class="row">
+                        <div class="col-sm-9 select-order-by filters" >
+                            <select name="order-by">
+                                <option value="none" selected >За замовчуванням</option>
+                                <option value="discount">За знижками</option>
+                                <option value="created_at">За новинками</option>
+                                <option value="count">За популярністю</option>
+                                <option value="price-asc">За зростанням ціни</option>
+                                <option value="price-desc">За спаданням ціни</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="products">
+                            @if(isset($products) && !empty($products) && count($products) > 0)
+                                @foreach($products as $item)
                                 <div class="col-xs-9 col-sm-9 col-md-6 col-lg-4 product">
                                     <div class="product-image-wrapper">
 
@@ -67,32 +93,88 @@
 
                                     </div>
                                 </div>
-                        @endforeach
+                            @endforeach
                             <div class="row">
                                 <div class="col-sm-9">
-                                    {{--{{$products->appends(request()->query())->links('parts.pagination')}}--}}
+                                    {{$products->appends(request()->query())->links('parts.pagination')}}
                                 </div>
                             </div>
-                        @else
-                            <div class="col-sm-12 no-found">
-                                Товари не знайдені
-                            </div>
+                            @else
+                                <div class="col-sm-12 no-found">
+                                    Товари не знайдені.
+                                </div>
                             @endif
+                        </div>
+                        <!--end products-->
                     </div>
-                    <!--end products-->
                 </div>
             </div>
 
         </div>
     </section>
 @endsection
+
 @section('custom-js')
+    <script src="/js/ajax-filters.js"></script>
     <script>
-        $('.hidden-img').hover(function () {
-            $(this).parent().css("background-image", "url('/images/product-details/" + $(this).attr('id') +  "')")
-        });
-        $('.hidden-img').mouseout(function () {
-            $(this).parent().css("background-image", "url('/images/preview-images/" + $(this).parent().attr('id') +  "')");
-        })
+        {{--indexAjax("{{route('show.category', [$group->seo_name, $category->seo_name])}}");--}}
     </script>
+    <script>
+        $(document).ready(function() {
+            $('.hidden-img').hover(function () {
+                $(this).parent().css("background-image", "url('/images/product-details/" + $(this).attr('id') + "')")
+            });
+            $('.hidden-img').mouseout(function () {
+                $(this).parent().css("background-image", "url('/images/preview-images/" + $(this).parent().attr('id') + "')");
+            });
+
+            let full_url = location.href.split('?');
+            let url = full_url[0];
+
+            if(full_url.length > 1){
+                let params = full_url[1].split('&');
+                for(let i = 0; i < params.length; i++){
+                    var filterParams = params[i].split('=');
+                    var filterValues = filterParams[1].split('+');
+                    if (filterValues.length < 2){
+                        filterValues = filterParams[1].split('%20');
+                    }
+
+                    if(filterParams[0] == 'orderBy'){
+                        if(filterValues.length < 2){
+                            if(filterValues[0] == 'count'){
+                                $('select[name="order-by"]').find('option[value="count"]').prop('selected', true);
+                            }else if(filterValues[0] == 'price-asc'){
+                                $('select[name="order-by"]').find('option[value="price-asc"]').prop('selected', true);
+                            }else if(filterValues[0] == 'price-desc'){
+                                $('select[name="order-by"]').find('option[value="price-desc"]').prop('selected', true);
+                            }else if(filterValues[0] == 'created_at'){
+                                $('select[name="order-by"]').find('option[value="created_at"]').prop('selected', true);
+                            }else if(filterValues[0] == 'discount'){
+                                $('select[name="order-by"]').find('option[value="discount"]').prop('selected', true);
+                            }
+                        }
+                    }
+                    if(filterParams[0] == 'q'){
+                        url += '?q=' + filterValues[0];
+                    }
+                }
+            }
+
+            $('select[name="order-by"]').find('option').mouseup( function() {
+
+                if (url.split('?').length > 1) {
+                    url += '&orderBy=' + $(this).val();
+                } else {
+                    url += '?orderBy=' + $(this).val();
+                }
+
+                window.location.href = url;
+            });
+        });
+    </script>
+
 @endsection
+
+
+

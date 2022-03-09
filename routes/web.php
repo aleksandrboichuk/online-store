@@ -219,12 +219,19 @@ Route::group([
     'middleware' => ['cart.by.token']
 ], function () {
 
-Route::get('/{seo_names}/search',[\App\Http\Controllers\SearchController::class, 'index'])->name('search');
+Route::get('/{group_seo_name}/search',[\App\Http\Controllers\SearchController::class, 'index'])->name('search');
 Route::post('/{product_id}/{user_id}',[\App\Http\Controllers\CartController::class, 'addToCart'])->name('add.to.cart')->middleware('auth');
 Route::get('/','\App\Http\Controllers\CategoryGroupController@home');
 
-if(preg_match("/\?/", request()->getRequestUri())){
-    Route::any('/{seo_name}/{queryString?}', [\App\Http\Controllers\SearchController::class, 'filtersRequest'])->name('filters.request');
+if(preg_match("/\?colors/", request()->getRequestUri())
+    || preg_match("/\?brands/", request()->getRequestUri())
+    || preg_match("/\?materials/", request()->getRequestUri())
+    || preg_match("/\?orderBy/", request()->getRequestUri())
+    || preg_match("/\?seasons/", request()->getRequestUri())
+    || preg_match("/\?sizes/", request()->getRequestUri())
+    || preg_match("/\?price/", request()->getRequestUri())
+){
+    Route::any('/{seo_name}/{category_seo_name?}/{sub_category_seo_name?}/{queryString?}', [\App\Http\Controllers\SearchController::class, 'filtersRequest'])->name('filters.request');
 }
 
 Route::get('/{group_seo_name}', [\App\Http\Controllers\CategoryGroupController::class,'index'])->name('index');

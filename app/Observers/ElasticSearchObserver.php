@@ -8,32 +8,36 @@
 
 namespace App\Observers;
 
+use App\Models\Product;
 use Elasticsearch\Client;
+use Illuminate\Support\Facades\Artisan;
 
 class ElasticSearchObserver
 {
-//
-//    private $elasticsearch;
-//
-//    public function __construct(Client $elasticsearch )
-//    {
-//        $this->elasticsearch = $elasticsearch;
-//    }
-//
-//    public function saved($model){
-//        $this->elasticsearch->index([
-//            'index' => $model->getSearchIndex(),
-//            'type' => $model->getSearchType(),
-//            'id' => $model->getKey(),
-//            'body' => $model->toSearchArray(),
-//        ]);
-//    }
-//
-//    public function delete($model){
-//        $this->elasticsearch->delete([
-//            'index' => $model->getSearchIndex(),
-//            'type' => $model->getSearchType(),
-//            'id' => $model->getKey(),
-//        ]);
-//    }
+
+    private $elasticsearch;
+
+    public function __construct(Client $elasticsearch )
+    {
+        $this->elasticsearch = $elasticsearch;
+    }
+
+    public function created(Product $product)
+    {
+        Artisan::command('search:reindex', function () {
+            dd("Indexing...!");
+        });
+    }
+
+    public function saved(Product $product){
+        Artisan::command('search:reindex', function () {
+            dd("Indexing...!");
+        });
+    }
+
+    public function delete(Product $product){
+        Artisan::command('search:reindex', function () {
+            dd("Indexing...!");
+        });
+    }
 }

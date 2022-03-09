@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Providers;
+use App\Models\Product;
+use App\Observers\ElasticSearchObserver;
 use App\Services\ElasticSearch;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
@@ -32,5 +34,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Product::observe(ElasticSearchObserver::class);
     }
 }

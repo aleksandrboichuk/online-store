@@ -11,7 +11,10 @@ namespace App\Services;
 
 use App\Models\Product;
 use Elasticsearch\Client;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use mysql_xdevapi\Collection;
+use Nette\Utils\Paginator;
 
 class ElasticSearch
 {
@@ -27,9 +30,9 @@ class ElasticSearch
 
     // ----------------------------------- simple search ----------------------------------
 
-    public function search($seo_name, $query = ""){
+    public function search($seo_name, $query = "", $sort = "none"){
         return $this->buildCollection(
-          $this->searchOnElasticsearch($seo_name,$query)
+          $this->searchOnElasticsearch($seo_name, $query), $sort
         );
     }
 
@@ -58,31 +61,36 @@ class ElasticSearch
     }
 
 
-    // ----------------------------------- search by filters ----------------------------------
+    // ----------------------------------- search request by filters ----------------------------------
 
 
-    public function searchByFilters($seo_name, $colors = null){
+    public function searchByFilters($must = [['match' => ['cg_seo_name' => "women"]]], $arData = [], $sort = "none"){
         return $this->buildCollection(
-            $this->searchByFiltersOnElasticsearch($seo_name, $colors)
+            $this->searchByFiltersOnElasticsearch($must, $arData), $sort
         );
     }
 
-    private function searchByFiltersOnElasticsearch($seo_name, $arData = []){
+    private function searchByFiltersOnElasticsearch($must, $arData){
+        if(empty($arData)){
+            $arData = ["bool" => ["must" => ["terms" => ["active" => [1]]]]];
+        }
+//        $defaultMust = [['match' => ['cg_seo_name' => "women"]]];
+
+        //dd($must);
+
         return $this->elasticsearch->search([
             'index' => 'elastic_products',
-            'size' => 6,
             'type' => '_doc',
             'body' => [
+                'size'=> 1000,
                 'query' => [
                     'bool'=>[
-                        'must'=>[
-                            ['match' => ['cg_seo_name' => $seo_name]]
-                        ],
+                        'must' => $must,
                         'filter' => [
                             $arData
                         ]
                     ]
-                ]
+                ],
             ],
         ]);
     }
@@ -91,11 +99,39 @@ class ElasticSearch
 
     // -------------------------------- prepare elastic results ----------------------------------
 
-    private function buildCollection( array $items){
-        $ids = Arr::pluck($items['hits']['hits'], '_id');
-        return Product::findMany($ids)
-            ->sortBy(function ($article) use ($ids) {
-                return array_search($article->getKey(), $ids);
-            });
+    private function buildCollection(array $items, $sort){
+        $elements = Arr::pluck($items['hits']['hits'], '_source');
+        $ids = [];
+        foreach ($elements as $element) {
+            array_push($ids, $element['id']);
+        }
+
+        // сортировка
+
+        if($sort == 'count'){
+            $products = Product::findMany(array_unique($ids))->sortByDesc('count');
+        }elseif($sort == 'price-asc'){
+            $products = Product::findMany(array_unique($ids))->sortBy('price');
+        }elseif($sort == 'price-desc'){
+            $products = Product::findMany(array_unique($ids))->sortByDesc('price');
+        }elseif($sort == 'created_at'){
+            $products = Product::findMany(array_unique($ids))->sortByDesc('created_at');
+        }elseif($sort == 'discount'){
+            $products = Product::findMany(array_unique($ids))->sortByDesc('discount');
+        }else{
+            $products = Product::findMany(array_unique($ids))->sortBy('id');
+        }
+
+        // пагинация
+
+        return $this->paginate($products, 6);
     }
+
+    private function paginate($items, $perPage = 9, $page = null, $options = [])
+    {
+        $page = $page ?: (\Illuminate\Pagination\Paginator::resolveCurrentPage() ?: 1);
+
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    }
+
 }

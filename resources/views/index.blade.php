@@ -172,7 +172,7 @@
                             @endforeach
                                 <div class="row pagination-block">
                                     <div class="col-sm-9">
-                                        {{--{{$products->appends(request()->query())->links('parts.pagination')}}--}}
+                                        {{$products->appends(request()->query())->links('parts.pagination')}}
                                     </div>
                                 </div>
                         </div>
@@ -185,10 +185,10 @@
 @endsection
 
 @section('custom-js')
-    <script src="/js/ajax-filters.js"></script>
-    <script>
-        indexAjax("{{route('index', $group->seo_name)}}");
-    </script>
+    {{--<script src="/js/ajax-filters.js"></script>--}}
+    {{--<script>--}}
+        {{--indexAjax("{{route('index', $group->seo_name)}}");--}}
+    {{--</script>--}}
     <script>
         $('.hidden-img').hover(function () {
             $(this).parent().css("background-image", "url('/images/product-details/" + $(this).attr('id') +  "')");

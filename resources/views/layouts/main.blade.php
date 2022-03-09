@@ -111,8 +111,12 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="search_box pull-right">
-                        @php($seo_name = explode('/',request()->getRequestUri()))
-                        <form action="{{route('search', [$seo_name[2]])}}" method="get" ><input type="text" name="q" placeholder="Пошук" value=""/></form>
+                        @if( count(explode('?',request()->getRequestUri())) > 1)
+                            @php($seo_name = explode('/',request()->getRequestUri()))
+                            <form action="{{route('search', ['women'])}}" method="get" ><input type="text" name="q" placeholder="Пошук" value=""/></form>
+                            @else
+                            <form action="{{route('search', [isset($seo_name[2]) ? $seo_name[2] : 'women'])}}" method="get" ><input type="text" name="q" placeholder="Пошук" value=""/></form>
+                        @endif
                     </div>
                 </div>
             </div>

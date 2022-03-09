@@ -12,22 +12,14 @@ use App\Observers\ElasticSearchObserver;
 
 trait Searchable
 {
-//    public static function bootSearchable(){
-//       static::observe(ElasticSearchObserver::class);
-//    }
+    public static function bootSearchable(){
+       static::observe(ElasticSearchObserver::class);
+    }
 
     public function getSearchIndex(){
         return "elastic_products";
     }
 
-    public function getSearchType(){
-        return '_doc';
-    }
 
-    public function  toSearchArray(){
-        return [
-          'name' => $this->name,
-        ];
-    }
 
 }
