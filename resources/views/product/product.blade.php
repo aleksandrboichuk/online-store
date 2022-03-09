@@ -114,6 +114,10 @@
                                         <p>{{$product->colors['name']}}</p>
                                     </div>
                                     <div class="product-characteristics">
+                                        <b>Сезон: </b>
+                                        <p>{{$product->seasons['name']}}</p>
+                                    </div>
+                                    <div class="product-characteristics">
                                         <b>Матеріал: </b>
                                         <p>
                                             @foreach($product->materials as $material)

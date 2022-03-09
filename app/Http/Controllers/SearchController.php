@@ -6,6 +6,7 @@ use App\Models\Banner;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\CategoryGroup;
+use App\Models\Product;
 use App\Models\ProductBrand;
 use App\Models\ProductColor;
 use App\Models\ProductImage;
@@ -78,10 +79,14 @@ class SearchController extends Controller
 
 
 
-        //гибкость фильтрации
+        //гибкость фильтрации (если понадобится)
 
-//        if(isset($request['sizes']) && !empty($request['sizes']) && isset($request['materials']) && !empty($request['materials'])) {
-//            if(count(explode(',', $request['sizes'])) > 1 || count(explode(',', $request['materials'])) > 1) {
+        //        $colorFilterType = 'must';
+//        $brandFilterType = 'must';
+//        if(isset($request['colors']) && !empty($request['colors']) && isset($request['brands']) && !empty($request['brands'])) {
+//            $requestBrandsFilters = explode(' ', $request['brands']);
+//            $requestColorsFilters = explode(' ', $request['colors']);
+//            if(count($requestBrandsFilters) > 1 || count($requestColorsFilters) == 1) {
 //                $filterType = 'filter';
 //            } else {
 //                $filterType = 'must';
@@ -95,9 +100,9 @@ class SearchController extends Controller
         $arData = [];
 
         //Эластик лучше всего находит цифры, соотв. нужны айдишники
-        $filterType = 'should';
+        $filterType = 'must';
         if(isset($request['colors'])){
-            $requestColors[] = explode(' ', $request['colors']);
+            $requestColors = explode(' ', $request['colors']);
             $colors = [];
             foreach ($requestColors as $rc){
                $colorModel = ProductColor::where('seo_name', $rc)->first();
@@ -110,9 +115,9 @@ class SearchController extends Controller
             ];
         }
         if(isset($request['brands'])){
-            $requestBrands[] =  explode(' ', $request['brands']);
+            $requestBrands =  explode(' ', $request['brands']);
             $brands = [];
-            foreach ($requestBrands[0] as $rb){
+            foreach ($requestBrands as $rb){
                 $brandModel = ProductBrand::where('seo_name', $rb)->first();
                 array_push($brands, $brandModel->id );
             }
@@ -123,9 +128,9 @@ class SearchController extends Controller
             ];
         }
         if(isset($request['seasons'])){
-            $requestSeasons[] =  explode(' ', $request['seasons']);
+            $requestSeasons =  explode(' ', $request['seasons']);
             $seasons = [];
-            foreach ($requestSeasons[0] as $rs){
+            foreach ($requestSeasons as $rs){
                 $seasonModel = ProductSeason::where('seo_name', $rs)->first();
                 array_push($seasons, $seasonModel->id );
             }
@@ -137,9 +142,9 @@ class SearchController extends Controller
         }
         if(isset($request['materials'])){
             $filterType = 'must';
-            $requestMaterials[] =  explode(' ', $request['materials']);
+            $requestMaterials =  explode(' ', $request['materials']);
             $materials = [];
-            foreach ($requestMaterials[0] as $rm){
+            foreach ($requestMaterials as $rm){
                 $materialModel = ProductMaterial::where('seo_name', $rm)->first();
                 array_push($materials, $materialModel->id );
             }
@@ -151,9 +156,9 @@ class SearchController extends Controller
         }
         if(isset($request['sizes'])){
             $filterType = 'must';
-            $requestSizes[] =  explode(' ', $request['sizes']);
+            $requestSizes  =  explode(' ', $request['sizes']);
             $sizes = [];
-            foreach ($requestSizes[0] as $rsize){
+            foreach ($requestSizes as $rsize){
                 $sizeModel = ProductSize::where('seo_name', $rsize)->first();
                 array_push($sizes, $sizeModel->id );
             }
@@ -192,20 +197,6 @@ class SearchController extends Controller
             ];
         }
 
-        if(isset($request['sizes'])){
-            $filterType = 'must';
-            $requestSizes[] =  explode(' ', $request['sizes']);
-            $sizes = [];
-            foreach ($requestSizes[0] as $rsize){
-                $sizeModel = ProductSize::where('seo_name', $rsize)->first();
-                array_push($sizes, $sizeModel->id );
-            }
-            $arData["bool"][$filterType][] =  [
-                'terms' => [
-                    'psize_id' => $sizes
-                ]
-            ];
-        }
 
         $seo_names = [empty($group) ? "" :$group->seo_name, !isset($category) ? "" : $category->seo_name, !isset($subCategory) ? "" : $subCategory->seo_name];
 
@@ -248,6 +239,7 @@ class SearchController extends Controller
                     $view = 'SubCategory.subcategory';
                 }
             }
+
         if(isset($request['orderBy'])){
             //dd($arData);
             $sort = $request['orderBy'];

@@ -225,14 +225,9 @@ $(document).ready(function() {
                            url += '?orderBy=' + orderBy;
                        }
                    }
-
-
-
                 }
 
                 window.location.href = url;
-
-
             }
         }
 
