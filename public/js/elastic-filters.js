@@ -18,6 +18,8 @@ $(document).ready(function() {
                 filterValues = filterParams[1].split('%20');
             }
             if(filterParams[0] == 'colors'){
+                $('span[id="color-title"]').parent().addClass('filter-title-active');
+                $('span[id="color-title"]').text('Колір ' + '(' + filterValues.length.toString() + ')');
                 for (let a = 0; a < color.length; a++) {
                     for( let b = 0; b < filterValues.length; b++){
                         if (color[a].firstChild.getAttribute('id') == filterValues[b]) {
@@ -27,6 +29,8 @@ $(document).ready(function() {
                 }
             }
             if(filterParams[0] == 'brands'){
+                $('span[id="brand-title"]').parent().addClass('filter-title-active');
+                $('span[id="brand-title"]').text('Бренд ' + '(' + filterValues.length.toString() + ')');
                 for (let a = 0; a < brand.length; a++) {
                     for( let b = 0; b < filterValues.length; b++){
                         if (brand[a].firstChild.getAttribute('id') == filterValues[b]) {
@@ -36,6 +40,8 @@ $(document).ready(function() {
                 }
             }
             if(filterParams[0] == 'materials'){
+                $('span[id="material-title"]').parent().addClass('filter-title-active');
+                $('span[id="material-title"]').text('Матеріал ' + '(' + filterValues.length.toString() + ')');
                 for (let a = 0; a < material.length; a++) {
                     for( let b = 0; b < filterValues.length; b++){
                         if (material[a].firstChild.getAttribute('id') == filterValues[b]) {
@@ -45,6 +51,8 @@ $(document).ready(function() {
                 }
             }
             if(filterParams[0] == 'seasons'){
+                $('span[id="season-title"]').parent().addClass('filter-title-active');
+                $('span[id="season-title"]').text('Сезон ' + '(' + filterValues.length.toString() + ')');
                 for (let a = 0; a < season.length; a++) {
                     for( let b = 0; b < filterValues.length; b++){
                         if (season[a].firstChild.getAttribute('id') == filterValues[b]) {
@@ -54,6 +62,8 @@ $(document).ready(function() {
                 }
             }
             if(filterParams[0] == 'sizes'){
+                $('span[id="size-title"]').parent().addClass('filter-title-active');
+                $('span[id="size-title"]').text('Розмір ' + '(' + filterValues.length.toString() + ')');
                 for (let a = 0; a < size.length; a++) {
                     for( let b = 0; b < filterValues.length; b++){
                         if (size[a].firstChild.getAttribute('id') == filterValues[b]) {
@@ -63,9 +73,11 @@ $(document).ready(function() {
                 }
             }
             if(filterParams[0] == 'priceFrom'){
+                $('span[id="price-title"]').parent().addClass('filter-title-active');
                 $('input[name="from-price"]').val(filterValues[0]);
             }
             if(filterParams[0] == 'priceTo'){
+                $('span[id="price-title"]').parent().addClass('filter-title-active');
                 $('input[name="to-price"]').val(filterValues[0]);
             }
 

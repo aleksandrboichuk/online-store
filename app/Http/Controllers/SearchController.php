@@ -25,6 +25,7 @@ class SearchController extends Controller
 
         $view = 'search.cg-search';
         $group_brands = $this->getGroupBrand($group->id);
+
         if(!$this->getUser()){
             $cart = Cart::where('token', session('_token'))->first();
         }
@@ -63,19 +64,30 @@ class SearchController extends Controller
             $cart = Cart::where('token', session('_token'))->first();
         }
         //explode query string
+
         $mainQueryString = explode('?', request()->getRequestUri());
         $arrSeoNames = explode('/', $mainQueryString[0]); // start from 2
 
-        $group = CategoryGroup::where('seo_name',$arrSeoNames[2])->first();
-        $group_brands = $this->getGroupBrand($group->id);
+        $promotion = false;
+        if($arrSeoNames[1] == 'promotions'){
+            $promotion = true;
+            $promotionBanner = Banner::where('seo_name', $arrSeoNames[3])->first();
+            $group = CategoryGroup::where('seo_name',$arrSeoNames[2])->first();
+            $group_brands = $this->getGroupBrand($group->id);
+
+        }else{
+
+            $group = CategoryGroup::where('seo_name',$arrSeoNames[2])->first();
+            $group_brands = $this->getGroupBrand($group->id);
+            if(isset($arrSeoNames[3])){
+                $category =  Category::where('seo_name',$arrSeoNames[3])->first();
+            }
+            if(isset($arrSeoNames[4])){
+                $subCategory =  SubCategory::where('seo_name',$arrSeoNames[4])->first();
+            }
+        }
 
 
-        if(isset($arrSeoNames[3])){
-            $category =  Category::where('seo_name',$arrSeoNames[3])->first();
-        }
-        if(isset($arrSeoNames[4])){
-            $subCategory =  SubCategory::where('seo_name',$arrSeoNames[4])->first();
-        }
 
 
 
@@ -211,33 +223,44 @@ class SearchController extends Controller
 
                 //Эластик лучше всего находит цифры, соотв. нужны айдишники
 
-                if($seo_names[0] != "" && $seo_names[1] == "" && $seo_names[2] == ""){
-                    $must = [
-                        ['match' => ['cg_seo_name' => $seo_names[0]]],
-                    ];
-                    $view = 'index';
-                    $banners = Banner::where('active', 1)->get();
+                if($promotion){
+                    if($seo_names[0] != "") {
+                        $must = [
+                            ['match' => ['cg_seo_name' => $seo_names[0]]],
+                            ['match' => ['banner_id' => $promotionBanner->id]],
+                        ];
+                        $view = 'promotions.index';
+                    }
+                }else{
+                    if($seo_names[0] != "" && $seo_names[1] == "" && $seo_names[2] == ""){
+                        $must = [
+                            ['match' => ['cg_seo_name' => $seo_names[0]]],
+                        ];
+                        $view = 'index';
+                        $banners = Banner::where('active', 1)->where('category_group_id', $group->id)->get();
+                    }
+                    if($seo_names[0] != "" && $seo_names[1] != "" && $seo_names[2] == ""){
+                        $cg = CategoryGroup::where('seo_name',$seo_names[0] )->first();
+                        $c = Category::where('seo_name', $seo_names[1] )->first();
+                        $must = [
+                            ['match' => ['product_category_group' => $cg->id]],
+                            ['match' => ['product_category' => $c->id]]
+                        ];
+                        $view = 'category.category';
+                    }
+                    if($seo_names[0] != "" && $seo_names[1] != "" && $seo_names[2] != ""){
+                        $cg = CategoryGroup::where('seo_name',$seo_names[0] )->first();
+                        $c = Category::where('seo_name', $seo_names[1] )->first();
+                        $sc = SubCategory::where('seo_name', $seo_names[2] )->first();
+                        $must = [
+                            ['match' => ['product_category_group' => $cg->id]],
+                            ['match' => ['product_category' => $c->id]],
+                            ['match' => ['product_category_sub' => $sc->id]]
+                        ];
+                        $view = 'SubCategory.subcategory';
+                    }
                 }
-                if($seo_names[0] != "" && $seo_names[1] != "" && $seo_names[2] == ""){
-                    $cg = CategoryGroup::where('seo_name',$seo_names[0] )->first();
-                    $c = Category::where('seo_name', $seo_names[1] )->first();
-                    $must = [
-                        ['match' => ['product_category_group' => $cg->id]],
-                        ['match' => ['product_category' => $c->id]]
-                    ];
-                    $view = 'category.category';
-                }
-                if($seo_names[0] != "" && $seo_names[1] != "" && $seo_names[2] != ""){
-                    $cg = CategoryGroup::where('seo_name',$seo_names[0] )->first();
-                    $c = Category::where('seo_name', $seo_names[1] )->first();
-                    $sc = SubCategory::where('seo_name', $seo_names[2] )->first();
-                    $must = [
-                        ['match' => ['product_category_group' => $cg->id]],
-                        ['match' => ['product_category' => $c->id]],
-                        ['match' => ['product_category_sub' => $sc->id]]
-                    ];
-                    $view = 'SubCategory.subcategory';
-                }
+
             }
 
         if(isset($request['orderBy'])){
@@ -254,6 +277,7 @@ class SearchController extends Controller
         return view( $view, [
             'user' => $this->getUser(),
             'banners' => isset($banners) ? $banners : null,
+            'banner' => isset($promotionBanner) && !empty($promotionBanner) ? $promotionBanner : null,
             'cart' => isset($cart) && !empty($cart) ? $cart : null,
             'group' =>  $group,
             'group_categories' => $group->categories,

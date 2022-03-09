@@ -4,7 +4,7 @@
             <div class="col-sm-6 col-xs-6 col-md-4 col-lg-1 filters ">
                 <div class="filter-item">
                     <div class="filter-title">
-                        <span>Ціна</span>
+                        <span id="price-title">Ціна</span>
                         <img class="filter-img" src="/images/home/arrow-down.png" alt="">
                     </div>
                     <div class="fil-params">

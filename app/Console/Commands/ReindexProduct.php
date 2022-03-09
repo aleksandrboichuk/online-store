@@ -160,6 +160,9 @@ class ReindexProduct extends Command
                                'type' => 'text',
                                'analyzer' => 'rebuilt_russian'
                            ],
+                           'banner_id' =>[
+                               'type' => 'integer'
+                           ],
                            'price' =>[
                                'type' => 'integer',
                            ],

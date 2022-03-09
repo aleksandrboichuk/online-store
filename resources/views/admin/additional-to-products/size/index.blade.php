@@ -6,7 +6,7 @@
         <div class="container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
-                    <li><a href="/admin">Адмін</a></li>
+                    <li><a href="/admin">Панель Адміністратора</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
                     <li class="active">Розміри</li>
                 </ol>
             </div>

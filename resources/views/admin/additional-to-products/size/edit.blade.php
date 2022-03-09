@@ -1,7 +1,13 @@
 @extends('layouts.admin')
 
 @section('content')
-
+    <div class="breadcrumbs admin-bread">
+        <ol class="breadcrumb">
+            <li><a href="/admin">Адмін</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+            <li><a href="/admin/sizes">Розміри</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+            <li class="active">Редагування</li>
+        </ol>
+    </div>
 
     <section class="form-add">
         <div class="container">

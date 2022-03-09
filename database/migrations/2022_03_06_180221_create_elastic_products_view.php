@@ -22,6 +22,7 @@ clASs CreateElasticProductsView extends Migration
                     p.seo_name AS seo_name, 
                     p.preview_img_url AS preview_img_url, 
                     p.description AS description, 
+                    p.banner_id AS banner_id, 
                     p.price AS price, 
                     p.discount AS discount, 
                     p.count AS count, 

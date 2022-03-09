@@ -825,12 +825,23 @@ h2.title:before {
     display: block;
     margin-right: 10px;
     position: relative;
+    width: 110px;
 }
 
 .filter-item label{
+    color: #797979;
     font-size: 16px;
     margin-left: 10px;
     font-family: roboto, sans-serif;
+}
+
+.filter-item label:hover{
+    color: #fe980f;
+}
+.fil-params input:not(.to-size-input, .from-size-input){
+    height: 16px;
+    width: 16px;
+   border-radius: 7px;
 }
 
 .no{
@@ -845,21 +856,22 @@ h2.title:before {
     height: 22px;
     border: 1px solid black;
     border-radius: 5px;
-    padding: 0px;
+    padding: 0;
     text-align: center;
-    width: 90px;
+
     font-size: 14px;
     cursor: pointer;
-
-
-
+}
+.filter-title-active{
+    background-color: #292929;
+    color: #fff;
 }
 .filter-title h2{
     margin: 10px 0;
 }
 .filters{
     padding: 0;
-    margin-right: 20px;
+    margin-right: 40px;
 
 }
 .products{
@@ -907,7 +919,7 @@ h2.title:before {
 .btn-danger-filters{
 
     margin-left: 10px;
-    height: 27px;
+    height: 23px;
     padding: 0 5px 0 5px ;
     border-radius: 5px;
     font-size: 14px;
@@ -1671,6 +1683,7 @@ h2.title {
     margin-top: 30px;
     margin-bottom: -20px;
 }
+
 .product-breadcrumbs{
     margin-bottom: -30px;
 }
@@ -2600,7 +2613,10 @@ textarea {
 
 
 /* админка */
-
+.admin-bread{
+    max-width: 760px;
+    margin: 0 auto;
+}
 .add-admin{
     float: right;
     margin-right: 15px;
@@ -2801,7 +2817,7 @@ textarea {
         padding-left: 40px;
     }
     .filter-item{
-        padding-left: 50px;
+        margin-left: 40px;
     }
     .filters{
         margin: 0;

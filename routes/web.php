@@ -206,7 +206,16 @@ Route::group([
 Route::group([
     'prefix' => 'promotions',
 ],function () {
-
+    if(preg_match("/\?colors/", request()->getRequestUri())
+        || preg_match("/\?brands/", request()->getRequestUri())
+        || preg_match("/\?materials/", request()->getRequestUri())
+        || preg_match("/\?orderBy/", request()->getRequestUri())
+        || preg_match("/\?seasons/", request()->getRequestUri())
+        || preg_match("/\?sizes/", request()->getRequestUri())
+        || preg_match("/\?price/", request()->getRequestUri())
+    ){
+        Route::any('/{group_seo_name?}/{banner_seo_name?}/{queryString?}', [\App\Http\Controllers\SearchController::class, 'filtersRequest'])->name('filters.request');
+    }
     Route::get('/{group_seo_name}/{seo_name_banner}',[\App\Http\Controllers\PromotionController::class, 'index'])->name('show.promotion.details');
 });
 
