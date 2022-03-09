@@ -75,9 +75,6 @@ class ElasticSearch
             $arData = ["bool" => ["must" => ["terms" => ["active" => [1]]]]];
         }
 //        $defaultMust = [['match' => ['cg_seo_name' => "women"]]];
-
-        //dd($must);
-
         return $this->elasticsearch->search([
             'index' => 'elastic_products',
             'type' => '_doc',

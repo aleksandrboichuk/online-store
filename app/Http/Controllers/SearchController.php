@@ -56,7 +56,7 @@ class SearchController extends Controller
     }
 
 
-    public function filtersRequest($seo_name, Request $request, ElasticSearch $elasticSearch){
+    public function filtersRequest(Request $request, ElasticSearch $elasticSearch){
 
         if(!$this->getUser()){
             $cart = Cart::where('token', session('_token'))->first();
@@ -78,7 +78,7 @@ class SearchController extends Controller
 
 
 
-        //гибкость поиска
+        //гибкость фильтрации
 
 //        if(isset($request['sizes']) && !empty($request['sizes']) && isset($request['materials']) && !empty($request['materials'])) {
 //            if(count(explode(',', $request['sizes'])) > 1 || count(explode(',', $request['materials'])) > 1) {

@@ -254,15 +254,16 @@ $(document).ready(function() {
                 priceFrom = 0;
             }else if(!isNaN(priceFrom) && isNaN(priceTo)){
                 $('input[name="from-price"]').val('0');
-                $('input[name="to-price"]').val('1');
+                $('input[name="to-price"]').val(priceFrom.toString());
+                priceTo = priceFrom;
                 priceFrom = 0;
-                priceTo = 1;
             }else if(!isNaN(priceFrom) && !isNaN(priceTo)){
                 if(priceFrom > priceTo){
-                    $('input[name="from-price"]').val('0');
-                    $('input[name="to-price"]').val('100000');
-                    priceFrom = 0;
-                    priceTo = 100000;
+                    let a = priceFrom;
+                    priceFrom = priceTo;
+                    priceTo = a;
+                    $('input[name="from-price"]').val(priceFrom.toString());
+                    $('input[name="to-price"]').val(priceTo.toString());
                 }
             }
 
@@ -303,7 +304,7 @@ $(document).ready(function() {
             }
 
             //
-            if (colors.length > 0 || brands.length > 0 || materials.length > 0 || sizes.length > 0 || seasons.length > 0) {
+            if (colors.length > 0 || brands.length > 0 || materials.length > 0 || sizes.length > 0 || seasons.length > 0 || !isNaN(priceFrom) && !isNaN(priceTo)) {
                 if (colors.length > 0) {
 
                     if (url.split('?').length > 1) {
@@ -345,7 +346,7 @@ $(document).ready(function() {
                     }
                 }
 
-                if(priceFrom != 0 && priceTo !=0){
+                if(priceTo !=0){
                     if (url.split('?').length > 1) {
                         url += '&priceFrom=' + priceFrom.toString() + '&priceTo=' + priceTo.toString();
                     } else {

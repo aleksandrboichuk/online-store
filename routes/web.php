@@ -231,7 +231,7 @@ if(preg_match("/\?colors/", request()->getRequestUri())
     || preg_match("/\?sizes/", request()->getRequestUri())
     || preg_match("/\?price/", request()->getRequestUri())
 ){
-    Route::any('/{seo_name}/{category_seo_name?}/{sub_category_seo_name?}/{queryString?}', [\App\Http\Controllers\SearchController::class, 'filtersRequest'])->name('filters.request');
+    Route::any('/{seo_name?}/{category_seo_name?}/{sub_category_seo_name?}/{queryString?}', [\App\Http\Controllers\SearchController::class, 'filtersRequest'])->name('filters.request');
 }
 
 Route::get('/{group_seo_name}', [\App\Http\Controllers\CategoryGroupController::class,'index'])->name('index');
