@@ -63,6 +63,7 @@ class SearchController extends Controller
         if(!$this->getUser()){
             $cart = Cart::where('token', session('_token'))->first();
         }
+
         //explode query string
 
         $mainQueryString = explode('?', request()->getRequestUri());

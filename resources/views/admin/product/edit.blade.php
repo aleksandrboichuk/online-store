@@ -41,9 +41,11 @@
                     <div class="add-block">
                         <label for="banner-field">Акція(якщо є) </label>
                         <select size="4" name="banner-field" class="select-option">
+                            @if(!empty($banners))
                             @foreach($banners as $banner)
                                 <option value="{{$banner->id}}" {{$banner->id == $product->banner_id ? "selected": ""}}>{{$banner->title}}</option>
                             @endforeach
+                            @endif
                         </select>
                     </div>
                     <div class="add-block">

@@ -466,6 +466,7 @@ class AdminController extends Controller
         foreach ($product_sizes as $key => $value) {
               $count_sizes[$value->id] = $value->pivot->count;
         }
+       $banners = Banner::where('category_group_id', $product->categoryGroups->id)->get();
         return view('admin.product.edit',[
             'user' => $this->getUser(),
             'category_groups' => CategoryGroup::all(),
@@ -476,7 +477,7 @@ class AdminController extends Controller
             'brands' => ProductBrand::all(),
             'materials' => ProductMaterial::all(),
             'sizes' => ProductSize::all(),
-            'banners' => Banner::all(),
+            'banners' => !empty($banners) ? $banners : null,
             'count_sizes' => isset($count_sizes) ? $count_sizes : null,
             'product' =>  $product,
             'selectedMaterials' => isset($selectedMaterials) ?  $selectedMaterials : [],
