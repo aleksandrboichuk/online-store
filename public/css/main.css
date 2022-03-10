@@ -227,10 +227,10 @@ a#scrollUp i {
     height: 35px;
     outline: medium;
     padding-left: 10px;
-    width: 200px;
+    width: 250px;
     background-image: url(../images/home/searchicon.png);
     background-repeat: no-repeat;
-    background-position: 170px;
+    background-position: 220px;
     border-radius: 20px;
 }
 .navbar-header .navbar-toggle .icon-bar {
@@ -484,11 +484,12 @@ ul.sub-menu {
 }
 .item img{
     max-width: 1920px;
+
 }
-.pricing {
+.mini-banner-img {
     position: absolute;
     right: 20%;
-    top: 40%;
+    top: 35%;
     max-width: 180px;
     max-height: 180px;
 }
@@ -496,6 +497,7 @@ ul.sub-menu {
     position: absolute;
     left: 20%;
     top: 35%;
+    max-width: 700px;
 }
 .slider-text .btn{
     width: 200px;
@@ -515,10 +517,12 @@ ul.sub-menu {
     color: white;
     font-size: 18px;
 }
-.girl {
+.banner-img {
     margin-left: 0;
 }
-
+#slider-carousel .banner-column-block{
+    max-height: 720px;
+}
 
 .item h2 {
     color: #363432;
@@ -563,19 +567,16 @@ ul.sub-menu {
     font-family: roboto, sans-serif;
 }
 
-.slider-text h3{
-    font-size: 72px;
+.slider-text h4{
+    color: white;
+    font-size: 65px;
     margin-bottom: 10px;
     text-transform: uppercase;
     text-align: justify;
 }
-.slider-text h3  {
-    color: white;
-    max-width: 700px;
-}
+
 .slider-text  p {
     color: white;
-    max-width: 700px;
 }
 
 .feature-inner{
@@ -1339,7 +1340,7 @@ h2.title {
     border-radius: 5px;
     border: 1px solid #dededc;
     padding: 8px;
-    margin-left: 5px;
+    margin-right: 5px;
     width: 39px;
     cursor: pointer;
     text-align: center;
@@ -1378,6 +1379,7 @@ h2.title {
 .product-characteristics{
     display: flex;
     justify-content: space-between;
+    margin: 5px 0;
 }
 .product-information h2 {
     color: #363432;
@@ -1389,7 +1391,6 @@ h2.title {
     color: #696763;
     font-size: 17px;
     font-family: roboto, sans-serif;
-    margin-bottom: 15px;
 }
 
 .product-information .product-characteristics  span {
@@ -1575,7 +1576,7 @@ h2.title {
 }
 .card-header{
     font-size: 22px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 .offset-md-4 .btn-primary{
     width: 150px;
@@ -2505,7 +2506,6 @@ textarea {
 }
 .btn.btn-primary {
     background: #518ef4;
-    border: 1px solid #b8b8b8;
     border-radius: 5px;
     margin-top: 16px;
 }
@@ -2567,7 +2567,7 @@ textarea {
 #contact-page .form-control:hover {
     -webkit-box-shadow: inherit;
     box-shadow: inherit;
-    border-color: #fdb45e;
+    border-color: #518ef4;
 }
 #contact-page .contact-info {
     padding: 0 20px;
@@ -2797,9 +2797,8 @@ textarea {
 @media screen and (max-width: 850px) {
     .slider-text h3 {
         font-size: 52px;
-        max-width: 320px;
     }
-    .slider-text p{
+    .slider-text{
         max-width: 320px;
     }
 
@@ -2815,7 +2814,7 @@ textarea {
         width: 200px;
     }
     .products,.left-sidebar{
-        padding-left: 40px;
+        padding-left: 60px;
     }
     .filter-item{
         margin-left: 40px;
@@ -2834,9 +2833,8 @@ textarea {
 @media screen and (min-width: 851px) and  (max-width: 1000px){
     .slider-text h3 {
         font-size: 52px;
-        max-width: 320px;
     }
-    .slider-text p{
+    .slider-text{
         max-width: 320px;
     }
 

@@ -98,7 +98,7 @@
                                             <li><b>E-mail:</b><span><input type="text" name="user-email" value="{{$user->email}}" required></span></li>
                                             <li><b>Місто:</b><span><input type="text" name="user-city" value="{{$user->city}}" required></span></li>
                                             <li><b>Адреса:</b><span><input type="text" name="user-address" value="{{$user->address}}" required></span></li>
-                                            <li><b>Телефон:</b><span><input type="text" name="user-phone" value="{{$user->phone}}" required></span></li>
+                                            <li><b>Телефон:</b><span><input type="text" name="user-phone" value="{{$user->phone}} " required onkeyup="this.value = this.value.replace(/[^\d]/g,'');"></span></li>
                                         </ul>
                                             @else
                                             <ul>
@@ -107,7 +107,7 @@
                                                 <li><b>E-mail:</b><span><input type="text" name="user-email" value="" required></span></li>
                                                 <li><b>Місто:</b><span><input type="text" name="user-city" value="" required></span></li>
                                                 <li><b>Адреса:</b><span><input type="text" name="user-address" value="" required></span></li>
-                                                <li><b>Телефон:</b><span><input type="text" name="user-phone" value="" required></span></li>
+                                                <li><b>Телефон:</b><span><input type="text" name="user-phone" value="" required onkeyup="this.value = this.value.replace(/[^\d]/g,'');"></span></li>
                                             </ul>
                                             @endif
                                     </div>

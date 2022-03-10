@@ -55,7 +55,7 @@ if(preg_match("#^\/register#", \request()->getRequestUri()) == false
     && preg_match("#^\/promotions#", \request()->getRequestUri()) == false
     && preg_match("#^\/cart#", \request()->getRequestUri()) == false
     && preg_match("#^\/shop#", \request()->getRequestUri()) == false) {
-    Route::get('{any?}', function ($any) {
+    Route::get('{any?}', function () {
         return response()->view('404.404', ['user' => Auth::user()], 404);
     })->where('any', '.*');
 }
@@ -178,10 +178,11 @@ Route::group([
 Route::group([
     'prefix' => 'cart',
 ], function () {
+
     Route::get('', [\App\Http\Controllers\CartController::class, 'showUserCart'])->name('show.cart');
     Route::get('/checkout', [\App\Http\Controllers\CheckoutController::class, 'checkout'])->name('checkout');
-    Route::post('/delete-from-cart',[\App\Http\Controllers\CartController::class, 'deleteFromCart'])->name('delete.from.cart');
 
+    Route::post('/delete-from-cart',[\App\Http\Controllers\CartController::class, 'deleteFromCart'])->name('delete.from.cart');
     Route::post('/save-order', [\App\Http\Controllers\CheckoutController::class, 'saveOrder'])->name('save.order');
 });
 
@@ -261,7 +262,7 @@ Auth::routes();
 Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class, 'toLogin'])->name('login');
 Route::get('/logout', function(){
     Auth::logout();
-    return redirect('/login');
+    return redirect()->back();
 });
 Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'toRegister'])->name('register');
 

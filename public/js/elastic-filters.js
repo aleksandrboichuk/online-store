@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    window.scroll(0, localStorage.getItem('scroll')|0);
+    localStorage.setItem('scroll', 0);
+
     let color = document.querySelectorAll('.color');
     let brand = document.querySelectorAll('.brand');
     let material = document.querySelectorAll('.material');
@@ -239,7 +242,10 @@ $(document).ready(function() {
                    }
                 }
 
+                localStorage.setItem('scroll',  window.pageYOffset);
+
                 window.location.href = url;
+
             }
         }
 
@@ -370,11 +376,13 @@ $(document).ready(function() {
                 url += '?orderBy=' + $(this).val();
             }
 
+            localStorage.setItem('scroll',  window.pageYOffset);
+
             window.location.href = url;
     });
 
     $('.btn-danger-filters').click(function () {
-        let base_url = location.href.split('?');
-        window.location.href = base_url[0];
+        localStorage.setItem('scroll',  window.pageYOffset);
+        window.location.href = full_url[0];
     });
 });

@@ -4,7 +4,7 @@
     <div class="breadcrumbs admin-bread">
         <ol class="breadcrumb">
             <li><a href="/admin">Адмін</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-            <li><a href="/admin/banners">Банери</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+            <li><a href="/admin/banner">Банери</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
             <li class="active">Додавання</li>
         </ol>
     </div>
@@ -31,7 +31,7 @@
                     <input type="text" name="mini-img-field">
                 </div>
                 <div class="add-block">
-                    <label for="main-img-field">Головне зображення (справа) </label>
+                    <label for="main-img-field">Головне зображення </label>
                     <input type="text" name="main-img-field">
                 </div>
                 <div class="add-block">

@@ -13,6 +13,7 @@ use App\Models\ProductMaterial;
 use App\Models\ProductSeason;
 use App\Models\ProductSize;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -20,7 +21,13 @@ class CategoryController extends Controller
 
     public function index(Request $request, $group_seo_name,$category_seo_name){
         $group = CategoryGroup::where('seo_name',$group_seo_name)->first();
+        if(!$group){
+            return response()->view('404.404', ['user' => Auth::user()], 404);
+        }
         $category = Category::where('seo_name',$category_seo_name)->first();
+        if(!$category ){
+            return response()->view('404.404', ['user' => Auth::user()], 404);
+        }
         $category_products = Product::where('category_group_id',$group->id)->where('category_id',$category->id)->paginate(9);
 
         $group_brands = $this->getGroupBrand($group->id);

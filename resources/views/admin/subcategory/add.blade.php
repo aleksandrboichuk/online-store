@@ -27,7 +27,7 @@
                     <input type="text" name="seo-field">
                 </div>
                 <div class="add-block">
-                    <label for="cat-field">Група категорій </label>
+                    <label for="cat-field">Категорія </label>
                         <select size="5" name="cat-field" class="select-option">
                             @foreach($categories as $c)
                                 <option value="{{$c->id}}">{{$c->title}}</option>

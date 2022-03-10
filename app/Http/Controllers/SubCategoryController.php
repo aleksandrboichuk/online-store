@@ -14,14 +14,28 @@ use App\Models\ProductSeason;
 use App\Models\ProductSize;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SubCategoryController extends Controller
 {
     public function index(Request $request, $group_seo_name,$category_seo_name,$sub_category_seo_name){
         $group = CategoryGroup::where('seo_name',$group_seo_name)->first();
+        if(!$group){
+            return response()->view('404.404', ['user' => Auth::user()], 404);
+        }
+
         $category = Category::where('seo_name',$category_seo_name)->first();
+        if(!$category){
+            return response()->view('404.404', ['user' => Auth::user()], 404);
+        }
+
         $sub_category = SubCategory::where('seo_name',$sub_category_seo_name)->where('category_id',$category->id)->first();
+        if(!$sub_category){
+            return response()->view('404.404', ['user' => Auth::user()], 404);
+        }
+
         $sub_category_products = Product::where('category_group_id', $group->id)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)->paginate(9);
+
 
         if(!$this->getUser()){
             $cart = Cart::where('token', session('_token'))->first();

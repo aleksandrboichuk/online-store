@@ -13,6 +13,7 @@ use App\Models\ProductMaterial;
 use App\Models\ProductSeason;
 use App\Models\ProductSize;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryGroupController extends Controller
 {
@@ -22,6 +23,9 @@ class CategoryGroupController extends Controller
 
     public function index(Request $request,$group_seo_name){
         $group = CategoryGroup::where('seo_name',$group_seo_name)->first();
+        if(!$group){
+            return response()->view('404.404', ['user' => Auth::user()], 404);
+        }
         $group_products = Product::where('category_group_id',$group->id)->paginate(9);
 
         $group_brands = $this->getGroupBrand($group->id);
@@ -118,7 +122,7 @@ class CategoryGroupController extends Controller
         
 
         return view('index',[
-            'banners' => Banner::where('active', 1)->get(),
+            'banners' => Banner::where('active', 1)->where('category_group_id', $group->id)->get(),
             'user'=> $this->getUser(),
             'cart' => isset($cart) && !empty($cart) ? $cart : null,
             'group' => $group,

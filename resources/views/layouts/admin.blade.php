@@ -36,7 +36,6 @@
                 <div class="col-md-8 clearfix">
                     <div class="shop-menu clearfix pull-right">
                         <ul class="nav navbar-nav">
-                            @if(isset($user) && !empty($user))
                                 <li>
                                     <a href="/personal/orders"><i class="fa fa-user"></i> Мої замовлення</a>
                                 </li>
@@ -52,17 +51,6 @@
                                 <li>
                                     <a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Вихід</a>
                                 </li>
-                            @else
-                                <li>
-                                    <a href="/login"><i class="fa fa-lock"></i> Увійти</a>
-                                </li>
-                                <li class="or-a">
-                                    <a href="#">або</a>
-                                </li>
-                                <li>
-                                    <a  href="/register"><i class="fa fa-user"></i> Зареєструватися</a>
-                                </li>
-                            @endif
                         </ul>
                     </div>
                 </div>
@@ -102,7 +90,7 @@
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#">Параметри товарів<i class="fa fa-angle-down"></i></a>
+                                <a href="#">Властивості товарів<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li><a href="/admin/colors">Кольори</a></li>
                                     <li><a href="/admin/brands">Бренди</a></li>
