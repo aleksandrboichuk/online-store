@@ -46,7 +46,7 @@
                                     </li>
                                 @endif
                                 <li>
-                                    <a href="{{route('show.cart', $user->id)}}"><i class="fa fa-shopping-cart"></i> Кошик ({{isset($user->cart->products) ? count($user->cart->products) : "0"}})</a>
+                                    <a class="a-cart-title"    href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>{{isset($user->cart->products) ? count($user->cart->products) : "0"}}</b></a>
                                 </li>
                                 <li>
                                     <a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Вихід</a>

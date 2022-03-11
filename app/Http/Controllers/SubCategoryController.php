@@ -34,7 +34,7 @@ class SubCategoryController extends Controller
             return response()->view('404.404', ['user' => Auth::user()], 404);
         }
 
-        $sub_category_products = Product::where('category_group_id', $group->id)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)->paginate(9);
+        $sub_category_products = Product::where('category_group_id', $group->id)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)->paginate(8);
 
 
         if(!$this->getUser()){
@@ -76,7 +76,7 @@ class SubCategoryController extends Controller
 //                    }else{
 //                        return $query->orderBy('created_at','desc');
 //                    }
-//                })->paginate(9);
+//                })->paginate(8);
 //
 //            // найти материалы
 //            if(isset($request->materials) && !empty($request->materials)){

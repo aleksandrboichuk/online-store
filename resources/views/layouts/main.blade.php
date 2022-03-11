@@ -15,6 +15,14 @@
     @yield('custom-css')
 </head>
 <body>
+{{--preloader--}}
+<div class="preloader">
+    <svg class="preloader__image" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <path fill="currentColor"
+              d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z">
+        </path>
+    </svg>
+</div>
 <!--start header-->
 
 <header id="header">
@@ -45,9 +53,9 @@
                              @endif
                                 <li>
                                     @if(isset($user->cart->products))
-                                        <a href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик ({{count($user->cart->products)}})</a>
+                                        <a class="a-cart-title"    href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>{{count($user->cart->products)}}</b></a>
                                     @else
-                                        <a href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик (0)</a>
+                                        <a class="a-cart-title" href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>0 товарів</b></a>
                                     @endif
                                 </li>
                                 <li>
@@ -57,9 +65,9 @@
                             @else
                                 <li>
                                 @if(!empty($cart->products))
-                                    <a href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик ({{count($cart->products)}})</a>
+                                    <a class="a-cart-title" href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>{{count($cart->products)}}</b></a>
                                 @else
-                                    <a href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик (0)</a>
+                                    <a class="a-cart-title" href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>{{count($cart->products)}}</b></a>
                                  @endif
                                 </li>
                             <li>
@@ -99,7 +107,7 @@
                             <li><a href="/shop/women" class="women">Жінкам</a></li>
                             <li><a href="/shop/men" class="men">Чоловікам</a></li>
                             <li class="dropdown">
-                                <a href="#" class="kids">Дітям<i class="fa fa-angle-down"></i></a>
+                                <a class="kids">Дітям<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li><a href="/shop/girls">Дівчаткам</a></li>
                                     <li><a href="/shop/boys">Хлопчикам</a></li>

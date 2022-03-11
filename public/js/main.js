@@ -7,17 +7,36 @@ var RGBChange = function () {
     "rgb(" + r.getValue() + "," + g.getValue() + "," + b.getValue() + ")"
   );
 };
+$(window).on('load', function () {
+  $('body').addClass('loaded_hiding');
+  window.setTimeout(function () {
+    $('body').addClass('loaded');
+    $('body').removeClass('loaded_hiding');
+  }, 500);
+});
+
 $(document).ready(function () {
-  var a = location.href;
-  var b = a.split('/');
- if(b.length > 4) {
-   if (b[4] == "women") {
-     $('.mainmenu').find('a[class="women"]').css("color", "#fdb45e");
-   } else if (b[4] == "men") {
-     $('.mainmenu').find('a[class="men"]').css("color", "#fdb45e");
-   } else if (b[4] == "girls" || b[4] == "boys"){
-     $('.mainmenu').find('a[class="kids"]').css("color", "#fdb45e");
+  var url = location.href.split('/');
+ if(url.length > 4) {
+   if (url[4] == "women") {
+     $('.mainmenu').find('a[class="women"]').css("color", "#6fa1f4").css("font-weight", "bold");
+   } else if (url[4] == "men") {
+     $('.mainmenu').find('a[class="men"]').css("color", "#6fa1f4").css("font-weight", "bold");
+   } else if (url[4] == "girls" || url[4] == "boys"){
+     $('.mainmenu').find('a[class="kids"]').css("color", "#6fa1f4").css("font-weight", "bold");
+
+     // $('.kids').click(function () {
+     //   let subMenu = $(this).parent().find('.sub-menu');
+     //   console.log(1);
+     //   if(subMenu.css('display') == 'block' ){
+     //     subMenu.css('display', 'none');
+     //   }else{
+     //     subMenu.css('display', 'block');
+     //   }
+     // });
+
    }
+
  }
 
   $(function () {
@@ -41,5 +60,6 @@ $(document).ready(function () {
 
 
 });
+
 
 

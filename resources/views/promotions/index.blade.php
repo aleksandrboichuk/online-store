@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('content')
     <section class="products-section">
-        <div class="container">
+        <div class="main-container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
                     @if($group->name == "Жінки")

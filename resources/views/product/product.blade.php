@@ -4,8 +4,8 @@
     @endsection
 @section('content')
 
-    <section>
-        <div class="container product-container">
+    <section class="product-card-section">
+        <div class="product-container">
             <div class="breadcrumbs product-breadcrumbs">
                 <ol class="breadcrumb">
                     @if($group->name == "Жінки")
@@ -98,11 +98,11 @@
                                             <h4 class="product-price-discount">₴{{$product->price - (round($product->price * ($product->discount * 0.01)))}}</h4>
                                         </div>
                                    @else
-                                        <span class="product-price">₴{{$product->price}}</span>
+                                        <div class="product-price">₴{{$product->price}}</div>
                                    @endif
                                 <div class="product-characteristics">
                                     <b>Наявність:</b>
-                                    <p>
+                                    <p style="color: {{$product->in_stock ? 'green' : "red" }};">
                                         {{$product->in_stock ? " У наявності": "Немає у наявності"}}</p>
                                 </div>
                                     <div class="product-characteristics">
@@ -134,12 +134,15 @@
                                         @endforeach
                                 </div>
                                 <div class="product-characteristics">
-                                    <span>
-                                      <label class="quantity-title">Кількість:</label>
-                                     <input type="text" class="quantity" name="quantity"  value="1"/>
+                                    <label class="quantity-title">Кількість:</label>
+                                    <span class="input-group">
+                                        <input type="button" class="btn-minus" value="-">
+                                         <input type="text" class="quantity" name="quantity"  value="1" readonly />
+                                        <input type="button"  class="btn-plus" value="+">
                                     </span>
-                                    <button type="submit" class="btn btn-fefault cart" {{empty($product->sizes[0]['name'])  ? "disabled" : ""}}><i class="fa fa-shopping-cart" ></i> До кошику</button>
+
                                 </div>
+                                <button type="submit" class="btn btn-fefault cart" {{empty($product->sizes[0]['name'])  ? "disabled" : ""}}><i class="fa fa-shopping-cart" ></i> До кошику</button>
                                 <h3 class="about-product">Про товар:</h3>
                                 <p>{{$product->description}}</p>
                             </div>
@@ -171,7 +174,6 @@
                         >
                             <div class="carousel-inner">
                                 <div class="item active">
-
                                     @foreach($recommended_products as $item)
                                         @include('parts.product-item')
                                     @endforeach

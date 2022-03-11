@@ -37,7 +37,7 @@
     <!--start content-->
 
     <section class="products-section">
-        <div class="container">
+        <div class="main-container">
             <div class="row">
 
                 <!--start sidebar-->

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -43,6 +44,16 @@ class LoginController extends Controller
 //        $this->middleware('guest')->except('logout');
     }
 
+    public function showLoginForm(){
+        if(!$this->getUser()){
+            $cart = Cart::where('token', session('_token'))->first();
+        }
+        return view('auth.login',[
+            'user' => $this->getUser(),
+            'cart' => isset($cart) && !empty($cart) ? $cart : null,
+        ]);
+    }
+
     public function toLogin(Request $request){
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
@@ -64,4 +75,5 @@ class LoginController extends Controller
             return redirect()->back()->withInput($request->all());
         }
     }
+
 }

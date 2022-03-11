@@ -414,10 +414,28 @@
   }
   #similar-product .carousel-inner .item img {
     margin-left: 4px;
+    width: 57px;
+    height: 79px;
   }
   .product-information {
     margin-top: 40px;
+    max-width: 360px;
   }
+  .recommended_items{
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  .breadcrumb li{
+    margin-bottom: 10px;
+  }
+  .product-images{
+    height: 500px;
+    width: 325px;
+  }
+  .view-product img{
+    height: 400px;
+  }
+
   #reviews p,
   .blog-post-area .single-blog-post p {
     text-align: justify;
@@ -457,7 +475,6 @@
     margin-bottom: 10px;
   }
   .product-information {
-    padding-left: 0;
     text-align: center;
   }
   .product-information span span {

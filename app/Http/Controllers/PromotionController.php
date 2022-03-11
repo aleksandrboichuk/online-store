@@ -70,7 +70,7 @@ class PromotionController extends Controller
 //
 //                        return $query->orderBy('created_at','desc');
 //                    }
-//                })->paginate(9);
+//                })->paginate(8);
 //            // найти материалы
 //            if(isset($request->materials) && !empty($request->materials)){
 //                if($request->materials != "Всі") {

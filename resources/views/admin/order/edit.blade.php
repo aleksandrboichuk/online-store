@@ -103,7 +103,7 @@
                     </div>
                     <div class="add-block">
                         <label for="status-field">Статус </label>
-                        <select size="6" name="status-field" class="select-option">
+                        <select required size="6" name="status-field" class="select-option">
                             @foreach($statuses as $status)
                                 <option value="{{$status->id}}" {{$status->id == $order->statuses[0]['id'] ? "selected" : "" }}>{{$status->name}}</option>
                             @endforeach

@@ -59,3 +59,25 @@ function animatePreview() {
         $(this).parent().css("background-image", "url('/images/preview-images/" + $(this).parent().attr('id') +  "')");
     })
 }
+
+$('.btn-minus').click(function () {
+
+    let quantity = $(this).parent().find('.quantity');
+    let quantityValue = parseInt(quantity.val());
+
+    if((quantityValue - 1) < 1){
+        quantity.val('1');
+    }else{
+        quantity.val((quantityValue - 1).toString());
+    }
+});
+$('.btn-plus').click(function () {
+    let quantity = $(this).parent().find('.quantity');
+    let quantityValue = parseInt(quantity.val());
+
+    if((quantityValue + 1) > 10){
+        quantity.val('10');
+    }else{
+        quantity.val((quantityValue + 1).toString());
+    }
+});

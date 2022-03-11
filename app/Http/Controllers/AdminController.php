@@ -440,7 +440,7 @@ class AdminController extends Controller
                 $getProduct->sizes()->attach($getProduct->id,[
                     'product_id' => $getProduct->id,
                     'product_size_id' => $request['sizes'][$i],
-                    'count' =>  $sizeCount[$i]
+                    'count' =>  isset($sizeCount[$i]) ? $sizeCount[$i] : 1
                 ]);
             }
         }
@@ -525,7 +525,7 @@ class AdminController extends Controller
         }
         if (isset($request['sizes'])) {
             foreach ($request['size-count'] as $k => $val) {
-                if($val != "0"){
+                if($val != ""){
                     $sizeCount[] = $val;
                 }
             }
@@ -533,7 +533,7 @@ class AdminController extends Controller
             foreach ($request['sizes'] as $key => $value) {
                 $size = ProductSize::find($value);
                 $product->sizes()->save($size);
-                $product->sizes()->where('product_size_id', $size->id)->update(["count" => $sizeCount[$key]]);
+                $product->sizes()->where('product_size_id', $size->id)->update(["count" => isset($sizeCount[$key]) ? $sizeCount[$key] : 1]);
             }
         }else{
             $product->sizes()->detach();

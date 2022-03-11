@@ -1,4 +1,4 @@
-<div class="col-xs-9 col-sm-9 col-md-6 col-lg-4 product">
+<div class="col-xs-9 col-sm-9 col-md-6 col-lg-3 product">
     <div class="product-image-wrapper">
 
         <!--single product-->

@@ -32,7 +32,7 @@
                 </div>
                 <div class="add-block">
                     <label for="cat-field">Група категорій </label>
-                    <select size="5" name="cat-field" class="select-option">
+                    <select required size="5" name="cat-field" class="select-option">
                         @foreach($category_groups as $group)
                             <option value="{{$group->id}}">{{$group->name}}</option>
                         @endforeach

@@ -11,16 +11,28 @@ use App\Models\ProductColor;
 use App\Models\ProductImage;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
     public function showProductDetails (Request $request, $group_seo_name, $category_seo_name,$sub_category_seo_name, $product_seo_name){
         $group = CategoryGroup::where('seo_name',$group_seo_name)->first();
+            if(!$group){
+                return response()->view('404.404', ['user' => Auth::user()], 404);
+            }
         $category = Category::where('seo_name',$category_seo_name)->first();
+            if(!$category){
+            return response()->view('404.404', ['user' => Auth::user()], 404);
+            }
         $sub_category = SubCategory::where('seo_name',$sub_category_seo_name)->where('category_id',$category->id)->first();
+            if(!$sub_category){
+                return response()->view('404.404', ['user' => Auth::user()], 404);
+            }
         $product = Product::where('category_group_id', $group->id)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)->where('seo_name',$product_seo_name)->first();
-
-        $recommended_products = Product::where('category_group_id', $group->id)->inRandomOrder()->take(3)->get();
+            if(!$product){
+                return response()->view('404.404', ['user' => Auth::user()], 404);
+            }
+        $recommended_products = Product::where('category_group_id', $group->id)->inRandomOrder()->take(4)->get();
 
         $group_brands = $this->getGroupBrand($group->id);
 

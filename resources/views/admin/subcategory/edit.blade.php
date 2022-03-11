@@ -30,7 +30,7 @@
                     </div>
                     <div class="add-block">
                         <label for="cat-field">Категорія </label>
-                        <select size="5" name="cat-field" class="select-option">
+                        <select required size="5" name="cat-field" class="select-option">
                             @foreach($categories as $c)
                                 <option value="{{$c->id}}" {{$c->id == $subcategory->categories->id ? "selected" : "" }}>{{$c->title}}</option>
                             @endforeach

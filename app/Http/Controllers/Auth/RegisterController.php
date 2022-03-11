@@ -47,7 +47,14 @@ class RegisterController extends Controller
 
 
     public function showRegistrationForm(){
-        return view('auth.register');
+        if(!$this->getUser()){
+            $cart = Cart::where('token', session('_token'))->first();
+        }
+        return view('auth.register', [
+            'user' => $this->getUser(),
+            'cart' => isset($cart) && !empty($cart) ? $cart : null,
+        ]);
+
     }
 
     public function toRegister(Request $request){

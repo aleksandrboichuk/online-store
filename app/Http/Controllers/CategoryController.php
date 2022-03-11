@@ -28,7 +28,7 @@ class CategoryController extends Controller
         if(!$category ){
             return response()->view('404.404', ['user' => Auth::user()], 404);
         }
-        $category_products = Product::where('category_group_id',$group->id)->where('category_id',$category->id)->paginate(9);
+        $category_products = Product::where('category_group_id',$group->id)->where('category_id',$category->id)->paginate(8);
 
         $group_brands = $this->getGroupBrand($group->id);
 
@@ -69,7 +69,7 @@ class CategoryController extends Controller
 //                    }else{
 //                        return $query->orderBy('created_at','desc');
 //                    }
-//                })->paginate(9);
+//                })->paginate(8);
 //
 //            // найти материалы
 //            if(isset($request->materials) && !empty($request->materials)){
