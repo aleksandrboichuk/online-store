@@ -29,6 +29,7 @@
                         <h2 class="title text-center">{{$category->title}}</h2>
                     </div>
                     @include('parts.filters')
+                    {{--@include('parts.ajax-filters')--}}
                     <div class="row">
                         <div class="products">
                             @if(isset($products) && !empty($products) && count($products) > 0)

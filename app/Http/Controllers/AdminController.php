@@ -411,7 +411,7 @@ class AdminController extends Controller
             'price' => $request['price-field'],
             'discount' => isset($request['discount-field']) ? intval($request['discount-field']) : 0 ,
             'banner_id' => isset($request['banner-field']) ? $request['banner-field'] : null ,
-            'count' => $request['count-field'],
+           // 'count' => $request['count-field'],
             'active' => $active,
             'category_group_id' => $request['cat-field'],
             'category_id' => $request['category-field'],
@@ -443,6 +443,15 @@ class AdminController extends Controller
                     'count' =>  isset($sizeCount[$i]) ? $sizeCount[$i] : 1
                 ]);
             }
+        }
+        if(isset($getProduct->sizes) && !empty($getProduct->sizes)){
+            $count = 0;
+            foreach ($getProduct->sizes as $s){
+                $count += $s->pivot->count;
+            }
+            $getProduct->update([
+                'count' => $count
+            ]);
         }
 
 
@@ -503,7 +512,7 @@ class AdminController extends Controller
             'price' => $request['price-field'],
             'discount' => isset($request['discount-field']) ? intval($request['discount-field']) : 0 ,
             'banner_id' => isset($request['banner-field']) ? $request['banner-field'] : null ,
-            'count' => $request['count-field'],
+            //'count' => $request['count-field'],
             'active' => $active,
             'category_group_id' => $request['cat-field'],
             'category_id' => $request['category-field'],
@@ -538,6 +547,18 @@ class AdminController extends Controller
         }else{
             $product->sizes()->detach();
         }
+
+        if(isset($product->sizes) && !empty($product->sizes)){
+            $count = 0;
+            foreach ($product->sizes as $s){
+                $count += $s->pivot->count;
+            }
+            $product->update([
+                'count' => $count
+            ]);
+        }
+
+
 
         return redirect("/admin/products");
     }
@@ -590,9 +611,11 @@ class AdminController extends Controller
                 $product = $item->product->where('id', $item->product_id)->first();
                 foreach ($product->sizes as $size) {
                     $sizes = ProductSize::where('name', strval($item->size))->first();
-                    $product->sizes()->where('product_size_id', $sizes->id)->update([
-                        'count' =>  $size->pivot->count - $item->count
-                    ]);
+                    if($size->id == $sizes->id){
+                        $product->sizes()->where('product_size_id', $sizes->id)->update([
+                            'count' =>  $size->pivot->count - $item->count
+                        ]);
+                    }
                 }
 
                 $product->update([

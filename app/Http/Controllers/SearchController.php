@@ -32,9 +32,24 @@ class SearchController extends Controller
 
         if(isset($request['orderBy'])){
             $sort = $request['orderBy'];
-            $products = $elasticSearch->search($group_seo_name, $request['q'], $sort);
+            try{
+                $products = $elasticSearch->search($group_seo_name, $request['q'], $sort);
+            }catch(\Exception $exception){
+                return response()->view('404.404',[
+                    'user' => $this->getUser(),
+                    'cart' => isset($cart) && !empty($cart) ? $cart : null,
+                ]);
+            }
         }else{
-            $products = $elasticSearch->search($group_seo_name, $request['q']);
+            try{
+                $products = $elasticSearch->search($group_seo_name, $request['q']);
+            }catch(\Exception $exception){
+                return response()->view('404.404',[
+                    'user' => $this->getUser(),
+                    'cart' => isset($cart) && !empty($cart) ? $cart : null,
+                ]);
+            }
+
         }
 
 
@@ -88,25 +103,6 @@ class SearchController extends Controller
             }
         }
 
-
-
-
-
-        //гибкость фильтрации (если понадобится)
-
-        //        $colorFilterType = 'must';
-//        $brandFilterType = 'must';
-//        if(isset($request['colors']) && !empty($request['colors']) && isset($request['brands']) && !empty($request['brands'])) {
-//            $requestBrandsFilters = explode(' ', $request['brands']);
-//            $requestColorsFilters = explode(' ', $request['colors']);
-//            if(count($requestBrandsFilters) > 1 || count($requestColorsFilters) == 1) {
-//                $filterType = 'filter';
-//            } else {
-//                $filterType = 'must';
-//            }
-//        } else {
-//
-//        }
 
         //  --------------------------------------- сама фильтрация, собственно ------------------------------------------
 
@@ -267,11 +263,24 @@ class SearchController extends Controller
         if(isset($request['orderBy'])){
             //dd($arData);
             $sort = $request['orderBy'];
-            $products = $elasticSearch->searchByFilters($must, $arData, $sort);
-
+            try{
+                $products = $elasticSearch->searchByFilters($must, $arData, $sort);
+            }catch(\Exception $exception){
+                return response()->view('404.404',[
+                    'user' => $this->getUser(),
+                    'cart' => isset($cart) && !empty($cart) ? $cart : null,
+                ]);
+            }
         }else{
             //dd($arData);
-            $products = $elasticSearch->searchByFilters($must, $arData);
+            try{
+                $products = $elasticSearch->searchByFilters($must, $arData);
+            }catch(\Exception $exception){
+                return response()->view('404.404',[
+                    'user' => $this->getUser(),
+                    'cart' => isset($cart) && !empty($cart) ? $cart : null,
+                ]);
+            }
         }
 
 
@@ -293,7 +302,5 @@ class SearchController extends Controller
             "images"=> ProductImage::all(),
 
         ]);
-
-
     }
 }

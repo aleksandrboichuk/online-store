@@ -50,7 +50,7 @@
                     </div>
                     <div class="add-block">
                         <label for="count-field">Кількість </label>
-                        <input type="text" value="{{$product->count}}" name="count-field">
+                        <input type="text" value="{{$product->count}}" name="count-field" readonly>
                     </div>
                     <div class="add-block">
                         <label for="active-field">Активність </label>
