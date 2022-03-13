@@ -36,17 +36,13 @@
                                 @foreach($products as $item)
                                     @include('parts.product-item')
                                 @endforeach
-                                <div class="row">
-                                    <div class="col-sm-9">
-                                        {{$products->appends(request()->query())->links('parts.pagination')}}
-                                    </div>
-                                </div>
                             @else
                                 <div class="col-sm-12 no-found">
                                     Товари не знайдені.
                                 </div>
                             @endif
                         </div>
+                    {{$products->appends(request()->query())->links('parts.pagination')}}
                     <!--end products-->
                     </div>
                 </div>
@@ -62,12 +58,12 @@
         {{--indexAjax("{{route('show.category', [$group->seo_name, $category->seo_name])}}");--}}
     {{--</script>--}}
     <script>
-        $('.hidden-img').hover(function () {
-            $(this).parent().css("background-image", "url('/images/product-details/" + $(this).attr('id') +  "')")
+        $(document).on('mouseover','.hidden-img', function () {
+            $(this).parent().css("background-image", "url('/images/product-details/" + $(this).attr('id') +  "')");
         });
-        $('.hidden-img').mouseout(function () {
+        $(document).on('mouseout','.hidden-img',function () {
             $(this).parent().css("background-image", "url('/images/preview-images/" + $(this).parent().attr('id') +  "')");
-        })
+        });
     </script>
     <script src="/js/elastic-filters.js"></script>
 @endsection

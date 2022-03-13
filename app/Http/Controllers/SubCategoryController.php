@@ -41,6 +41,13 @@ class SubCategoryController extends Controller
             $cart = Cart::where('token', session('_token'))->first();
         }
         /*----------------------  AJAX  ----------------------*/
+        if($request->ajax()){
+            return view('ajax.ajax',[
+                'products' => $sub_category_products,
+                'group' => $group,
+                "images"=> ProductImage::all(),
+            ])->render();
+        }
 
 //        if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes)) || (!empty($request->from_price)) || (!empty($request->to_price))){
 //            $sub_category_products = Product::where('category_group_id', $group->id)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)

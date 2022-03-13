@@ -34,6 +34,13 @@ class SearchController extends Controller
             $sort = $request['orderBy'];
             try{
                 $products = $elasticSearch->search($group_seo_name, $request['q'], $sort);
+                if($request->ajax()){
+                    return view('ajax.ajax',[
+                        'products' => $products,
+                        'group' => $group,
+                        "images"=> ProductImage::all(),
+                    ])->render();
+                }
             }catch(\Exception $exception){
                 return response()->view('404.404',[
                     'user' => $this->getUser(),
@@ -43,6 +50,13 @@ class SearchController extends Controller
         }else{
             try{
                 $products = $elasticSearch->search($group_seo_name, $request['q']);
+                if($request->ajax()){
+                    return view('ajax.ajax',[
+                        'products' => $products,
+                        'group' => $group,
+                        "images"=> ProductImage::all(),
+                    ])->render();
+                }
             }catch(\Exception $exception){
                 return response()->view('404.404',[
                     'user' => $this->getUser(),
@@ -102,6 +116,7 @@ class SearchController extends Controller
                 $subCategory =  SubCategory::where('seo_name',$arrSeoNames[4])->first();
             }
         }
+
 
 
         //  --------------------------------------- сама фильтрация, собственно ------------------------------------------
@@ -265,6 +280,14 @@ class SearchController extends Controller
             $sort = $request['orderBy'];
             try{
                 $products = $elasticSearch->searchByFilters($must, $arData, $sort);
+
+                if($request->ajax()){
+                    return view('ajax.ajax',[
+                        'products' => $products,
+                        'group' => $group,
+                        "images"=> ProductImage::all(),
+                    ])->render();
+                }
             }catch(\Exception $exception){
                 return response()->view('404.404',[
                     'user' => $this->getUser(),
@@ -275,6 +298,14 @@ class SearchController extends Controller
             //dd($arData);
             try{
                 $products = $elasticSearch->searchByFilters($must, $arData);
+
+                if($request->ajax()){
+                    return view('ajax.ajax',[
+                        'products' => $products,
+                        'group' => $group,
+                        "images"=> ProductImage::all(),
+                    ])->render();
+                }
             }catch(\Exception $exception){
                 return response()->view('404.404',[
                     'user' => $this->getUser(),
