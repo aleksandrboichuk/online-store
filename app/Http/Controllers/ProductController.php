@@ -35,6 +35,7 @@ class ProductController extends Controller
                 return response()->view('404.404', ['user' => Auth::user()], 404);
             }
         $recommended_products = Product::where('category_group_id', $group->id)->inRandomOrder()->take(4)->get();
+        $reviews = UserReview::where('product_id', $product->id)->paginate(2);
 
         $group_brands = $this->getGroupBrand($group->id);
 
@@ -44,8 +45,7 @@ class ProductController extends Controller
             $cart = Cart::where('user_id',$this->getUser()->id)->first();
         }
 // ------------------------------------------------- AJAX --------------------------------------------------------
-            if(!empty($request->productId)) {
-
+        if(!empty($request->productId)) {
             $is_product = false;
             for ($i = 0; $i < count($cart->products); $i++) {
                 if ($cart->products[$i]['id'] == $request->productId ) {
@@ -66,11 +66,16 @@ class ProductController extends Controller
                     'count' => $request->productCount,
                     'size' => $request->productSize,
                 ]);
-
             }
         }
 
-        $reviews = UserReview::where('product_id', $product->id)->get();
+        if($request->ajax()){
+            return view('ajax.ajax-reviews',[
+                'reviews' => $reviews,
+                'group' => $group,
+                "images"=> ProductImage::all(),
+            ])->render();
+        }
 
         return view('product.product',[
             'user'=> $this->getUser(),

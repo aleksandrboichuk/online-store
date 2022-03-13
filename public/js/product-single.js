@@ -1,3 +1,26 @@
+$(document).ready(function() {
+    // pagination
+    let countPage = 1;
+    $('.next-page').click(function () {
+        event.preventDefault();
+        countPage += 1;
+        let url = location.href;
+        if (countPage <= $(this).attr('id')) {
+            $.ajax({
+                url: url.split('?page')[0] + '?page=' + countPage,
+                type: "GET",
+                success: function (data) {
+                    $('.reviews').append(data)
+                }
+            });
+        }
+
+        if (countPage == $(this).attr('id')) {
+            $(this).css('display', 'none');
+        }
+    });
+});
+
 function addToCart(route) {
     $('.product-img-item').click(function () {
         $('.main-product-img').attr('src', $(this).attr('src'));
@@ -52,12 +75,12 @@ function addToCart(route) {
 }
 
 function animatePreview() {
-    $('.hidden-img').hover(function () {
+    $(document).on('mouseover','.hidden-img', function () {
         $(this).parent().css("background-image", "url('/images/product-details/" + $(this).attr('id') +  "')");
     });
-    $('.hidden-img').mouseout(function () {
+    $(document).on('mouseout','.hidden-img',function () {
         $(this).parent().css("background-image", "url('/images/preview-images/" + $(this).parent().attr('id') +  "')");
-    })
+    });
 }
 
 $('.btn-minus').click(function () {

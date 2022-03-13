@@ -92,7 +92,14 @@
                                 @endif
                                 <div></div>
                                  @if(!empty($product->rating))
-                                    <div class="rating"><i class="fa fa-star"></i><b> {{$product->rating}}</b></div>
+                                        <div class="rating">
+                                     @for($i = 0; $i < intval($product->rating); $i++)
+                                        <i class="fa fa-star"></i>
+                                     @endfor
+                                         @if(intval($product->rating) < $product->rating)
+                                             <i class="fa fa-star-half-empty"></i>
+                                          @endif
+                                   <b> ({{count($product->reviews)}})</b></div>
                                  @endif
                                 <h2>{{$product->name}}</h2>
                                 <p class="product-id" id="{{$product->id}}">ID: {{$product->id}}</p>
@@ -166,24 +173,32 @@
                             <div class="tab-pane fade active in" id="reviews">
                                 <div class="col-sm-12">
                                     @if(!empty($reviews) && count($reviews) > 0)
-                                        @foreach($reviews as $review)
-                                            <ul>
-                                                <li>
-                                                    <a><i class="fa fa-user"></i>{{$review->users['first_name'] . ' ' . $review->users['last_name']}}</a>
-                                                </li>
-                                                <li>
-                                                    <a><i class="fa fa-calendar-o"></i>{{date("d.m.Y - H:i", strtotime($review->created_at))}}</a>
-                                                </li>
-                                            </ul>
-                                            <p>
-                                                @for($i = 0; $i < $review->grade; $i++)
-                                                    <i class="fa fa-star"></i>
-                                                @endfor
-                                            </p>
-                                            <p>
-                                               {{$review->review}}
-                                            </p>
-                                        @endforeach
+                                       <div class="reviews">
+                                           @foreach($reviews as $review)
+                                               <ul>
+                                                   <li>
+                                                       <a><i class="fa fa-user"></i>{{$review->users['first_name'] . ' ' . $review->users['last_name']}}</a>
+                                                   </li>
+                                                   <li>
+                                                       <a><i class="fa fa-calendar-o"></i>{{date("d.m.Y - H:i", strtotime($review->created_at))}}</a>
+                                                   </li>
+                                               </ul>
+                                               <p>
+                                                   @for($i = 0; $i < $review->grade; $i++)
+                                                       <i class="fa fa-star"></i>
+                                                   @endfor
+                                                   @if($review->grade < 5)
+                                                       @for($i = $review->grade; $i < 5; $i++)
+                                                               <i class="glyphicon glyphicon-star-empty" style="font-size:20px"></i>
+                                                       @endfor
+                                                   @endif
+                                               </p>
+                                              <p>
+                                                   {{$review->review}}
+                                               </p>
+                                           @endforeach
+                                       </div>
+                                        {{$reviews->appends(request()->query())->links('parts.pagination')}}
                                     @endif
 
                                     @if($user)
@@ -206,7 +221,6 @@
                                                 <input type="email"  value="{{$user->email}}" readonly>
                                               </span>
                                                 <textarea name="review" placeholder="Відгук..." required></textarea>
-                                                <img src="images/product-details/rating.png" alt="" />
                                                 <button type="submit" class="btn btn-default review-btn">Відправити</button>
                                             </form>
                                         </div>
