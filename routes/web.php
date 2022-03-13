@@ -249,6 +249,9 @@ Route::get('/{group_seo_name}/{category_seo_name}',[\App\Http\Controllers\Catego
 Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}',[\App\Http\Controllers\SubCategoryController::class,'index'])->name('show.sub.category');
 Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}/{product_seo_name}',[\App\Http\Controllers\ProductController::class, 'showProductDetails'])->name('show.product.details');
 
+//send product review
+Route::post('/{product_id}',[\App\Http\Controllers\ProductController::class, 'sendReview'])->name('send.review');
+
 });
 
 

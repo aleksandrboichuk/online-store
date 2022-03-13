@@ -599,11 +599,52 @@ ul.sub-menu {
     width: 100%;
 }
 
-.fade p{
+.fade p:not(.write-review-title){
  color:black;
-    padding: 10px;
+    padding: 0 20px;
     text-align: justify;
+    font-size: 16px;
+
+}
+.fade ul{
+
+}
+.review-btn{
     font-size: 18px;
+    background: #6fa1f4;
+    border: 0;
+    color: #fff;
+    margin-bottom: 20px;
+}
+.grade{
+    max-width: 200px;
+    margin-bottom: 20px;
+    display: flex;
+}
+.grade .fa-star{
+    padding-top: 2px;
+    margin: 2px 10px 0 10px;
+    font-size: 20px;
+}
+.grade b{
+    font-size: 17px;
+}
+.send-review form{
+    padding: 0 20px;
+}
+.send-review{
+    padding-top: 30px;
+}
+.send-review p {}
+
+.write-review-title{
+    padding-top: 10px;
+    border-top: 1px solid #d9d9d5;
+}
+.fa-star{
+    font-size: 20px;
+    color: #f78521;
+    max-height: 20px;
 }
 .orange{
     background-color: #6fa1f4;
@@ -982,6 +1023,12 @@ h2.title {
     background-size:248px 330px;
 
 }
+.rating{
+    margin-bottom: 10px;
+}
+.rating b{
+    font-size: 20px;
+}
 .productinfo {
     position: relative;
 }
@@ -1077,14 +1124,7 @@ h2.title {
 .category-tab {
     overflow: hidden;
 }
-.category-tab ul {
-    background: #40403e;
-    border-bottom: 1px solid #6fa1f4;
-    list-style: none outside none;
-    margin: 0 0 30px;
-    padding: 0;
-    width: 100%;
-}
+
 .category-tab ul li a {
     border: 0;
     border-radius: 0;
@@ -1310,7 +1350,7 @@ h2.title {
     height: 1000px;
     border: 1px solid #f7f7f0;
     overflow: hidden;
-    padding: 50px;
+    padding: 30px 40px;
     position: relative;
 }
 .about-product{
@@ -1375,7 +1415,7 @@ h2.title {
     margin-top: 0;
     font-weight: bold;
 }
-.product-information p, .product-information b {
+.product-information p, .product-information b:not(.rating b) {
     color: #696763;
     font-size: 17px;
     font-family: roboto, sans-serif;
@@ -1460,11 +1500,11 @@ h2.title {
 }
 #reviews ul {
     background: #fff;
-    border: 0;
+    padding: 10px  20px 0 20px;
     list-style: none outside none;
-    margin: 0 0 20px;
-    padding: 0;
+    margin: 30px 0 10px 0;
 }
+
 #reviews ul li {
     display: inline-block;
 }
@@ -1474,6 +1514,7 @@ h2.title {
     font-family: roboto, sans-serif;
     font-size: 14px;
     padding-right: 15px;
+    cursor: default;
 }
 #reviews ul li a i {
     color: #6fa1f4;
@@ -1485,6 +1526,9 @@ h2.title {
 }
 #reviews p {
     color: #363432;
+}
+#reviews p b{
+    font-size: 20px;
 }
 #reviews form span {
     display: block;
@@ -1515,14 +1559,7 @@ h2.title {
     resize: none;
     width: 99.5%;
 }
-#reviews button {
-    background: #6fa1f4;
-    border: 0;
-    border-radius: 0;
-    color: #fff;
-    font-family: roboto, sans-serif;
-    font-size: 14px;
-}
+
 .logo-404 {
     margin-top: 60px;
 }

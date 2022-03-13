@@ -10,6 +10,8 @@ use App\Models\ProductBrand;
 use App\Models\ProductColor;
 use App\Models\ProductImage;
 use App\Models\SubCategory;
+use App\Models\UserReview;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -68,6 +70,8 @@ class ProductController extends Controller
             }
         }
 
+        $reviews = UserReview::where('product_id', $product->id)->get();
+
         return view('product.product',[
             'user'=> $this->getUser(),
             'cart' => $cart,
@@ -75,6 +79,7 @@ class ProductController extends Controller
              'category'  => $category,
              'sub_category'  => $sub_category,
              'product'  => $product,
+             'reviews'  => $reviews,
             'group_categories' => $group->categories,
             'brands' => $group_brands,
             'recommended_products' =>$recommended_products,
@@ -83,4 +88,30 @@ class ProductController extends Controller
         ]);
     }
 
+    public function sendReview($product_id, Request $request){
+       $product = Product::find($product_id);
+
+       UserReview::create([
+           'product_id' => $product->id,
+           'user_id' =>  Auth::id(),
+           'grade' => $request['grade'],
+           'review' => $request['review']
+       ]);
+
+       $reviews = UserReview::where('product_id',$product->id)->get();
+
+       $rating = 0;
+        if(isset($reviews) && !empty($reviews)){
+            foreach ($reviews as $review) {
+                $rating += $review->grade;
+               }
+            $totalRating = $rating / count($reviews);
+        }
+
+        $product->update([
+           'rating' => isset($totalRating) ? round($totalRating, 1) : 5.0
+       ]);
+
+       return redirect()->back();
+    }
 }

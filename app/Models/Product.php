@@ -23,6 +23,7 @@ class Product extends Model
         'count',
         'in_stock',
         'active',
+        'rating',
         'created_at',
         'updated_at',
         'category_group_id',
@@ -44,6 +45,10 @@ class Product extends Model
     public function subCategories()
     {
         return $this->belongsTo('App\Models\SubCategory','category_sub_id', 'id');
+    }
+
+    public function reviews(){
+        return $this->hasMany('App\Models\UserReview','product_id', 'id');
     }
 
 //    characteristics 1:N

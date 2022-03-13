@@ -90,6 +90,10 @@
                                         alt=""
                                 />
                                 @endif
+                                <div></div>
+                                 @if(!empty($product->rating))
+                                    <div class="rating"><i class="fa fa-star"></i><b> {{$product->rating}}</b></div>
+                                 @endif
                                 <h2>{{$product->name}}</h2>
                                 <p class="product-id" id="{{$product->id}}">ID: {{$product->id}}</p>
                                @if($product->discount != 0)
@@ -149,22 +153,75 @@
                         </div>
                     </div>
 
-                    {{--<div class="category-tab shop-details-tab">--}}
-                        {{--<div class="col-sm-12">--}}
-                            {{--<ul class="nav nav-tabs">--}}
-                                {{--<li class="active"><a href="#details" data-toggle="tab">Опис</a></li>--}}
-                            {{--</ul>--}}
-                        {{--</div>--}}
+                    <div class="category-tab shop-details-tab">
+                        <div class="col-sm-12">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#reviews" data-toggle="tab">Відгуки ({{!empty($reviews) && count($reviews) > 0 ? count($reviews) : 0}})</a>
+                                </li>
+                                {{--<li><a href="#details" data-toggle="tab">Details</a></li>--}}
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="reviews">
+                                <div class="col-sm-12">
+                                    @if(!empty($reviews) && count($reviews) > 0)
+                                        @foreach($reviews as $review)
+                                            <ul>
+                                                <li>
+                                                    <a><i class="fa fa-user"></i>{{$review->users['first_name'] . ' ' . $review->users['last_name']}}</a>
+                                                </li>
+                                                <li>
+                                                    <a><i class="fa fa-calendar-o"></i>{{date("d.m.Y - H:i", strtotime($review->created_at))}}</a>
+                                                </li>
+                                            </ul>
+                                            <p>
+                                                @for($i = 0; $i < $review->grade; $i++)
+                                                    <i class="fa fa-star"></i>
+                                                @endfor
+                                            </p>
+                                            <p>
+                                               {{$review->review}}
+                                            </p>
+                                        @endforeach
+                                    @endif
 
+                                    @if($user)
 
-                        {{--<div class="tab-content">--}}
-                            {{--<div class="tab-pane fade active in" id="details">--}}
+                                        <div class="send-review">
+                                            <p class="write-review-title"><b>Залишити відгук</b></p>
+                                            <form action="{{route('send.review', [$product->id])}}" method="post">
+                                                <div class="grade">
+                                                    <b>Оцінка: </b> <i class="fa fa-star"></i>
+                                                    <select name="grade" id="grade">
+                                                        <option value="5">5</option>
+                                                        <option value="4">4</option>
+                                                        <option value="3">3</option>
+                                                        <option value="2">2</option>
+                                                        <option value="1">1</option>
+                                                    </select>
+                                                </div>
+                                                <span>
+                                                <input  type="text" value="{{$user->first_name}}" readonly>
+                                                <input type="email"  value="{{$user->email}}" readonly>
+                                              </span>
+                                                <textarea name="review" placeholder="Відгук..." required></textarea>
+                                                <img src="images/product-details/rating.png" alt="" />
+                                                <button type="submit" class="btn btn-default review-btn">Відправити</button>
+                                            </form>
+                                        </div>
+
+                                    @endif
+                                </div>
+                            </div>
+                            {{--<div class="tab-pane fade" id="details">--}}
                                 {{--<div class="col-sm-12">--}}
                                     {{--<p> {{$product->description}}</p>--}}
                                 {{--</div>--}}
                             {{--</div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
+                        </div>
+                    </div>
+
                     <div class="recommended_items">
                         <h2 class="title text-center">Рекомендації</h2>
                         <div
