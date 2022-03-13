@@ -33,7 +33,13 @@ class CategoryGroupController extends Controller
             $cart = Cart::where('token', session('_token'))->first();
         }
         /*----------------------  AJAX  ----------------------*/
-
+        if($request->ajax()){
+            return view('ajax.ajax',[
+                'products' => $group_products,
+                'group' => $group,
+                "images"=> ProductImage::all(),
+            ])->render();
+        }
 //        if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))  || (!empty($request->from_price)) || (!empty($request->to_price))){
 //            $group_products = Product::where('category_group_id',$group->id)
 //                ->when(!empty($request->colors), function($query){
