@@ -609,12 +609,19 @@ ul.sub-menu {
 .fade ul{
 
 }
-.review-btn{
+.review-btn, .next-page{
     font-size: 18px;
     background: #6fa1f4;
     border: 0;
     color: #fff;
     margin-bottom: 20px;
+}
+.next-page a{
+    font-size: 18px;
+    color: #fff;
+}
+.next-page:hover a{
+    color: #575757;
 }
 .grade{
     max-width: 200px;
@@ -1196,11 +1203,18 @@ h2.title {
     width: 100%;
 }
 .pagination {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
     margin-bottom: 75px;
-    margin-top: 20px;
+    padding-top: 50px;
     padding-left: 15px;
+    width: 100%;
 }
+.next-page{
+    margin: 0;
+}
+
+
 .pagination li:first-child a,
 .pagination li:first-child span {
     border-bottom-left-radius: 0;

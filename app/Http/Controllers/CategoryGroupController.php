@@ -26,14 +26,20 @@ class CategoryGroupController extends Controller
         if(!$group){
             return response()->view('404.404', ['user' => Auth::user()], 404);
         }
-        $group_products = Product::where('category_group_id',$group->id)->paginate(8);
+        $group_products = Product::where('category_group_id',$group->id)->paginate(3);
 
         $group_brands = $this->getGroupBrand($group->id);
         if(!$this->getUser()){
             $cart = Cart::where('token', session('_token'))->first();
         }
         /*----------------------  AJAX  ----------------------*/
-
+        if($request->ajax()){
+            return view('ajax.ajax',[
+                'products' => $group_products,
+                'group' => $group,
+                "images"=> ProductImage::all(),
+            ])->render();
+        }
 //        if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))  || (!empty($request->from_price)) || (!empty($request->to_price))){
 //            $group_products = Product::where('category_group_id',$group->id)
 //                ->when(!empty($request->colors), function($query){
