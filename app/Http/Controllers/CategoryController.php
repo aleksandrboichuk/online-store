@@ -31,10 +31,16 @@ class CategoryController extends Controller
         $category_products = Product::where('category_group_id',$group->id)->where('category_id',$category->id)->paginate(8);
 
         $group_brands = $this->getGroupBrand($group->id);
-
-        /*----------------------  AJAX  ----------------------*/
         if(!$this->getUser()){
             $cart = Cart::where('token', session('_token'))->first();
+        }
+        /*----------------------  AJAX  ----------------------*/
+        if($request->ajax()){
+            return view('ajax.ajax',[
+                'products' => $category_products,
+                'group' => $group,
+                "images"=> ProductImage::all(),
+            ])->render();
         }
 //        if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))|| (!empty($request->from_price)) || (!empty($request->to_price))){
 //            $category_products = Product::where('category_group_id',$group->id)->where('category_id',$category->id)

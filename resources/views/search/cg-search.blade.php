@@ -115,17 +115,66 @@
 @endsection
 
 @section('custom-js')
-    <script src="/js/ajax-filters.js"></script>
-    <script>
+    {{--<script src="/js/ajax-filters.js"></script>--}}
+    {{--<script>--}}
         {{--indexAjax("{{route('show.category', [$group->seo_name, $category->seo_name])}}");--}}
-    </script>
+    {{--</script>--}}
     <script>
         $(document).ready(function() {
-            $('.hidden-img').hover(function () {
-                $(this).parent().css("background-image", "url('/images/product-details/" + $(this).attr('id') + "')")
+            $(document).on('mouseover','.hidden-img', function () {
+                $(this).parent().css("background-image", "url('/images/product-details/" + $(this).attr('id') +  "')");
             });
-            $('.hidden-img').mouseout(function () {
-                $(this).parent().css("background-image", "url('/images/preview-images/" + $(this).parent().attr('id') + "')");
+            $(document).on('mouseout','.hidden-img',function () {
+                $(this).parent().css("background-image", "url('/images/preview-images/" + $(this).parent().attr('id') +  "')");
+            });
+
+            // pagination
+            let countPage = 1;
+            $('.next-page').click(function () {
+                event.preventDefault();
+                countPage += 1;
+                let url =  location.href;
+                if(countPage <= $(this).attr('id')){
+                    if(url.split('?page').length > 1){
+                        $.ajax({
+                            url: url.split('?page')[0] + '?page=' + countPage,
+                            type: "GET",
+                            success: function(data){
+                                $('.products').append(data)
+                            }
+                        });
+
+                    }else if(url.split('&page').length > 1){
+                        $.ajax({
+                            url: url.split('&page')[0] + '&page=' + countPage,
+                            type: "GET",
+                            success: function(data){
+                                $('.products').append(data)
+                            }
+                        });
+                    }else if(url.split('?').length > 1){
+                        $.ajax({
+                            url: url + "&page=" + countPage,
+                            type: "GET",
+                            success: function(data){
+                                $('.products').append(data)
+                            }
+                        });
+
+                    }else {
+                        $.ajax({
+                            url: url.split('?page')[0] + '?page=' + countPage,
+                            type: "GET",
+                            success: function(data){
+                                $('.products').append(data)
+                            }
+                        });
+                    }
+                }
+
+                if(countPage == $(this).attr('id')) {
+                    $(this).attr('disabled', 'disabled').css('background-color', '#6fa1f4');
+                }
             });
 
             let full_url = location.href.split('?');
