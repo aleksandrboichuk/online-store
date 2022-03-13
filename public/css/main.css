@@ -1202,17 +1202,6 @@ h2.title {
 #advertisement img {
     width: 100%;
 }
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 75px;
-    padding-top: 50px;
-    padding-left: 15px;
-    width: 100%;
-}
-.next-page{
-    margin: 0;
-}
 
 
 .pagination li:first-child a,

@@ -61,13 +61,17 @@
                                 @foreach($products as $item)
                                     @include('parts.product-item')
                                 @endforeach
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            {{$products->appends(request()->query())->links('parts.pagination')}}
+                                        </div>
+                                    </div>
                                 @else
                                     <div class="col-sm-12 no-found">
                                         Товари не знайдені.
                                     </div>
                                 @endif
                             </div>
-                                {{$products->appends(request()->query())->links('parts.pagination')}}
                         </div>
                     </div>
                 </div>
@@ -83,36 +87,12 @@
     {{--</script>--}}
     <script>
         $(document).ready(function () {
-            let countPage = 1;
             $('.hidden-img').hover(function () {
                 $(this).parent().css("background-image", "url('/images/product-details/" + $(this).attr('id') +  "')");
             });
             $('.hidden-img').mouseout(function () {
                 $(this).parent().css("background-image", "url('/images/preview-images/" + $(this).parent().attr('id') +  "')");
             });
-
-           $('.next-page').click(function () {
-               event.preventDefault();
-               countPage += 1;
-               let url =  location.href;
-               if(url.split('?page').length > 1){
-                   if(countPage <= $(this).attr('id')){
-                       $.ajax({
-                           url: "{{preg_replace('/\?page/', "" , request()->getUri()) . '?page='}}" + countPage,
-                           type: "GET",
-                           success: function(data){
-                               $('.products').append(data)
-                           }
-                       });
-
-                       if(countPage == $(this).attr('id')) {
-                           $(this).css('display', 'none');
-                       }
-                   }
-               }else if(url.split('&page').length > 1){
-
-               }
-           })
 
         })
 

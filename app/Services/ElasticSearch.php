@@ -121,7 +121,7 @@ class ElasticSearch
 
         // пагинация
 
-        return $this->paginate($products, 1);
+        return $this->paginate($products, 2);
     }
 
     private function paginate($items, $perPage = 9, $page = null, $options = [])
