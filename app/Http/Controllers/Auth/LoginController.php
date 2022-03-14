@@ -59,21 +59,40 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required|string',
         ]);
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            User::where('email', $request['email'])->update([
-                'session_token' => Str::random(60),
-                'last_logged_in' => date("Y-m-d H:i:s"),
-            ]);
 
-            return  redirect('/shop/women');
-        } else{
-            session(
-                [
-                    'error' => 'Логін або пароль невірний'
-                ]);
-            return redirect()->back()->withInput($request->all());
-        }
+       if(!empty($request['remember'])){
+           $remember = Str::random(100);
+           $credentials = $request->only('email', 'password');
+           if (Auth::attempt($credentials, $remember)) {
+               User::where('email', $request['email'])->update([
+                   'session_token' => Str::random(60),
+                   'last_logged_in' => date("Y-m-d H:i:s"),
+               ]);
+               return  redirect('/shop/women');
+           } else{
+               session(
+                   [
+                       'error' => 'Логін або пароль невірний'
+                   ]);
+               return redirect()->back()->withInput($request->all());
+           }
+       }else{
+           $credentials = $request->only('email', 'password');
+           if (Auth::attempt($credentials)) {
+               User::where('email', $request['email'])->update([
+                   'session_token' => Str::random(60),
+                   'last_logged_in' => date("Y-m-d H:i:s"),
+               ]);
+               return  redirect('/shop/women');
+           } else{
+               session(
+                   [
+                       'error' => 'Логін або пароль невірний'
+                   ]);
+               return redirect()->back()->withInput($request->all());
+           }
+       }
+
     }
 
 }

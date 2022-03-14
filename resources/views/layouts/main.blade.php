@@ -41,14 +41,14 @@
                         <ul class="nav navbar-nav">
                             @if(isset($user) && !empty($user))
                             <li>
-                                <a href="/personal/orders"><i class="fa fa-user"></i> Мої замовлення</a>
+                                <a href="/personal/orders"><i class="fa fa-user"></i> Особистий кабінет</a>
                             </li>
                             {{--<li>--}}
                                 {{--<a href="/"><i class="fa fa-eye"></i> Обране</a>--}}
                             {{--</li>--}}
                             @if($user->superuser)
                             <li>
-                                <a href="/admin"><i class="fa fa-crosshairs"></i> Панель Адміністратора</a>
+                                <a href="/admin"><i class="fa fa-crosshairs"></i> Адмін. панель</a>
                             </li>
                              @endif
                                 <li>

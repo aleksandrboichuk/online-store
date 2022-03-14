@@ -196,8 +196,14 @@ Route::group([
     'middleware' => ['auth']
 ],function () {
 
-    Route::get('/orders',[\App\Http\Controllers\UserController::class, 'getUserOrders'])->name('user.orders');
+    Route::get('/orders/{status?}',[\App\Http\Controllers\UserController::class, 'getUserOrders'])->name('user.orders');
     Route::get('/orders/view-order/{order_id}', [\App\Http\Controllers\UserController::class, 'viewUserOrder'])->name('view.order');
+    Route::get('/orders/promocodes', [\App\Http\Controllers\UserController::class, 'gerUserPromocodes'])->name('user.promocodes');
+    //Route::get('/orders/bonuses', [\App\Http\Controllers\UserController::class, 'gerUserBonuses'])->name('user.bonuses');
+
+    Route::get('/orders/settings', [\App\Http\Controllers\UserController::class, 'gerUserSettings'])->name('user.settings');
+    Route::post('/orders/settings-save', [\App\Http\Controllers\UserController::class, 'saveUserSettings'])->name('user.settings.save');
+
 });
 
 /**

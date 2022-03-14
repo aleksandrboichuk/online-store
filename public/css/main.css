@@ -1824,6 +1824,11 @@ h2.title {
     text-align: center;
     margin: 30px 0;
 }
+.title-page-personal h2{
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
 .cart_info table tr td {
     text-align: center;
     border-top: 0;
@@ -2669,6 +2674,60 @@ textarea {
 }
 
 
+.personal-area-container{
+    margin-bottom: 300px;
+    width: 1500px;
+}
+
+.sidebar-header{
+    background-color: #f1eee7;
+}
+
+.sidebar-header ul{
+    padding: 10px 10px 0 10px;
+    font-size: 14px;
+    margin: 0;
+}
+.sidebar-header ul li{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-top: 1px solid #eae7e1;
+}
+.nav-personal{
+    border: 1px solid #eae7e1;
+}
+.nav-personal svg{
+    position: relative;
+    top: 9px;
+    height: 30px;
+    width: 30px;
+
+}
+.nav-personal .components{
+    padding: 10px;
+}
+.active-sub-menu{
+    padding: 10px 0;
+}
+.nav-personal .components li{
+    padding: 10px 0;
+    border-top: 1px solid #eae7e1;
+}
+#homeSubmenu li a{
+    font-size: 16px;
+}
+.nav-personal ul li a:not(#homeSubmenu li a){
+    font-size: 18px;
+    padding: 0;
+}
+
+#homeSubmenu{
+    padding-left: 18px;
+    border-left:1px solid #6fa1f4 ;
+    margin-top: 5px;
+}
+
 /* админка */
 .admin-bread{
     max-width: 760px;
@@ -2752,13 +2811,19 @@ textarea {
     font-weight: 400;
     margin-top: 6px;
 }
-
+.table-view-order{
+    margin-bottom: 100px;
+}
 .admin-table a{
-    padding: 6px 12px 6px 12px;
+    padding: 4px  10px;
     color: white;
     background-color: #2c8bbf;
 }
 
+.admin-table .btn-secondary svg{
+    width: 20px;
+    height: 20px;
+}
 .admin-table-index table tr td {
     text-align: center;
     border-top: 0;
@@ -2793,7 +2858,7 @@ textarea {
     color: black;
     font-size: 16px;
 }
-.admin-table-index {
+.admin-table-index:not(.table-view-order) {
     border: 1px solid #e6e4df;
     margin-bottom: 150px;
 }

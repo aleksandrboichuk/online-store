@@ -10,7 +10,7 @@
                 <div class="review-payment">
                     <h2>Перегляд товарів замовлення</h2>
                 </div>
-                <div class="table-responsive admin-table-index">
+                <div class="table-responsive admin-table-index table-view-order">
                     <table class="table table-condensed">
                         <thead>
                         <tr class="admin_menu">
@@ -88,11 +88,11 @@
                     </div>
                     <div class="add-block">
                         <label for="comment-field">Коментар </label>
-                        <p>{{isset($order->comment) ? $order->comment : "-"}}</p>
+                        <input type="text" value="{{isset($order->comment) ? $order->comment : ""}}" readonly="readonly">
                     </div>
                     <div class="add-block">
                         <label for="sum-field">Сума </label>
-                        <p>₴{{$order->total_cost}}</p>
+                        <p><u>₴{{$order->total_cost}}</u></p>
                     </div>
                     <div class="add-block">
                         <label for="status-field">Статус </label>
