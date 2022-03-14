@@ -52,10 +52,10 @@
                             </li>
                              @endif
                                 <li>
-                                    @if(isset($user->cart->products))
+                                    @if(isset($user->cart->products) && !empty($user->cart->products))
                                         <a class="a-cart-title"    href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>{{count($user->cart->products)}}</b></a>
                                     @else
-                                        <a class="a-cart-title" href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>0 товарів</b></a>
+                                        <a class="a-cart-title" href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>0</b></a>
                                     @endif
                                 </li>
                                 <li>
@@ -67,7 +67,7 @@
                                 @if(!empty($cart->products))
                                     <a class="a-cart-title" href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>{{count($cart->products)}}</b></a>
                                 @else
-                                    <a class="a-cart-title" href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>{{count($cart->products)}}</b></a>
+                                    <a class="a-cart-title" href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>0</b></a>
                                  @endif
                                 </li>
                             <li>
