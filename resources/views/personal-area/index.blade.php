@@ -11,24 +11,23 @@
         </div>
         @php(session()->forget('success-message'))
     @endif
-    <section id="cart_items">
+    <section id="personal_area">
         <div class="container personal-area-container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
                     <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    <li class="active">Мої замовлення</li>
+                    <li class="active">{{$status_name}}</li>
                 </ol>
             </div>
             <div class="col-sm-3">
                 @include('parts.personal-sidebar')
             </div>
             <div class="col-sm-9">
-                <div class="title-page-personal"><h2>{{$status_name}}</h2></div>
+                <div class="title-page-personal"><h3>{{$status_name}}</h3></div>
                 <div class="table-responsive admin-table-index">
                     <table class="table table-condensed">
                         <thead>
                         <tr class="admin_menu">
-                            <td>ID користувача</td>
                             <td>Дата</td>
                             <td><b>Ім'я</b></td>
                             <td><b>Телефон</b></td>
@@ -42,9 +41,6 @@
                      @if(!empty($orders) && count($orders) > 0)
                         @foreach($orders as $item)
                             <tr>
-                                <td>
-                                    <p>{{$item->user_id}}</p>
-                                </td>
                                 <td>
                                     <p>{{date("d.m.Y - H:i", strtotime($item->created_at))}}</p>
                                 </td>
@@ -82,6 +78,10 @@
                         <td>
                             <p>Наразі таких замовлень немає</p>
                         </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                      @endif
                         </tbody>
                     </table>

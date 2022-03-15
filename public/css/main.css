@@ -1824,10 +1824,11 @@ h2.title {
     text-align: center;
     margin: 30px 0;
 }
-.title-page-personal h2{
+.title-page-personal h3{
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     margin-top: 0;
+    font-size: 28px;
 }
 .cart_info table tr td {
     text-align: center;
@@ -2676,7 +2677,6 @@ textarea {
 
 .personal-area-container{
     margin-bottom: 300px;
-    width: 1500px;
 }
 
 .sidebar-header{
@@ -2728,10 +2728,29 @@ textarea {
     margin-top: 5px;
 }
 
+#personal_area .add-block label{
+    font-size: 18px;
+}
+#personal_area .add-block input{
+    font-size: 18px;
+    width: 500px;
+}
+.block-passwords{
+    padding-top: 10px;
+    border-top: 1px solid #e7e7e7;
+}
+.invalid-feedback-personal{
+    width: 100%;
+    text-align: right;
+    padding-right: 30px;
+    padding-bottom: 10px;
+    font-size: 13px;
+}
 /* админка */
 .admin-bread{
     max-width: 760px;
     margin: 0 auto;
+
 }
 .add-admin{
     float: right;
@@ -2760,6 +2779,9 @@ textarea {
     justify-content: space-between;
     margin-bottom: 10px;
 
+}
+.btn-danger-admin{
+    padding: 4px 10px;
 }
 .add-block textarea{
     max-width: 500px;
@@ -2820,10 +2842,6 @@ textarea {
     background-color: #2c8bbf;
 }
 
-.admin-table .btn-secondary svg{
-    width: 20px;
-    height: 20px;
-}
 .admin-table-index table tr td {
     text-align: center;
     border-top: 0;
@@ -2952,7 +2970,37 @@ textarea {
     .product-information{
         padding: 30px;
     }
+    #personal_area .add-block label{
+        font-size: 16px;
+    }
+    #personal_area .add-block input{
+        width: 250px;
+        font-size: 16px;
+    }
+    .form-add label:not(.many-input-label){
+        font-size: 16px;
+    }
+    .form-add input:not(.many-input, .input-count){
+        width: 250px;
+        font-size: 16px;
+    }
 
+}
+@media screen and (min-width: 290px) and  (max-width: 600px){
+    #personal_area .add-block label{
+        font-size: 16px;
+    }
+    #personal_area .add-block input{
+        width: 150px;
+        font-size: 16px;
+    }
+    .form-add label:not(.many-input-label){
+        font-size: 16px;
+    }
+    .form-add input:not(.many-input, .input-count){
+        width: 150px;
+        font-size: 16px;
+    }
 }
 
 @media screen and (min-width: 851px) and  (max-width: 1000px){
@@ -2983,6 +3031,20 @@ textarea {
     .btn-info-filters{
         margin: 20px 0 20px 0;
     }
+    #personal_area .add-block label{
+        font-size: 16px;
+    }
+    #personal_area .add-block input{
+        width: 250px;
+        font-size: 16px;
+    }
+    .form-add label:not(.many-input-label){
+        font-size: 16px;
+    }
+    .form-add input:not(.many-input, .input-count){
+        width: 250px;
+        font-size: 16px;
+    }
 }
 
 @media screen and (min-width: 1000px) and  (max-width: 1200px) {
@@ -2995,6 +3057,20 @@ textarea {
     }
     .left-sidebar{
         width: 230px;
+    }
+    #personal_area .add-block label{
+        font-size: 16px;
+    }
+    #personal_area .add-block input{
+        width: 400px;
+        font-size: 16px;
+    }
+    .form-add label:not(.many-input-label){
+        font-size: 16px;
+    }
+    .form-add input:not(.many-input, .input-count){
+        width: 400px;
+        font-size: 16px;
     }
 }
 

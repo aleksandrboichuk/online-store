@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\OrdersList;
 use App\Models\StatusList;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -65,5 +67,56 @@ class UserController extends Controller
             'order' => $order,
             'items' =>  $order->items
         ]);
+    }
+
+    public function gerUserSettings(Request $request){
+
+        return view('personal-area.settings',[
+            'user' => $this->getUser(),
+        ]);
+    }
+
+    public function saveUserSettings(Request $request){
+        $user = $this->getUser();
+        if(!empty($request['new-pass-field']) && !empty($request['confirm-new-pass-field'])){
+            if(Hash::check($request['old-pass-field'], $user->password)){
+                if($request['confirm-new-pass-field'] == $request['new-pass-field']){
+                    $user->update([
+                        'password' => Hash::make($request['new-pass-field'])
+                    ]);
+                    return redirect('/personal/orders');
+                }else{
+                    session(
+                        [
+                            'confirm-new-pass-error' => 'Підтвердження нового паролю не співпадає з новим паролем.'
+                        ]);
+                    return redirect()->back()->withInput($request->all());
+                }
+            }else{
+                session(
+                    [
+                        'old-pass-error' => 'Пароль невірний.'
+                    ]);
+                return redirect()->back()->withInput($request->all());
+            }
+        }else{
+            if(Hash::check($request['old-pass-field'], $user->password)){
+                $user->update([
+                    'first_name'=> $request['firstname-field'],
+                    'last_name'=> $request['lastname-field'],
+                    'email'=> $request['email-field'],
+                    'phone'=> $request['phone-field'],
+                    'address'=> $request['address-field'],
+                    'city'=> $request['city-field'],
+                ]);
+                return redirect('/personal/orders');
+            }else{
+                session(
+                    [
+                        'old-pass-error' => 'Пароль невірний.'
+                    ]);
+                return redirect()->back()->withInput($request->all());
+            }
+        }
     }
 }

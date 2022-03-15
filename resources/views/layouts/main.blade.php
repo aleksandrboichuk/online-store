@@ -119,22 +119,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="search_box pull-right">
-                        @php($seo_name = explode('/',request()->getRequestUri()))
-                        @if( count(explode('?',request()->getRequestUri())) > 1)
-                            <form action="{{route('search', ['women'])}}" method="get" ><input type="text" name="q" placeholder="Пошук" value=""/></form>
-                        @else
-                            @if(isset($seo_name[2]) && $seo_name[2] =='women')
-                                <form action="{{route('search', [$seo_name[2]])}}" method="get" ><input type="text" name="q" placeholder="Пошук по товарам для жінок..." value=""/></form>
-                            @elseif(isset($seo_name[2]) && $seo_name[2] =='men')
-                                <form action="{{route('search', [$seo_name[2]])}}" method="get" ><input type="text" name="q" placeholder="Пошук по товарам для чоловіків..." value=""/></form>
-                            @elseif(isset($seo_name[2]) && $seo_name[2] =='boys')
-                                <form action="{{route('search', [$seo_name[2]])}}" method="get" ><input type="text" name="q" placeholder="Пошук по товарам для хлопчиків..." value=""/></form>
-                            @elseif(isset($seo_name[2]) && $seo_name[2] =='girls')
-                                <form action="{{route('search', [$seo_name[2]])}}" method="get" ><input type="text" name="q" placeholder="Пошук по товарам для дівчаток..." value=""/></form>
-                            @else
-                                <form action="{{route('search', ['women'])}}" method="get" ><input type="text" name="q" placeholder="Пошук" value=""/></form>
-                            @endif
-                        @endif
+                        @include('parts.search-form')
                     </div>
                 </div>
             </div>

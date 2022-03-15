@@ -46,17 +46,20 @@ if(preg_match("#^\/login#", \request()->getRequestUri()) == true
  * 404
  */
 
-if(preg_match("#^\/register#", \request()->getRequestUri()) == false
-    && preg_match("#^\/logout#", \request()->getRequestUri()) == false
-    && preg_match("#^\/login#", \request()->getRequestUri()) == false
-    && preg_match("#^\/search#", \request()->getRequestUri()) == false
-    && preg_match("#^\/admin#", \request()->getRequestUri()) == false
-    && preg_match("#^\/personal#", \request()->getRequestUri()) == false
-    && preg_match("#^\/promotions#", \request()->getRequestUri()) == false
-    && preg_match("#^\/cart#", \request()->getRequestUri()) == false
-    && preg_match("#^\/shop#", \request()->getRequestUri()) == false) {
+if(preg_match("#^\/register\b#", \request()->getRequestUri()) == false
+    && preg_match("#^\/logout\b#", \request()->getRequestUri()) == false
+    && preg_match("#^\/login\b#", \request()->getRequestUri()) == false
+    && preg_match("#^\/search\b#", \request()->getRequestUri()) == false
+    && preg_match("#^\/admin\b#", \request()->getRequestUri()) == false
+    && preg_match("#^\/personal\b#", \request()->getRequestUri()) == false
+    && preg_match("#^\/promotions\b#", \request()->getRequestUri()) == false
+    && preg_match("#^\/cart\b#", \request()->getRequestUri()) == false
+    && preg_match("#^\/shop\b#", \request()->getRequestUri()) == false) {
     Route::get('{any?}', function () {
-        return response()->view('404.404', ['user' => Auth::user()], 404);
+        if(!Auth::user()){
+            $cart = \App\Models\Cart::where('token', session('_token'))->first();
+        }
+        return response()->view('404.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null ], 404);
     })->where('any', '.*');
 }
 
@@ -196,13 +199,29 @@ Route::group([
     'middleware' => ['auth']
 ],function () {
 
+    Route::get('/',function () {
+        return redirect('/personal/orders');
+    });
+
+    if(preg_match("#^\/personal/orders\b#", \request()->getRequestUri()) == false
+        && preg_match("#^\/personal/settings\b#", \request()->getRequestUri()) == false
+        && preg_match("#^\/personal/promocodes\b#", \request()->getRequestUri()) == false
+        && preg_match("#^\/personal/bonuses\b#", \request()->getRequestUri()) == false) {
+        Route::get('/{any?}', function () {
+            if(!Auth::user()){
+                $cart = \App\Models\Cart::where('token', session('_token'))->first();
+            }
+            return response()->view('404.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null ], 404);
+        })->where('any', '.*');
+    }
+
     Route::get('/orders/{status?}',[\App\Http\Controllers\UserController::class, 'getUserOrders'])->name('user.orders');
     Route::get('/orders/view-order/{order_id}', [\App\Http\Controllers\UserController::class, 'viewUserOrder'])->name('view.order');
-    Route::get('/orders/promocodes', [\App\Http\Controllers\UserController::class, 'gerUserPromocodes'])->name('user.promocodes');
-    //Route::get('/orders/bonuses', [\App\Http\Controllers\UserController::class, 'gerUserBonuses'])->name('user.bonuses');
+    //Route::get('/promocodes', [\App\Http\Controllers\UserController::class, 'gerUserPromocodes'])->name('user.promocodes');
+    //Route::get('/bonuses', [\App\Http\Controllers\UserController::class, 'gerUserBonuses'])->name('user.bonuses');
 
-    Route::get('/orders/settings', [\App\Http\Controllers\UserController::class, 'gerUserSettings'])->name('user.settings');
-    Route::post('/orders/settings-save', [\App\Http\Controllers\UserController::class, 'saveUserSettings'])->name('user.settings.save');
+    Route::get('/settings', [\App\Http\Controllers\UserController::class, 'gerUserSettings'])->name('user.settings');
+    Route::post('/settings-save', [\App\Http\Controllers\UserController::class, 'saveUserSettings'])->name('user.settings.save');
 
 });
 
@@ -219,8 +238,7 @@ Route::group([
         || preg_match("/\?orderBy/", request()->getRequestUri())
         || preg_match("/\?seasons/", request()->getRequestUri())
         || preg_match("/\?sizes/", request()->getRequestUri())
-        || preg_match("/\?price/", request()->getRequestUri())
-    ){
+        || preg_match("/\?price/", request()->getRequestUri())){
         Route::any('/{group_seo_name?}/{banner_seo_name?}/{queryString?}', [\App\Http\Controllers\SearchController::class, 'filtersRequest'])->name('filters.request');
     }
     Route::get('/{group_seo_name}/{seo_name_banner}',[\App\Http\Controllers\PromotionController::class, 'index'])->name('show.promotion.details');
@@ -245,8 +263,7 @@ if(preg_match("/\?colors/", request()->getRequestUri())
     || preg_match("/\?orderBy/", request()->getRequestUri())
     || preg_match("/\?seasons/", request()->getRequestUri())
     || preg_match("/\?sizes/", request()->getRequestUri())
-    || preg_match("/\?price/", request()->getRequestUri())
-){
+    || preg_match("/\?price/", request()->getRequestUri())){
     Route::any('/{seo_name?}/{category_seo_name?}/{sub_category_seo_name?}/{queryString?}', [\App\Http\Controllers\SearchController::class, 'filtersRequest'])->name('filters.request');
 }
 
