@@ -34,6 +34,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Product::observe(ElasticSearchObserver::class);
+//        Product::observe(ElasticSearchObserver::class);
     }
 }

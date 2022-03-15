@@ -1,7 +1,15 @@
 @extends('layouts.admin')
 
 @section('content')
-
+    @if(session()->has('success-message'))
+        <div class="alert alert-success alert-active" role="alert">
+            <h4 class="alert-heading">Виконано!</h4>
+            <p>{{session('success-message')}}</p>
+            <hr>
+            <div class="mb-0"><button type="button" class="btn btn-default alert-btn alert-btn-close">Закрити</button></div>
+        </div>
+        @php(session()->forget('success-message'))
+    @endif
     <section id="cart_items">
         <div class="container">
             <div class="breadcrumbs">
@@ -15,8 +23,8 @@
                     <a href="/admin/products/add"><button type="button" class="btn btn-default todo-btn">Додати</button></a>
                 </div>
             </div>
-            <div class="table-responsive admin-table-index">
-                <table class="table table-condensed">
+            <div class="table-responsive admin-table-index admin-table-index-products">
+                <table class="table table-condensed table-admin-products">
                     <thead>
                     <tr class="admin_menu">
                         <td>ID</td>
@@ -92,8 +100,38 @@
                     @endforeach
                     </tbody>
                 </table>
+                {{$products->appends(request()->query())->links('parts.pagination')}}
             </div>
         </div>
     </section>
 
 @endsection
+@section('custom-js')
+    <script>
+        $(document).ready(function () {
+            $('.alert-btn-close').click(function () {
+                $(this).parent().parent().removeClass('alert-active');
+            });
+
+            let countPage = 1;
+            $('.next-page').click(function () {
+                event.preventDefault();
+                countPage += 1;
+                let url = location.href;
+                if (countPage <= $(this).attr('id')) {
+                    $.ajax({
+                        url: url.split('?page')[0] + '?page=' + countPage,
+                        type: "GET",
+                        success: function (data) {
+                            $('.admin-table').append(data)
+                        }
+                    });
+                }
+
+                if (countPage == $(this).attr('id')) {
+                    $(this).css('display', 'none');
+                }
+            });
+        });
+    </script>
+    @endsection

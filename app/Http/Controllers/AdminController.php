@@ -61,7 +61,6 @@ class AdminController extends Controller
     //saving add
 
     public function saveAddBanner(Request $request){
-
         $banner = new Banner;
         $active = false;
         if($request['active-field'] == "on"){
@@ -77,17 +76,23 @@ class AdminController extends Controller
             'active' => $active,
         ]);
 
-
+        session(['success-message' => 'Банер успішно додано.']);
         return redirect('/admin/banner');
     }
 
     //editing
 
     public function editBanner($banner_id){
+        $banner = Banner::find($banner_id);
 
+        if(!$banner){
+            return response()->view('404.404-admin', [
+                'user' => $this->getUser(),
+            ], 404);
+        }
         return view('admin.banner.edit',[
             'user' => $this->getUser(),
-            'banner' =>  Banner::find($banner_id),
+            'banner' => $banner ,
             'category_groups' => CategoryGroup::all()
 
         ]);
@@ -114,7 +119,7 @@ class AdminController extends Controller
             'updated_at' => date("Y-m-d H:i:s")
         ]);
 
-
+        session(['success-message' => 'Банер успішно змінено.']);
         return redirect("/admin/banner");
     }
 
@@ -123,7 +128,7 @@ class AdminController extends Controller
     public function delBanner($banner_id){
         $banner = Banner::find($banner_id);
         $banner->delete();
-
+        session(['success-message' => 'Банер успішно видалено.']);
         return redirect("/admin/banner");
     }
 
@@ -181,17 +186,23 @@ class AdminController extends Controller
             'category_group_id' => $request['cat-field'],
             'category_id' => $addedCategory->id
         ]);
-
+        session(['success-message' => 'Категорію успішно додано.']);
         return redirect('/admin/categories');
     }
 
     //editing
 
     public function editCategory($category_id){
+        $category =  Category::find($category_id);
 
+        if(!$category){
+            return response()->view('404.404-admin', [
+                'user' => $this->getUser(),
+            ], 404);
+        }
         return view('admin.category.edit',[
             'user' => $this->getUser(),
-            'category' =>  Category::find($category_id),
+            'category' => $category,
             'category_groups' => CategoryGroup::all()
 
         ]);
@@ -216,7 +227,7 @@ class AdminController extends Controller
         ]);
 
         $category->categoryGroups()->where('category_id', $request['id'])->update(["category_group_id" => $request['cat-field']]);
-
+        session(['success-message' => 'Категорію успішно змінено.']);
         return redirect("/admin/categories");
     }
 
@@ -225,7 +236,7 @@ class AdminController extends Controller
     public function delCategory($category_id){
         $category = Category::find($category_id);
         $category->delete();
-
+        session(['success-message' => 'Категорію успішно видалено.']);
         return redirect("/admin/categories");
     }
 
@@ -275,17 +286,23 @@ class AdminController extends Controller
             'category_id' => $request['cat-field'],
             'active' => $active,
         ]);
-
+        session(['success-message' => 'Підкатегорію успішно додано.']);
         return redirect('/admin/subcategories');
     }
 
     //editing
 
     public function editSubCategory($subcategory_id){
+        $subCategory = SubCategory::find($subcategory_id);
 
+        if(!$subCategory){
+            return response()->view('404.404-admin', [
+                'user' => $this->getUser(),
+            ], 404);
+        }
         return view('admin.subcategory.edit',[
             'user' => $this->getUser(),
-            'subcategory' =>  SubCategory::find($subcategory_id),
+            'subcategory' =>  $subCategory,
             'categories' => Category::all()
         ]);
     }
@@ -308,7 +325,7 @@ class AdminController extends Controller
             'active' => $active,
             'updated_at' => date("Y-m-d H:i:s")
         ]);
-
+        session(['success-message' => 'Підкатегорію успішно змінено.']);
         return redirect("/admin/subcategories");
     }
 
@@ -317,7 +334,7 @@ class AdminController extends Controller
     public function delSubCategory($subcategory_id){
         $subcategory = SubCategory::find($subcategory_id);
         $subcategory->delete();
-
+        session(['success-message' => 'Підкатегорію успішно видалено.']);
         return redirect("/admin/subcategories");
     }
 
@@ -328,37 +345,64 @@ class AdminController extends Controller
             */
 
 
-    public function productIndex(){
-        $products = Product::orderBy('id', 'desc')->get();
+    public function productIndex(Request $request){
+        $products = Product::orderBy('id', 'desc')->paginate(10);
+
+        if($request->ajax()){
+            return view('admin.product.ajax.ajax-pagination',[
+                'products' => $products,
+            ])->render();
+        }
+
         return view('admin.product.index', [
             'user' => $this->getUser(),
             'products' => $products
         ]);
     }
 
-    public function productIndexMen(){
-        $products = Product::where('category_group_id', 1)->orderBy('id', 'desc')->get();
+    public function productIndexMen(Request $request){
+        $products = Product::where('category_group_id', 1)->orderBy('id', 'desc')->paginate(5);
+        if($request->ajax()){
+            return view('admin.product.ajax.ajax-pagination',[
+                'products' => $products,
+            ])->render();
+        }
         return view('admin.product.index', [
             'user' => $this->getUser(),
             'products' => $products
         ]);
     }
-    public function productIndexWomen(){
-        $products = Product::where('category_group_id', 2)->orderBy('id', 'desc')->get();
+    public function productIndexWomen(Request $request){
+        $products = Product::where('category_group_id', 2)->orderBy('id', 'desc')->paginate(5);
+        if($request->ajax()){
+            return view('admin.product.ajax.ajax-pagination',[
+                'products' => $products,
+            ])->render();
+        }
         return view('admin.product.index', [
             'user' => $this->getUser(),
             'products' => $products
         ]);
     }
-    public function productIndexBoys(){
-        $products = Product::where('category_group_id', 3)->orderBy('id', 'desc')->get();
+    public function productIndexBoys(Request $request){
+        $products = Product::where('category_group_id', 3)->orderBy('id', 'desc')->paginate(5);
+        if($request->ajax()){
+            return view('admin.product.ajax.ajax-pagination',[
+                'products' => $products,
+            ])->render();
+        }
         return view('admin.product.index', [
             'user' => $this->getUser(),
             'products' => $products
         ]);
     }
-    public function productIndexGirls(){
-        $products = Product::where('category_group_id', 4)->orderBy('id', 'desc')->get();
+    public function productIndexGirls(Request $request){
+        $products = Product::where('category_group_id', 4)->orderBy('id', 'desc')->paginate(5);
+        if($request->ajax()){
+            return view('admin.product.ajax.ajax-pagination',[
+                'products' => $products,
+            ])->render();
+        }
         return view('admin.product.index', [
             'user' => $this->getUser(),
             'products' => $products
@@ -367,7 +411,26 @@ class AdminController extends Controller
 
     //show adding form
 
-    public function addProduct(){
+    public function addProduct(Request $request){
+
+// --------------------------------------- AJAX -----------------------------------------------
+        if(isset($request['categoryGroup']) && !empty($request['categoryGroup'])){
+           $categoryGroup = CategoryGroup::find($request['categoryGroup']);
+            if(request()->ajax()){
+                return view('admin.product.ajax.ajax-category', [
+                    'user'=>$this->getUser(),
+                    'categories' => $categoryGroup->categories,
+                ])->render();
+            }
+        }elseif(isset($request['category']) && !empty($request['category'])){
+            $category = Category::find($request['category']);
+            if(request()->ajax()){
+                return view('admin.product.ajax.ajax-subcategory', [
+                    'user'=>$this->getUser(),
+                    'sub_categories' => $category->subCategories,
+                ])->render();
+            }
+        }
 
         return view('admin.product.add',[
             'user'=>$this->getUser(),
@@ -454,13 +517,18 @@ class AdminController extends Controller
             ]);
         }
 
-
+        session(['success-message' => 'Товар успішно додано.']);
         return redirect('/admin/products');
     }
 
-    public function editProduct($product_id){
-
+    public function editProduct(Request $request,$product_id){
         $product = Product::find($product_id);
+
+        if(!$product){
+            return response()->view('404.404-admin', [
+                'user' => $this->getUser(),
+            ], 404);
+        }
 
         for($i = 0; $i < count($product->materials); $i++){
             $selectedMaterials[] =  $product->materials[$i]['id'];
@@ -476,6 +544,7 @@ class AdminController extends Controller
               $count_sizes[$value->id] = $value->pivot->count;
         }
        $banners = Banner::where('category_group_id', $product->categoryGroups->id)->get();
+
         return view('admin.product.edit',[
             'user' => $this->getUser(),
             'category_groups' => CategoryGroup::all(),
@@ -559,7 +628,7 @@ class AdminController extends Controller
         }
 
 
-
+        session(['success-message' => 'Товар успішно змінено.']);
         return redirect("/admin/products");
     }
 
@@ -568,6 +637,7 @@ class AdminController extends Controller
     public function delProduct($product_id){
         $product = Product::find($product_id);
         $product->delete();
+        session(['success-message' => 'Товар успішно видалено.']);
         return redirect("/admin/products");
     }
 
@@ -581,7 +651,6 @@ class AdminController extends Controller
 
     public  function orderIndex(){
     $orders = OrdersList::orderBy('status', 'asc')->orderBy('created_at', 'desc')->get();
-    $orders = OrdersList::orderBy('status', 'asc')->orderBy('created_at', 'desc')->get();
         return view('admin.order.orders',[
             'user' => $this->getUser(),
             'statuses' => StatusList::all(),
@@ -590,7 +659,11 @@ class AdminController extends Controller
     }
     public function editOrder($order_id){
         $order = OrdersList::find($order_id);
-
+        if(!$order){
+            return response()->view('404.404-admin', [
+                'user' => $this->getUser(),
+            ], 404);
+        }
 
         return view('admin.order.edit',[
             'user' => $this->getUser(),
@@ -636,10 +709,12 @@ class AdminController extends Controller
             'updated_at' => date("Y-m-d H:i:s")
         ]);
 
+        session(['success-message' => 'Замовлення успішно змінено.']);
         return redirect('/admin/orders');
     }
 
     public function delOrder($order_id){
+        session(['success-message' => 'Замовлення успішно видалено.']);
         OrdersList::find($order_id)->delete();
         return redirect("/admin/orders");
     }
@@ -662,6 +737,12 @@ class AdminController extends Controller
 
     public function editUser($user_id){
         $user = User::find($user_id);
+
+        if(!$user){
+            return response()->view('404.404-admin', [
+                'user' => $this->getUser(),
+            ], 404);
+        }
 
         return view('admin.user.edit',[
             'user' => $this->getUser(),
@@ -692,11 +773,13 @@ class AdminController extends Controller
             'superuser'=> $superuser,
 
         ]);
+        session(['success-message' => 'Користувача успішно змінено.']);
         return redirect('/admin/users');
     }
 
     public function delUser($user_id){
          User::find($user_id)->delete();
+        session(['success-message' => 'Користувача успішно видалено.']);
          return redirect('/admin/users');
     }
 
@@ -732,10 +815,16 @@ class AdminController extends Controller
             'active' => $active
 
         ]);
+        session(['success-message' => 'Колір успішно додано.']);
         return redirect('/admin/colors');
     }
     public function editColor($color_id){
         $color = ProductColor::find($color_id);
+        if(!$color){
+            return response()->view('404.404-admin', [
+                'user' => $this->getUser(),
+            ], 404);
+        }
 
         return view('admin.additional-to-products.color.edit',[
             'user' => $this->getUser(),
@@ -754,11 +843,13 @@ class AdminController extends Controller
             'seo_name'=> $request['seo-field'],
             'active' => $active
         ]);
+        session(['success-message' => 'Колір успішно змінено.']);
         return redirect('admin/colors');
     }
 
     public function delColor($color_id){
         ProductColor::find($color_id)->delete();
+        session(['success-message' => 'Колір успішно видалено.']);
         return redirect('admin/colors');
     }
 
@@ -796,11 +887,16 @@ class AdminController extends Controller
             'active' => $active
 
         ]);
+        session(['success-message' => 'Бренд успішно додано.']);
         return redirect('/admin/brands');
     }
     public function editBrand($brand_id){
         $brand = ProductBrand::find($brand_id);
-
+        if(!$brand){
+            return response()->view('404.404-admin', [
+                'user' => $this->getUser(),
+            ], 404);
+        }
         return view('admin.additional-to-products.brand.edit',[
             'user' => $this->getUser(),
             'brand' => $brand
@@ -818,11 +914,13 @@ class AdminController extends Controller
             'seo_name'=> $request['seo-field'],
             'active' => $active
         ]);
+        session(['success-message' => 'Бренд успішно змінено.']);
         return redirect('admin/brands');
     }
 
     public function delBrand($brand_id){
         ProductBrand::find($brand_id)->delete();
+        session(['success-message' => 'Бренд успішно видалено.']);
         return redirect('admin/brands');
     }
 
@@ -860,11 +958,16 @@ class AdminController extends Controller
             'active' => $active
 
         ]);
+        session(['success-message' => 'Матеріал успішно додано.']);
         return redirect('/admin/brands');
     }
     public function editMaterial($material_id){
         $material = ProductMaterial::find($material_id);
-
+        if(!$material){
+            return response()->view('404.404-admin', [
+                'user' => $this->getUser(),
+            ], 404);
+        }
         return view('admin.additional-to-products.material.edit',[
             'user' => $this->getUser(),
             'material' => $material
@@ -882,11 +985,13 @@ class AdminController extends Controller
             'seo_name'=> $request['seo-field'],
             'active' => $active
         ]);
+        session(['success-message' => 'Матеріал успішно змінено.']);
         return redirect('admin/materials');
     }
 
     public function delMaterial($material_id){
         ProductMaterial::find($material_id)->delete();
+        session(['success-message' => 'Матеріал успішно видалено.']);
         return redirect('admin/materials');
     }
 
@@ -924,11 +1029,16 @@ class AdminController extends Controller
             'active' => $active
 
         ]);
+        session(['success-message' => 'Розмір успішно додано.']);
         return redirect('/admin/sizes');
     }
     public function editSize($size_id){
         $size = ProductSize::find($size_id);
-
+        if(!$size){
+            return response()->view('404.404-admin', [
+                'user' => $this->getUser(),
+            ], 404);
+        }
         return view('admin.additional-to-products.size.edit',[
             'user' => $this->getUser(),
             'size' => $size
@@ -946,11 +1056,13 @@ class AdminController extends Controller
             'seo_name'=> $request['seo-field'],
             'active' => $active
         ]);
+        session(['success-message' => 'Розмір успішно змінено.']);
         return redirect('admin/sizes');
     }
 
     public function delSize($size_id){
         ProductSize::find($size_id)->delete();
+        session(['success-message' => 'Розмір успішно видалено.']);
         return redirect('admin/sizes');
     }
 

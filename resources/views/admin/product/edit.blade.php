@@ -66,7 +66,7 @@
                     </div>
                     <div class="add-block">
                         <label for="category-field">Категорія </label>
-                        <select required size="7" name="category-field" class="select-option">
+                        <select required size="3" name="category-field" class="select-option" >
                             @foreach($categories as $c)
                                 <option value="{{$c->id}}" {{$c->id == $product->category_id ? "selected": ""}}>{{$c->title}}</option>
                             @endforeach
@@ -74,7 +74,7 @@
                     </div>
                     <div class="add-block">
                         <label for="sub-category-field">Підкатегорія </label>
-                        <select required size="7" name="sub-category-field" class="select-option">
+                        <select required size="7" name="sub-category-field" class="select-option" >
                             @foreach($sub_categories as $sc)
                                 <option value="{{$sc->id}}" {{$sc->id == $product->category_sub_id ? "selected": ""}}>{{$sc->title}}</option>
                             @endforeach

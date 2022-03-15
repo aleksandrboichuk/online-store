@@ -70,6 +70,7 @@ class CartController extends Controller
         if(!empty($request['delete-id'])) {
             $user_cart->products()->detach($request['delete-id']);
         }
+        session(['success-message-delete' => 'Товар успішно видалено з кошику.']);
          return back();
     }
 

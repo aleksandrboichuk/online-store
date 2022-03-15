@@ -1776,10 +1776,12 @@ h2.title {
     left: 50%;
     transform: translate(-50%);
     box-shadow: 1px 1px 1px 0 #b4b1ab;
+    z-index: 1000;
 }
 
 .alert-active{
     display: block;
+    opacity: 95%;
 }
 .alert-success hr{
     margin-top: 10px;
@@ -1841,6 +1843,9 @@ h2.title {
 
 .table{
     margin-bottom: 0;
+}
+.table-admin-products{
+    border: 1px solid #e6e4df;
 }
 .cart_delete{
     padding-top: 30px;
@@ -2746,7 +2751,23 @@ textarea {
     padding-bottom: 10px;
     font-size: 13px;
 }
+/* большинство кнопок */
+.btn-default{
+    border: 1px solid #6fa1f4;
+}
+.btn-default:hover{
+    background: transparent;
+    border: 1px solid #000;
+    color: #000;
+}
+.btn-default:focus{
+    background: #6fa1f4;
+    border: 1px solid #6fa1f4;
+    color: #fff;
+}
+
 /* админка */
+
 .admin-bread{
     max-width: 760px;
     margin: 0 auto;
@@ -2876,7 +2897,7 @@ textarea {
     color: black;
     font-size: 16px;
 }
-.admin-table-index:not(.table-view-order) {
+.admin-table-index:not(.table-view-order, .admin-table-index-products) {
     border: 1px solid #e6e4df;
     margin-bottom: 150px;
 }
@@ -2984,6 +3005,9 @@ textarea {
         width: 250px;
         font-size: 16px;
     }
+    .form-add .select-option{
+        width: 250px;
+    }
 
 }
 @media screen and (min-width: 290px) and  (max-width: 600px){
@@ -3000,6 +3024,9 @@ textarea {
     .form-add input:not(.many-input, .input-count){
         width: 150px;
         font-size: 16px;
+    }
+    .form-add .select-option{
+        width: 150px;
     }
 }
 
@@ -3045,6 +3072,9 @@ textarea {
         width: 250px;
         font-size: 16px;
     }
+    .form-add .select-option{
+        width: 250px;
+    }
 }
 
 @media screen and (min-width: 1000px) and  (max-width: 1200px) {
@@ -3071,6 +3101,9 @@ textarea {
     .form-add input:not(.many-input, .input-count){
         width: 400px;
         font-size: 16px;
+    }
+    .form-add .select-option{
+        width: 400px;
     }
 }
 

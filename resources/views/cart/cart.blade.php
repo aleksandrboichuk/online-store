@@ -9,6 +9,14 @@
             <div class="mb-0"><a href="/shop/women"><button type="button" class="btn btn-default alert-btn">Повернутися на головну</button></a></div>
         </div>
         @php(session()->forget('success-message'))
+    @elseif(session()->has('success-message-delete'))
+            <div class="alert alert-success alert-active" role="alert">
+                <h4 class="alert-heading">Виконано!</h4>
+                <p>{{session('success-message-delete')}}</p>
+                <hr>
+                <div class="mb-0"><button type="button" class="btn btn-default alert-btn alert-btn-close">Закрити</button></div>
+            </div>
+            @php(session()->forget('success-message-delete'))
     @endif
     <section id="cart_items">
         <div class="container">

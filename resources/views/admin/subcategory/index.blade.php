@@ -1,7 +1,15 @@
 @extends('layouts.admin')
 
 @section('content')
-
+    @if(session()->has('success-message'))
+        <div class="alert alert-success alert-active" role="alert">
+            <h4 class="alert-heading">Виконано!</h4>
+            <p>{{session('success-message')}}</p>
+            <hr>
+            <div class="mb-0"><button type="button" class="btn btn-default alert-btn alert-btn-close">Закрити</button></div>
+        </div>
+        @php(session()->forget('success-message'))
+    @endif
     <section id="cart_items">
         <div class="container">
             <div class="breadcrumbs">
@@ -68,4 +76,13 @@
         </div>
     </section>
 
+@endsection
+@section('custom-js')
+    <script>
+        $(document).ready(function () {
+            $('.alert-btn-close').click(function () {
+                $(this).parent().parent().removeClass('alert-active');
+            });
+        });
+    </script>
 @endsection

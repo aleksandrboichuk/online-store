@@ -65,18 +65,14 @@
                     </div>
                     <div class="add-block">
                         <label for="category-field">Категорія* </label>
-                        <select required size="7" name="category-field" class="select-option">
-                            @foreach($categories as $c)
-                                <option value="{{$c->id}}">{{$c->title}}</option>
-                            @endforeach
+                        <select required size="3" name="category-field" class="select-option">
+
                         </select>
                     </div>
                     <div class="add-block">
                         <label for="sub-category-field">Підкатегорія* </label>
                         <select required size="7" name="sub-category-field" class="select-option">
-                            @foreach($sub_categories as $sc)
-                                <option value="{{$sc->id}}">{{$sc->title}}</option>
-                            @endforeach
+
                         </select>
                     </div>
                     <div class="add-block">
@@ -139,11 +135,9 @@
     </section>
 
 @endsection
-{{--@section('custom-js')--}}
-
-    {{--<script>--}}
-        {{--$('input[name="sizes\[\]"]').change(function () {--}}
-            {{----}}
-        {{--});--}}
-    {{--</script>--}}
-    {{--@endsection--}}
+@section('custom-js')
+    <script src="/js/ajax-product-admin.js"></script>
+    <script>
+        ajaxRequests("{{route('add.product')}}")
+    </script>
+    @endsection

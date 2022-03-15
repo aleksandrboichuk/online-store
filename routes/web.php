@@ -111,7 +111,7 @@ Route::group([
     Route::get('/products/boys', [\App\Http\Controllers\AdminController::class, 'productIndexBoys']);
     Route::get('/products/girls', [\App\Http\Controllers\AdminController::class, 'productIndexGirls']);
 
-    Route::get('/products/add', [\App\Http\Controllers\AdminController::class, 'addProduct']);
+    Route::get('/products/add', [\App\Http\Controllers\AdminController::class, 'addProduct'])->name('add.product');
     Route::get('/products/edit/{product_id}', [\App\Http\Controllers\AdminController::class, 'editProduct'])->name('edit.product');
 
     Route::post('/products/add',[\App\Http\Controllers\AdminController::class, 'saveAddProduct'])->name('save.product');

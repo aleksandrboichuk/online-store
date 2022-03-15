@@ -22,22 +22,22 @@ class ElasticSearchObserver
         $this->elasticsearch = $elasticsearch;
     }
 
-    public function created(Product $product)
-    {
-        Artisan::command('search:reindex', function () {
-            dd("Indexing...!");
-        });
-    }
-
-    public function saved(Product $product){
-        Artisan::command('search:reindex', function () {
-            dd("Indexing...!");
-        });
-    }
-
-    public function delete(Product $product){
-        Artisan::command('search:reindex', function () {
-            dd("Indexing...!");
-        });
-    }
+//    public function created(Product $product)
+//    {
+//        Artisan::command('search:reindex', function () {
+//            dd("Indexing...!");
+//        });
+//    }
+//
+//    public function saved(Product $product){
+//        Artisan::command('search:reindex', function () {
+//            dd("Indexing...!");
+//        });
+//    }
+//
+//    public function delete(Product $product){
+//        Artisan::command('search:reindex', function () {
+//            dd("Indexing...!");
+//        });
+//    }
 }
