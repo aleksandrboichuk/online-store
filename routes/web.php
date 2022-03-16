@@ -23,7 +23,9 @@ Route::post('/send-message',  [App\Http\Controllers\HomeController::class, 'send
 
 if(preg_match("#^\/login#", \request()->getRequestUri()) == true
     || preg_match("#^\/register#", \request()->getRequestUri()) == true
-    || preg_match("#^\/admin#", \request()->getRequestUri()) == true){
+    || preg_match("#^\/admin#", \request()->getRequestUri()) == true
+    //|| preg_match("#^\/forgot-password#", \request()->getRequestUri()) == true
+){
 
     Route::get('/{code}/',function($code){
         if($code === 'login'){
@@ -38,6 +40,10 @@ if(preg_match("#^\/login#", \request()->getRequestUri()) == true
             $app = app();
             $controller = $app->make(\App\Http\Controllers\AdminController::class);
             return $controller->index();
+        }else if ($code === 'forgot-password') {
+            $app = app();
+            $controller = $app->make(\App\Http\Controllers\Auth\ForgotPasswordController::class);
+            return $controller->showForgotPasswordForm();
         }
     })->middleware('app.auth');
 }
@@ -49,6 +55,7 @@ if(preg_match("#^\/login#", \request()->getRequestUri()) == true
 if(preg_match("#^\/register\b#", \request()->getRequestUri()) == false
     && preg_match("#^\/logout\b#", \request()->getRequestUri()) == false
     && preg_match("#^\/login\b#", \request()->getRequestUri()) == false
+    //&& preg_match("#^\/forgot-password\b#", \request()->getRequestUri()) == false
     && preg_match("#^\/search\b#", \request()->getRequestUri()) == false
     && preg_match("#^\/admin\b#", \request()->getRequestUri()) == false
     && preg_match("#^\/personal\b#", \request()->getRequestUri()) == false
@@ -282,6 +289,7 @@ Route::post('/{product_id}',[\App\Http\Controllers\ProductController::class, 'se
  * auth
  */
 
+// Mail::to($request->user())->send(new OrderShipped($order));
 
 Auth::routes();
 

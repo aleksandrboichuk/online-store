@@ -1475,6 +1475,9 @@ h2.title {
     font-size: 22px;
     margin-bottom: 20px;
 }
+.card .form-check{
+    margin-bottom: 20px;
+}
 .offset-md-4 .btn-primary{
     width: 150px;
     font-size: 16px;
@@ -2230,4 +2233,24 @@ h2.title {
     max-height: 400px;
     overflow: auto;
 
+}
+
+.email-password-reset{
+
+
+}
+.content-mail{
+    width: 700px;
+    margin: auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    line-height: 1.5;
+}
+.content-mail u{
+    font-size: 20px;
+    margin: 0 10px;
+}
+.email-body{
+    background-color: #dddad4;
 }

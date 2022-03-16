@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\PasswordReset;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Support\Facades\Mail;
 
 class ForgotPasswordController extends Controller
 {
@@ -19,4 +22,12 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
+
+    public function showForgotPasswordForm(){
+//        try{
+//            Mail::mailer('postmark')->to('boychuk443@gmail.com')->send(new PasswordReset());
+//        }catch(\Exception $e){
+//            dd($e);
+//        }
+    }
 }
