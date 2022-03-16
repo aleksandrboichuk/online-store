@@ -7,7 +7,6 @@
             <p>{{session('success-message')}}</p>
             <hr>
             <div class="mb-0"><button type="button" class="btn btn-default alert-btn alert-btn-close">Закрити</button></div>
-            <div class="mb-0"><a href="/shop/women"><button type="button" class="btn btn-default alert-btn">Повернутися на головну</button></a></div>
         </div>
         @php(session()->forget('success-message'))
     @endif
@@ -19,10 +18,10 @@
                     <li class="active">{{$status_name}}</li>
                 </ol>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-12 col-lg-3">
                 @include('parts.personal-sidebar')
             </div>
-            <div class="col-sm-9">
+            <div class="col-sm-12 col-lg-9">
                 <div class="title-page-personal"><h3>{{$status_name}}</h3></div>
                 <div class="table-responsive admin-table-index">
                     <table class="table table-condensed">

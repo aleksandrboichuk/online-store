@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.main')
 
 @section('content')
     <section id="personal_area">
@@ -10,10 +10,10 @@
                     <li class="active">Налаштування</li>
                 </ol>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-12 col-lg-3">
                 @include('parts.personal-sidebar')
             </div>
-            <div class="col-sm-9">
+            <div class="col-sm-12 col-lg-9">
                 <div class="title-page-personal"><h3>Налаштування</h3></div>
                 <form action="{{route('user.settings.save')}}" method="post">
                     <input type="hidden" name="id" value="{{$user->id}}">

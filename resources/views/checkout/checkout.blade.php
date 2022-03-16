@@ -83,7 +83,7 @@
                 </table>
 
             </div>
-            <div class="shopper-informations">
+            <div class="shopper-information">
                 <div class="row">
                     {{--<a class="btn btn-primary" href="">Get Quotes</a>--}}
                     <div class="col-sm-12 ">
@@ -93,7 +93,7 @@
                                     <p>Контактні дані користувача</p>
                                     <div class="total_area">
                                         @if(isset($user) && !empty($user))
-                                        <ul>
+                                        <ul class="total-area-user-data">
                                             <li><b>Ім'я:</b><span><input type="text" name="user-firstname" value="{{$user->first_name}}" required></span></li>
                                             <li><b>Прізвище:</b><span><input type="text" name="user-lastname" value="{{$user->last_name}}" required></span></li>
                                             <li><b>E-mail:</b><span><input type="text" name="user-email" value="{{$user->email}}" required></span></li>
@@ -102,7 +102,7 @@
                                             <li><b>Телефон:</b><span><input type="text" name="user-phone" value="{{$user->phone}} " required onkeyup="this.value = this.value.replace(/[^\d]/g,'');"></span></li>
                                         </ul>
                                             @else
-                                            <ul>
+                                            <ul class="total-area-user-data">
                                                 <li><b>Ім'я:</b><span><input type="text" name="user-firstname" value="" required></span></li>
                                                 <li><b>Прізвище:</b><span><input type="text" name="user-lastname" value="" required></span></li>
                                                 <li><b>E-mail:</b><span><input type="text" name="user-email" value="" required></span></li>

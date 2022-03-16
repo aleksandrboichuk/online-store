@@ -65,39 +65,38 @@
                     </table>
 
                 </div>
-                    <input type="hidden" name="id" value="{{$order->id}}">
-                    <div class="add-block">
-                        <label for="id-field">ID користувача</label>
-                        <p>{{$order->user_id}}</p>
-                    </div>
-                    <div class="add-block">
-                        <label for="name-field">Ім'я </label>
-                        <p>{{$order->name}}</p>
-                    </div>
-                    <div class="add-block">
-                        <label for="email-field">Ел. пошта </label>
-                        <p>{{$order->email}}</p>
-                    </div>
-                    <div class="add-block">
-                        <label for="phone-field">Телефон </label>
-                        <p>{{$order->phone}}</p>
-                    </div>
-                    <div class="add-block">
-                        <label for="address-field">Адреса </label>
-                        <p>{{$order->address}}</p>
-                    </div>
-                    <div class="add-block">
-                        <label for="comment-field">Коментар </label>
-                        <input type="text" value="{{isset($order->comment) ? $order->comment : ""}}" readonly="readonly">
-                    </div>
-                    <div class="add-block">
-                        <label for="sum-field">Сума </label>
-                        <p><u>₴{{$order->total_cost}}</u></p>
-                    </div>
-                    <div class="add-block">
-                        <label for="status-field">Статус </label>
-                        <p>{{$status}}</p>
-                    </div>
+                <div class="add-block">
+                    <label for="id-field">ID користувача</label>
+                    <input type="text" value="{{$order->user_id}}" name="id-field" readonly>
+                </div>
+                <div class="add-block">
+                    <label for="name-field">Ім'я </label>
+                    <input type="text" value="{{$order->name}}" name="name-field" readonly>
+                </div>
+                <div class="add-block">
+                    <label for="email-field">Ел. пошта </label>
+                    <input type="text" value="{{$order->email}}" name="email-field" readonly>
+                </div>
+                <div class="add-block">
+                    <label for="phone-field">Телефон </label>
+                    <input type="text" value="{{$order->phone}}" name="phone-field" readonly>
+                </div>
+                <div class="add-block">
+                    <label for="address-field">Адреса </label>
+                    <input type="text" value="{{$order->address}}" name="address-field" readonly>
+                </div>
+                <div class="add-block">
+                    <label for="comment-field">Коментар </label>
+                    <input type="text" value="{{isset($order->comment) ? $order->comment : ""}}" name="comment-field" readonly>
+                </div>
+                <div class="add-block">
+                    <label for="sum-field">Сума </label>
+                    <input type="text" value="₴{{$order->total_cost}}" name="sum-field" readonly>
+                </div>
+                <div class="add-block">
+                    <label for="status-field">Сума </label>
+                    <input type="text" value="{{$status}}" name="status-field" readonly>
+                </div>
                 <a href="/personal/orders"><button type="button" class="btn btn-default todo-btn">Назад</button></a>
             </div>
             <div class="col-sm-1"></div>
