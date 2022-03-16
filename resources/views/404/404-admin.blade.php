@@ -9,7 +9,7 @@
             <img src="/images/404/404.png" class="img-responsive" alt="" />
             <h1><b>ОЙ!</b> Ми не змогли знайти цю сторінку </h1>
             <p> Так... Схоже, ви щось зламали. Сторінка, яку ви шукаєте - зникла. </p>
-            <h2 class="return-back"><a href="/shop/women">Верни мене додому</a></h2>
+            <h2 class="return-back"><a href="/admin">Верни мене додому</a></h2>
         </div>
     </div>
 

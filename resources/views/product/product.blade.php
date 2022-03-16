@@ -153,7 +153,7 @@
                                     </span>
 
                                 </div>
-                                <button type="submit" class="btn btn-fefault cart" {{empty($product->sizes[0]['name'])  ? "disabled" : ""}}><i class="fa fa-shopping-cart" ></i> До кошику</button>
+                                <button type="submit" class="btn btn-default cart" {{empty($product->sizes[0]['name'])  ? "disabled" : ""}}><i class="fa fa-shopping-cart" ></i> До кошику</button>
                                 <h3 class="about-product">Про товар:</h3>
                                 <p>{{$product->description}}</p>
                             </div>
@@ -199,6 +199,13 @@
                                            @endforeach
                                        </div>
                                         {{$reviews->appends(request()->query())->links('parts.pagination')}}
+                                    @else
+                                        <div class="no-reviews">
+                                                <p>
+                                                    Відгуки відсутні.
+                                                </p>
+
+                                        </div>
                                     @endif
 
                                     @if($user)

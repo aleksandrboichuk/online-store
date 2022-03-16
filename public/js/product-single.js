@@ -30,15 +30,12 @@ function addToCart(route) {
 
     $('.size-item').click(function () {
         $('.sizes').find('.active-size').removeClass("active-size");
-        $('.sizes').find('p').css("color", "#696763");
         $(this).addClass("active-size");
-        $(this).find('p').css("color", "#fff");
     });
 
 
-    $('.btn-fefault').click(function () {
+    $('.btn-default').click(function () {
         let productId = $('.product-id').attr('id');
-        let userId =  $('.quantity').attr('id');
         let productCount = $('.quantity').val();
         let productSize =  $('.sizes').find('.active-size').find('p').text();
 
@@ -50,11 +47,12 @@ function addToCart(route) {
         $(".cart").addClass("added");
 
         function btn() {
-            $(".cart").removeClass("added");
-            $('.btn-fefault').append('<i class="fa fa-shopping-cart" ></i>').text(" До кошику ")
+            let button = $(".cart");
+            button.removeClass("added");
+            button.text(' До кошику ');
+            button.prepend($('i[class="fa fa-shopping-cart"]'));
         }
 
-        setTimeout(btn, 1000);
 
         if ( productId > 0 ){
             $.ajax({
@@ -68,7 +66,9 @@ function addToCart(route) {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                success: (data) =>{}
+                success: (data) =>{
+                    setTimeout(btn, 1000);
+                }
             });
         }
     })

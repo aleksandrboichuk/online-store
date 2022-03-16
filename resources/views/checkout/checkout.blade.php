@@ -4,10 +4,11 @@
     <section id="cart_items">
         <div class="container">
             <div class="breadcrumbs">
-                {{--<ol class="breadcrumb">--}}
-                    {{--<li><a href="#">Home</a></li>--}}
-                    {{--<li class="active">Check out</li>--}}
-                {{--</ol>--}}
+                <ol class="breadcrumb">
+                    <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    <li><a href="/cart">Кошик</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    <li class="active">Оформлення замовлення</li>
+                </ol>
             </div>
 
             <div class="review-payment">

@@ -1314,6 +1314,13 @@ h2.title {
     padding-left: 25px;
     padding-right: 25px;
 }
+.no-reviews{
+    margin: 40px 0;
+}
+.no-reviews p{
+    text-align: center !important;
+    font-weight: bold;
+}
 .product-images{
     height: 1000px;
     width: 650px;
@@ -1410,7 +1417,7 @@ h2.title {
     background-color: #6fa1f4;
 }
 .active-size p{
-   color: #fff;
+   color: #fff !important;
 }
 .quantity-title{
     font-size: 16px;
@@ -1505,7 +1512,7 @@ h2.title {
     color: #fff;
 }
 .added{
-    background: #009100;
+    background: #32a82d !important;
 }
 .shop-details-tab {
     border: 1px solid #f7f7f0;
@@ -1513,6 +1520,7 @@ h2.title {
     margin-left: 15px;
     margin-right: 15px;
     padding-bottom: 10px;
+    max-width: 620px;
 }
 .shop-details-tab .col-sm-12 {
     padding-left: 0;
@@ -1556,7 +1564,7 @@ h2.title {
 #reviews form span input {
     background: #f0f0e9;
     border: 0;
-    color: #a6a6a1;
+    color: #81817c;
     font-family: roboto, sans-serif;
     font-size: 14px;
     outline: medium;
@@ -2757,8 +2765,8 @@ textarea {
 }
 .btn-default:hover{
     background: transparent;
-    border: 1px solid #000;
-    color: #000;
+    border: 1px solid #6fa1f4;
+    color: #4e88f4;
 }
 .btn-default:focus{
     background: #6fa1f4;
