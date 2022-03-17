@@ -40,11 +40,12 @@ if(preg_match("#^\/login#", \request()->getRequestUri()) == true
             $app = app();
             $controller = $app->make(\App\Http\Controllers\AdminController::class);
             return $controller->index();
-        }else if ($code === 'forgot-password') {
-            $app = app();
-            $controller = $app->make(\App\Http\Controllers\Auth\ForgotPasswordController::class);
-            return $controller->showForgotPasswordForm();
         }
+//        else if ($code === 'forgot-password') {
+//            $app = app();
+//            $controller = $app->make(\App\Http\Controllers\Auth\ForgotPasswordController::class);
+//            return $controller->showForgotPasswordForm();
+//        }
     })->middleware('app.auth');
 }
 
