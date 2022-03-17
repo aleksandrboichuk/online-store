@@ -53,12 +53,12 @@
                                 <p>{{$item->address}}</p>
                             </td>
                             <td>
-                                <p>₴{{$item->total_cost}}</p>
+                                <p><u>₴{{$item->total_cost}}</u></p>
                             </td>
                             <td>
                                 @foreach($statuses as $s)
                                     @if($s->id == $item->status)
-                                        <p>{{$s->name}}</p>
+                                        <p><b>{{$s->name}}</b></p>
                                     @endif
                                 @endforeach
                             </td>

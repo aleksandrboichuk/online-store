@@ -94,7 +94,7 @@
                     <input type="text" value="₴{{$order->total_cost}}" name="sum-field" readonly>
                 </div>
                 <div class="add-block">
-                    <label for="status-field">Сума </label>
+                    <label for="status-field">Статус </label>
                     <input type="text" value="{{$status}}" name="status-field" readonly>
                 </div>
                 <a href="/personal/orders"><button type="button" class="btn btn-default todo-btn">Назад</button></a>

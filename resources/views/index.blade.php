@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    @if(isset($banners) && !empty($banners))
+    @if(!empty($banners) && count($banners) > 0)
         @include('parts.banners')
     @endif
     <!--end slider-->

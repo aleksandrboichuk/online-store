@@ -16,23 +16,23 @@
                 <form action="{{route('save.product')}}" method="post">
                     <div class="add-block">
                         <label for="name-field">Назва* </label>
-                        <input type="text" name="name-field">
+                        <input type="text" name="name-field" required>
                     </div>
                     <div class="add-block">
-                        <label for="seo-field">SEO* </label>
-                        <input type="text" name="seo-field">
+                        <label for="seo-field" >SEO* </label>
+                        <input type="text" name="seo-field" required>
                     </div>
                     <div class="add-block">
                         <label for="image-field">Посилання на зображення* </label>
-                        <input type="text" name="image-field">
+                        <input type="text" name="image-field" required>
                     </div>
                     <div class="add-block">
                         <label for="description-field">Опис* </label>
-                        <textarea rows="10" name="description-field"> </textarea>
+                        <textarea rows="10" name="description-field" required> </textarea>
                     </div>
                     <div class="add-block">
                         <label for="price-field">Ціна* </label>
-                        <input type="text" name="price-field">
+                        <input type="text" name="price-field" required>
                     </div>
                     <div class="add-block">
                         <label for="discount-field">Знижка (%) </label>

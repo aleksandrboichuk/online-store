@@ -3,7 +3,7 @@
 @section('content')
     <div class="breadcrumbs admin-bread">
         <ol class="breadcrumb">
-            <li><a href="/admin">Адмін</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+            <li><a href="/admin">Пінель Адміністратора</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
             <li><a href="/admin/orders">Замовлення</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
             <li class="active">Редагування</li>
         </ol>
@@ -11,8 +11,8 @@
 
     <section class="form-add">
         <div class="container">
-            <div class="col-sm-1"></div>
-            <div class="col-sm-10">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
                 <div class="review-payment">
                     <h2>Перегляд товарів замовлення</h2>
                 </div>
@@ -112,7 +112,7 @@
                     <button type="submit" class="btn btn-default todo-btn">Зберегти</button>
                 </form>
             </div>
-            <div class="col-sm-1"></div>
+            <div class="col-sm-2"></div>
         </div>
     </section>
 
