@@ -21,11 +21,11 @@ class PromotionController extends Controller
         if(!$this->getUser()){
             $cart = Cart::where('token', session('_token'))->first();
         }
-        $group = CategoryGroup::where('seo_name',$group_seo_name)->first();
+        $group = CategoryGroup::where('seo_name',$group_seo_name)->where('active', 1)->first();
         $brands = $this->getGroupBrand($group->id);
 
-        $banner = Banner::where('seo_name', $seo_name_banner)->first();
-        $products = Product::where('banner_id', $banner->id)->where('category_group_id', $group->id)->paginate(6);
+        $banner = Banner::where('seo_name', $seo_name_banner)->where('active', 1)->first();
+        $products = Product::where('banner_id', $banner->id)->where('category_group_id', $group->id)->where('active', 1)->paginate(6);
 
 
         /*----------------------  AJAX  ----------------------*/
@@ -123,10 +123,10 @@ class PromotionController extends Controller
             'group' => $group,
             'group_categories' => $group->categories,
             'brands' => $brands,
-            'colors' => ProductColor::all(),
-            "materials"=> ProductMaterial::all(),
-            "seasons" => ProductSeason::all(),
-            "sizes" => ProductSize::all(),
+            'colors' => ProductColor::where('active', 1)->get(),
+            "materials"=> ProductMaterial::where('active', 1)->get(),
+            "seasons" => ProductSeason::where('active', 1)->get(),
+            "sizes" => ProductSize::where('active', 1)->get(),
             "images"=> ProductImage::all(),
         ]);
     }

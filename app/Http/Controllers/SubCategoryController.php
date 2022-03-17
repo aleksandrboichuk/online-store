@@ -19,27 +19,29 @@ use Illuminate\Support\Facades\Auth;
 class SubCategoryController extends Controller
 {
     public function index(Request $request, $group_seo_name,$category_seo_name,$sub_category_seo_name){
-        $group = CategoryGroup::where('seo_name',$group_seo_name)->first();
-        if(!$group){
-            return response()->view('404.404', ['user' => Auth::user()], 404);
-        }
-
-        $category = Category::where('seo_name',$category_seo_name)->first();
-        if(!$category){
-            return response()->view('404.404', ['user' => Auth::user()], 404);
-        }
-
-        $sub_category = SubCategory::where('seo_name',$sub_category_seo_name)->where('category_id',$category->id)->first();
-        if(!$sub_category){
-            return response()->view('404.404', ['user' => Auth::user()], 404);
-        }
-
-        $sub_category_products = Product::where('category_group_id', $group->id)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)->paginate(8);
-
-
         if(!$this->getUser()){
             $cart = Cart::where('token', session('_token'))->first();
         }
+
+
+        $group = CategoryGroup::where('seo_name',$group_seo_name)->where('active', 1)->first();
+        if(!$group){
+            return response()->view('404.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null], 404);
+        }
+
+        $category = Category::where('seo_name',$category_seo_name)->where('active', 1)->first();
+        if(!$category){
+            return response()->view('404.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null], 404);
+        }
+
+        $sub_category = SubCategory::where('seo_name',$sub_category_seo_name)->where('category_id',$category->id)->where('active', 1)->first();
+        if(!$sub_category){
+            return response()->view('404.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null], 404);
+        }
+
+        $sub_category_products = Product::where('category_group_id', $group->id)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)->where('active', 1)->paginate(8);
+
+
         /*----------------------  AJAX  ----------------------*/
         if($request->ajax()){
             return view('ajax.ajax',[
@@ -135,12 +137,12 @@ class SubCategoryController extends Controller
             'category' =>$category,
             'sub_category' => $sub_category,
             'group' => $group,
-            'group_categories' => $group->categories,
+            'group_categories' => $group->categories->where('active', 1),
             'brands' => $group_brands,
-            'colors' => ProductColor::all(),
-            "materials"=> ProductMaterial::all(),
-            "seasons" => ProductSeason::all(),
-            "sizes" => ProductSize::all(),
+            'colors' => ProductColor::where('active', 1)->get(),
+            "materials"=> ProductMaterial::where('active', 1)->get(),
+            "seasons" => ProductSeason::where('active', 1)->get(),
+            "sizes" => ProductSize::where('active', 1)->get(),
             "images"=> ProductImage::all(),
         ]);
     }

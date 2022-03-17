@@ -11,7 +11,7 @@
                                     data-toggle="collapse"
                                     data-parent="#accordian"
                                     href="#{{$group_category->name}}">
-                                @if(count($group_category->subCategories) > 0)
+                                @if(count($group_category->subCategories->where('active', 1)) > 0)
                                     <span class="badge pull-right"><i class="fa fa-plus"></i></span>
                                     <a href="{{route('show.category',[$group->seo_name, $group_category->seo_name])}}"><strong>{{$group_category->name}}</strong></a>
                                 @else
@@ -20,7 +20,7 @@
                             </a>
                         </h4>
                     </div>
-                    @if(count($group_category->subCategories)>0)
+                    @if(count($group_category->subCategories->where('active', 1))>0)
                         <div id="{{$group_category->name}}" class="panel-collapse in">
                             <div class="panel-body">
                                 <ul>

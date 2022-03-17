@@ -20,8 +20,8 @@ use Illuminate\Support\Facades\DB;
 
 class SearchController extends Controller
 {
-    public function index($group_seo_name,Request $request, ElasticSearch $elasticSearch){
-        $group = CategoryGroup::where('seo_name', $group_seo_name)->first();
+    public function index($group_seo_name, Request $request, ElasticSearch $elasticSearch){
+        $group = CategoryGroup::where('seo_name', $group_seo_name)->where('active', 1)->first();
 
         $view = 'search.cg-search';
         $group_brands = $this->getGroupBrand($group->id);
@@ -74,10 +74,10 @@ class SearchController extends Controller
             'brands' => $group_brands,
             'group_categories' => $group->categories,
             'category' => isset($category) ? $category : null,
-            'colors' => ProductColor::all(),
-            "materials"=> ProductMaterial::all(),
-            "seasons" => ProductSeason::all(),
-            "sizes" => ProductSize::all(),
+            'colors' => ProductColor::where('active', 1)->get(),
+            "materials"=> ProductMaterial::where('active', 1)->get(),
+            "seasons" => ProductSeason::where('active', 1)->get(),
+            "sizes" => ProductSize::where('active', 1)->get(),
             "images"=> ProductImage::all(),
             'cart' => isset($cart) && !empty($cart) ? $cart : null,
         ]);
@@ -101,19 +101,19 @@ class SearchController extends Controller
         $promotion = false;
         if($arrSeoNames[1] == 'promotions'){
             $promotion = true;
-            $promotionBanner = Banner::where('seo_name', $arrSeoNames[3])->first();
-            $group = CategoryGroup::where('seo_name',$arrSeoNames[2])->first();
+            $promotionBanner = Banner::where('seo_name', $arrSeoNames[3])->where('active', 1)->first();
+            $group = CategoryGroup::where('seo_name',$arrSeoNames[2])->where('active', 1)->first();
             $group_brands = $this->getGroupBrand($group->id);
 
         }else{
 
-            $group = CategoryGroup::where('seo_name',$arrSeoNames[2])->first();
+            $group = CategoryGroup::where('seo_name',$arrSeoNames[2])->where('active', 1)->first();
             $group_brands = $this->getGroupBrand($group->id);
             if(isset($arrSeoNames[3])){
-                $category =  Category::where('seo_name',$arrSeoNames[3])->first();
+                $category =  Category::where('seo_name',$arrSeoNames[3])->where('active', 1)->first();
             }
             if(isset($arrSeoNames[4])){
-                $subCategory =  SubCategory::where('seo_name',$arrSeoNames[4])->first();
+                $subCategory =  SubCategory::where('seo_name',$arrSeoNames[4])->where('active', 1)->first();
             }
         }
 
@@ -129,7 +129,7 @@ class SearchController extends Controller
             $requestColors = explode(' ', $request['colors']);
             $colors = [];
             foreach ($requestColors as $rc){
-               $colorModel = ProductColor::where('seo_name', $rc)->first();
+               $colorModel = ProductColor::where('seo_name', $rc)->where('active', 1)->first();
                array_push($colors, $colorModel->id );
             }
             $arData["bool"][$filterType][] =  [
@@ -142,7 +142,7 @@ class SearchController extends Controller
             $requestBrands =  explode(' ', $request['brands']);
             $brands = [];
             foreach ($requestBrands as $rb){
-                $brandModel = ProductBrand::where('seo_name', $rb)->first();
+                $brandModel = ProductBrand::where('seo_name', $rb)->where('active', 1)->first();
                 array_push($brands, $brandModel->id );
             }
             $arData["bool"][$filterType][] =  [
@@ -155,7 +155,7 @@ class SearchController extends Controller
             $requestSeasons =  explode(' ', $request['seasons']);
             $seasons = [];
             foreach ($requestSeasons as $rs){
-                $seasonModel = ProductSeason::where('seo_name', $rs)->first();
+                $seasonModel = ProductSeason::where('seo_name', $rs)->where('active', 1)->first();
                 array_push($seasons, $seasonModel->id );
             }
             $arData["bool"][$filterType][] =  [
@@ -169,7 +169,7 @@ class SearchController extends Controller
             $requestMaterials =  explode(' ', $request['materials']);
             $materials = [];
             foreach ($requestMaterials as $rm){
-                $materialModel = ProductMaterial::where('seo_name', $rm)->first();
+                $materialModel = ProductMaterial::where('seo_name', $rm)->where('active', 1)->first();
                 array_push($materials, $materialModel->id );
             }
             $arData["bool"][$filterType][] =  [
@@ -183,7 +183,7 @@ class SearchController extends Controller
             $requestSizes  =  explode(' ', $request['sizes']);
             $sizes = [];
             foreach ($requestSizes as $rsize){
-                $sizeModel = ProductSize::where('seo_name', $rsize)->first();
+                $sizeModel = ProductSize::where('seo_name', $rsize)->where('active', 1)->first();
                 array_push($sizes, $sizeModel->id );
             }
             $arData["bool"][$filterType][] =  [
@@ -252,8 +252,8 @@ class SearchController extends Controller
                         $banners = Banner::where('active', 1)->where('category_group_id', $group->id)->get();
                     }
                     if($seo_names[0] != "" && $seo_names[1] != "" && $seo_names[2] == ""){
-                        $cg = CategoryGroup::where('seo_name',$seo_names[0] )->first();
-                        $c = Category::where('seo_name', $seo_names[1] )->first();
+                        $cg = CategoryGroup::where('seo_name',$seo_names[0] )->where('active', 1)->first();
+                        $c = Category::where('seo_name', $seo_names[1] )->where('active', 1)->first();
                         $must = [
                             ['match' => ['product_category_group' => $cg->id]],
                             ['match' => ['product_category' => $c->id]]
@@ -261,9 +261,9 @@ class SearchController extends Controller
                         $view = 'category.category';
                     }
                     if($seo_names[0] != "" && $seo_names[1] != "" && $seo_names[2] != ""){
-                        $cg = CategoryGroup::where('seo_name',$seo_names[0] )->first();
-                        $c = Category::where('seo_name', $seo_names[1] )->first();
-                        $sc = SubCategory::where('seo_name', $seo_names[2] )->first();
+                        $cg = CategoryGroup::where('seo_name',$seo_names[0] )->where('active', 1)->first();
+                        $c = Category::where('seo_name', $seo_names[1] )->where('active', 1)->first();
+                        $sc = SubCategory::where('seo_name', $seo_names[2] )->where('active', 1)->first();
                         $must = [
                             ['match' => ['product_category_group' => $cg->id]],
                             ['match' => ['product_category' => $c->id]],
@@ -326,10 +326,10 @@ class SearchController extends Controller
             'brands' => $group_brands,
             'category' => isset($category) &&  !empty($category) ? $category : null,
             'sub_category' => isset($subCategory) &&  !empty($subCategory) ? $subCategory : null,
-            'colors' => ProductColor::all(),
-            "materials"=> ProductMaterial::all(),
-            "seasons" => ProductSeason::all(),
-            "sizes" => ProductSize::all(),
+            'colors' => ProductColor::where('active', 1)->get(),
+            "materials"=> ProductMaterial::where('active', 1)->get(),
+            "seasons" => ProductSeason::where('active', 1)->get(),
+            "sizes" => ProductSize::where('active', 1)->get(),
             "images"=> ProductImage::all(),
 
         ]);

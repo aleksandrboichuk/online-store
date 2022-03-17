@@ -18,8 +18,8 @@
                     <li class="active">Користувачі</li>
                 </ol>
             </div>
-            <div class="table-responsive admin-table-index">
-                <table class="table table-condensed">
+            <div class="table-responsive admin-table-index admin-table-index-with-pagination">
+                <table class="table table-condensed table-admin-with-pagination">
                     <thead>
                     <tr class="admin_menu">
                         <td>ID</td>
@@ -75,6 +75,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                {{$adm_users->appends(request()->query())->links('parts.pagination')}}
             </div>
         </div>
     </section>
@@ -85,6 +86,26 @@
         $(document).ready(function () {
             $('.alert-btn-close').click(function () {
                 $(this).parent().parent().removeClass('alert-active');
+            });
+
+            let countPage = 1;
+            $('.next-page').click(function () {
+                event.preventDefault();
+                countPage += 1;
+                let url = location.href;
+                if (countPage <= $(this).attr('id')) {
+                    $.ajax({
+                        url: url.split('?page')[0] + '?page=' + countPage,
+                        type: "GET",
+                        success: function (data) {
+                            $('.admin-table').append(data)
+                        }
+                    });
+                }
+
+                if (countPage == $(this).attr('id')) {
+                    $(this).css('display', 'none');
+                }
             });
         });
     </script>

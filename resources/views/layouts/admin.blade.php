@@ -78,9 +78,21 @@
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <li><a href="/admin/orders"><u>Замовлення</u></a></li>
                             <li><a href="/admin/users"><u>Користувачі</u></a></li>
-                            <li><a href="/admin/banner">Банери</a></li>
-                            <li><a href="/admin/categories">Категорії</a></li>
-                            <li><a href="/admin/subcategories">Підкатегорії</a></li>
+                            <li><a href="/admin/messages">Повідомлення</a></li>
+                            <li><a href="/admin/banner">Банери<i class="fa fa-angle-down"></i></a>
+                                <ul role="menu" class="sub-menu">
+                                    <li><a href="/admin/banner/women">Для жінок</a></li>
+                                    <li><a href="/admin/banner/men">Для чоловіків</a></li>
+                                    <li><a href="/admin/banner/boys">Для хлопчиків</a></li>
+                                    <li><a href="/admin/banner/girls">Для дівчаток</a></li>
+                                </ul>
+                            </li>
+                            <li><a>Групи категорій<i class="fa fa-angle-down"></i></a>
+                                <ul role="menu" class="sub-menu">
+                                    <li><a href="/admin/categories">Категорії</a></li>
+                                    <li><a href="/admin/subcategories">Підкатегорії</a></li>
+                                </ul>
+                            </li>
                             <li><a href="/admin/products">Товари<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li><a href="/admin/products/women">Жіночі</a></li>

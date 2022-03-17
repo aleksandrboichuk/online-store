@@ -98,7 +98,18 @@
                                      @endfor
                                          @if(intval($product->rating) < $product->rating)
                                              <i class="fa fa-star-half-empty"></i>
-                                          @endif
+                                             @if(intval($product->rating) + 1  < 5)
+                                                 @for($i = intval($product->rating) + 1; $i < 5; $i++)
+                                                     <i class="glyphicon glyphicon-star-empty" style="font-size:20px"></i>
+                                                 @endfor
+                                             @endif
+                                         @else
+                                             @if(intval($product->rating) < 5)
+                                                 @for($i = intval($product->rating); $i < 5; $i++)
+                                                     <i class="glyphicon glyphicon-star-empty" style="font-size:20px"></i>
+                                                 @endfor
+                                             @endif
+                                         @endif
                                    <b> ({{count($product->reviews)}})</b></div>
                                  @endif
                                 <h2>{{$product->name}}</h2>
@@ -204,7 +215,6 @@
                                                 <p>
                                                     Відгуки відсутні.
                                                 </p>
-
                                         </div>
                                     @endif
 

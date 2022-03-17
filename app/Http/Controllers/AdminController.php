@@ -15,6 +15,7 @@ use App\Models\ProductSize;
 use App\Models\StatusList;
 use App\Models\SubCategory;
 use App\Models\User;
+use App\Models\UserMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use PHPUnit\Util\Color;
@@ -38,9 +39,25 @@ class AdminController extends Controller
 
 
 
-    public function bannerIndex()
+    public function bannerIndex($cat_group = null)
     {
         $banners = Banner::orderBy('id', 'desc')->get();
+        if (!empty($cat_group)) {
+            switch ($cat_group) {
+                case 'men':
+                    $banners = Banner::where('category_group_id', 1)->orderBy('id', 'desc')->get();
+                    break;
+                case 'women':
+                    $banners = Banner::where('category_group_id', 2)->orderBy('id', 'desc')->get();
+                    break;
+                case 'boys':
+                    $banners = Banner::where('category_group_id', 3)->orderBy('id', 'desc')->get();
+                    break;
+                case 'girls':
+                    $banners = Banner::where('category_group_id', 4)->orderBy('id', 'desc')->get();
+                    break;
+            }
+        }
         return view('admin.banner.index',[
             'user'=>$this->getUser(),
             'banners' => $banners,
@@ -54,7 +71,7 @@ class AdminController extends Controller
 
         return view('admin.banner.add',[
             'user'=>$this->getUser(),
-            'category_groups' => CategoryGroup::all(),
+            'category_groups' => CategoryGroup::where('active', 1)->get(),
         ]);
     }
 
@@ -133,6 +150,53 @@ class AdminController extends Controller
     }
 
 
+
+    /*
+            *
+            * Editing/Adding/Saving MESSAGES
+            *
+           */
+
+
+
+    public function messagesIndex()
+    {
+        $messages = UserMessage::orderBy('id', 'desc')->get();
+
+        return view('admin.message.index',[
+            'user'=>$this->getUser(),
+            'messages' => $messages,
+
+        ]);
+    }
+
+    //showing
+
+    public function showMessage($message_id){
+        $message = UserMessage::find($message_id);
+
+        if(!$message){
+            return response()->view('404.404-admin', [
+                'user' => $this->getUser(),
+            ], 404);
+        }
+        return view('admin.message.single-message',[
+            'user' => $this->getUser(),
+            'message' => $message ,
+
+        ]);
+    }
+
+    //delete
+
+    public function delMessage($message_id){
+        $message = UserMessage::find($message_id);
+        $message->delete();
+        session(['success-message' => 'Повідомлення успішно видалено.']);
+        return redirect("/admin/messages");
+    }
+
+
             /*
              *
              * Editing/Adding/Saving CATEGORIES
@@ -157,7 +221,7 @@ class AdminController extends Controller
 
         return view('admin.category.add',[
             'user'=>$this->getUser(),
-            'category_groups' => CategoryGroup::all()
+            'category_groups' => CategoryGroup::where('active', 1)->get()
         ]);
     }
 
@@ -218,6 +282,24 @@ class AdminController extends Controller
         if($request['active-field'] == "on"){
             $active = true;
         }
+        // отключаем все продукты категории и подкатегории,
+        // если саму категорию отключили
+        if($category->active == 1 && $active == false){
+            foreach ($category->products as $product) {
+                $product->update(['active' => $active]);
+            }
+            foreach ($category->subCategories as $subCat) {
+                $subCat->update(['active' => $active]);
+            }
+        }elseif($category->active == 0 && $active == true){
+            foreach ($category->products as $product) {
+                $product->update(['active' => $active]);
+            }
+            foreach ($category->subCategories as $subCat) {
+                $subCat->update(['active' => $active]);
+            }
+        }
+
         $category->update([
             'title' => $request['title-field'],
             'name' => $request['name-field'],
@@ -261,7 +343,7 @@ class AdminController extends Controller
 
         return view('admin.subcategory.add',[
             'user'=>$this->getUser(),
-            'categories' => Category::all()
+            'categories' => Category::where('active', 1)->get()
         ]);
     }
 
@@ -317,6 +399,20 @@ class AdminController extends Controller
         if($request['active-field'] == "on"){
             $active = true;
         }
+
+        // отключаем все продукты подкатегории,
+        // если саму подкатегории отключили
+
+        if($subcategory->active == 1 && $active == false){
+            foreach ($subcategory->products as $product) {
+                $product->update(['active' => $active]);
+            }
+        }elseif($subcategory->active == 0 && $active == true){
+            foreach ($subcategory->products as $product) {
+                $product->update(['active' => $active]);
+            }
+        }
+
         $subcategory->update([
             'title' => $request['title-field'],
             'name' => $request['name-field'],
@@ -345,69 +441,57 @@ class AdminController extends Controller
             */
 
 
-    public function productIndex(Request $request){
-        $products = Product::orderBy('id', 'desc')->paginate(10);
-
-        if($request->ajax()){
-            return view('admin.product.ajax.ajax-pagination',[
-                'products' => $products,
-            ])->render();
+    public function productIndex(Request $request,$cat_group = null){
+        $products = Product::orderBy('id', 'desc')->paginate(5);
+        if (!empty($cat_group)) {
+            switch ($cat_group) {
+                case 'men':
+                    $products = Product::where('category_group_id', 1)->orderBy('id', 'desc')->paginate(5);
+                    if($request->ajax()){
+                        return view('admin.product.ajax.ajax-pagination',[
+                            'products' => $products,
+                        ])->render();
+                    }
+                    break;
+                case 'women':
+                    $products = Product::where('category_group_id', 2)->orderBy('id', 'desc')->paginate(5);
+                    if($request->ajax()){
+                        return view('admin.product.ajax.ajax-pagination',[
+                            'products' => $products,
+                        ])->render();
+                    }
+                    break;
+                case 'boys':
+                    $products = Product::where('category_group_id', 3)->orderBy('id', 'desc')->paginate(5);
+                    if($request->ajax()){
+                        return view('admin.product.ajax.ajax-pagination',[
+                            'products' => $products,
+                        ])->render();
+                    }
+                    break;
+                case 'girls':
+                    $products = Product::where('category_group_id', 4)->orderBy('id', 'desc')->paginate(5);
+                    if($request->ajax()){
+                        return view('admin.product.ajax.ajax-pagination',[
+                            'products' => $products,
+                        ])->render();
+                    }
+                    break;
+            }
         }
 
+        if($request->ajax()){
+            return view('admin.product.ajax.ajax-pagination',[
+                'products' => $products,
+            ])->render();
+        }
+
         return view('admin.product.index', [
             'user' => $this->getUser(),
             'products' => $products
         ]);
     }
 
-    public function productIndexMen(Request $request){
-        $products = Product::where('category_group_id', 1)->orderBy('id', 'desc')->paginate(5);
-        if($request->ajax()){
-            return view('admin.product.ajax.ajax-pagination',[
-                'products' => $products,
-            ])->render();
-        }
-        return view('admin.product.index', [
-            'user' => $this->getUser(),
-            'products' => $products
-        ]);
-    }
-    public function productIndexWomen(Request $request){
-        $products = Product::where('category_group_id', 2)->orderBy('id', 'desc')->paginate(5);
-        if($request->ajax()){
-            return view('admin.product.ajax.ajax-pagination',[
-                'products' => $products,
-            ])->render();
-        }
-        return view('admin.product.index', [
-            'user' => $this->getUser(),
-            'products' => $products
-        ]);
-    }
-    public function productIndexBoys(Request $request){
-        $products = Product::where('category_group_id', 3)->orderBy('id', 'desc')->paginate(5);
-        if($request->ajax()){
-            return view('admin.product.ajax.ajax-pagination',[
-                'products' => $products,
-            ])->render();
-        }
-        return view('admin.product.index', [
-            'user' => $this->getUser(),
-            'products' => $products
-        ]);
-    }
-    public function productIndexGirls(Request $request){
-        $products = Product::where('category_group_id', 4)->orderBy('id', 'desc')->paginate(5);
-        if($request->ajax()){
-            return view('admin.product.ajax.ajax-pagination',[
-                'products' => $products,
-            ])->render();
-        }
-        return view('admin.product.index', [
-            'user' => $this->getUser(),
-            'products' => $products
-        ]);
-    }
 
     //show adding form
 
@@ -434,15 +518,15 @@ class AdminController extends Controller
 
         return view('admin.product.add',[
             'user'=>$this->getUser(),
-            'category_groups' => CategoryGroup::all(),
-            'categories' => Category::all(),
-            'sub_categories' => SubCategory::all(),
-            'banners' => Banner::all(),
-            'colors' => ProductColor::all(),
-            'seasons' => ProductSeason::all(),
-            'brands' => ProductBrand::all(),
-            'materials' => ProductMaterial::all(),
-            'sizes' => ProductSize::all(),
+            'category_groups' => CategoryGroup::where('active', 1)->get(),
+            'categories' => Category::where('active', 1)->get(),
+            'sub_categories' => SubCategory::where('active', 1)->get(),
+            'banners' => Banner::where('active', 1)->get(),
+            'colors' => ProductColor::where('active', 1)->get(),
+            'seasons' => ProductSeason::where('active', 1)->get(),
+            'brands' => ProductBrand::where('active', 1)->get(),
+            'materials' => ProductMaterial::where('active', 1)->get(),
+            'sizes' => ProductSize::where('active', 1)->get(),
         ]);
     }
 
@@ -728,7 +812,14 @@ class AdminController extends Controller
 
     public function userIndex(){
 
-        $adm_users = User::orderBy('id','asc')->get();
+        $adm_users = User::orderBy('id','asc')->paginate(2);
+
+        if(request()->ajax()){
+            return view('admin.user.ajax.ajax-pagination', [
+                'adm_users' => $adm_users,
+            ])->render();
+        }
+
         return view('admin.user.index', [
             'user' => $this->getUser(),
             'adm_users'=> $adm_users

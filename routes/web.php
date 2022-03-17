@@ -82,13 +82,21 @@ Route::group([
 
     //banner
 
-    Route::get('/banner', [\App\Http\Controllers\AdminController::class, 'bannerIndex']);
+    Route::get('/banner/{cat_group?}', [\App\Http\Controllers\AdminController::class, 'bannerIndex']);
     Route::get('/banner/add', [\App\Http\Controllers\AdminController::class, 'addBanner']);
     Route::get('/banner/edit/{banner_id}', [\App\Http\Controllers\AdminController::class, 'editBanner'])->name('edit.banner');
 
     Route::post('/banner/add',[\App\Http\Controllers\AdminController::class, 'saveAddBanner'])->name('save.banner');
     Route::post('/banner/save-edit', [\App\Http\Controllers\AdminController::class, 'saveEditBanner'])->name('save.edit.banner');
     Route::post('/banner/delete/{banner_id}',[\App\Http\Controllers\AdminController::class, 'delBanner'])->name('delete.banner');
+
+    //messages
+
+    Route::get('/messages', [\App\Http\Controllers\AdminController::class, 'messagesIndex']);
+    Route::get('/messages/{message_id}', [\App\Http\Controllers\AdminController::class, 'showMessage'])->name('show.message');
+
+    Route::post('/messages/delete/{message_id}',[\App\Http\Controllers\AdminController::class, 'delMessage'])->name('delete.message');
+
 
     // categories
 
@@ -112,12 +120,7 @@ Route::group([
 
     //products
 
-    Route::get('/products', [\App\Http\Controllers\AdminController::class, 'productIndex']);
-    Route::get('/products/men', [\App\Http\Controllers\AdminController::class, 'productIndexMen']);
-    Route::get('/products/women', [\App\Http\Controllers\AdminController::class, 'productIndexWomen']);
-    Route::get('/products/boys', [\App\Http\Controllers\AdminController::class, 'productIndexBoys']);
-    Route::get('/products/girls', [\App\Http\Controllers\AdminController::class, 'productIndexGirls']);
-
+    Route::get('/products/{cat_group?}', [\App\Http\Controllers\AdminController::class, 'productIndex']);
     Route::get('/products/add', [\App\Http\Controllers\AdminController::class, 'addProduct'])->name('add.product');
     Route::get('/products/edit/{product_id}', [\App\Http\Controllers\AdminController::class, 'editProduct'])->name('edit.product');
 

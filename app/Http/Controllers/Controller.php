@@ -23,7 +23,7 @@ class Controller extends BaseController
     }
 
     public function getGroupBrand($group_id){
-        $brands = ProductBrand::all();
+        $brands = ProductBrand::where('active', 1)->get();;
         foreach ($brands as $brand) {
             foreach ($brand->products as $brand_product){
                 if($brand_product->category_group_id == $group_id){

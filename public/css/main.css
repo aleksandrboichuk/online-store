@@ -190,8 +190,8 @@ a#scrollUp i {
     padding-top: 5px;
 }
 .mainmenu ul li {
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 .mainmenu ul li:first-child {
     padding-left: 0;
@@ -1632,7 +1632,7 @@ h2.title {
 .table{
     margin-bottom: 0;
 }
-.table-admin-products{
+.table-admin-with-pagination{
     border: 1px solid #e6e4df;
 }
 .cart_delete{
@@ -2178,7 +2178,7 @@ h2.title {
     color: black;
     font-size: 16px;
 }
-.admin-table-index:not(.table-view-order, .admin-table-index-products) {
+.admin-table-index:not(.table-view-order, .admin-table-index-with-pagination) {
     border: 1px solid #e6e4df;
     margin-bottom: 150px;
 }

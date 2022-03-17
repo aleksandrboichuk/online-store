@@ -23,8 +23,8 @@
                     <a href="/admin/products/add"><button type="button" class="btn btn-default todo-btn">Додати</button></a>
                 </div>
             </div>
-            <div class="table-responsive admin-table-index admin-table-index-products">
-                <table class="table table-condensed table-admin-products">
+            <div class="table-responsive admin-table-index admin-table-index-with-pagination">
+                <table class="table table-condensed table-admin-with-pagination">
                     <thead>
                     <tr class="admin_menu">
                         <td>ID</td>

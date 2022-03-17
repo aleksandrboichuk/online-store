@@ -11,39 +11,38 @@ use App\Models\ProductColor;
 use App\Models\ProductImage;
 use App\Models\SubCategory;
 use App\Models\UserReview;
-use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
     public function showProductDetails (Request $request, $group_seo_name, $category_seo_name,$sub_category_seo_name, $product_seo_name){
-        $group = CategoryGroup::where('seo_name',$group_seo_name)->first();
+        if(!$this->getUser()){
+            $cart = Cart::where('token', session('_token'))->first();
+        }
+
+
+        $group = CategoryGroup::where('seo_name',$group_seo_name)->where('active', 1)->first();
             if(!$group){
-                return response()->view('404.404', ['user' => Auth::user()], 404);
+                return response()->view('404.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null], 404);
             }
-        $category = Category::where('seo_name',$category_seo_name)->first();
+        $category = Category::where('seo_name',$category_seo_name)->where('active', 1)->first();
             if(!$category){
-            return response()->view('404.404', ['user' => Auth::user()], 404);
+            return response()->view('404.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null], 404);
             }
-        $sub_category = SubCategory::where('seo_name',$sub_category_seo_name)->where('category_id',$category->id)->first();
+        $sub_category = SubCategory::where('seo_name',$sub_category_seo_name)->where('active', 1)->where('category_id',$category->id)->first();
             if(!$sub_category){
-                return response()->view('404.404', ['user' => Auth::user()], 404);
+                return response()->view('404.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null], 404);
             }
-        $product = Product::where('category_group_id', $group->id)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)->where('seo_name',$product_seo_name)->first();
+        $product = Product::where('category_group_id', $group->id)->where('active', 1)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)->where('seo_name',$product_seo_name)->first();
             if(!$product){
-                return response()->view('404.404', ['user' => Auth::user()], 404);
+                return response()->view('404.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null], 404);
             }
-        $recommended_products = Product::where('category_group_id', $group->id)->inRandomOrder()->take(4)->get();
+        $recommended_products = Product::where('category_group_id', $group->id)->where('active', 1)->inRandomOrder()->take(4)->get();
         $reviews = UserReview::where('product_id', $product->id)->paginate(2);
 
         $group_brands = $this->getGroupBrand($group->id);
 
-        if(!$this->getUser()){
-            $cart = Cart::where('token', session('_token'))->first();
-        }else{
-            $cart = Cart::where('user_id',$this->getUser()->id)->first();
-        }
 // ------------------------------------------------- AJAX --------------------------------------------------------
         if(!empty($request->productId)) {
             $is_product = false;
