@@ -50,7 +50,7 @@ function addToCart(route) {
             let button = $(".cart");
             button.removeClass("added");
             button.text(' До кошику ');
-            button.prepend($('i[class="fa fa-shopping-cart"]'));
+            button.prepend('<i class="fa fa-shopping-cart"></i>');
         }
 
 
