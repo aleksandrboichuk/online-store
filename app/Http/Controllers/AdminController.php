@@ -103,7 +103,7 @@ class AdminController extends Controller
         $banner = Banner::find($banner_id);
 
         if(!$banner){
-            return response()->view('404.404-admin', [
+            return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
             ], 404);
         }
@@ -176,7 +176,7 @@ class AdminController extends Controller
         $message = UserMessage::find($message_id);
 
         if(!$message){
-            return response()->view('404.404-admin', [
+            return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
             ], 404);
         }
@@ -260,7 +260,7 @@ class AdminController extends Controller
         $category =  Category::find($category_id);
 
         if(!$category){
-            return response()->view('404.404-admin', [
+            return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
             ], 404);
         }
@@ -378,7 +378,7 @@ class AdminController extends Controller
         $subCategory = SubCategory::find($subcategory_id);
 
         if(!$subCategory){
-            return response()->view('404.404-admin', [
+            return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
             ], 404);
         }
@@ -609,7 +609,7 @@ class AdminController extends Controller
         $product = Product::find($product_id);
 
         if(!$product){
-            return response()->view('404.404-admin', [
+            return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
             ], 404);
         }
@@ -744,7 +744,7 @@ class AdminController extends Controller
     public function editOrder($order_id){
         $order = OrdersList::find($order_id);
         if(!$order){
-            return response()->view('404.404-admin', [
+            return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
             ], 404);
         }
@@ -830,7 +830,7 @@ class AdminController extends Controller
         $user = User::find($user_id);
 
         if(!$user){
-            return response()->view('404.404-admin', [
+            return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
             ], 404);
         }
@@ -912,7 +912,7 @@ class AdminController extends Controller
     public function editColor($color_id){
         $color = ProductColor::find($color_id);
         if(!$color){
-            return response()->view('404.404-admin', [
+            return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
             ], 404);
         }
@@ -984,7 +984,7 @@ class AdminController extends Controller
     public function editBrand($brand_id){
         $brand = ProductBrand::find($brand_id);
         if(!$brand){
-            return response()->view('404.404-admin', [
+            return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
             ], 404);
         }
@@ -1055,7 +1055,7 @@ class AdminController extends Controller
     public function editMaterial($material_id){
         $material = ProductMaterial::find($material_id);
         if(!$material){
-            return response()->view('404.404-admin', [
+            return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
             ], 404);
         }
@@ -1126,7 +1126,7 @@ class AdminController extends Controller
     public function editSize($size_id){
         $size = ProductSize::find($size_id);
         if(!$size){
-            return response()->view('404.404-admin', [
+            return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
             ], 404);
         }

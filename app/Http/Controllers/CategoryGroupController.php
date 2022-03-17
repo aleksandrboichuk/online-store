@@ -28,7 +28,7 @@ class CategoryGroupController extends Controller
 
         $group = CategoryGroup::where('seo_name',$group_seo_name)->where('active', 1)->first();
         if(!$group){
-            return response()->view('404.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null], 404);
+            return response()->view('errors.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null], 404);
         }
         $group_products = Product::where('category_group_id',$group->id)->where('active', 1)->paginate(8);
 

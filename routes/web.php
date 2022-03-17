@@ -66,7 +66,7 @@ if(preg_match("#^\/register\b#", \request()->getRequestUri()) == false
         if(!Auth::user()){
             $cart = \App\Models\Cart::where('token', session('_token'))->first();
         }
-        return response()->view('404.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null ], 404);
+        return response()->view('errors.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null ], 404);
     })->where('any', '.*');
 }
 
@@ -218,10 +218,7 @@ Route::group([
         && preg_match("#^\/personal/promocodes\b#", \request()->getRequestUri()) == false
         && preg_match("#^\/personal/bonuses\b#", \request()->getRequestUri()) == false) {
         Route::get('/{any?}', function () {
-            if(!Auth::user()){
-                $cart = \App\Models\Cart::where('token', session('_token'))->first();
-            }
-            return response()->view('404.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null ], 404);
+            return response()->view('errors.404', ['user' => Auth::user()], 404);
         })->where('any', '.*');
     }
 

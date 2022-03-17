@@ -54,7 +54,7 @@ class UserController extends Controller
     public function viewUserOrder($order_id){
         $order = OrdersList::find($order_id);
         if(!$order){
-            return response()->view('404.404', [
+            return response()->view('errors.404', [
                 'user' => $this->getUser(),
             ], 404);
         }

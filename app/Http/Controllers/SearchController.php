@@ -42,7 +42,7 @@ class SearchController extends Controller
                     ])->render();
                 }
             }catch(\Exception $exception){
-                return response()->view('404.404',[
+                return response()->view('errors.404',[
                     'user' => $this->getUser(),
                     'cart' => isset($cart) && !empty($cart) ? $cart : null,
                 ]);
@@ -58,7 +58,7 @@ class SearchController extends Controller
                     ])->render();
                 }
             }catch(\Exception $exception){
-                return response()->view('404.404',[
+                return response()->view('errors.404',[
                     'user' => $this->getUser(),
                     'cart' => isset($cart) && !empty($cart) ? $cart : null,
                 ]);
@@ -289,7 +289,7 @@ class SearchController extends Controller
                     ])->render();
                 }
             }catch(\Exception $exception){
-                return response()->view('404.404',[
+                return response()->view('errors.404',[
                     'user' => $this->getUser(),
                     'cart' => isset($cart) && !empty($cart) ? $cart : null,
                 ]);
@@ -307,7 +307,7 @@ class SearchController extends Controller
                     ])->render();
                 }
             }catch(\Exception $exception){
-                return response()->view('404.404',[
+                return response()->view('errors.404',[
                     'user' => $this->getUser(),
                     'cart' => isset($cart) && !empty($cart) ? $cart : null,
                 ]);
