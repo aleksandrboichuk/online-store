@@ -172,7 +172,7 @@ a#scrollUp i {
 .shop-menu ul li a i {
     margin-right: 3px;
 }
-.shop-menu ul li a:hover {
+.shop-menu ul li a:hover:not(.or-a a) {
     color: #6fa1f4;
     background: #fff;
 }
