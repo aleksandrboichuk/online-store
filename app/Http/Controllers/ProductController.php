@@ -21,7 +21,6 @@ class ProductController extends Controller
             $cart = Cart::where('token', session('_token'))->first();
         }
 
-
         $group = CategoryGroup::where('seo_name',$group_seo_name)->where('active', 1)->first();
             if(!$group){
                 return response()->view('errors.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null], 404);
@@ -78,7 +77,7 @@ class ProductController extends Controller
 
         return view('product.product',[
             'user'=> $this->getUser(),
-            'cart' => $cart,
+            'cart' => isset($cart) && !empty($cart) ? $cart : null,
              'group'  => $group,
              'category'  => $category,
              'sub_category'  => $sub_category,
