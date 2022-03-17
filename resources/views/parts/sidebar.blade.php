@@ -24,7 +24,7 @@
                         <div id="{{$group_category->name}}" class="panel-collapse in">
                             <div class="panel-body">
                                 <ul>
-                                    @foreach($group_category->subCategories as $single_sub_cat)
+                                    @foreach($group_category->subCategories->where('active', 1) as $single_sub_cat)
                                         <li><a href="{{route('show.sub.category',[$group->seo_name, $group_category->seo_name,$single_sub_cat->seo_name])}}">{{$single_sub_cat->name}}</a></li>
                                     @endforeach
                                 </ul>
