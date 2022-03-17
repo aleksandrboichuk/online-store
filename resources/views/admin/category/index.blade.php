@@ -10,7 +10,7 @@
         </div>
         @php(session()->forget('success-message'))
     @endif
-    <section id="cart_items">
+    <section id="table_items">
         <div class="container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">

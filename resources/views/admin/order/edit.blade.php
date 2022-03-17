@@ -95,7 +95,7 @@
                     </div>
                     <div class="add-block">
                         <label for="comment-field">Коментар </label>
-                        <input type="text" value="{{$order->comment}}" name="comment-field">
+                        <textarea  rows="6" name="comment-field" readonly>{{isset($order->comment) ? $order->comment : ""}}</textarea>
                     </div>
                     <div class="add-block">
                         <label for="sum-field">Сума </label>

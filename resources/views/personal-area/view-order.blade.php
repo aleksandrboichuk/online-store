@@ -1,15 +1,20 @@
 @extends('layouts.main')
 
 @section('content')
-
-
-    <section class="form-add">
-        <div class="container">
-            <div class="col-sm-1"></div>
-            <div class="col-sm-10">
-                <div class="review-payment">
-                    <h2>Перегляд товарів замовлення</h2>
-                </div>
+    <section id="personal_area">
+        <div class="container personal-area-container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    <li><a href="/personal/orders">Особистий кабінет</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    <li class="active">Деталі замовлення</li>
+                </ol>
+            </div>
+            <div class="col-sm-12 col-lg-3">
+                @include('parts.personal-sidebar')
+            </div>
+            <div class="col-sm-12 col-lg-9">
+                <div class="title-page-personal"><h3>Деталі замовлення</h3></div>
                 <div class="table-responsive admin-table-index table-view-order">
                     <table class="table table-condensed">
                         <thead>
@@ -66,6 +71,10 @@
 
                 </div>
                 <div class="add-block">
+                    <label for="status-field">Статус </label>
+                    <input type="text" value="{{$status}}" name="status-field" readonly>
+                </div>
+                <div class="add-block">
                     <label for="id-field">ID користувача</label>
                     <input type="text" value="{{$order->user_id}}" name="id-field" readonly>
                 </div>
@@ -87,20 +96,14 @@
                 </div>
                 <div class="add-block">
                     <label for="comment-field">Коментар </label>
-                    <input type="text" value="{{isset($order->comment) ? $order->comment : ""}}" name="comment-field" readonly>
+                    <textarea  rows="6" name="comment-field" readonly>{{isset($order->comment) ? $order->comment : ""}}</textarea>
                 </div>
                 <div class="add-block">
                     <label for="sum-field">Сума </label>
                     <input type="text" value="₴{{$order->total_cost}}" name="sum-field" readonly>
                 </div>
-                <div class="add-block">
-                    <label for="status-field">Статус </label>
-                    <input type="text" value="{{$status}}" name="status-field" readonly>
-                </div>
                 <a href="/personal/orders"><button type="button" class="btn btn-default todo-btn">Назад</button></a>
             </div>
-            <div class="col-sm-1"></div>
         </div>
     </section>
-
 @endsection

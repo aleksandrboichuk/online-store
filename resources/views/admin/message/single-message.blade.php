@@ -28,7 +28,7 @@
                 </div>
                 <div class="add-block">
                     <label for="message-field">Повідомлення </label>
-                    <input type="text" value="{{$message->message}}" name="message-field" readonly>
+                    <textarea  rows="10" name="message-field" readonly>{{$message->message}}</textarea>
                 </div>
                 <div class="add-block">
                     <label for="date-field">Дата </label>

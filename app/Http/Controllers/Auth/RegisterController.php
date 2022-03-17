@@ -45,6 +45,17 @@ class RegisterController extends Controller
 //        $this->middleware('guest');
     }
 
+    protected function validator(array $data){
+        return Validator::make($data, [
+            'firstname' => ['required', 'string', 'max:20'],
+            'email' => ['required', 'string', 'email', 'max:20', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'lastname' => ['required', 'string', 'max:20'],
+            'address' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:20'],
+            'phone' => ['required', 'integer', 'max:10']
+        ]);
+    }
 
     public function showRegistrationForm(){
         if(!$this->getUser()){
@@ -58,28 +69,42 @@ class RegisterController extends Controller
     }
 
     public function toRegister(Request $request){
-        $validator = Validator::make($request->all(), [
-            'firstname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'lastname' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'city' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'integer', 'max:10']
+        $this->validator($request->all());
+        foreach (User::all() as $u){
+            if($request['email'] == $u->email){
+                session(
+                    [
+                        'email' => 'Користувач з таким email\'ом вже існує.'
+                    ]);
+                return redirect()->back()->withInput($request->all());
+            }elseif($request['phone'] == $u->phone){
+                session(
+                    [
+                        'phone' => 'Користувач з таким номером телефону вже існує.'
+                    ]);
+                return redirect()->back()->withInput($request->all());
+            }
+        }
+        if($request['password'] != $request['password_confirmation']){
+            session(
+                [
+                    'new-pass' => 'Паролі не співпадають.'
+                ]);
+            return redirect()->back()->withInput($request->all());
+        }
+
+        User::create([
+            'first_name' => $request['firstname'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+            'last_name' => $request['lastname'],
+            'address' => $request['address'],
+            'city' =>  $request['city'],
+            'phone' => $request['phone'],
         ]);
 
-        $user = new User;
-            $user->first_name = $request['firstname'];
-            $user->email = $request['email'];
-            $user->password = Hash::make($request['password']);
-            $user->last_name = $request['lastname'];
-            $user->address = $request['address'];
-            $user->city =  $request['city'];
-            $user->phone = $request['phone'];
-        $user->save();
 
         $registeredUser = User::where('email',$request['email'] )->first();
-
         Cart::create([
             'user_id' => $registeredUser->id
         ]);
@@ -92,6 +117,5 @@ class RegisterController extends Controller
         ]);
 
         return redirect('/shop/women');
-
     }
 }

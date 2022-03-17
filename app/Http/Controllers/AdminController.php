@@ -161,7 +161,13 @@ class AdminController extends Controller
 
     public function messagesIndex()
     {
-        $messages = UserMessage::orderBy('id', 'desc')->get();
+        $messages = UserMessage::orderBy('id', 'desc')->paginate(3);
+
+        if(request()->ajax()){
+            return view('admin.message.ajax.ajax-pagination', [
+                'messages' => $messages,
+            ])->render();
+        }
 
         return view('admin.message.index',[
             'user'=>$this->getUser(),
@@ -734,7 +740,15 @@ class AdminController extends Controller
 
 
     public  function orderIndex(){
-    $orders = OrdersList::orderBy('status', 'asc')->orderBy('created_at', 'desc')->get();
+        $orders = OrdersList::orderBy('status', 'asc')->orderBy('created_at', 'desc')->paginate(5);
+
+        if(request()->ajax()){
+            return view('admin.order.ajax.ajax-pagination', [
+                'orders' => $orders,
+                'statuses' => StatusList::all(),
+            ])->render();
+        }
+
         return view('admin.order.orders',[
             'user' => $this->getUser(),
             'statuses' => StatusList::all(),

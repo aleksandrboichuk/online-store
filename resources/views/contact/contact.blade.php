@@ -22,10 +22,10 @@
                                 <input type="email" name="email" value="{{!empty($user) ? $user->email : ""}}" class="form-control" required="required" placeholder="Ел. пошта" />
                             </div>
                             <div class="form-group col-md-12">
-                                <input type="text" name="theme" class="form-control"  required="required" placeholder="Тема"  />
+                                <input type="text" name="theme" class="form-control"  required="required" placeholder="Тема"  maxlength="20"/>
                             </div>
                             <div class="form-group col-md-12">
-                  <textarea name="message" id="message" required="required" class="form-control"  rows="8" placeholder="Ваше повідомлення" ></textarea>
+                                <textarea name="message" id="message" required="required" class="form-control"  rows="8" placeholder="Ваше повідомлення" maxlength="500"></textarea>
                             </div>
                             <div class="form-group col-md-12">
                                 <input type="submit" name="submit" class="btn btn-primary pull-right" value="Відправити"  />

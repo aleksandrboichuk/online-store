@@ -15,6 +15,7 @@
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
                     <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    <li><a>Особистий кабінет</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
                     <li class="active">{{$status_name}}</li>
                 </ol>
             </div>

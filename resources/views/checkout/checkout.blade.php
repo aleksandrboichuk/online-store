@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <section id="cart_items">
+    <section id="table_items">
         <div class="container">
             <div class="breadcrumbs">
                 <ol class="breadcrumb">
@@ -119,6 +119,7 @@
                                             name="comment"
                                             placeholder="Напишіть коментар стосовно доставки/замовлення...."
                                             rows="16"
+                                            maxlength="150"
                                     ></textarea>
                                 </div>
                                 </div>

@@ -18,8 +18,8 @@
   #similar-product .carousel-inner .item img {
     width: 65px;
   }
-  #cart_items .cart_info .cart_description h4,
-  #cart_items .cart_info .cart_description p {
+  #table_items .cart_info .cart_description h4,
+  #table_items .cart_info .cart_description p {
     text-align: center;
   }
 }
@@ -75,8 +75,8 @@
     font-size: 12px;
     padding: 5px 6px;
   }
-  #cart_items .cart_info .cart_description h4,
-  #cart_items .cart_info .cart_description p {
+  #table_items .cart_info .cart_description h4,
+  #table_items .cart_info .cart_description p {
     text-align: center;
   }
   .address {
@@ -89,13 +89,13 @@
   }
 }
 @media (max-width: 767px) {
-  #cart_items .cart_info table {
+  #table_items .cart_info table {
     min-width: 600px;
   }
-  #cart_items .cart_info .cart_description h4 a {
+  #table_items .cart_info .cart_description h4 a {
     font-style: 15px;
   }
-  #cart_items .cart_info .cart_description p {
+  #table_items .cart_info .cart_description p {
     font-size: 12px;
   }
   .mainmenu ul li:first-child {
