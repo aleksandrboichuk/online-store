@@ -138,7 +138,7 @@ a#scrollUp i {
 }
 .main-container{
     max-width: 1500px;
-    margin: 0 auto;
+    margin: 0 auto 200px auto;
 }
 .btn-group.open .dropdown-toggle {
     background: transparent;
