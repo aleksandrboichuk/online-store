@@ -1523,9 +1523,6 @@ h2.title {
     text-align: center;
     width: 50px;
 }
-#do_action {
-    margin-bottom: 100px;
-}
 .breadcrumbs:not(.product-breadcrumbs) {
     margin-top: 30px;
     margin-bottom: -20px;
@@ -1584,6 +1581,12 @@ h2.title {
 }
 .alert-btn-close{
     background-color: #ff6868;
+}
+#do_action{
+    margin-bottom: 200px;
+}
+.shopper-information{
+    margin-bottom: 200px;
 }
 #cart_items .cart_info:not(.cart-table) {
     border: 1px solid #e6e4df;

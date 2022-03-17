@@ -19,23 +19,25 @@ class ProductController extends Controller
     public function showProductDetails (Request $request, $group_seo_name, $category_seo_name,$sub_category_seo_name, $product_seo_name){
         if(!$this->getUser()){
             $cart = Cart::where('token', session('_token'))->first();
+        }else{
+            $cart = Cart::where('user_id', Auth::id())->first();
         }
 
         $group = CategoryGroup::where('seo_name',$group_seo_name)->where('active', 1)->first();
             if(!$group){
-                return response()->view('errors.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null], 404);
+                return response()->view('errors.404', ['user' => Auth::user(), 'cart' => $cart], 404);
             }
         $category = Category::where('seo_name',$category_seo_name)->where('active', 1)->first();
             if(!$category){
-            return response()->view('errors.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null], 404);
+            return response()->view('errors.404', ['user' => Auth::user(), 'cart' => $cart], 404);
             }
         $sub_category = SubCategory::where('seo_name',$sub_category_seo_name)->where('active', 1)->where('category_id',$category->id)->first();
             if(!$sub_category){
-                return response()->view('errors.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null], 404);
+                return response()->view('errors.404', ['user' => Auth::user(), 'cart' => $cart], 404);
             }
         $product = Product::where('category_group_id', $group->id)->where('active', 1)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)->where('seo_name',$product_seo_name)->first();
             if(!$product){
-                return response()->view('errors.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null], 404);
+                return response()->view('errors.404', ['user' => Auth::user(), 'cart' => $cart], 404);
             }
         $recommended_products = Product::where('category_group_id', $group->id)->where('active', 1)->inRandomOrder()->take(4)->get();
         $reviews = UserReview::where('product_id', $product->id)->paginate(2);
@@ -77,7 +79,7 @@ class ProductController extends Controller
 
         return view('product.product',[
             'user'=> $this->getUser(),
-            'cart' => isset($cart) && !empty($cart) ? $cart : null,
+            'cart' => $cart,
              'group'  => $group,
              'category'  => $category,
              'sub_category'  => $sub_category,
