@@ -121,7 +121,9 @@ Route::group([
 
     //products
 
-    Route::get('/products/{cat_group?}', [\App\Http\Controllers\AdminController::class, 'productIndex']);
+    if(preg_match("#^\/admin/products/add\b#", \request()->getRequestUri()) == false) {
+        Route::get('/products/{cat_group?}', [\App\Http\Controllers\AdminController::class, 'productIndex']);
+    }
     Route::get('/products/add', [\App\Http\Controllers\AdminController::class, 'addProduct'])->name('add.product');
     Route::get('/products/edit/{product_id}', [\App\Http\Controllers\AdminController::class, 'editProduct'])->name('edit.product');
 

@@ -9,6 +9,7 @@ use App\Models\OrdersList;
 use App\Models\Product;
 use App\Models\ProductBrand;
 use App\Models\ProductColor;
+use App\Models\ProductImage;
 use App\Models\ProductMaterial;
 use App\Models\ProductSeason;
 use App\Models\ProductSize;
@@ -16,7 +17,9 @@ use App\Models\StatusList;
 use App\Models\SubCategory;
 use App\Models\User;
 use App\Models\UserMessage;
+use File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use PHPUnit\Util\Color;
 
@@ -539,8 +542,6 @@ class AdminController extends Controller
     //save adding
 
     public function saveAddProduct(Request $request){
-
-
         Validator::make($request->all(), [
             'name-field' => ['required', 'string', 'max:255', 'unique:products'],
             'seo-field' => ['required', 'string', 'min:3',  'unique:products'],
@@ -559,12 +560,11 @@ class AdminController extends Controller
         $product->create([
             'name' => $request['name-field'],
             'seo_name' => $request['seo-field'],
-            'preview_img_url' => $request['image-field'],
+            'preview_img_url' => $request->file('main-image-field')->getClientOriginalName(),
             'description' => $request['description-field'],
             'price' => $request['price-field'],
             'discount' => isset($request['discount-field']) ? intval($request['discount-field']) : 0 ,
             'banner_id' => isset($request['banner-field']) ? $request['banner-field'] : null ,
-           // 'count' => $request['count-field'],
             'active' => $active,
             'category_group_id' => $request['cat-field'],
             'category_id' => $request['category-field'],
@@ -575,6 +575,35 @@ class AdminController extends Controller
         ]);
 
         $getProduct = Product::where('name', $request['name-field'])->first();
+
+        // добавление картинок в хранилище и в БД
+
+        $mainImageFile = $request->file('main-image-field');
+        $imageNames = [];
+        //в первьюхи
+        Storage::disk('public')->putFileAs('product-images/'.$getProduct->id.'/preview', $mainImageFile, $mainImageFile->getClientOriginalName());
+        // в детальные изобр. заинуть превьюху
+        Storage::disk('public')->putFileAs('product-images/'.$getProduct->id.'/details', $mainImageFile, $mainImageFile->getClientOriginalName());
+        $imageNames['images'][0] = $mainImageFile->getClientOriginalName();
+
+        // детальные изобр. все
+        if(isset($request['additional-image-field-1'])){
+            for($i = 1; $i <= 7; $i++){
+                if(isset($request['additional-image-field-' . $i])){
+                    $imgFile = $request->file('additional-image-field-' . $i);
+                    Storage::disk('public')->putFileAs('product-images/'.$getProduct->id.'/details', $imgFile, $imgFile->getClientOriginalName());
+                    $imageNames['images'][$i] = $imgFile->getClientOriginalName();
+                }
+            }
+            foreach($imageNames['images'] as $addImage){
+                ProductImage::create([
+                    'url' => $addImage,
+                    'product_id' => $getProduct->id
+                ]);
+            }
+        }
+
+        // материалы , размеры
 
         foreach ($request['materials'] as $key => $value){
             $getProduct->materials()->attach($getProduct->id,[
@@ -619,6 +648,11 @@ class AdminController extends Controller
                 'user' => $this->getUser(),
             ], 404);
         }
+        // ajax на удаление картинки
+            if(!empty($request->imgUrl)){
+                ProductImage::where('url',($request->imgUrl))->delete();
+                Storage::disk('public')->delete('product-images/'.$product->id.'/details/' . $request->imgUrl);
+            }
 
         for($i = 0; $i < count($product->materials); $i++){
             $selectedMaterials[] =  $product->materials[$i]['id'];
@@ -659,14 +693,61 @@ class AdminController extends Controller
     public function saveEditProduct(Request $request){
         $product = Product::find($request['id']);
         $active = false;
+
         if($request['active-field'] == "on"){
             $active = true;
         }
 
+        if(isset($request['main-image-field'])){
+            $mainImageFile = $request->file('main-image-field');
+            Storage::disk('public')->delete('product-images/'.$product->id.'/preview/' . $product->preview_img_url);
+            Storage::disk('public')->putFileAs('product-images/'.$product->id.'/preview', $mainImageFile, $mainImageFile->getClientOriginalName());
+            $product->update([
+                'preview_img_url' => $mainImageFile->getClientOriginalName()
+            ]);
+        }
+
+        // работа с картинками товара
+
+            $imageNames = [];
+            $productImages = ProductImage::where('product_id', $product->id)->where('url', '!=', $product->preview_img_url)->get();
+
+        // пройтись по полям из запроса, у которых
+        // номер совпадает с уже сущ. номером картинки (чтобы если что ее заменить)
+        //
+            foreach ( $productImages as $key => $img) {
+                if(isset($request['additional-image-field-' . ($key + 1)])){
+                    $imgFile = $request->file('additional-image-field-' . ($key + 1));
+                    Storage::disk('public')->delete('product-images/'.$product->id.'/details/' . $img->url);
+                    Storage::disk('public')->putFileAs('product-images/'.$product->id.'/details', $imgFile, $imgFile->getClientOriginalName());
+                    $img->update([
+                       'url' => $imgFile->getClientOriginalName()
+                    ]);
+                }
+            }
+
+        // дфльше пройтись по остальным полям
+        // у которых номера не совпадают с сущ. картинками у товара
+
+            for($i = count($product->images); $i <= 7; $i++){
+                if(isset($request['additional-image-field-' . $i])){
+                    $imgFile = $request->file('additional-image-field-' . $i);
+                    Storage::disk('public')->putFileAs('product-images/'.$product->id.'/details', $imgFile, $imgFile->getClientOriginalName());
+                    $imageNames['images'][$i] = $imgFile->getClientOriginalName();
+                }
+            }
+            if(!empty($imageNames)){
+                foreach($imageNames['images'] as $addImage){
+                    ProductImage::create([
+                        'url' => $addImage,
+                        'product_id' => $product->id
+                    ]);
+                }
+            }
+
         $product->update([
             'name' => $request['name-field'],
             'seo_name' => $request['seo-field'],
-            'preview_img_url' => $request['image-field'],
             'description' => $request['description-field'],
             'price' => $request['price-field'],
             'discount' => isset($request['discount-field']) ? intval($request['discount-field']) : 0 ,
@@ -727,6 +808,7 @@ class AdminController extends Controller
     public function delProduct($product_id){
         $product = Product::find($product_id);
         $product->delete();
+        Storage::disk('public')->deleteDirectory('product-images/'.$product->id);
         session(['success-message' => 'Товар успішно видалено.']);
         return redirect("/admin/products");
     }

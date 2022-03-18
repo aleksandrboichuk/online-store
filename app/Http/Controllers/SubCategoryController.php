@@ -39,7 +39,7 @@ class SubCategoryController extends Controller
             return response()->view('errors.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null], 404);
         }
 
-        $sub_category_products = Product::where('category_group_id', $group->id)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)->where('active', 1)->paginate(8);
+        $sub_category_products = Product::where('category_group_id', $group->id)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)->where('active', 1)->orderBy('created_at', 'desc')->paginate(8);
 
 
         /*----------------------  AJAX  ----------------------*/

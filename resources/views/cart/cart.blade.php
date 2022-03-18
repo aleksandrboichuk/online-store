@@ -5,7 +5,7 @@
             <h4 class="alert-heading">Замовлення прийнято!</h4>
             <p>{{session('success-message')}}</p>
             <hr>
-            <div class="mb-0"><button type="button" class="btn btn-default alert-btn alert-btn-close">Закрити</button></div>
+            <div class="mb-0"><button type="button" class="btn btn-danger alert-btn alert-btn-close">Закрити</button></div>
             <div class="mb-0"><a href="/shop/women"><button type="button" class="btn btn-default alert-btn">Повернутися на головну</button></a></div>
         </div>
         @php(session()->forget('success-message'))
@@ -14,7 +14,7 @@
                 <h4 class="alert-heading">Виконано!</h4>
                 <p>{{session('success-message-delete')}}</p>
                 <hr>
-                <div class="mb-0"><button type="button" class="btn btn-default alert-btn alert-btn-close">Закрити</button></div>
+                <div class="mb-0"><button type="button" class="btn btn-danger alert-btn alert-btn-close">Закрити</button></div>
             </div>
             @php(session()->forget('success-message-delete'))
     @endif
@@ -45,7 +45,7 @@
                     @foreach($products as $item)
                     <tr>
                         <td class="cart_product">
-                            <a href="{{route('show.product.details', [$item->categoryGroups->seo_name, $item->categories->seo_name, $item->subCategories->seo_name, $item->seo_name])}}"><img src="/images/preview-images/{{$item->preview_img_url}}" alt="" /></a>
+                            <a href="{{route('show.product.details', [$item->categoryGroups->seo_name, $item->categories->seo_name, $item->subCategories->seo_name, $item->seo_name])}}"><img src="/storage/product-images/{{$item->id}}/preview/{{$item->preview_img_url}}" alt="" /></a>
                         </td>
                         <td class="cart_description">
                             <h4><a href="{{route('show.product.details', [$item->categoryGroups->seo_name, $item->categories->seo_name, $item->subCategories->seo_name, $item->seo_name])}}">{{$item->name}}</a></h4>

@@ -10,7 +10,7 @@
             <p>{{$item->seo_name}}</p>
         </td>
         <td class="cart_product">
-            <img src="/images/preview-images/{{$item->preview_img_url}}" alt="" />
+            <img src="/storage/product-images/{{$item->id}}/preview/{{$item->preview_img_url}}" alt="" />
         </td>
         <td>
             <p>₴{{$item->price}}</p>

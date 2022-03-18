@@ -5,18 +5,18 @@
         <div class="single-products">
             @if($item->created_at > date('Y-m-d H:i:s', strtotime('-7 days')) )
                 <img
-                        src="/images/product-details/new.jpg"
+                        src="/storage/product-images/additional/new.jpg"
                         class="newarrival"
                         alt=""
                 />
             @endif
             <div class="productinfo text-center">
                 <a class="product-single" href="{{route('show.product.details',[$group->seo_name, $item->categories['seo_name'], $item->subCategories['seo_name'],$item->seo_name ])}}">
-                    {{--<img src="/images/preview-images/{{$item->preview_img_url}}" alt="" />--}}
-                    <div class="img" style="background-image: url('/images/preview-images/{{$item->preview_img_url}}')" id="{{$item->preview_img_url}}">
+                    {{--<img src="/storage/product-images/preview/{{$item->preview_img_url}}" alt="" />--}}
+                    <div class="img" style="background-image: url('{{'/storage/product-images/' . $item->id . '/preview/' . $item->preview_img_url}}')" id="{{$item->id .'/preview/'. $item->preview_img_url}}">
                         @foreach ($images as $img)
                             @if($img->product_id == $item->id)
-                                <div class="hidden-img" id="{{$img->url}}"></div>
+                                <div class="hidden-img" id="{{$item->id .'/details/'. $img->url}}"></div>
                             @endif
                         @endforeach
                     </div>

@@ -25,7 +25,7 @@ class PromotionController extends Controller
         $brands = $this->getGroupBrand($group->id);
 
         $banner = Banner::where('seo_name', $seo_name_banner)->where('active', 1)->first();
-        $products = Product::where('banner_id', $banner->id)->where('category_group_id', $group->id)->where('active', 1)->paginate(6);
+        $products = Product::where('banner_id', $banner->id)->where('category_group_id', $group->id)->where('active', 1)->orderBy('created_at', 'desc')->paginate(6);
 
 
         /*----------------------  AJAX  ----------------------*/

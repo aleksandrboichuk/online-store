@@ -6,7 +6,7 @@
             <h4 class="alert-heading">Виконано!</h4>
             <p>{{session('success-message')}}</p>
             <hr>
-            <div class="mb-0"><button type="button" class="btn btn-default alert-btn alert-btn-close">Закрити</button></div>
+            <div class="mb-0"><button type="button" class="btn btn-danger alert-btn alert-btn-close">Закрити</button></div>
         </div>
         @php(session()->forget('success-message'))
     @endif

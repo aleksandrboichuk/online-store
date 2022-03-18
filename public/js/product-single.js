@@ -76,10 +76,10 @@ function addToCart(route) {
 
 function animatePreview() {
     $(document).on('mouseover','.hidden-img', function () {
-        $(this).parent().css("background-image", "url('/images/product-details/" + $(this).attr('id') +  "')");
+        $(this).parent().css("background-image", "url('/storage/product-images/" + $(this).attr('id') +  "')");
     });
     $(document).on('mouseout','.hidden-img',function () {
-        $(this).parent().css("background-image", "url('/images/preview-images/" + $(this).parent().attr('id') +  "')");
+        $(this).parent().css("background-image", "url('/storage/product-images/" + $(this).parent().attr('id') +  "')");
     });
 }
 

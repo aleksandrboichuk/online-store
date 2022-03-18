@@ -13,7 +13,7 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-9">
                 {{--<h2>Додавання категорії</h2>--}}
-                <form action="{{route('save.product')}}" method="post">
+                <form action="{{route('save.product')}}" method="post" enctype="multipart/form-data">
                     <div class="add-block">
                         <label for="name-field">Назва* </label>
                         <input type="text" name="name-field" required>
@@ -22,9 +22,17 @@
                         <label for="seo-field" >SEO* </label>
                         <input type="text" name="seo-field" required>
                     </div>
+                    {{--<div class="add-block">--}}
+                        {{--<label for="image-field">Посилання на зображення* </label>--}}
+                        {{--<input type="text" name="image-field" required>--}}
+                    {{--</div>--}}
                     <div class="add-block">
-                        <label for="image-field">Посилання на зображення* </label>
-                        <input type="text" name="image-field" required>
+                        <label for="main-image-field">Головне зображення* </label>
+                        <input type="file" name="main-image-field" accept=".jpg, .jpeg, .png" required>
+                    </div>
+
+                    <div class="add-block button-add-block">
+                        <a class="btn btn-default pull-right add-image-field">Додати детальне зображення</a>
                     </div>
                     <div class="add-block">
                         <label for="description-field">Опис* </label>
@@ -139,5 +147,20 @@
     <script src="/js/ajax-product-admin.js"></script>
     <script>
         ajaxRequests("{{route('add.product')}}")
+        $(document).ready(function () {
+            var countImages = 1;
+            $('.add-image-field').click(function () {
+                $(this).parent().before(function () {
+                    return '<div class="add-block">\n' +
+                        '                <label for="image-field">Детальне зобр. №'+ countImages + '  </label>\n' +
+                        '                   <input type="file" name="additional-image-field-'+ countImages +'" accept=".jpg, .jpeg, .png">\n' +
+                        '                </div>'
+                });
+                countImages += 1;
+                if(countImages == 7){
+                    $(this).attr('disabled', 'disabled').css('background-color', '#6fa1f4');
+                }
+            });
+        });
     </script>
-    @endsection
+@endsection

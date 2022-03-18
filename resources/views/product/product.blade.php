@@ -38,33 +38,33 @@
                     <div class="product-details">
                         <div class="col-sm-7 product-images">
                             <div class="view-product">
-                                <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/images/preview-images/{{$product->preview_img_url}}">
-                                    <img class="main-product-img" src="/images/preview-images/{{$product->preview_img_url}}" alt="" />
+                                <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/storage/product-images/{{$product->id}}/preview/{{$product->preview_img_url}}">
+                                    <img class="main-product-img" src="/storage/product-images/{{$product->id}}/preview/{{$product->preview_img_url}}" alt="" />
                                 </a>
                             </div>
-                            @if(count($product->images)> 0)
+                            @if(count($product->images) > 0)
                             <div id="similar-product" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner">
                                     @if(count($product->images) < 5)
                                     <div class="item active">
                                             @for($i = 0; $i < count($product->images); $i++)
-                                            <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/images/product-details/{{$product->images[$i]['url']}}">
-                                                <img class="product-img product-img-item" src="/images/product-details/{{$product->images[$i]['url']}}" alt="" />
+                                            <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/storage/product-images/{{$product->id}}/details/{{$product->images[$i]['url']}}">
+                                                <img class="product-img product-img-item" src="/storage/product-images/{{$product->id}}/details/{{$product->images[$i]['url']}}" alt="" />
                                             </a>
                                             @endfor
                                     </div>
                                     @else
                                         <div class="item active">
                                             @for($i = 0; $i < 4; $i++)
-                                                <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/images/product-details/{{$product->images[$i]['url']}}">
-                                                    <img class="product-img product-img-item" src="/images/product-details/{{$product->images[$i]['url']}}" alt="" />
+                                                <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/storage/product-images/{{$product->id}}/details/{{$product->images[$i]['url']}}">
+                                                    <img class="product-img product-img-item" src="/storage/product-images/{{$product->id}}/details/{{$product->images[$i]['url']}}" alt="" />
                                                 </a>
                                             @endfor
                                         </div>
                                         <div class="item">
                                             @for($i = 4; $i < count($product->images); $i++)
-                                                <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/images/product-details/{{$product->images[$i]['url']}}">
-                                                    <img class="product-img product-img-item" src="/images/product-details/{{$product->images[$i]['url']}}" alt="" />
+                                                <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/storage/product-images/{{$product->id}}/details/{{$product->images[$i]['url']}}">
+                                                    <img class="product-img product-img-item" src="/storage/product-images/{{$product->id}}/details/{{$product->images[$i]['url']}}" alt="" />
                                                 </a>
                                             @endfor
                                         </div>
@@ -85,7 +85,7 @@
                             <div class="product-information">
                                 @if($product->created_at > date('Y-m-d H:i:s', strtotime('-7 days')) )
                                 <img
-                                        src="/images/product-details/new.jpg"
+                                        src="/storage/product-images/additional/new.jpg"
                                         class="newarrival"
                                         alt=""
                                 />

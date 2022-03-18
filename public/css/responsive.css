@@ -432,6 +432,9 @@
     width: 150px;
     font-size: 16px;
   }
+  .form-add .add-image-block {
+    width: 150px;
+  }
   .form-add .select-option{
     width: 150px;
   }
@@ -583,6 +586,9 @@
     width: 250px;
     font-size: 16px;
   }
+  .form-add .add-image-block {
+    width: 250px;
+  }
   .form-add .select-option{
     width: 250px;
   }
@@ -633,6 +639,9 @@
   .form-add input:not(.many-input, .input-count){
     width: 400px;
     font-size: 16px;
+  }
+  .form-add .add-image-block {
+    width: 400px;
   }
   .form-add .select-option{
     width: 400px;

@@ -6,7 +6,7 @@
             <h4 class="alert-heading">Виконано!</h4>
             <p>{{session('success-message')}}</p>
             <hr>
-            <div class="mb-0"><button type="button" class="btn btn-default alert-btn alert-btn-close">Закрити</button></div>
+            <div class="mb-0"><button type="button" class="btn btn-danger alert-btn alert-btn-close">Закрити</button></div>
         </div>
         @php(session()->forget('success-message'))
     @endif
@@ -20,7 +20,7 @@
             </div>
             <div class="row">
                 <div class="add-admin">
-                    <a href="/admin/products/add"><button type="button" class="btn btn-default todo-btn">Додати</button></a>
+                    <a href="{{route('add.product')}}"><button type="button" class="btn btn-default todo-btn">Додати</button></a>
                 </div>
             </div>
             <div class="table-responsive admin-table-index admin-table-index-with-pagination">
@@ -57,7 +57,7 @@
                                 <p>{{$item->seo_name}}</p>
                             </td>
                             <td class="cart_product">
-                                <img src="/images/preview-images/{{$item->preview_img_url}}" alt="" />
+                                <img src="/storage/product-images/{{$item->id}}/preview/{{$item->preview_img_url}}" alt="" />
                             </td>
                             <td>
                                 <p>₴{{$item->price}}</p>
