@@ -698,6 +698,7 @@ class AdminController extends Controller
             $active = true;
         }
 
+        // работа с картинками товара
         if(isset($request['main-image-field'])){
             $mainImageFile = $request->file('main-image-field');
             Storage::disk('public')->delete('product-images/'.$product->id.'/preview/' . $product->preview_img_url);
@@ -706,8 +707,6 @@ class AdminController extends Controller
                 'preview_img_url' => $mainImageFile->getClientOriginalName()
             ]);
         }
-
-        // работа с картинками товара
 
             $imageNames = [];
             $productImages = ProductImage::where('product_id', $product->id)->where('url', '!=', $product->preview_img_url)->get();
