@@ -9,8 +9,8 @@
                     </div>
                     <div class="fil-params">
                         <div class="from-to-price">
-                            <p class="from-price">Від</p><input class="from-size-input" type="text" name="from-price" required>
-                            <p class="to-price">До</p><input  class="to-size-input"type="text" name="to-price" required>
+                            <p class="from-price">Від</p><input class="from-size-input" type="text" name="from-price"  onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
+                            <p class="to-price">До</p><input  class="to-size-input"type="text" name="to-price"  onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                         </div>
 
                     </div>
