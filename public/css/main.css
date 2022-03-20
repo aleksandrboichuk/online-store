@@ -518,6 +518,9 @@ ul.sub-menu {
 .features-section{
     margin-bottom: 50px;
 }
+.feature-inner h2{
+    font-size: 25px;
+}
 /*.product-card-section{*/
     /*display: inline-block;*/
     /*justify-content: center;*/
