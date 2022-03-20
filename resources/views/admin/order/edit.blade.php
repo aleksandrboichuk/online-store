@@ -16,10 +16,10 @@
                 <div class="review-payment">
                     <h2>Перегляд товарів замовлення</h2>
                 </div>
-                <div class="table-responsive admin-table-index">
+                <div class="table-responsive general-table-index">
                     <table class="table table-condensed">
                         <thead>
-                        <tr class="admin_menu">
+                        <tr class="general_menu">
                             <td class="image"></td>
                             <td class="description"><b>Назва товару</b></td>
                             <td class="price"><b>Вартість</b></td>
@@ -74,6 +74,14 @@
                 <form action="{{route('save.edit.order')}}" method="post">
                     <input type="hidden" name="id" value="{{$order->id}}">
                     <div class="add-block">
+                        <label for="status-field">Статус </label>
+                        <select required size="6" name="status-field" class="select-option">
+                            @foreach($statuses as $status)
+                                <option value="{{$status->id}}" {{$status->id == $order->statuses[0]['id'] ? "selected" : "" }}>{{$status->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="add-block">
                         <label for="id-field">ID користувача</label>
                         <input type="text" value="{{$order->user_id}}" name="id-field">
                     </div>
@@ -100,14 +108,6 @@
                     <div class="add-block">
                         <label for="sum-field">Сума </label>
                         <input type="text" value="₴{{$order->total_cost}}" name="sum-field">
-                    </div>
-                    <div class="add-block">
-                        <label for="status-field">Статус </label>
-                        <select required size="6" name="status-field" class="select-option">
-                            @foreach($statuses as $status)
-                                <option value="{{$status->id}}" {{$status->id == $order->statuses[0]['id'] ? "selected" : "" }}>{{$status->name}}</option>
-                            @endforeach
-                        </select>
                     </div>
                     <button type="submit" class="btn btn-default todo-btn">Зберегти</button>
                 </form>

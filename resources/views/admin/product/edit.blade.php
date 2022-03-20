@@ -55,7 +55,7 @@
                     </div>
                     <div class="add-block">
                         <label for="description-field">Опис </label>
-                        <input type="text" value="{{$product->description}}" name="description-field">
+                        <textarea  rows="10" name="description-field" > {{$product->description}}</textarea>
                     </div>
                     <div class="add-block">
                         <label for="price-field">Ціна </label>

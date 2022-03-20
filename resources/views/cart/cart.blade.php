@@ -103,7 +103,9 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><p style="font-size: 25px">Ваш кошик наразі порожній</p></td>
+                <td><p style="font-size: 25px">Ваш кошик наразі порожній</p>
+                    <a href="/shop/women"><button class="todo-btn-cart btn btn-default">Переглянути каталог товарів</button></a>
+                </td>
             </tr>
 
             @endif

@@ -105,13 +105,13 @@ class ElasticSearch
 
         // сортировка
 
-        if($sort == 'count'){
-            $products = Product::findMany(array_unique($ids))->sortByDesc('count');
+        if($sort == 'popularity'){
+            $products = Product::findMany(array_unique($ids))->sortByDesc('popularity');
         }elseif($sort == 'price-asc'){
             $products = Product::findMany(array_unique($ids))->sortBy('price');
         }elseif($sort == 'price-desc'){
             $products = Product::findMany(array_unique($ids))->sortByDesc('price');
-        }elseif($sort == 'created_at'){
+        }elseif($sort == 'new'){
             $products = Product::findMany(array_unique($ids))->sortByDesc('created_at');
         }elseif($sort == 'discount'){
             $products = Product::findMany(array_unique($ids))->sortByDesc('discount');

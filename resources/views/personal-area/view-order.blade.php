@@ -15,10 +15,10 @@
             </div>
             <div class="col-sm-12 col-lg-9">
                 <div class="title-page-personal"><h3>Деталі замовлення</h3></div>
-                <div class="table-responsive admin-table-index table-view-order">
+                <div class="table-responsive general-table-index table-view-order">
                     <table class="table table-condensed">
                         <thead>
-                        <tr class="admin_menu">
+                        <tr class="general_menu">
                             <td class="image"></td>
                             <td class="description"><b>Назва товару</b></td>
                             <td class="price"><b>Вартість</b></td>

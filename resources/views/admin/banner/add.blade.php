@@ -13,7 +13,7 @@
         <div class="col-sm-2"></div>
         <div class="col-sm-9">
             {{--<h2>Додавання категорії</h2>--}}
-            <form action="{{route('save.banner')}}" method="post">
+            <form action="{{route('save.banner')}}" method="post" enctype="multipart/form-data">
                 <div class="add-block">
                     <label for="title-field">Заголовок </label>
                     <input type="text" name="title-field">
@@ -27,12 +27,12 @@
                     <input type="text" name="seo-field">
                 </div>
                 <div class="add-block">
-                    <label for="mini-img-field">Міні-зображення (справа) </label>
-                    <input type="text" name="mini-img-field">
+                    <label for="main-image-field">Головне зображення* </label>
+                    <input type="file" name="main-image-field" accept=".jpg, .jpeg, .png" required>
                 </div>
                 <div class="add-block">
-                    <label for="main-img-field">Головне зображення </label>
-                    <input type="text" name="main-img-field">
+                    <label for="mini-image-field">Міні-зображення (справа) </label>
+                    <input type="file" name="mini-image-field" accept=".jpg, .jpeg, .png">
                 </div>
                 <div class="add-block">
                     <label for="active-field">Активність </label>

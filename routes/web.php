@@ -82,8 +82,9 @@ Route::group([
 ],function () {
 
     //banner
-
-    Route::get('/banner/{cat_group?}', [\App\Http\Controllers\AdminController::class, 'bannerIndex']);
+    if(preg_match("#^\/admin/banner/add\b#", \request()->getRequestUri()) == false) {
+        Route::get('/banner/{cat_group?}', [\App\Http\Controllers\AdminController::class, 'bannerIndex']);
+    }
     Route::get('/banner/add', [\App\Http\Controllers\AdminController::class, 'addBanner']);
     Route::get('/banner/edit/{banner_id}', [\App\Http\Controllers\AdminController::class, 'editBanner'])->name('edit.banner');
 

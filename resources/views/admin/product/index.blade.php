@@ -23,10 +23,10 @@
                     <a href="{{route('add.product')}}"><button type="button" class="btn btn-default todo-btn">Додати</button></a>
                 </div>
             </div>
-            <div class="table-responsive admin-table-index admin-table-index-with-pagination">
+            <div class="table-responsive general-table-index general-table-index-with-pagination">
                 <table class="table table-condensed table-admin-with-pagination">
                     <thead>
-                    <tr class="admin_menu">
+                    <tr class="general_menu">
                         <td>ID</td>
                         <td><b>Назва</b></td>
                         <td><b>SEO</b></td>
@@ -43,7 +43,7 @@
                         <td></td>
                     </tr>
                     </thead>
-                    <tbody class="admin-table">
+                    <tbody class="general-table">
 
                     @foreach($products as $item)
                         <tr>
@@ -123,7 +123,7 @@
                         url: url.split('?page')[0] + '?page=' + countPage,
                         type: "GET",
                         success: function (data) {
-                            $('.admin-table').append(data)
+                            $('.general-table').append(data)
                         }
                     });
                 }

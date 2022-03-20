@@ -24,6 +24,7 @@ class Product extends Model
         'in_stock',
         'active',
         'rating',
+        'popularity',
         'created_at',
         'updated_at',
         'category_group_id',

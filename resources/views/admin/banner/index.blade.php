@@ -23,10 +23,10 @@
                     <a href="/admin/banner/add"><button type="button" class="btn btn-default todo-btn">Додати</button></a>
                 </div>
             </div>
-            <div class="table-responsive admin-table-index">
+            <div class="table-responsive general-table-index">
                 <table class="table table-condensed">
                     <thead>
-                    <tr class="admin_menu">
+                    <tr class="general_menu">
                         <td>ID</td>
                         <td><b>Заголовок</b></td>
                         <td><b>Опис</b></td>
@@ -37,7 +37,7 @@
                         <td></td>
                     </tr>
                     </thead>
-                    <tbody class="admin-table">
+                    <tbody class="general-table">
 
                     @foreach($banners as $item)
                         <tr>

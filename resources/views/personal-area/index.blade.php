@@ -24,10 +24,10 @@
             </div>
             <div class="col-sm-12 col-lg-9">
                 <div class="title-page-personal"><h3>{{$status_name}}</h3></div>
-                <div class="table-responsive admin-table-index">
+                <div class="table-responsive general-table-index">
                     <table class="table table-condensed">
                         <thead>
-                        <tr class="admin_menu">
+                        <tr class="general_menu">
                             <td>Дата</td>
                             <td><b>Ім'я</b></td>
                             <td><b>Телефон</b></td>
@@ -37,7 +37,7 @@
                             <td></td>
                         </tr>
                         </thead>
-                        <tbody class="admin-table">
+                        <tbody class="general-table">
                      @if(!empty($orders) && count($orders) > 0)
                         @foreach($orders as $item)
                             <tr>
@@ -54,12 +54,24 @@
                                     <p>{{$item->address}}</p>
                                 </td>
                                 <td>
-                                    <p>₴{{$item->total_cost}}</p>
+                                    <u><p>₴{{$item->total_cost}}</p></u>
                                 </td>
                                 <td>
                                     @foreach($statuses as $s)
                                         @if($s->id == $item->status)
-                                            <p>{{$s->name}}</p>
+                                            @if($s->name == 'Новий')
+                                                <p class="new-status">{{$s->name}}</p>
+                                            @elseif($s->name == 'Оброблений')
+                                                <p class="processed-status">{{$s->name}}</p>
+                                            @elseif($s->name == 'Оплачений')
+                                                <p class="paid-status">{{$s->name}}</p>
+                                            @elseif($s->name == 'Доставляється')
+                                                <p class="delivering-status">{{$s->name}}</p>
+                                            @elseif($s->name == 'Доставлений')
+                                                <p class="delivered-status">{{$s->name}}</p>
+                                            @elseif($s->name == 'Завершений')
+                                                <p class="completed-status">{{$s->name}}</p>
+                                            @endif
                                         @endif
                                     @endforeach
                                 </td>

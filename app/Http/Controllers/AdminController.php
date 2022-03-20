@@ -91,9 +91,20 @@ class AdminController extends Controller
             'category_group_id' => $request['cat-field'],
             'seo_name' => $request['seo-field'],
             'description' => $request['description-field'],
-            'image_url' => $request['main-img-field'],
-            'mini_img_url' => $request['mini-img-field'],
             'active' => $active,
+        ]);
+
+        $getBanner = Banner::where('seo_name',$request['seo-field'])->first();
+        // добавление картинок в хранилище и в БД
+
+        $mainImageFile = $request->file('main-image-field');
+        $miniImageFile = $request->file('mini-image-field');
+        Storage::disk('public')->putFileAs('banner-images/'.$getBanner->id, $mainImageFile, $mainImageFile->getClientOriginalName());
+        Storage::disk('public')->putFileAs('banner-images/'.$getBanner->id, $miniImageFile, $miniImageFile->getClientOriginalName());
+
+        $getBanner->update([
+            'image_url' => $mainImageFile->getClientOriginalName(),
+            'mini_img_url' => $miniImageFile->getClientOriginalName(),
         ]);
 
         session(['success-message' => 'Банер успішно додано.']);
@@ -133,11 +144,28 @@ class AdminController extends Controller
             'category_group_id' => $request['cat-field'],
             'seo_name' => $request['seo-field'],
             'description' => $request['description-field'],
-            'image_url' => $request['main-img-field'],
-            'mini_img_url' => $request['mini-img-field'],
             'active' => $active,
             'updated_at' => date("Y-m-d H:i:s")
         ]);
+
+        // обновление картинок, если они были загружены
+        if(isset($request['main-image-field'])){
+            $mainImageFile = $request->file('main-image-field');
+            Storage::disk('public')->delete('banner-images/'.$banner->id.'/' . $banner->image_url);
+            Storage::disk('public')->putFileAs('banner-images/'.$banner->id.'/', $mainImageFile, $mainImageFile->getClientOriginalName());
+            $banner->update([
+                'image_url' => $mainImageFile->getClientOriginalName()
+            ]);
+        }
+
+        if(isset($request['mini-image-field'])){
+            $miniImageFile = $request->file('mini-image-field');
+            Storage::disk('public')->delete('banner-images/'.$banner->id.'/' . $banner->mini_img_url);
+            Storage::disk('public')->putFileAs('banner-images/'.$banner->id.'/', $miniImageFile, $miniImageFile->getClientOriginalName());
+            $banner->update([
+                'mini_img_url' => $miniImageFile->getClientOriginalName()
+            ]);
+        }
 
         session(['success-message' => 'Банер успішно змінено.']);
         return redirect("/admin/banner");
@@ -148,6 +176,9 @@ class AdminController extends Controller
     public function delBanner($banner_id){
         $banner = Banner::find($banner_id);
         $banner->delete();
+
+        Storage::disk('public')->deleteDirectory('banner-images/'.$banner->id);
+
         session(['success-message' => 'Банер успішно видалено.']);
         return redirect("/admin/banner");
     }
@@ -821,7 +852,7 @@ class AdminController extends Controller
 
 
     public  function orderIndex(){
-        $orders = OrdersList::orderBy('status', 'asc')->orderBy('created_at', 'desc')->paginate(5);
+        $orders = OrdersList::orderBy('status', 'asc')->orderBy('created_at', 'desc')->paginate(10);
 
         if(request()->ajax()){
             return view('admin.order.ajax.ajax-pagination', [
@@ -858,7 +889,7 @@ class AdminController extends Controller
         $sum_field = explode('₴', $request['sum-field']);
         $total_cost = intval($sum_field[1]);
 
-        if($request['status-field'] == 3){
+        if($request['status-field'] == 4){
             foreach($order->items as $item){
                 $product = $item->product->where('id', $item->product_id)->first();
                 foreach ($product->sizes as $size) {
@@ -872,8 +903,10 @@ class AdminController extends Controller
 
                 $product->update([
                     'count' => $product->count - $item->count,
+                    'popularity' => $product->popularity + 1
                 ]);
             }
+
         }
 
         $order->update([

@@ -172,6 +172,12 @@ class ReindexProduct extends Command
                            'count' =>[
                                'type' => 'integer',
                            ],
+                           'popularity' =>[
+                               'type' => 'integer',
+                           ],
+                           'rating' =>[
+                               'type' => 'float',
+                           ],
                            'created_at' =>[
                                'type' => 'date',
                                'format' => 'yyyy-MM-dd HH:mm:ss'

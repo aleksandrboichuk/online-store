@@ -14,7 +14,7 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-9">
                 {{--<h2>Додавання категорії</h2>--}}
-                <form action="{{route('save.edit.banner')}}" method="post">
+                <form action="{{route('save.edit.banner')}}" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="{{$banner->id}}">
                     <div class="add-block">
                         <label for="title-field">Заголовок </label>
@@ -29,12 +29,18 @@
                         <input type="text" name="seo-field" value="{{$banner->seo_name}}">
                     </div>
                     <div class="add-block">
-                        <label for="mini-img-field">Міні-зображення (справа) </label>
-                        <input type="text" name="mini-img-field" value="{{$banner->mini_img_url}}">
+                        <label for="main-image-field">Головне зображення </label>
+                        <div class="add-image-block">
+                            <input class="file" type="file" name="main-image-field" accept="main-image-field/png, main-image-field/jpeg">
+                            <img src="/storage/banner-images/{{$banner->id}}/{{$banner->image_url}}" class="product-img-admin-edit" alt="">
+                        </div>
                     </div>
                     <div class="add-block">
-                        <label for="main-img-field">Головне зображення </label>
-                        <input type="text" name="main-img-field" value="{{$banner->image_url}}">
+                        <label for="main-image-field">Міні-зображення (справа)</label>
+                        <div class="add-image-block">
+                            <input class="file" type="file" name="mini-image-field" accept="main-image-field/png, main-image-field/jpeg">
+                            <img src="/storage/banner-images/{{$banner->id}}/{{$banner->mini_img_url}}" class="product-img-admin-edit" alt="">
+                        </div>
                     </div>
                     <div class="add-block">
                         <label for="active-field">Активність </label>

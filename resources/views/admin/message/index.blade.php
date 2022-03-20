@@ -17,10 +17,10 @@
                     <li class="active">Повідомлення</li>
                 </ol>
             </div>
-            <div class="table-responsive admin-table-index admin-table-index-with-pagination">
+            <div class="table-responsive general-table-index general-table-index-with-pagination">
                 <table class="table table-condensed table-admin-with-pagination">
                     <thead>
-                    <tr class="admin_menu">
+                    <tr class="general_menu">
                         <td>ID користувача</td>
                         <td><b>Email</b></td>
                         <td><b>Тема</b></td>
@@ -30,7 +30,7 @@
                         <td></td>
                     </tr>
                     </thead>
-                    <tbody class="admin-table">
+                    <tbody class="general-table">
 
                     @foreach($messages as $message)
                         <tr>
@@ -86,7 +86,7 @@
                         url: url.split('?page')[0] + '?page=' + countPage,
                         type: "GET",
                         success: function (data) {
-                            $('.admin-table').append(data)
+                            $('.general-table').append(data)
                         }
                     });
                 }
