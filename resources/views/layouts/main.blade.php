@@ -73,12 +73,6 @@
                             <li>
                                 <a href="/login"><i class="fa fa-lock"></i> Увійти</a>
                             </li>
-                            <li class="or-a">
-                                <a>або</a>
-                            </li>
-                                <li>
-                                    <a  href="/register"><i class="fa fa-user"></i> Зареєструватися</a>
-                                </li>
                             @endif
                         </ul>
                     </div>

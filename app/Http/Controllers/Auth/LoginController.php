@@ -60,6 +60,15 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
 
+        $user = User::where('email', $request['email'])->first();
+        if($user && !$user->active){
+            session(
+                [
+                    'error' => 'Ваш акаунт деактивовано.'
+                ]);
+            return redirect()->back()->withInput($request->all());
+        }
+
        if(!empty($request['remember'])){
            $remember = Str::random(100);
            $credentials = $request->only('email', 'password');

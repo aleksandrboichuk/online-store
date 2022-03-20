@@ -40,11 +40,11 @@
                     </div>
                     <div class="add-block">
                         <label for="price-field">Ціна* </label>
-                        <input type="text" name="price-field" required>
+                        <input type="text" name="price-field" required onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                     </div>
                     <div class="add-block">
                         <label for="discount-field">Знижка (%) </label>
-                        <input type="text" name="discount-field">
+                        <input type="text" name="discount-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                     </div>
                     <div class="add-block">
                         <label for="banner-field">Акція(якщо є)</label>
@@ -125,7 +125,7 @@
                                 <div class="input-block-item">
                                         <input id="{{$si->seo_name}}" name="sizes[]" type="checkbox" value="{{$si->id}}" class="many-input">
                                         <label class="many-input-label" for="{{$si->seo_name}}">{{$si->name}}</label>
-                                        <p class="input-count-p">Кількість (шт.): </p><input type="text" class="input-count" value="" name="size-count[]">
+                                        <p class="input-count-p">Кількість (шт.): </p><input type="text" class="input-count" value="" name="size-count[]" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                                 </div>
 
                             @endforeach

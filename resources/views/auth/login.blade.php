@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col-md-3 offset-md-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
@@ -53,18 +53,22 @@
                         </div>
 
                         <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
+                            <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Увійти') }}
                                 </button>
 
-                                {{--@if (Route::has('password.request'))--}}
-                                    {{--<a class="btn btn-link" href="/forgot-password">--}}
-                                        {{--{{ __('Забули пароль?') }}--}}
-                                    {{--</a>--}}
-                                {{--@endif--}}
+                                    <a class="btn btn-link" href="/register">
+                                        {{ __('Реєстрація') }}
+                                    </a>
                             </div>
                         </div>
+
+                                {{--@if (Route::has('password.request'))--}}
+                                {{--<a class="btn btn-link" href="/forgot-password">--}}
+                                {{--{{ __('Забули пароль?') }}--}}
+                                {{--</a>--}}
+                                {{--@endif--}}
                     </form>
                 </div>
             </div>

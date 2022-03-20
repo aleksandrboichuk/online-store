@@ -59,11 +59,11 @@
                     </div>
                     <div class="add-block">
                         <label for="price-field">Ціна </label>
-                        <input type="text" value="{{$product->price}}" name="price-field">
+                        <input type="text" value="{{$product->price}}" name="price-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                     </div>
                     <div class="add-block">
                         <label for="discount-field">Знижка (%) </label>
-                        <input type="text" value="{{$product->discount ? $product->discount  : "0"}}" name="discount-field">
+                        <input type="text" value="{{$product->discount ? $product->discount  : "0"}}" name="discount-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                     </div>
                     <div class="add-block">
                         <label for="banner-field">Акція(якщо є) </label>
@@ -152,7 +152,7 @@
                                 <div class="input-block-item">
                                     <input id="{{$si->seo_name}}" name="sizes[]" type="checkbox" value="{{$si->id}}" class="many-input" {{in_array($si->id, $selectedSizes) ? "checked" :""}} >
                                     <label class="many-input-label" for="{{$si->seo_name}}">{{$si->name}}</label>
-                                    <p class="input-count-p">Кількість (шт.): </p><input type="text" class="input-count" value="{{isset($count_sizes[$si->id]) ? $count_sizes[$si->id] : ""}}" name="size-count[]">
+                                    <p class="input-count-p">Кількість (шт.): </p><input type="text" class="input-count" value="{{isset($count_sizes[$si->id]) ? $count_sizes[$si->id] : ""}}" name="size-count[]" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                                 </div>
 
                             @endforeach

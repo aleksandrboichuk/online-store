@@ -34,7 +34,7 @@
                     </div>
                     <div class="add-block">
                         <label for="phone-field">Телефон </label>
-                        <input type="text" value="{{$adm_user->phone}}" name="phone-field">
+                        <input type="text" value="{{$adm_user->phone}}" name="phone-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                     </div>
                     <div class="add-block">
                         <label for="address-field">Адреса </label>

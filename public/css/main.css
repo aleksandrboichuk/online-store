@@ -1492,7 +1492,7 @@ h2.title {
     margin-bottom: 20px;
 }
 .offset-md-4 .btn-primary{
-    width: 150px;
+    width: 100%;
     font-size: 16px;
 
 }
@@ -1509,7 +1509,10 @@ h2.title {
 }
 .offset-md-4 .btn-link{
     padding-bottom: 0;
-    padding-top: 15px ;
+    padding-top: 25px ;
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
 }
 #email, #password, #firstname, #lastname, #address, #city, #phone, #password-confirm{
     background-color: #e7e2d4;
