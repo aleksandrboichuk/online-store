@@ -42,7 +42,7 @@
                         <input type="text" value="{{$user->city}}" name="city-field">
                     </div>
                     <div class="add-block">
-                        <label for="old-pass-field">Cтарий пароль </label>
+                        <label for="old-pass-field">Пароль* </label>
                         <input type="password"  name="old-pass-field" required>
                     </div>
                     @if (session()->has('old-pass-error'))

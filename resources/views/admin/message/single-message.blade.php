@@ -4,7 +4,7 @@
 
     <div class="breadcrumbs admin-bread">
         <ol class="breadcrumb">
-            <li><a href="/admin">Адмін</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+            <li><a href="/admin">Панель Адміністратора</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
             <li><a href="/admin/messages">Користувачі</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
             <li class="active">Перегляд повідомлення</li>
         </ol>
