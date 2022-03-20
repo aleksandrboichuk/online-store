@@ -9,6 +9,14 @@
             <div class="mb-0"><button type="button" class="btn btn-danger alert-btn alert-btn-close">Закрити</button></div>
         </div>
         @php(session()->forget('success-message'))
+    @elseif(session()->has('settings-save-success'))
+        <div class="alert alert-success alert-active" role="alert">
+            <h4 class="alert-heading">Успішно!</h4>
+            <p>{{session('settings-save-success')}}</p>
+            <hr>
+            <div class="mb-0"><button type="button" class="btn btn-danger alert-btn alert-btn-close">Закрити</button></div>
+        </div>
+        @php(session()->forget('settings-save-success'))
     @endif
     <section id="personal_area">
         <div class="container personal-area-container">

@@ -74,7 +74,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function gerUserSettings(Request $request){
+    public function getUserSettings(Request $request){
 
         return view('personal-area.settings',[
             'user' => $this->getUser(),
@@ -114,6 +114,10 @@ class UserController extends Controller
                     'address'=> $request['address-field'],
                     'city'=> $request['city-field'],
                 ]);
+                session(
+                    [
+                        'settings-save-success' => 'Налаштування профілю успішно змінено.'
+                    ]);
                 return redirect('/personal/orders');
             }else{
                 session(

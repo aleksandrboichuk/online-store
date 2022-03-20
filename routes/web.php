@@ -232,7 +232,7 @@ Route::group([
     //Route::get('/promocodes', [\App\Http\Controllers\UserController::class, 'gerUserPromocodes'])->name('user.promocodes');
     //Route::get('/bonuses', [\App\Http\Controllers\UserController::class, 'gerUserBonuses'])->name('user.bonuses');
 
-    Route::get('/settings', [\App\Http\Controllers\UserController::class, 'gerUserSettings'])->name('user.settings');
+    Route::get('/settings', [\App\Http\Controllers\UserController::class, 'getUserSettings'])->name('user.settings');
     Route::post('/settings-save', [\App\Http\Controllers\UserController::class, 'saveUserSettings'])->name('user.settings.save');
 
 });
