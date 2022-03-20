@@ -220,8 +220,9 @@ Route::group([
 
     if(preg_match("#^\/personal/orders\b#", \request()->getRequestUri()) == false
         && preg_match("#^\/personal/settings\b#", \request()->getRequestUri()) == false
-        && preg_match("#^\/personal/promocodes\b#", \request()->getRequestUri()) == false
-        && preg_match("#^\/personal/bonuses\b#", \request()->getRequestUri()) == false) {
+        //&& preg_match("#^\/personal/promocodes\b#", \request()->getRequestUri()) == false
+        //&& preg_match("#^\/personal/bonuses\b#", \request()->getRequestUri()) == false
+    ) {
         Route::get('/{any?}', function () {
             return response()->view('errors.404', ['user' => Auth::user()], 404);
         })->where('any', '.*');
