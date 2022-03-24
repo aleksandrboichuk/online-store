@@ -152,13 +152,10 @@ class ProductController extends Controller
         $imageNames = [];
         //в первьюхи
         Storage::disk('public')->putFileAs('product-images/'.$getProduct->id.'/preview', $mainImageFile, $mainImageFile->getClientOriginalName());
-        // в детальные изобр. заинуть превьюху
-        Storage::disk('public')->putFileAs('product-images/'.$getProduct->id.'/details', $mainImageFile, $mainImageFile->getClientOriginalName());
-        $imageNames['images'][0] = $mainImageFile->getClientOriginalName();
 
         // детальные изобр. все
         if(isset($request['additional-image-field-1'])){
-            for($i = 1; $i <= 7; $i++){
+            for($i = 0; $i <= 7; $i++){
                 if(isset($request['additional-image-field-' . $i])){
                     $imgFile = $request->file('additional-image-field-' . $i);
                     Storage::disk('public')->putFileAs('product-images/'.$getProduct->id.'/details', $imgFile, $imgFile->getClientOriginalName());
@@ -209,6 +206,9 @@ class ProductController extends Controller
         session(['success-message' => 'Товар успішно додано.']);
         return redirect('/admin/products');
     }
+
+
+
 
     public function editProduct(Request $request,$product_id){
         $product = Product::find($product_id);
@@ -279,14 +279,14 @@ class ProductController extends Controller
         }
 
         $imageNames = [];
-        $productImages = ProductImage::where('product_id', $product->id)->where('url', '!=', $product->preview_img_url)->get();
+        $productImages = ProductImage::where('product_id', $product->id)->get();
 
         // пройтись по полям из запроса, у которых
         // номер совпадает с уже сущ. номером картинки (чтобы если что ее заменить)
         //
         foreach ( $productImages as $key => $img) {
-            if(isset($request['additional-image-field-' . ($key + 1)])){
-                $imgFile = $request->file('additional-image-field-' . ($key + 1));
+            if(isset($request['additional-image-field-' . ($key)])){
+                $imgFile = $request->file('additional-image-field-' . ($key));
                 Storage::disk('public')->delete('product-images/'.$product->id.'/details/' . $img->url);
                 Storage::disk('public')->putFileAs('product-images/'.$product->id.'/details', $imgFile, $imgFile->getClientOriginalName());
                 $img->update([

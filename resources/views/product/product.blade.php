@@ -47,6 +47,9 @@
                                 <div class="carousel-inner">
                                     @if(count($product->images) < 5)
                                     <div class="item active">
+                                            <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/storage/product-images/{{$product->id}}/preview/{{$product->preview_img_url}}">
+                                                <img class="product-img product-img-item" src="/storage/product-images/{{$product->id}}/preview/{{$product->preview_img_url}}" alt="" />
+                                            </a>
                                             @for($i = 0; $i < count($product->images); $i++)
                                             <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/storage/product-images/{{$product->id}}/details/{{$product->images[$i]['url']}}">
                                                 <img class="product-img product-img-item" src="/storage/product-images/{{$product->id}}/details/{{$product->images[$i]['url']}}" alt="" />
@@ -55,6 +58,9 @@
                                     </div>
                                     @else
                                         <div class="item active">
+                                            <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/storage/product-images/{{$product->id}}/preview/{{$product->preview_img_url}}">
+                                                <img class="product-img product-img-item" src="/storage/product-images/{{$product->id}}/preview/{{$product->preview_img_url}}" alt="" />
+                                            </a>
                                             @for($i = 0; $i < 4; $i++)
                                                 <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/storage/product-images/{{$product->id}}/details/{{$product->images[$i]['url']}}">
                                                     <img class="product-img product-img-item" src="/storage/product-images/{{$product->id}}/details/{{$product->images[$i]['url']}}" alt="" />
@@ -62,6 +68,9 @@
                                             @endfor
                                         </div>
                                         <div class="item">
+                                            <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/storage/product-images/{{$product->id}}/preview/{{$product->preview_img_url}}">
+                                                <img class="product-img product-img-item" src="/storage/product-images/{{$product->id}}/preview/{{$product->preview_img_url}}" alt="" />
+                                            </a>
                                             @for($i = 4; $i < count($product->images); $i++)
                                                 <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/storage/product-images/{{$product->id}}/details/{{$product->images[$i]['url']}}">
                                                     <img class="product-img product-img-item" src="/storage/product-images/{{$product->id}}/details/{{$product->images[$i]['url']}}" alt="" />

@@ -33,7 +33,7 @@
                         @foreach($product->images as $key => $img)
                             @if($img->url != $product->preview_img_url)
                                 <div class="add-block">
-                                    <label for="image-field">Детальне зобр. №{{$key}}</label>
+                                    <label for="image-field">Детальне зобр. №{{$key+1}}</label>
                                     <div class="add-image-block">
                                         <input class="file detail-img-file" type="file" name="additional-image-field-{{$key}}" accept=".jpg, .jpeg, .png">
                                         <img src="/storage/product-images/{{$product->id}}/details/{{$img->url}}" class="product-img-admin-edit" alt="">
@@ -205,7 +205,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(data){
-                    location.reload();
+                   window.location = location.href
                 }
             });
         });
