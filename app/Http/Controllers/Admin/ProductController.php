@@ -171,13 +171,17 @@ class ProductController extends Controller
         }
 
         // материалы , размеры
-
-        foreach ($request['materials'] as $key => $value){
-            $getProduct->materials()->attach($getProduct->id,[
-                'product_id' => $getProduct->id,
-                'product_material_id' => $value
-            ]);
+        if(isset($request['materials'])){
+            foreach ($request['materials'] as $key => $value){
+                $getProduct->materials()->attach($getProduct->id,[
+                    'product_id' => $getProduct->id,
+                    'product_material_id' => $value
+                ]);
+            }
+        }else{
+            redirect()->back();
         }
+
 
         if (isset($request['sizes'])) {
             foreach ($request['size-count'] as $k => $val) {
