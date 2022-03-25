@@ -13,9 +13,6 @@
             <p>{{$item->phone}}</p>
         </td>
         <td>
-            <p>{{$item->address}}</p>
-        </td>
-        <td>
             <p><u>₴{{$item->total_cost}}</u></p>
         </td>
         <td>

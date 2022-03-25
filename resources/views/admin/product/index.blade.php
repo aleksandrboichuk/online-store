@@ -11,13 +11,13 @@
         @php(session()->forget('success-message'))
     @endif
     <section id="table_items">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="/admin">Панель Адміністратора</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                <li class="active">Товари</li>
+            </ol>
+        </div>
         <div class="container">
-            <div class="breadcrumbs">
-                <ol class="breadcrumb">
-                    <li><a href="/admin">Панель Адміністратора</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    <li class="active">Товари</li>
-                </ol>
-            </div>
             <div class="row">
                 <div class="add-admin">
                     <a href="{{route('add.product')}}"><button type="button" class="btn btn-default todo-btn">Додати</button></a>

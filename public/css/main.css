@@ -1799,7 +1799,13 @@ h2.title {
     margin-top: 30px;
     margin-bottom: 80px;
 }
+.shopper-information p{
+    margin-bottom: 15px;
+}
 .checkout-area{
+    border: 1px solid #cbcbcb;
+    border-radius: 10px;
+    padding: 15px;
     display: flex;
 }
 .checkout-area .order-message{
@@ -1807,9 +1813,67 @@ h2.title {
     width: 500px;
 }
 .checkout-area .bill-to{
+
     width:600px;
 }
+.delivery-area{
+    margin-top: 30px;
+    border: 1px solid #cbcbcb;
+    border-radius: 10px;
+    padding: 15px;
+}
+.delivery-area select{
+    font-size: 18px;
+}
+.delivery-input{
+    margin-top: 15px;
+    padding-left: 10px;
+}
+.delivery-input label{
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: normal;
+}
 
+.post-department-field, .address-field, .email-field{
+    padding-left: 20px;
+    margin-top: 5px;
+}
+.address-field{
+    display: none;
+}
+.post-department-field input{
+    margin-left: 5px;
+    border: 1px solid #9c9c9c;
+    border-radius: 4px;
+    max-width: 50px;
+}
+.address-field input{
+    margin-left: 5px;
+    border: 1px solid #9c9c9c;
+    border-radius: 4px;
+}
+.pay-area label:not(.email-field label){
+    margin-bottom: 10px;
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: normal;
+}
+.pay-area{
+    margin-top: 30px;
+    border: 1px solid #cbcbcb;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 80px;
+}
+.email-field{
+    display: none;
+}
+.email-field input{
+    margin-left: 5px;
+    border: 1px solid #9c9c9c;
+    border-radius: 4px;
+}
 .btn-default[disabled]{
     background-color: #febb62;
 }
@@ -1889,7 +1953,7 @@ h2.title {
 }
 .order-message textarea {
     font-size: 12px;
-    height: 255px;
+    height: 125px;
     margin-bottom: 20px;
     padding: 15px 20px;
 }
@@ -2039,6 +2103,7 @@ h2.title {
     font-size: 18px;
 }
 #personal_area .add-block input{
+    text-align: center;
     font-size: 18px;
     width: 500px;
 }
@@ -2097,7 +2162,6 @@ h2.title {
 /* админка */
 
 .admin-bread{
-    max-width: 760px;
     margin: 0 auto;
 
 }

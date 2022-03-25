@@ -10,13 +10,13 @@
         @php(session()->forget('success-message'))
     @endif
     <section id="table_items">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="/admin">Панель Адміністратора</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                <li class="active">Повідомлення</li>
+            </ol>
+        </div>
         <div class="container">
-            <div class="breadcrumbs">
-                <ol class="breadcrumb">
-                    <li><a href="/admin">Панель Адміністратора</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    <li class="active">Повідомлення</li>
-                </ol>
-            </div>
             <div class="table-responsive general-table-index general-table-index-with-pagination">
                 <table class="table table-condensed table-admin-with-pagination">
                     <thead>

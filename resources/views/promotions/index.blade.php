@@ -1,21 +1,21 @@
 @extends('layouts.main')
 @section('content')
     <section class="products-section">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                @if($group->name == "Жінки")
+                    <li><a href="/shop/women">Жінкам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                @elseif($group->name == "Чоловіки")
+                    <li><a href="/shop/men">Чоловікам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                @elseif($group->name == "Хлопчики")
+                    <li><a href="/shop/boys">Хлопчикам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                @elseif($group->name == "Дівчатки")
+                    <li><a href="/shop/girls">Дівчаткам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                @endif
+                <li class="active">{{$banner->title}}</li>
+            </ol>
+        </div>
         <div class="main-container">
-            <div class="breadcrumbs">
-                <ol class="breadcrumb">
-                    @if($group->name == "Жінки")
-                        <li><a href="/shop/women">Жінкам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    @elseif($group->name == "Чоловіки")
-                        <li><a href="/shop/men">Чоловікам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    @elseif($group->name == "Хлопчики")
-                        <li><a href="/shop/boys">Хлопчикам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    @elseif($group->name == "Дівчатки")
-                        <li><a href="/shop/girls">Дівчаткам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    @endif
-                    <li class="active">{{$banner->title}}</li>
-                </ol>
-            </div>
             <div class="row">
 
                 <!--sidebar-->

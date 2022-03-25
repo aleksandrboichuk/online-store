@@ -2,15 +2,14 @@
 
 @section('content')
     <section id="table_items">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                <li><a href="/cart">Кошик</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                <li class="active">Оформлення замовлення</li>
+            </ol>
+        </div>
         <div class="container">
-            <div class="breadcrumbs">
-                <ol class="breadcrumb">
-                    <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    <li><a href="/cart">Кошик</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    <li class="active">Оформлення замовлення</li>
-                </ol>
-            </div>
-
             <div class="review-payment">
                 <h2>Перегляд товарів замовлення</h2>
             </div>
@@ -96,18 +95,12 @@
                                         <ul class="total-area-user-data">
                                             <li><b>Ім'я:</b><span><input type="text" name="user-firstname" value="{{$user->first_name}}" required></span></li>
                                             <li><b>Прізвище:</b><span><input type="text" name="user-lastname" value="{{$user->last_name}}" required></span></li>
-                                            <li><b>E-mail:</b><span><input type="text" name="user-email" value="{{$user->email}}" required></span></li>
-                                            <li><b>Місто:</b><span><input type="text" name="user-city" value="{{$user->city}}" required></span></li>
-                                            <li><b>Адреса:</b><span><input type="text" name="user-address" value="{{$user->address}}" required></span></li>
                                             <li><b>Телефон:</b><span><input type="text" name="user-phone" value="{{$user->phone}} " required onkeyup="this.value = this.value.replace(/[^\d]/g,'');"></span></li>
                                         </ul>
                                             @else
                                             <ul class="total-area-user-data">
                                                 <li><b>Ім'я:</b><span><input type="text" name="user-firstname" value="" required></span></li>
                                                 <li><b>Прізвище:</b><span><input type="text" name="user-lastname" value="" required></span></li>
-                                                <li><b>E-mail:</b><span><input type="text" name="user-email" value="" required></span></li>
-                                                <li><b>Місто:</b><span><input type="text" name="user-city" value="" required></span></li>
-                                                <li><b>Адреса:</b><span><input type="text" name="user-address" value="" required></span></li>
                                                 <li><b>Телефон:</b><span><input type="text" name="user-phone" value="" required onkeyup="this.value = this.value.replace(/[^\d]/g,'');"></span></li>
                                             </ul>
                                             @endif
@@ -122,7 +115,53 @@
                                             maxlength="150"
                                     ></textarea>
                                 </div>
+                             </div>
+                            <div class="delivery-area">
+                                <div class="bill-to">
+                                    <p>Доставка</p>
+                                    <select name="user-city" id="user-city">
+                                        <option value="Херсон">Херсон</option>
+                                        <option value="Львів">Львів</option>
+                                        <option value="Київ">Київ</option>
+                                        <option value="Харків">Харків</option>
+                                    </select>
+                                    <div class="delivery-input">
+                                        <input type="radio" name="delivery-field" id="post" checked >
+                                        <label for="post">Самовивіз з відділення Нова Пошта</label>
+                                    </div>
+                                    <div class="post-department-field">
+                                        <label for="post-department">Відділення №</label>
+                                        <input type="text" name="post-department-field" id="post-department" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
+                                    </div>
+                                    <div class="delivery-input">
+                                        <input type="radio" name="delivery-field" id="courier">
+                                        <label for="courier">Доставка кур'єром за адресою</label>
+                                    </div>
+                                    <div class="address-field">
+                                        <label for="address-field">Адреса: </label>
+                                        <input type="text" name="address-field" id="address-field">
+                                    </div>
+                                    
                                 </div>
+                            </div>
+                            <div class="pay-area">
+                                <div class="bill-to">
+                                    <p>Оплата</p>
+                                    <div class="later-pay">
+                                        <input type="radio" name="pay-field" id="later-pay" checked>
+                                        <label for="later-pay">Оплата при отриманні товару</label>
+                                    </div>
+                                    <div class="now-pay">
+                                        <input type="radio" name="pay-field" id="now-pay">
+                                        <label for="now-pay">Оплата карткою зараз</label>
+                                    </div>
+                                    <div class="email-field">
+                                        <label for="email-field">Електронна пошта: </label>
+                                        <input type="email" name="email-field" id="email-field">
+                                    </div>
+
+                                </div>
+                            </div>
                             <div class="btn-form"><button type="submit" class="btn btn-default check_out">Перейти до сплати</button></div>
                         </form>
                     </div>
@@ -142,6 +181,38 @@
             }
             $('.total-cart').text("₴" + subtotal);
             $('.total-price').text("₴" + subtotal);
+
+           if($('#courier').prop('checked')){
+                $('.address-field').css('display', 'block');
+                $('.post-department-field').css('display', 'none').find('input').val('');
+            }
+            if( $('#now-pay').prop('checked')){
+                $('.email-field').css('display', 'block');
+            }
+
+            $('#courier').change(function () {
+                if($(this).prop('checked')){
+                   $('.address-field').css('display', 'block');
+                   $('.post-department-field').css('display', 'none').find('input').val('');
+                }
+            });
+            $('#post').change(function () {
+                if($(this).prop('checked')){
+                    $('.address-field').css('display', 'none').find('input').val('');
+                    $('.post-department-field').css('display', 'block');
+                }
+            });
+            $('#later-pay').change(function () {
+                if($(this).prop('checked')){
+                    $('.email-field').css('display', 'none').find('input').val('');
+                }
+            });
+
+            $('#now-pay').change(function () {
+                if($(this).prop('checked')){
+                    $('.email-field').css('display', 'block');
+                }
+            });
 
         });
         </script>

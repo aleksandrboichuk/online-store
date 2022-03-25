@@ -72,16 +72,16 @@ class OrderController extends Controller
                     'popularity' => $product->popularity + 1
                 ]);
             }
-
         }
+
 
         $order->update([
             'user_id' => $request['id-field'],
             'name' => $request['name-field'],
-            'email' => $request['email-field'],
             'phone' => $request['phone-field'],
-            'address' => $request['address-field'],
-            'comment' => $request['comment-field'],
+            'city' => $request['city-field'],
+            'address' => isset($request['address-field']) ? $request['address-field'] : null,
+            'post_department' => isset($request['post-field']) ? $request['post-field'] : null,
             'total_cost' => $total_cost,
             'status' => $request['status-field'],
             'updated_at' => date("Y-m-d H:i:s")

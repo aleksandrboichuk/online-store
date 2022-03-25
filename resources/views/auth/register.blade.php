@@ -29,13 +29,6 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            {{--<label for="address" class="col-md-4 col-form-label text-md-end">{{ __('Адреса') }}</label>--}}
-
-                            <div class="col-md-6">
-                                <input id="address" type="text" placeholder="Адреса" class="form-control" name="address" value="{{ old('address') }}" required autocomplete="address">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
                             {{--<label for="city" class="col-md-4 col-form-label text-md-end">{{ __('Місто') }}</label>--}}
 
                             <div class="col-md-6">

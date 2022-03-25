@@ -111,7 +111,6 @@ class UserController extends Controller
                     'last_name'=> $request['lastname-field'],
                     'email'=> $request['email-field'],
                     'phone'=> $request['phone-field'],
-                    'address'=> $request['address-field'],
                     'city'=> $request['city-field'],
                 ]);
                 session(

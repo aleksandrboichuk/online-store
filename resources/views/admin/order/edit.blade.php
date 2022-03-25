@@ -11,8 +11,8 @@
 
     <section class="form-add">
         <div class="container">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10">
                 <div class="review-payment">
                     <h2>Перегляд товарів замовлення</h2>
                 </div>
@@ -90,17 +90,25 @@
                         <input type="text" value="{{$order->name}}" name="name-field">
                     </div>
                     <div class="add-block">
-                        <label for="email-field">Ел. пошта </label>
-                        <input type="text" value="{{$order->email}}" name="email-field">
-                    </div>
-                    <div class="add-block">
                         <label for="phone-field">Телефон </label>
                         <input type="text" value="{{$order->phone}}" name="phone-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                     </div>
                     <div class="add-block">
-                        <label for="address-field">Адреса </label>
-                        <input type="text" value="{{$order->address}}" name="address-field">
+                        <label for="city-field">Місто </label>
+                        <input type="text" value="{{$order->city}}" name="city-field">
                     </div>
+                    @if(!empty($order->address))
+                        <div class="add-block">
+                            <label for="address-field">Адреса доставки кур'єром</label>
+                            <input type="text" value="{{$order->address}}" name="address-field">
+                        </div>
+                    @endif
+                    @if(!empty($order->post_department))
+                        <div class="add-block">
+                            <label for="post-field">Номер поштового відділення</label>
+                            <input type="text" value="{{$order->post_department}}" name="post-field">
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="comment-field">Коментар </label>
                         <textarea  rows="6" name="comment-field" readonly>{{isset($order->comment) ? $order->comment : ""}}</textarea>
@@ -112,7 +120,7 @@
                     <button type="submit" class="btn btn-default todo-btn">Зберегти</button>
                 </form>
             </div>
-            <div class="col-sm-2"></div>
+            <div class="col-sm-1"></div>
         </div>
     </section>
 

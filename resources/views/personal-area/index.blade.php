@@ -19,14 +19,14 @@
         @php(session()->forget('settings-save-success'))
     @endif
     <section id="personal_area">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                <li><a>Особистий кабінет</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                <li class="active">{{$status_name}}</li>
+            </ol>
+        </div>
         <div class="container personal-area-container">
-            <div class="breadcrumbs">
-                <ol class="breadcrumb">
-                    <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    <li><a>Особистий кабінет</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    <li class="active">{{$status_name}}</li>
-                </ol>
-            </div>
             <div class="col-sm-12 col-lg-3">
                 @include('parts.personal-sidebar')
             </div>
@@ -39,7 +39,6 @@
                             <td>Дата</td>
                             <td><b>Ім'я</b></td>
                             <td><b>Телефон</b></td>
-                            <td><b>Адреса</b></td>
                             <td> <b>Сума</b></td>
                             <td> <b>Статус</b></td>
                             <td></td>
@@ -57,9 +56,6 @@
                                 </td>
                                 <td>
                                     <p>{{$item->phone}}</p>
-                                </td>
-                                <td>
-                                    <p>{{$item->address}}</p>
                                 </td>
                                 <td>
                                     <u><p>₴{{$item->total_cost}}</p></u>

@@ -2,14 +2,14 @@
 
 @section('content')
     <section id="personal_area">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                <li><a href="/personal/orders">Особистий кабінет</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                <li class="active">Налаштування</li>
+            </ol>
+        </div>
         <div class="container personal-area-container">
-            <div class="breadcrumbs">
-                <ol class="breadcrumb">
-                    <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    <li><a href="/personal/orders">Особистий кабінет</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    <li class="active">Налаштування</li>
-                </ol>
-            </div>
             <div class="col-sm-12 col-lg-3">
                 @include('parts.personal-sidebar')
             </div>

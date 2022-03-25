@@ -26,8 +26,6 @@ class CheckoutController extends Controller
 
         if(!$this->getUser()){
             $cart = Cart::where('token', session('_token'))->first();
-
-
         }else{
             $cart = Cart::where("user_id",$this->getUser()->id)->first();
         }
@@ -36,14 +34,30 @@ class CheckoutController extends Controller
         for ($i = 0; $i < count($cart->products); $i++ ){
             $totalSum += $cart->products[$i]->pivot->count *  $cart->products[$i]['price'];
         }
+
+        if(isset($request['post-department-field'])){
+            $postDepartment = intval($request['post-department-field']);
+        }elseif(isset($request['address-field'])){
+            $address = $request['address-field'];
+        }
+        if(isset($request['email-field'])){
+            $email = $request['email-field'];
+            $payNow = true;
+        }else{
+            $payNow = false;
+        }
+
         if(!$this->getUser()) {
             try{
                 $ordersList = OrdersList::create([
                     "token"=> session('_token'),
                     "name" =>$request['user-firstname'] . ' ' . $request['user-lastname'],
-                    "email"=> $request['user-email'],
+                    "email"=> isset($email) ? $email : null,
+                    "pay_now"=> $payNow,
                     "phone"=> $request['user-phone'],
-                    "address"=> $request['user-address'],
+                    "city"=> $request['user-city'],
+                    "address"=> isset($address) ? $address : null,
+                    "post_department"=> isset($postDepartment) ? $postDepartment :  null,
                     "comment"=> $request['comment'],
                     "total_cost" => $totalSum
                 ]);
@@ -56,9 +70,12 @@ class CheckoutController extends Controller
                 $ordersList = OrdersList::create([
                     "user_id"=> $this->getUser()->id,
                     "name" =>$request['user-firstname'] . ' ' . $request['user-lastname'],
-                    "email"=> $request['user-email'],
+                    "email"=> isset($email) ? $email : null,
+                    "pay_now"=> $payNow,
                     "phone"=> $request['user-phone'],
-                    "address"=> $request['user-address'],
+                    "city"=> $request['user-city'],
+                    "address"=> isset($address) ? $address : null,
+                    "post_department"=> isset($postDepartment) ? $postDepartment :  null,
                     "comment"=> $request['comment'],
                     "total_cost" => $totalSum
                 ]);

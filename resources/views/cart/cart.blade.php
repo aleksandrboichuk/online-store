@@ -19,13 +19,13 @@
             @php(session()->forget('success-message-delete'))
     @endif
     <section id="table_items">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                <li class="active">Кошик</li>
+            </ol>
+        </div>
         <div class="container">
-            <div class="breadcrumbs">
-                <ol class="breadcrumb">
-                    <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    <li class="active">Кошик</li>
-                </ol>
-            </div>
             <div class="title-page"><h2>Кошик</h2></div>
             <div class="table-responsive cart_info {{isset($products) && !empty($products) && count($products) > 0 ? "" : "cart-table" }}">
                 <table class="table table-condensed">

@@ -11,13 +11,13 @@
         @php(session()->forget('success-message'))
     @endif
     <section id="table_items">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="/admin">Панель Адміністратора</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                <li class="active">Замовлення</li>
+            </ol>
+        </div>
         <div class="container">
-            <div class="breadcrumbs">
-                <ol class="breadcrumb">
-                    <li><a href="/admin">Панель Адміністратора</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    <li class="active">Замовлення</li>
-                </ol>
-            </div>
             <div class="table-responsive general-table-index general-table-index-with-pagination">
                 <table class="table table-condensed table-admin-with-pagination">
                     <thead>
@@ -26,7 +26,6 @@
                         <td>Дата</td>
                         <td><b>Ім'я</b></td>
                         <td><b>Телефон</b></td>
-                        <td><b>Адреса</b></td>
                         <td> <b>Сума</b></td>
                         <td> <b>Статус</b></td>
                         <td></td>
@@ -48,9 +47,6 @@
                             </td>
                             <td>
                                 <p>{{$item->phone}}</p>
-                            </td>
-                            <td>
-                                <p>{{$item->address}}</p>
                             </td>
                             <td>
                                 <p><u>₴{{$item->total_cost}}</u></p>

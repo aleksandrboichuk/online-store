@@ -1,15 +1,16 @@
 @extends('layouts.main')
 
 @section('content')
+
     <section id="personal_area">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                <li><a href="/personal/orders">Особистий кабінет</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                <li class="active">Деталі замовлення</li>
+            </ol>
+        </div>
         <div class="container personal-area-container">
-            <div class="breadcrumbs">
-                <ol class="breadcrumb">
-                    <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    <li><a href="/personal/orders">Особистий кабінет</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                    <li class="active">Деталі замовлення</li>
-                </ol>
-            </div>
             <div class="col-sm-12 col-lg-3">
                 @include('parts.personal-sidebar')
             </div>
@@ -83,17 +84,25 @@
                     <input type="text" value="{{$order->name}}" name="name-field" readonly>
                 </div>
                 <div class="add-block">
-                    <label for="email-field">Ел. пошта </label>
-                    <input type="text" value="{{$order->email}}" name="email-field" readonly>
-                </div>
-                <div class="add-block">
                     <label for="phone-field">Телефон </label>
                     <input type="text" value="{{$order->phone}}" name="phone-field" readonly>
                 </div>
                 <div class="add-block">
-                    <label for="address-field">Адреса </label>
-                    <input type="text" value="{{$order->address}}" name="address-field" readonly>
+                    <label for="city-field">Місто </label>
+                    <input type="text" value="{{$order->city}}" name="city-field" readonly>
                 </div>
+                @if(!empty($order->address))
+                    <div class="add-block">
+                        <label for="address-field">Адреса доставки кур'єром</label>
+                        <input type="text" value="{{$order->address}}" name="address-field" readonly>
+                    </div>
+                @endif
+                @if(!empty($order->post_department))
+                    <div class="add-block">
+                        <label for="post-field">Номер поштового відділення</label>
+                        <input type="text" value="{{$order->post_department}}" name="post-field" readonly>
+                    </div>
+                @endif
                 <div class="add-block">
                     <label for="comment-field">Коментар </label>
                     <textarea  rows="6" name="comment-field" readonly>{{isset($order->comment) ? $order->comment : ""}}</textarea>

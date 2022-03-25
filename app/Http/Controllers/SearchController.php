@@ -81,9 +81,6 @@ class SearchController extends Controller
             "images"=> ProductImage::all(),
             'cart' => isset($cart) && !empty($cart) ? $cart : null,
         ]);
-
-
-
     }
 
 
