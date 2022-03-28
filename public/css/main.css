@@ -825,7 +825,7 @@ h2.title:before {
 }
 .fil-params{
 
-    width: 220px;
+    width: 215px;
     background-color: white;
     padding: 5px 0;
     display:none;
@@ -833,7 +833,9 @@ h2.title:before {
     max-height: 200px;
     overflow: auto;
 }
-
+.fil-params-materials{
+    width: 240px;
+}
 .fil-params ul{
     padding: 10px;
 
@@ -1549,6 +1551,7 @@ h2.title {
 }
 .breadcrumbs .breadcrumb {
     background: 0 0;
+    margin-top: 30px;
     margin-bottom: 55px;
 }
 .breadcrumbs .breadcrumb li{
