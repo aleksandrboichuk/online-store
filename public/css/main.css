@@ -426,19 +426,33 @@ ul.sub-menu {
 .slider-text .btn{
     width: 200px;
     height: 50px;
-    background: #6fa1f4;
+    background: #ffffff;
     border: none;
     margin-top: 50px;
     border-radius: 30px;
-
 }
 
 .slider-text .btn:hover{
     background: transparent;
     border: 1px solid #fff;
+    transition: .1s all linear;
+}
+.slider-text .btn:hover a{
+    transition: .1s all linear;
+    color: #fff;
+}
+.slider-text .btn:focus{
+    background: #ffffff;
+    border: none;
+    margin-top: 50px;
+    border-radius: 30px;
+}
+.slider-text .btn:focus a{
+    color: black;
+    font-size: 18px;
 }
 .slider-text .btn a{
-    color: white;
+    color: black;
     font-size: 18px;
 }
 .banner-img {
@@ -1676,10 +1690,14 @@ h2.title {
     color: #696763;
 }
 #table_items .cart_info .cart_price p {
-
     color: #696763;
     font-size: 18px;
 }
+
+.total-price{
+    color: red;
+}
+
 .product-price{
     color: #6fa1f4;
     font-size: 34px;
@@ -1716,8 +1734,15 @@ h2.title {
     font-size: 18px;
     text-align: center;
 }
+
+.cart_quantity p{
+    color: #696763;
+    font-size: 18px;
+    text-align: center;
+}
+
 #table_items .cart_info .cart_total_price {
-    color: #6fa1f4;
+    color: #696763;
     font-size: 24px;
     width: 100%;
 }
@@ -1816,7 +1841,6 @@ h2.title {
     width: 500px;
 }
 .checkout-area .bill-to{
-
     width:600px;
 }
 .delivery-area{
@@ -1826,7 +1850,7 @@ h2.title {
     padding: 15px;
 }
 .delivery-area select{
-    font-size: 18px;
+    font-size: 15px;
 }
 .delivery-input{
     margin-top: 15px;
@@ -1878,7 +1902,7 @@ h2.title {
     border-radius: 4px;
 }
 .btn-default[disabled]{
-    background-color: #febb62;
+    background-color: #6fa1f4;
 }
 .total_area span {
     float: right;

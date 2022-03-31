@@ -73,7 +73,7 @@
                                 </tr>
                                 <tr>
                                     <td><b>Усього до сплати:</b></td>
-                                    <td ><span class="total-price"></span></td>
+                                    <td><span class="total-price"></span></td>
                                 </tr>
                             </table>
                         </td>
@@ -120,10 +120,9 @@
                                 <div class="bill-to">
                                     <p>Доставка</p>
                                     <select name="user-city" id="user-city">
-                                        <option value="Херсон">Херсон</option>
-                                        <option value="Львів">Львів</option>
-                                        <option value="Київ">Київ</option>
-                                        <option value="Харків">Харків</option>
+                                        @foreach($cities as $city)
+                                            <option value="{{$city->name}}" {{!empty($user) && $city->name == $user->city ? "selected" : ""}}>{{$city->name}}</option>
+                                        @endforeach
                                     </select>
                                     <div class="delivery-input">
                                         <input type="radio" name="delivery-field" id="post" checked >
@@ -162,7 +161,7 @@
 
                                 </div>
                             </div>
-                            <div class="btn-form"><button type="submit" class="btn btn-default check_out">Перейти до сплати</button></div>
+                            <div class="btn-form"><button type="submit" class="btn btn-default check_out" {{empty($cart->products) || count($cart->products) < 1 ? "disabled" : ""}}>Перейти до сплати</button></div>
                         </form>
                     </div>
                 </div>

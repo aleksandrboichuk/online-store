@@ -34,10 +34,6 @@
                         <input type="text" value="{{$user->phone}}" name="phone-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                     </div>
                     <div class="add-block">
-                        <label for="address-field">Адреса </label>
-                        <input type="text" value="{{$user->address}}" name="address-field">
-                    </div>
-                    <div class="add-block">
                         <label for="city-field">Місто </label>
                         <input type="text" value="{{$user->city}}" name="city-field">
                     </div>

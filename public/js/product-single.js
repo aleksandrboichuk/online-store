@@ -34,7 +34,7 @@ function addToCart(route) {
     });
 
 
-    $('.btn-default').click(function () {
+    $('.cart').click(function () {
         let productId = $('.product-id').attr('id');
         let productCount = $('.quantity').val();
         let productSize =  $('.sizes').find('.active-size').find('p').text();
@@ -68,6 +68,7 @@ function addToCart(route) {
                 },
                 success: (data) =>{
                     setTimeout(btn, 1000);
+                    $('.a-cart-title').find('b').html(data);
                 }
             });
         }

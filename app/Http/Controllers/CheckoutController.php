@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\OrderListItem;
 use App\Models\OrdersList;
+use App\Models\UkraineCity;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
@@ -19,6 +20,7 @@ class CheckoutController extends Controller
             'cart' => $user_cart,
             'user' =>$this->getUser(),
             'products' => $user_cart->products,
+            'cities' => UkraineCity::all(),
         ]);
     }
 

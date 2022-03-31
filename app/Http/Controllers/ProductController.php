@@ -66,6 +66,14 @@ class ProductController extends Controller
                     'count' => $request->productCount,
                     'size' => $request->productSize,
                 ]);
+
+                if($request->ajax()) {
+                    return count($cart->products) + 1;
+                }
+            }
+
+            if($request->ajax()) {
+                return count($cart->products);
             }
         }
 

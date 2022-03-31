@@ -68,9 +68,6 @@
                                             @endfor
                                         </div>
                                         <div class="item">
-                                            <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/storage/product-images/{{$product->id}}/preview/{{$product->preview_img_url}}">
-                                                <img class="product-img product-img-item" src="/storage/product-images/{{$product->id}}/preview/{{$product->preview_img_url}}" alt="" />
-                                            </a>
                                             @for($i = 4; $i < count($product->images); $i++)
                                                 <a id="fancybox" data-caption="{{$product->name}}" data-fancybox="my-images-1" href="/storage/product-images/{{$product->id}}/details/{{$product->images[$i]['url']}}">
                                                     <img class="product-img product-img-item" src="/storage/product-images/{{$product->id}}/details/{{$product->images[$i]['url']}}" alt="" />
