@@ -1,5 +1,6 @@
 @extends('layouts.main')
 @section('content')
+
     @if(session()->has('success-message'))
         <div class="alert alert-success alert-active" role="alert">
             <h4 class="alert-heading">Замовлення прийнято!</h4>
@@ -10,131 +11,102 @@
         </div>
         @php(session()->forget('success-message'))
     @elseif(session()->has('success-message-delete'))
-            <div class="alert alert-success alert-active" role="alert">
-                <h4 class="alert-heading">Виконано!</h4>
-                <p>{{session('success-message-delete')}}</p>
-                <hr>
-                <div class="mb-0"><button type="button" class="btn btn-danger alert-btn alert-btn-close">Закрити</button></div>
-            </div>
-            @php(session()->forget('success-message-delete'))
+        <div class="alert alert-success alert-active" role="alert">
+            <h4 class="alert-heading">Виконано!</h4>
+            <p>{{session('success-message-delete')}}</p>
+            <hr>
+            <div class="mb-0"><button type="button" class="btn btn-danger alert-btn alert-btn-close">Закрити</button></div>
+        </div>
+        @php(session()->forget('success-message-delete'))
     @endif
-    <section id="table_items">
-        <div class="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                <li class="active">Кошик</li>
-            </ol>
-        </div>
-        <div class="container">
-            <div class="title-page"><h2>Кошик</h2></div>
-            <div class="table-responsive cart_info {{isset($products) && !empty($products) && count($products) > 0 ? "" : "cart-table" }}">
-                <table class="table table-condensed">
-                    <thead>
-                    <tr class="cart_menu">
-                        <td class="image"></td>
-                        <td class="description"><b>Назва товару</b></td>
-                        <td class="price"><b>Ціна</b></td>
-                        <td class="select-size"><b>Розмір</b></td>
-                        <td class="quantity"> <b>Кількість</b></td>
-                        <td class="total"><b>Усього</b></td>
-                        <td></td>
-                    </tr>
-                    </thead>
-                    <tbody class="cart-table">
-        @if(isset($products) && !empty($products) && count($products) > 0 )
-                    @foreach($products as $item)
-                    <tr>
-                        <td class="cart_product">
-                            <a href="{{route('show.product.details', [$item->categoryGroups->seo_name, $item->categories->seo_name, $item->subCategories->seo_name, $item->seo_name])}}"><img src="/storage/product-images/{{$item->id}}/preview/{{$item->preview_img_url}}" alt="" /></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="{{route('show.product.details', [$item->categoryGroups->seo_name, $item->categories->seo_name, $item->subCategories->seo_name, $item->seo_name])}}">{{$item->name}}</a></h4>
-                            <p class="product-id">ID: {{$item->id}}</p>
-                        </td>
-                        @if($item->discount != 0)
-                            <td class="cart_price">
-                                <p><s>₴{{$item->price}}</s></p>
-                                <p><b>₴{{$item->price - (round($item->price * ($item->discount * 0.01)))}}</b></p>
-                            </td>
-                        @else
-                            <td class="cart_price">
-                                <p>₴{{$item->price}}</p>
-                            </td>
-                        @endif
-                        <td class="cart_size">
-                            <p>{{$item->pivot->size}}</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <input type="hidden" name="size" id="size" value="{{$item->pivot->size}}">
-                                 <input
-                                        onkeyup="this.value = this.value.replace(/[^\d]/g,'');"
-                                        class="cart_quantity_input"
-                                        type="text"
-                                        name="quantity"
-                                        value="{{$item->pivot->count}}"
-                                        autocomplete="off"
-                                        size="2"
-                                        id="{{$item->id}}"
-                                />
-                        </td>
-                        @if($item->discount != 0)
-                            <td class="cart_total">
-                                <p class="cart_total_price">₴{{$item->pivot->count * ($item->price - (round($item->price * ($item->discount * 0.01))))}}</p>
-                            </td>
-                        @else
-                            <td class="cart_total">
-                                <p class="cart_total_price">₴{{$item->pivot->count * $item->price}}</p>
-                            </td>
-                        @endif
-                        <td class="cart_delete">
-                            <form action="{{route('delete.from.cart')}}" method="post">
-                                <input type="hidden" name="delete-id" value="{{$item->id}}">
-                                <input type="hidden" name="size" value="{{$item->pivot->size}}">
-                                <button type="submit" class="btn btn-danger"><svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
-                                        <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
-                                    </svg></button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-            @else
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><p style="font-size: 25px">Ваш кошик наразі порожній</p>
-                    <a href="/shop/women"><button class="todo-btn-cart btn btn-default">Переглянути каталог товарів</button></a>
-                </td>
-            </tr>
-
-            @endif
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-    <section id="do_action">
-        @if(isset($products) && count($products) > 0)
-
+    <!-- cart section end -->
+    <section class="cart-section spad">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6 make-order" style="float: right">
-                    <div class="total_area">
-                        <ul>
-                            <li><b>Усього до сплати:</b><span class="total-price"></span></li>
-                        </ul>
-                        <a href="{{route('checkout')}}"><button class="btn btn-default check_out">Оформити замовлення</button></a>
+                <div class="col-lg-8">
+                    <div class="cart_area">
+                        <h3>Кошик</h3>
+                        <div class="cart-table-warp">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th class="product-th">Товар</th>
+                                    <th class="quy-th">Кількість</th>
+                                    <th class="size-th">Розмір</th>
+                                    <th class="total-th">Ціна</th>
+                                    <th class="total-th"></th>
+                                </tr>
+                                </thead>
+                                <tbody class="cart_table">
+                                @if(isset($products) && !empty($products) && count($products) > 0 )
+                                    @foreach($products as $item)
+                                        <tr>
+                                            <td class="product-col">
+                                                <img src="/storage/product-images/{{$item->id}}/preview/{{$item->preview_img_url}}" alt="">
+                                                <div class="pc-title">
+                                                    <h4><a href="{{route('show.product.details', [$item->categoryGroups->seo_name, $item->categories->seo_name, $item->subCategories->seo_name, $item->seo_name])}}">{{$item->name}}</a></h4>
+                                                @if($item->discount != 0)
+                                                        <s>₴{{$item->price}}</s>
+                                                        <p>₴{{$item->price - (round($item->price * ($item->discount * 0.01)))}}</p>
+                                                @else
+                                                        <p>₴{{$item->price}}</p>
+                                                @endif
+                                                </div>
+                                            </td>
+                                            <td class="quy-col">
+                                                <div class="quantity-group">
+                                                    <input type="button" class="quantity-minus" value="-">
+                                                        <input type="hidden" name="size" id="size" value="{{$item->pivot->size}}">
+                                                        <input type="text" class="quantity" name="quantity"  value="{{$item->pivot->count}}" id="{{$item->id}}"  autocomplete="off" readonly />
+                                                    <input type="button"  class="quantity-plus" value="+">
+                                                </div>
+                                            </td>
+                                            <td class="size-col"><h4>{{$item->pivot->size}}</h4></td>
+                                            <td class="total-col"><h4>
+                                            @if($item->discount != 0)
+                                                  ₴{{$item->pivot->count * ($item->price - (round($item->price * ($item->discount * 0.01))))}}
+                                            @else
+                                                  ₴{{$item->pivot->count * $item->price}}
+                                            @endif
+                                            </h4></td>
+                                            <td class="del-col">
+                                                <form action="{{route('delete.from.cart')}}" method="post">
+                                                    <input type="hidden" name="delete-id" value="{{$item->id}}">
+                                                    <input type="hidden" name="size" value="{{$item->pivot->size}}">
+                                                    <button type="submit" class="btn btn-danger"><svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+                                                            <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+                                                        </svg></button>
+                                                </form>
+
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                @endif
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="total-cost">
+                            <h6>Усього <span class="total-price">₴0</span></h6>
+                        </div>
                     </div>
+                </div>
+                <div class="col-lg-4 card-right">
+                    <form class="promo-code-form">
+                        <input type="text" placeholder="Промокод (якщо є)">
+                    </form>
+
+                    <button href="{{route('checkout')}}" class="site-btn btn btn-default" {{count($products) > 0 ?: "disabled"}}>Оформити замовлення</button>
+                    <a href="/shop/women" class="site-btn sb-dark">Продовжити покупки</a>
                 </div>
             </div>
         </div>
-        @endif
-
     </section>
+    <!-- cart section end -->
 
-    
 @endsection
+
 
 @section('custom-js')
     <script>
@@ -144,23 +116,46 @@
             });
 
 
-            let price = $('.cart_total_price').text().split('₴');
+            let price = $('.total-col').text().split('₴');
             let subtotal = 0;
             for (let i=1; i < price.length; i++) {
                 subtotal = subtotal + parseInt(price[i]);
             }
             $('.total-price').text("₴" + (subtotal));
 
+
+            $(document).on('click','.quantity-minus', function () {
+                let quantity = $(this).parent().find('.quantity');
+                let quantityValue = parseInt(quantity.val());
+                if((quantityValue - 1) < 1){
+                    quantity.val('1');
+                }else{
+                    quantity.val((quantityValue - 1).toString());
+                }
+                let input = $(this).parent().find('.quantity');
+                updatePrice("{{route('show.cart')}}", input);
+            });
+            $(document).on('click','.quantity-plus', function () {
+                let quantity = $(this).parent().find('.quantity');
+                let quantityValue = parseInt(quantity.val());
+
+                if((quantityValue + 1) > 10){
+                    quantity.val('10');
+                }else{
+                    quantity.val((quantityValue + 1).toString());
+                }
+                let input = $(this).parent().find('.quantity');
+                updatePrice("{{route('show.cart')}}", input);
+            });
         });
-        $(document.body).on("change",".cart_quantity_input", function () {
 
-
-           let value = $(this).val();
-           let updateId = $(this).attr('id');
-           let updateSize = parseInt($(this).parent().find('#size').val());
+        function updatePrice(route, input) {
+            let value = input.val();
+            let updateId = input.attr('id');
+            let updateSize = parseInt(input.parent().find('#size').val());
             if ((value > 0)){
                 $.ajax({
-                    url: "{{route('show.cart')}}"  ,
+                    url: route,
                     type: "GET",
                     data: {
                         updateId: updateId,
@@ -171,19 +166,16 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: (data) =>{
-                        $('.cart-table').html(data);
-                        let price = $('.cart_total_price').text().split('₴');
+                        $('.cart_table').html(data);
+                        let price = $('.total-col').text().split('₴');
                         let subtotal = 0;
                         for (let i=1; i < price.length; i++) {
                             subtotal = subtotal + parseInt(price[i]);
                         }
                         $('.total-price').text("₴" + (subtotal));
                     }
-
                 });
             }
-
-        });
-
+        }
     </script>
 @endsection

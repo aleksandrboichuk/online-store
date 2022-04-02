@@ -1,49 +1,34 @@
-@extends('layouts.main')
 @foreach($products as $item)
     <tr>
-        <td class="cart_product">
-            <a href=""><img src="/storage/product-images/{{$item->id}}/preview/{{$item->preview_img_url}}" alt="" /></a>
+        <td class="product-col">
+            <img src="/storage/product-images/{{$item->id}}/preview/{{$item->preview_img_url}}" alt="">
+            <div class="pc-title">
+                <h4><a href="{{route('show.product.details', [$item->categoryGroups->seo_name, $item->categories->seo_name, $item->subCategories->seo_name, $item->seo_name])}}">{{$item->name}}</a></h4>
+                @if($item->discount != 0)
+                    <s>₴{{$item->price}}</s>
+                    <p>₴{{$item->price - (round($item->price * ($item->discount * 0.01)))}}</p>
+                @else
+                    <p>₴{{$item->price}}</p>
+                @endif
+            </div>
         </td>
-        <td class="cart_description">
-            <h4><a href="">{{$item->name}}</a></h4>
-            <p class="product-id">ID: {{$item->id}}</p>
+        <td class="quy-col">
+            <div class="quantity-group">
+                <input type="button" class="quantity-minus" value="-">
+                <input type="hidden" name="size" id="size" value="{{$item->pivot->size}}">
+                <input type="text" class="quantity" name="quantity"  value="{{$item->pivot->count}}" id="{{$item->id}}"  autocomplete="off" readonly />
+                <input type="button"  class="quantity-plus" value="+">
+            </div>
         </td>
-        @if($item->discount != 0)
-            <td class="cart_price">
-                <p><s>₴{{$item->price}}</s></p>
-                <p><b>₴{{$item->price - (round($item->price * ($item->discount * 0.01)))}}</b></p>
-            </td>
-        @else
-            <td class="cart_price">
-                <p>₴{{$item->price}}</p>
-            </td>
-        @endif
-        <td class="cart_size">
-            <p>{{$item->pivot->size}}</p>
-        </td>
-        <td class="cart_quantity">
-            <input type="hidden" name="size" id="size" value="{{$item->pivot->size}}">
-            <input
-                    onkeyup="this.value = this.value.replace(/[^\d]/g,'');"
-                    class="cart_quantity_input"
-                    type="text"
-                    name="quantity"
-                    value="{{$item->pivot->count}}"
-                    autocomplete="off"
-                    size="2"
-                    id="{{$item->id}}"
-            />
-        </td>
-        @if($item->discount != 0 )
-            <td class="cart_total">
-                <p class="cart_total_price">₴{{$item->pivot->count * ($item->price - (round($item->price * ($item->discount * 0.01))))}}</p>
-            </td>
-        @else
-            <td class="cart_total">
-                <p class="cart_total_price">₴{{$item->pivot->count * $item->price}}</p>
-            </td>
-        @endif
-        <td class="cart_delete">
+        <td class="size-col"><h4>{{$item->pivot->size}}</h4></td>
+        <td class="total-col"><h4>
+                @if($item->discount != 0)
+                    ₴{{$item->pivot->count * ($item->price - (round($item->price * ($item->discount * 0.01))))}}
+                @else
+                    ₴{{$item->pivot->count * $item->price}}
+                @endif
+            </h4></td>
+        <td class="del-col">
             <form action="{{route('delete.from.cart')}}" method="post">
                 <input type="hidden" name="delete-id" value="{{$item->id}}">
                 <input type="hidden" name="size" value="{{$item->pivot->size}}">
@@ -52,8 +37,7 @@
                         <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
                     </svg></button>
             </form>
+
         </td>
     </tr>
 @endforeach
-
-
