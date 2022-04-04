@@ -30,11 +30,11 @@
                     @endif
                     <h5><strong>{{$item->brands['name']}}</strong> / {{$item->name}}</h5>
                 </a>
-                <span class="sizes-info"><strong>Розміри:</strong>
-                    @foreach($item->sizes as $key => $s)
-                        {{ $s->name}}{{$key+1 != count($item->sizes) ? "," : "."}}
-                    @endforeach
-                </span>
+                {{--<span class="sizes-info"><strong>Розміри:</strong>--}}
+                    {{--@foreach($item->sizes as $key => $s)--}}
+                        {{--{{ $s->name}}{{$key+1 != count($item->sizes) ? "," : "."}}--}}
+                    {{--@endforeach--}}
+                {{--</span>--}}
             </div>
         </div>
         <div class="choose">

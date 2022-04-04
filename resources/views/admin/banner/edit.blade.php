@@ -4,8 +4,8 @@
 
     <div class="breadcrumbs admin-bread">
         <ol class="breadcrumb">
-            <li><a href="/admin">Панель Адміністратора</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-            <li><a href="/admin/banner">Банери</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+            <li><a href="/admin">Панель Адміністратора</a> </li>
+            <li><a href="/admin/banner">Банери</a> </li>
             <li class="active">Редагування</li>
         </ol>
     </div>
@@ -35,13 +35,13 @@
                             <img src="/storage/banner-images/{{$banner->id}}/{{$banner->image_url}}" class="product-img-admin-edit" alt="">
                         </div>
                     </div>
-                    <div class="add-block">
-                        <label for="main-image-field">Міні-зображення (справа)</label>
-                        <div class="add-image-block">
-                            <input class="file" type="file" name="mini-image-field" accept="main-image-field/png, main-image-field/jpeg">
-                            <img src="/storage/banner-images/{{$banner->id}}/{{$banner->mini_img_url}}" class="product-img-admin-edit" alt="">
-                        </div>
-                    </div>
+                    {{--<div class="add-block">--}}
+                        {{--<label for="main-image-field">Міні-зображення (справа)</label>--}}
+                        {{--<div class="add-image-block">--}}
+                            {{--<input class="file" type="file" name="mini-image-field" accept="main-image-field/png, main-image-field/jpeg">--}}
+                            {{--<img src="/storage/banner-images/{{$banner->id}}/{{$banner->mini_img_url}}" class="product-img-admin-edit" alt="">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <div class="add-block">
                         <label for="active-field">Активність </label>
                         <input type="checkbox" name="active-field" {{$banner->active ? "checked" : ""}}>

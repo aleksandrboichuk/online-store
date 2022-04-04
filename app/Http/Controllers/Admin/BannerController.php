@@ -67,13 +67,13 @@ class BannerController extends Controller
         // добавление картинок в хранилище и в БД
 
         $mainImageFile = $request->file('main-image-field');
-        $miniImageFile = $request->file('mini-image-field');
+//        $miniImageFile = $request->file('mini-image-field');
         Storage::disk('public')->putFileAs('banner-images/'.$getBanner->id, $mainImageFile, $mainImageFile->getClientOriginalName());
-        Storage::disk('public')->putFileAs('banner-images/'.$getBanner->id, $miniImageFile, $miniImageFile->getClientOriginalName());
+//        Storage::disk('public')->putFileAs('banner-images/'.$getBanner->id, $miniImageFile, $miniImageFile->getClientOriginalName());
 
         $getBanner->update([
             'image_url' => $mainImageFile->getClientOriginalName(),
-            'mini_img_url' => $miniImageFile->getClientOriginalName(),
+//            'mini_img_url' => $miniImageFile->getClientOriginalName(),
         ]);
 
         session(['success-message' => 'Банер успішно додано.']);

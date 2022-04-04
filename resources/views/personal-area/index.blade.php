@@ -21,8 +21,8 @@
     <section id="personal_area">
         <div class="breadcrumbs">
             <ol class="breadcrumb">
-                <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-                <li><a>Особистий кабінет</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                <li><a href="/shop/women">Головна</a> </li>
+                <li><a>Особистий кабінет</a> </li>
                 <li class="active">{{$status_name}}</li>
             </ol>
         </div>

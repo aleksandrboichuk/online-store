@@ -3,8 +3,8 @@
 @section('content')
     <div class="breadcrumbs admin-bread">
         <ol class="breadcrumb">
-            <li><a href="/admin">Панель Адміністратора</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-            <li><a href="/admin/subcategories">Підкатегорії</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+            <li><a href="/admin">Панель Адміністратора</a> </li>
+            <li><a href="/admin/subcategories">Підкатегорії</a> </li>
             <li class="active">Додавання</li>
         </ol>
     </div>

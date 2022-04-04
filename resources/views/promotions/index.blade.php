@@ -4,13 +4,13 @@
         <div class="breadcrumbs">
             <ol class="breadcrumb">
                 @if($group->name == "Жінки")
-                    <li><a href="/shop/women">Жінкам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    <li><a href="/shop/women">Жінкам</a> </li>
                 @elseif($group->name == "Чоловіки")
-                    <li><a href="/shop/men">Чоловікам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    <li><a href="/shop/men">Чоловікам</a> </li>
                 @elseif($group->name == "Хлопчики")
-                    <li><a href="/shop/boys">Хлопчикам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    <li><a href="/shop/boys">Хлопчикам</a> </li>
                 @elseif($group->name == "Дівчатки")
-                    <li><a href="/shop/girls">Дівчаткам</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                    <li><a href="/shop/girls">Дівчаткам</a> </li>
                 @endif
                 <li class="active">{{$banner->title}}</li>
             </ol>

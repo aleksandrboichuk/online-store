@@ -13,7 +13,7 @@
     <section id="table_items">
         <div class="breadcrumbs">
             <ol class="breadcrumb">
-                <li><a href="/admin">Панель Адміністратора</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                <li><a href="/admin">Панель Адміністратора</a> </li>
                 <li class="active">Банери</li>
             </ol>
         </div>
@@ -30,7 +30,7 @@
                         <td>ID</td>
                         <td><b>Заголовок</b></td>
                         <td><b>Опис</b></td>
-                        <td><b>Міні зображення</b></td>
+                        {{--<td><b>Міні зображення</b></td>--}}
                         <td><b>Головне зображення</b></td>
                         <td> <b>Активність</b></td>
                         <td></td>
@@ -50,9 +50,9 @@
                             <td>
                                 <p>{{$item->description}}</p>
                             </td>
-                            <td>
-                                <p>{{$item->mini_img_url}}</p>
-                            </td>
+                            {{--<td>--}}
+                                {{--<p>{{$item->mini_img_url}}</p>--}}
+                            {{--</td>--}}
                             <td>
                                 <p>{{$item->image_url}}</p>
                             </td>

@@ -223,6 +223,12 @@
     margin-bottom: 40px;
   }
 
+  .cart-table-warp{
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+  }
+
 }
 @media (max-width: 480px) {
   .bill-to {
@@ -523,7 +529,7 @@
     max-width: 300px;
   }
   .checkout-area{
-    display: inline-block;
+    flex-wrap: wrap;
   }
   .checkout-area .order-message{
     margin: 20px 0;

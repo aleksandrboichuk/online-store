@@ -21,7 +21,7 @@
     <section id="table_items">
         <div class="breadcrumbs">
             <ol class="breadcrumb">
-                <li><a href="/shop/women">Головна</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                <li><a href="/shop/women">Головна</a> </li>
                 <li class="active">Кошик</li>
             </ol>
         </div>

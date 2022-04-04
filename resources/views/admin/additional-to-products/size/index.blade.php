@@ -13,7 +13,7 @@
     <section id="table_items">
         <div class="breadcrumbs">
             <ol class="breadcrumb">
-                <li><a href="/admin">Панель Адміністратора</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+                <li><a href="/admin">Панель Адміністратора</a> </li>
                 <li class="active">Розміри</li>
             </ol>
         </div>

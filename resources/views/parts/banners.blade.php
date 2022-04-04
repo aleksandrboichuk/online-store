@@ -23,9 +23,9 @@
                                 <div class="item active">
                                     <div class="col-sm-12 banner-column-block">
                                         <img src="/storage/banner-images/{{$value->id}}/{{$value->image_url}}" class="banner-img img-responsive" alt="" />
-                                        @if(isset($value->mini_img_url) && !empty($value->mini_img_url))
-                                            <img src="/storage/banner-images/{{$value->id}}/{{$value->mini_img_url}}" class="mini-banner-img" alt="" />
-                                        @endif
+                                        {{--@if(isset($value->mini_img_url) && !empty($value->mini_img_url))--}}
+                                            {{--<img src="/storage/banner-images/{{$value->id}}/{{$value->mini_img_url}}" class="mini-banner-img" alt="" />--}}
+                                        {{--@endif--}}
                                         <div class="slider-text">
                                             <h4>{{$value->title}}</h4>
                                             <p>{{$value->description}}</p>
@@ -37,9 +37,9 @@
                                 <div class="item">
                                     <div class="col-sm-12 banner-column-block">
                                         <img src="/storage/banner-images/{{$value->id}}/{{$value->image_url}}" class="banner-img img-responsive" alt="" />
-                                        @if(isset($value->mini_img_url) && !empty($value->mini_img_url))
-                                            <img src="/storage/banner-images/{{$value->id}}/{{$value->mini_img_url}}" class="mini-banner-img" alt="" />
-                                        @endif
+                                        {{--@if(isset($value->mini_img_url) && !empty($value->mini_img_url))--}}
+                                            {{--<img src="/storage/banner-images/{{$value->id}}/{{$value->mini_img_url}}" class="mini-banner-img" alt="" />--}}
+                                        {{--@endif--}}
                                         <div class="slider-text">
                                             <h4>{{$value->title}}</h4>
                                             <p>{{$value->description}}</p>

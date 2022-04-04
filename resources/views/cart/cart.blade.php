@@ -97,7 +97,7 @@
                         <input type="text" placeholder="Промокод (якщо є)">
                     </form>
 
-                    <button href="{{route('checkout')}}" class="site-btn btn btn-default" {{count($products) > 0 ?: "disabled"}}>Оформити замовлення</button>
+                    <a href="{{route('checkout')}}" class="site-btn btn btn-default" {{count($products) > 0 ?: "disabled"}}>Оформити замовлення</a>
                     <a href="/shop/women" class="site-btn sb-dark">Продовжити покупки</a>
                 </div>
             </div>

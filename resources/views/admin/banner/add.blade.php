@@ -3,8 +3,8 @@
 @section('content')
     <div class="breadcrumbs admin-bread">
         <ol class="breadcrumb">
-            <li><a href="/admin">Панель Адміністратора</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
-            <li><a href="/admin/banner">Банери</a><i class="fa fa-arrow-right" aria-hidden="true"></i></li>
+            <li><a href="/admin">Панель Адміністратора</a> </li>
+            <li><a href="/admin/banner">Банери</a> </li>
             <li class="active">Додавання</li>
         </ol>
     </div>
@@ -30,10 +30,10 @@
                     <label for="main-image-field">Головне зображення* </label>
                     <input type="file" name="main-image-field" accept=".jpg, .jpeg, .png" required>
                 </div>
-                <div class="add-block">
-                    <label for="mini-image-field">Міні-зображення (справа) </label>
-                    <input type="file" name="mini-image-field" accept=".jpg, .jpeg, .png">
-                </div>
+                {{--<div class="add-block">--}}
+                    {{--<label for="mini-image-field">Міні-зображення (справа) </label>--}}
+                    {{--<input type="file" name="mini-image-field" accept=".jpg, .jpeg, .png">--}}
+                {{--</div>--}}
                 <div class="add-block">
                     <label for="active-field">Активність </label>
                     <input type="checkbox" name="active-field">
