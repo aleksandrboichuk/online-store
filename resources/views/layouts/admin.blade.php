@@ -74,7 +74,7 @@
                             <span class="icon-bar"></span>
                         </button>
                     </div>
-                    <div class="mainmenu pull-left">
+                    <div class="mainmenu pull-left admin-navbar">
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <li><a href="/admin/orders"><u>Замовлення</u></a></li>
                             <li><a href="/admin/users"><u>Користувачі</u></a></li>

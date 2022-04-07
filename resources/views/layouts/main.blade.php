@@ -29,14 +29,19 @@
     <div class="header-middle">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 clearfix">
-                    <div class="logo pull-left">
+                <div class="col-md-2 clearfix">
+                    <div class="logo">
                         <a href="/shop/women"><img src="/images/home/logo.png" alt=""
                             /></a>
                     </div>
 
                 </div>
-                <div class="col-md-8 clearfix">
+                <div class="col-md-{{isset($user) && !empty($user) && $user->superuser ? "4" : "5"}}">
+                    <div class="search_box {{isset($user) && !empty($user) && $user->superuser ? : "wide"}}">
+                        @include('parts.search-form')
+                    </div>
+                </div>
+                <div class="col-md-{{isset($user) && !empty($user) && $user->superuser ? "6" : "5"}} clearfix">
                     <div class="shop-menu clearfix pull-right">
                         <ul class="nav navbar-nav">
                             @if(isset($user) && !empty($user))
@@ -111,11 +116,6 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-3">
-                    <div class="search_box pull-right">
-                        @include('parts.search-form')
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -162,7 +162,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="single-widget">
-                        <img src="/images/home/logo.png" alt="">
+                        <img src="/images/home/logo-light.png" alt="">
                     </div>
                 </div>
             </div>
