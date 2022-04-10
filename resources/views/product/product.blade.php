@@ -230,7 +230,7 @@
                                             <p class="write-review-title"><b>Залишити відгук</b></p>
                                             <form action="{{route('send.review', [$product->id])}}" method="post">
                                                 <div class="grade">
-                                                    <b>Оцінка: </b> <i class="fa fa-star"></i>
+                                                   <i class="fa fa-star"></i>
                                                     <select name="grade" id="grade">
                                                         <option value="5">5</option>
                                                         <option value="4">4</option>

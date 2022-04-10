@@ -112,7 +112,7 @@
                                     <li><a href="/shop/boys">Хлопчикам</a></li>
                                 </ul>
                             </li>
-                            <li><a href="/contact">Контакти</a></li>
+                            <li><a class="contact" href="/contact">Контакти</a></li>
                         </ul>
                     </div>
                 </div>

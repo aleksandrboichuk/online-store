@@ -7,6 +7,8 @@ var RGBChange = function () {
     "rgb(" + r.getValue() + "," + g.getValue() + "," + b.getValue() + ")"
   );
 };
+//================================== Pre-loader =====================================
+
 $(window).on('load', function () {
   $('body').addClass('loaded_hiding');
   window.setTimeout(function () {
@@ -16,29 +18,36 @@ $(window).on('load', function () {
 });
 
 $(document).ready(function () {
-  var url = location.href.split('/');
- if(url.length > 4) {
-   if (url[4] == "women") {
-     $('.mainmenu').find('a[class="women"]').css("color", "#6fa1f4").css("font-weight", "bold");
-   } else if (url[4] == "men") {
-     $('.mainmenu').find('a[class="men"]').css("color", "#6fa1f4").css("font-weight", "bold");
-   } else if (url[4] == "girls" || url[4] == "boys"){
-     $('.mainmenu').find('a[class="kids"]').css("color", "#6fa1f4").css("font-weight", "bold");
-
-     // $('.kids').click(function () {
-     //   let subMenu = $(this).parent().find('.sub-menu');
-     //   console.log(1);
-     //   if(subMenu.css('display') == 'block' ){
-     //     subMenu.css('display', 'none');
-     //   }else{
-     //     subMenu.css('display', 'block');
-     //   }
-     // });
-
+  //=========================== Selecting chose category group =======================
+    var url = location.pathname.split('/');
+  console.log(url);
+   if(url.length > 2) {
+     if (url[2] == "women") {
+       $('.mainmenu').find('a[class="women"]').addClass("active-nav-item");
+     } else if (url[2] == "men") {
+       $('.mainmenu').find('a[class="men"]').addClass("active-nav-item");
+     } else if (url[2] == "girls" || url[4] == "boys"){
+       $('.mainmenu').find('a[class="kids"]').addClass("active-nav-item");
+    }
+  }else if(url.length == 2){
+    if(url[1] == 'contact') {
+      $('.mainmenu').find('a[class="contact"]').addClass("active-nav-item");
+    }
    }
 
- }
+  //=========================== fixed header with scroll ===============================
 
+  $(window).scroll(function() {
+    if ($(this).scrollTop() > 77){
+      $('.header-bottom').addClass("fixed-header");
+    }
+    else{
+      $('.header-bottom').removeClass("fixed-header");
+    }
+  });
+
+
+  //=================================== Scroll =========================================
   $(function () {
     $.scrollUp({
       scrollName: "scrollUp",

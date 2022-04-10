@@ -183,7 +183,14 @@ a#scrollUp i {
 .header-bottom {
     background-color: #282828;
     padding: 10px 0;
-    max-width: 1920px;
+    width: 100%;
+
+}
+.fixed-header{
+    transition: all 1s linear;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
 }
 .navbar-collapse.collapse {
     padding-left: 0;
@@ -296,6 +303,13 @@ ul.sub-menu {
 .navbar-nav li ul.sub-menu li a:hover {
     color: #6fa1f4;
 }
+.navbar-nav li .active-nav-item{
+    color: #6fa1f4;
+    text-decoration: underline;
+    font-weight: bold;
+    text-underline-offset: 7px;
+    text-decoration-thickness: 3px;
+}
 .fa-angle-down {
     padding-left: 5px;
 }
@@ -363,7 +377,7 @@ ul.sub-menu {
     font-family: roboto, sans-serif;
     font-size: 14px;
     font-weight: 300;
-    padding: 5px 0;
+    padding: 2px 0;
 }
 .single-widget ul li a i {
     margin-right: 18px;
@@ -411,7 +425,7 @@ ul.sub-menu {
 .footer-bottom {
     border-top: 2px solid #3b3535;
     background: #282828;
-    padding-top: 30px;
+    padding-top: 10px;
 }
 .footer-bottom p {
     color: #8c8c88;
@@ -628,7 +642,7 @@ ul.sub-menu {
 }
 
 .grade{
-    max-width: 200px;
+    max-width: 120px;
     margin-bottom: 20px;
     display: flex;
 }
@@ -677,7 +691,10 @@ ul.sub-menu {
     color: #6fa1f4;
 }
 .right {
-    right: 0;
+    right: 20px;
+}
+.left{
+    left: 20px;
 }
 .category-products {
     border: 1px solid #f7f7f0;
@@ -1906,7 +1923,7 @@ h2.title {
 }
 .site-btn {
     display: inline-block;
-    border: none;
+    border: 1px solid #6fa1f4;
     font-size: 14px;
     font-weight: 600;
     min-width: 167px;
@@ -1920,8 +1937,14 @@ h2.title {
     text-align: center;
 }
 .site-btn.sb-dark {
+    border: 1px solid #413a3a;
     background: #413a3a;
 }
+.site-btn.sb-dark:hover{
+    background-color: transparent;
+    color: #000;
+}
+
 /*cart*/
 
 .product-price{
@@ -2137,6 +2160,9 @@ h2.title {
 .total-area-user-data{
     padding: 0;
 }
+.total-area-user-data li b, .total-area-user-data li span input{
+    font-size: 16px;
+}
 .cart_total{
     width: 150px;
 }
@@ -2344,6 +2370,12 @@ h2.title {
     padding: 10px 0;
     border-top: 1px solid #eae7e1;
 }
+.nav-personal .components a{
+    color: #282828;
+}
+.nav-personal .components a:hover{
+    color: #6fa1f4;
+}
 #homeSubmenu li a{
     font-size: 16px;
 }
@@ -2365,6 +2397,8 @@ h2.title {
     text-align: center;
     font-size: 18px;
     width: 500px;
+    border-radius: 5px;
+    border: 1px solid #282828;
 }
 
 .new-status{
@@ -2427,8 +2461,6 @@ h2.title {
 .add-admin{
     float: right;
     margin-right: 15px;
-    margin-bottom: 40px;
-
 }
 
 .add-admin .btn{

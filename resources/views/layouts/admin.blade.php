@@ -26,14 +26,19 @@
     <div class="header-middle">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 clearfix">
+                <div class="col-md-2 clearfix">
                     <div class="logo pull-left">
                         <a href="/shop/women"><img src="/images/home/logo.png" alt=""
                             /></a>
                     </div>
 
                 </div>
-                <div class="col-md-8 clearfix">
+                <div class="col-md-4">
+                    <div class="search_box">
+                        @include('parts.search-form')
+                    </div>
+                </div>
+                <div class="col-md-6 clearfix">
                     <div class="shop-menu clearfix pull-right">
                         <ul class="nav navbar-nav">
                                 <li>

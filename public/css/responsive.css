@@ -698,6 +698,9 @@
   .title-page-personal{
     margin-top: 40px;
   }
+  .card-right{
+    margin-top: 50px;
+  }
 }
 
 @media screen and (min-width: 1200px) and  (max-width: 1700px){
