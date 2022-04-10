@@ -7,7 +7,6 @@
             <p>{{session('success-message')}}</p>
             <hr>
             <div class="mb-0"><button type="button" class="btn btn-danger alert-btn alert-btn-close">Закрити</button></div>
-            <div class="mb-0"><a href="/shop/women"><button type="button" class="btn btn-default alert-btn">Повернутися на головну</button></a></div>
         </div>
         @php(session()->forget('success-message'))
     @elseif(session()->has('success-message-delete'))
@@ -18,6 +17,14 @@
             <div class="mb-0"><button type="button" class="btn btn-danger alert-btn alert-btn-close">Закрити</button></div>
         </div>
         @php(session()->forget('success-message-delete'))
+    @elseif(session()->has('warning-message'))
+        <div class="alert alert-warning alert-active" role="alert">
+            <h4 class="alert-heading">Помилка!</h4>
+            <p>{{session('warning-message')}}</p>
+            <hr>
+            <div class="mb-0"><button type="button" class="btn btn-danger alert-btn alert-btn-close">Закрити</button></div>
+        </div>
+        @php(session()->forget('warning-message'))
     @endif
     <!-- cart section end -->
     <section class="cart-section spad">
@@ -93,11 +100,18 @@
                     </div>
                 </div>
                 <div class="col-lg-4 card-right">
-                    <form class="promo-code-form">
-                        <input type="text" placeholder="Промокод (якщо є)">
+                    <form action="{{route('checkout')}}" method="get">
+                        <select name="promocode" id="promocode">
+                            <option value="no">Без промокоду</option>
+                            @if(!empty($promocodes) && count($promocodes) > 0)
+                                @foreach($promocodes as $promocode)
+                                    <option value="{{$promocode->promocode}}">{{$promocode->description}}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                        <button type="submit" class="site-btn btn btn-default" {{count($products) > 0 ?: "disabled"}}>Оформити замовлення</button>
                     </form>
 
-                    <a href="{{route('checkout')}}" class="site-btn btn btn-default" {{count($products) > 0 ?: "disabled"}}>Оформити замовлення</a>
                     <a href="/shop/women" class="site-btn sb-dark">Продовжити покупки</a>
                 </div>
             </div>

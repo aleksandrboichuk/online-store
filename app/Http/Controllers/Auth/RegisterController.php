@@ -93,7 +93,7 @@ class RegisterController extends Controller
             return redirect()->back()->withInput($request->all());
         }
 
-        User::create([
+        $user = User::create([
             'first_name' => $request['firstname'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
@@ -103,10 +103,8 @@ class RegisterController extends Controller
             'phone' => $request['phone'],
         ]);
 
-
-        $registeredUser = User::where('email',$request['email'] )->first();
         Cart::create([
-            'user_id' => $registeredUser->id
+            'user_id' => $user->id
         ]);
 
         $credentials = $request->only('email', 'password');

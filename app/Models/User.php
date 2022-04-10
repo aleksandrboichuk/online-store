@@ -54,4 +54,8 @@ class User extends Authenticatable
         $this->hasMany('App\Models\OrdersList');
     }
 
+    public function promocodes(){
+        return $this->belongsToMany('App\Models\UserPromocode');
+    }
+
 }

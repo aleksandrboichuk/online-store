@@ -24,6 +24,7 @@ class OrdersList extends Model
         'comment',
         'total_cost',
         'status',
+        'promocode',
     ];
 
     public function users(){

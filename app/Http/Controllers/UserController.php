@@ -6,10 +6,12 @@ use App\Models\Cart;
 use App\Models\OrdersList;
 use App\Models\StatusList;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    // =====================================  Orders  ==============================================
     public function getUserOrders($status = null){
         $user_orders = OrdersList::where('user_id', $this->getUser()->id)->orderBy('status', 'asc')->orderBy('created_at', 'desc')->get();
         $statusName = "Замовлення";
@@ -73,6 +75,8 @@ class UserController extends Controller
         ]);
     }
 
+    // =====================================  Settings  ==============================================
+
     public function getUserSettings(Request $request){
 
         return view('personal-area.settings',[
@@ -121,5 +125,15 @@ class UserController extends Controller
             ]);
         return redirect('/personal/orders');
 
+    }
+
+    // =====================================  Promocodes  ==============================================
+
+    public function getUserPromocodes(){
+        $user =  $this->getUser();
+        return view('personal-area.promocodes', [
+            'user' => $user,
+            'promocodes' => isset($user->promocodes) && !empty($user->promocodes) ? $user->promocodes : null,
+        ]);
     }
 }

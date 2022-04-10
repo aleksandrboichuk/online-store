@@ -220,7 +220,7 @@ Route::group([
 
     if(preg_match("#^\/personal/orders\b#", \request()->getRequestUri()) == false
         && preg_match("#^\/personal/settings\b#", \request()->getRequestUri()) == false
-        //&& preg_match("#^\/personal/promocodes\b#", \request()->getRequestUri()) == false
+        && preg_match("#^\/personal/promocodes\b#", \request()->getRequestUri()) == false
         //&& preg_match("#^\/personal/bonuses\b#", \request()->getRequestUri()) == false
     ) {
         Route::get('/{any?}', function () {
@@ -230,7 +230,7 @@ Route::group([
 
     Route::get('/orders/{status?}',[\App\Http\Controllers\UserController::class, 'getUserOrders'])->name('user.orders');
     Route::get('/orders/view-order/{order_id}', [\App\Http\Controllers\UserController::class, 'viewUserOrder'])->name('view.order');
-    //Route::get('/promocodes', [\App\Http\Controllers\UserController::class, 'gerUserPromocodes'])->name('user.promocodes');
+    Route::get('/promocodes', [\App\Http\Controllers\UserController::class, 'getUserPromocodes'])->name('user.promocodes');
     //Route::get('/bonuses', [\App\Http\Controllers\UserController::class, 'gerUserBonuses'])->name('user.bonuses');
 
     Route::get('/settings', [\App\Http\Controllers\UserController::class, 'getUserSettings'])->name('user.settings');

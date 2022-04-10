@@ -50,10 +50,11 @@ class CartController extends Controller
 //            ])->render();
 //            }
 //        }
-
+        $user = $this->getUser();
         return view('cart.cart', [
-            'user' =>$this->getUser(),
+            'user' =>$user,
             'cart' => $user_cart,
+            'promocodes' => $user->promocodes,
             'products' => isset($user_cart->products) ? $user_cart->products : null
         ]);
     }

@@ -71,16 +71,28 @@
                                 <table class="table table-condensed total-result">
                                     <tr>
                                         <td>Сума вартості товарів:</td>
-                                        <td class="total-cart"></td>
+                                        <td class="total-cart">₴{{$totalSum}}</td>
                                     </tr>
                                     <tr>
                                         <td>Доставка</td>
                                         <td> ₴0</td>
                                     </tr>
-                                    <tr>
-                                        <td><b>Усього до сплати:</b></td>
-                                        <td><span class="total-price"></span></td>
-                                    </tr>
+                                    @if(!empty($promocode))
+                                        <tr>
+                                            <td><b>Знижка (промокод)</b> </td>
+                                            <td><b>-₴{{(round($totalSum * ($promocode->discount * 0.01)))}} ({{$promocode->discount}}%)</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b class="total-price-title">Усього до сплати:</b></td>
+                                            <td><span class="total-price">₴{{$totalSum - (round($totalSum * ($promocode->discount * 0.01)))}}</span></td>
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td><b class="total-price-title">Усього до сплати:</b></td>
+                                            <td><span class="total-price">₴{{$totalSum}}</span></td>
+                                        </tr>
+                                    @endif
+
                                 </table>
                             </td>
                         </tr>
@@ -152,6 +164,15 @@
                                 <div class="pay-area">
                                     <div class="bill-to">
                                         <p>Оплата</p>
+                                        <div class="total-sum-info">
+                                            <h4>Сума до сплати:</h4>
+                                            @if(!empty($promocode))
+                                                <input type="text" value="₴{{$totalSum - (round($totalSum * ($promocode->discount * 0.01)))}}" name="total-sum" readonly="readonly">
+                                                <input type="hidden" value="{{$promocode->promocode}}" name="promocode" readonly="readonly">
+                                             @else
+                                                <input type="text" value="₴{{$totalSum}}" name="total-sum" readonly="readonly">
+                                            @endif
+                                        </div>
                                         <div class="later-pay">
                                             <input type="radio" name="pay-field" id="later-pay" checked>
                                             <label for="later-pay">Оплата при отриманні товару</label>
@@ -181,13 +202,13 @@
 @section('custom-js')
     <script>
         $(document).ready(function () {
-            let price = $('.cart_total_price').text().split('₴');
-            let subtotal = 0;
-            for (let i=1; i < price.length; i++) {
-                subtotal = subtotal + parseInt(price[i]);
-            }
-            $('.total-cart').text("₴" + subtotal);
-            $('.total-price').text("₴" + subtotal);
+            // let price = $('.cart_total_price').text().split('₴');
+            // let subtotal = 0;
+            // for (let i=1; i < price.length; i++) {
+            //     subtotal = subtotal + parseInt(price[i]);
+            // }
+            // $('.total-cart').text("₴" + subtotal);
+            // $('.total-price').text("₴" + subtotal);
 
            if($('#courier').prop('checked')){
                 $('.address-field').css('display', 'block');

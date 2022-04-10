@@ -1634,7 +1634,7 @@ h2.title {
 .breadcrumb li{
     width: 50px;
 }
-.alert-success{
+.alert-success, .alert-warning{
     display: none;
     width: 600px;
     position: absolute;
@@ -1885,41 +1885,12 @@ h2.title {
     margin-left: 38px;
 }
 
-.promo-code-form {
-    position: relative;
-    margin-bottom: 14px;
-}
 
-.promo-code-form input {
-    width: 100%;
-    height: 58px;
-    border: 2px solid #f0f0f0;
-    padding-left: 24px;
-    padding-right: 100px;
+#promocode{
+    margin-bottom: 20px;
     font-size: 16px;
-    border-radius: 80px;
-}
-
-.promo-code-form button {
-    position: absolute;
-    right: 24px;
-    top: 0;
-    height: 100%;
-    background-color: transparent;
-    border: none;
-    text-transform: uppercase;
-    font-size: 16px;
-    font-weight: 700;
-    color: #6fa1f4;
-    cursor: pointer;
-}
-
-.card-right .btn-default, .card-right .site-btn {
-    margin-bottom: 14px;
-    width: 100%;
-    min-height: 57px;
-    padding: 20px 47px 14px;
-    text-align: center;
+    border-radius: 10px;
+    padding: 10px;
 }
 .site-btn {
     display: inline-block;
@@ -1935,10 +1906,14 @@ h2.title {
     line-height: normal;
     cursor: pointer;
     text-align: center;
+    margin-bottom: 14px;
+    width: 100%;
+    min-height: 57px;
 }
 .site-btn.sb-dark {
     border: 1px solid #413a3a;
     background: #413a3a;
+    padding: 20px 47px 14px;
 }
 .site-btn.sb-dark:hover{
     background-color: transparent;
@@ -2142,6 +2117,21 @@ h2.title {
     padding: 15px;
     margin-bottom: 80px;
 }
+
+.total-sum-info{
+    display: flex;
+    margin-bottom: 20px;
+}
+.total-sum-info input{
+    font-size: 18px;
+    margin-top: 3px;
+    margin-left: 10px;
+    border: none;
+    color: red;
+}
+.total-sum-info h4{
+    color: red;
+}
 .email-field{
     display: none;
 }
@@ -2265,7 +2255,7 @@ h2.title {
     font-weight: 700;
     font-size: 20px;
 }
-#table_items .cart_info .table.table-condensed.total-result b{
+#table_items .cart_info .table.table-condensed.total-result .total-price-title{
     font-weight: 700;
     font-size: 20px;
 }
