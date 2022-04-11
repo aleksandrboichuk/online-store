@@ -29,27 +29,6 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            {{--<label for="city" class="col-md-4 col-form-label text-md-end">{{ __('Місто') }}</label>--}}
-
-                            <div class="col-md-6">
-                                <input id="city" type="text" placeholder="Місто" class="form-control" name="city" value="{{ old('city') }}" required autocomplete="city">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            {{--<label for="phone" class="col-md-4 col-form-label text-md-end">{{ __('Телефон') }}</label>--}}
-
-                            <div class="col-md-6">
-                                @if (session()->has('phone'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ session()->get('phone') }}</strong>
-                                        @php(session()->forget('phone'))
-                                    </span>
-                                @endif
-                                <input id="phone" type="text" placeholder="Номер телефону" class="form-control" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
                             {{--<label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email адреса') }}</label>--}}
 
                             <div class="col-md-6">

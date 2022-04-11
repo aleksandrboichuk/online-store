@@ -66,21 +66,21 @@
                             </tr>
                         @endforeach
                         <tr>
-                            <td colspan="3">&nbsp;</td>
-                            <td colspan="3">
+                            <td colspan="2">&nbsp;</td>
+                            <td colspan="4">
                                 <table class="table table-condensed total-result">
                                     <tr>
                                         <td>Сума вартості товарів:</td>
                                         <td class="total-cart">₴{{$totalSum}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Доставка</td>
+                                        <td>Доставка:</td>
                                         <td> ₴0</td>
                                     </tr>
                                     @if(!empty($promocode))
                                         <tr>
-                                            <td><b>Знижка (промокод)</b> </td>
-                                            <td><b>-₴{{(round($totalSum * ($promocode->discount * 0.01)))}} ({{$promocode->discount}}%)</b></td>
+                                            <td><b>Знижка (промокод):</b> </td>
+                                            <td><b>- ₴{{(round($totalSum * ($promocode->discount * 0.01)))}} ({{$promocode->discount}}%)</b></td>
                                         </tr>
                                         <tr>
                                             <td><b class="total-price-title">Усього до сплати:</b></td>
@@ -113,7 +113,7 @@
                                                 <ul class="total-area-user-data">
                                                     <li><b>Ім'я:</b><span><input type="text" name="user-firstname" value="{{$user->first_name}}" required></span></li>
                                                     <li><b>Прізвище:</b><span><input type="text" name="user-lastname" value="{{$user->last_name}}" required></span></li>
-                                                    <li><b>Телефон:</b><span><input type="text" name="user-phone" value="{{$user->phone}} " required onkeyup="this.value = this.value.replace(/[^\d]/g,'');"></span></li>
+                                                    <li><b>Телефон:</b><span><input type="text" name="user-phone" value="{{!empty($user->phone) ? $user->phone : ""}}" required onkeyup="this.value = this.value.replace(/[^\d]/g,'');"></span></li>
                                                 </ul>
                                             @else
                                                 <ul class="total-area-user-data">

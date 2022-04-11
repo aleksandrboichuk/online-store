@@ -2260,6 +2260,10 @@ h2.title {
     font-size: 20px;
 }
 
+#table_items .cart_info .table.table-condensed.total-result tr td:first-child{
+    text-align: right;
+}
+
  .table.table-condensed.total-result .total-price{
      color: red;
  }
@@ -2391,6 +2395,32 @@ h2.title {
     border: 1px solid #282828;
 }
 
+/*promocodes*/
+.promocodes-info{
+    border: 1px solid #282828;
+    padding: 20px;
+    border-radius: 15px;
+}
+.promocodes-info p{
+    font-size: 16px;
+}
+
+.promocodes-info li{
+    font-size: 16px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    list-style-type: disc;
+}
+
+.promocodes-info ul{
+    list-style-type: square;
+}
+
+.promocodes-info .title{
+   font-size: 18px;
+    margin-bottom: 20px;
+}
+
 .new-status{
     color: #c11e1c !important;
     font-weight: bold;
@@ -2426,6 +2456,7 @@ h2.title {
     padding-right: 30px;
     padding-bottom: 10px;
     font-size: 13px;
+    margin-top: -10px;
 }
 /* большинство кнопок */
 .btn-default{
@@ -2448,21 +2479,33 @@ h2.title {
     margin: 0 auto;
 
 }
-.add-admin{
+.btn-admin{
     float: right;
     margin-right: 15px;
 }
 
-.add-admin .btn{
+.btn-admin .btn{
     width: 200px;
     height: 50px;
     font-size: 18px;
 }
-.add-admin .btn a{
+.btn-admin .btn a{
     color: white;
     font-size: 18px;
 }
-
+.promocode-btn{
+    background: orange;
+    border: 1px solid  orange;
+}
+.promocode-btn:hover{
+    border: 1px solid  orange;
+    color: orange;
+}
+.promocode-btn:focus{
+    background: transparent;
+    border: 1px solid  orange;
+    color: orange;
+}
 .form-add{
     margin-top: 100px;
     margin-bottom: 100px;

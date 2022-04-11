@@ -50,7 +50,7 @@
                                 <p>{{$adm_user->first_name . ' ' . $adm_user->last_name}}</p>
                             </td>
                             <td>
-                                <p>{{$adm_user->phone}}</p>
+                                <p>{{!empty($adm_user->phone) ? $adm_user->phone : ''}}</p>
                             </td>
                             <td>
                                 <input type="checkbox" {{$adm_user->active ? "checked" : ""}} disabled>

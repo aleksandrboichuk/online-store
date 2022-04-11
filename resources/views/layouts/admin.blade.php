@@ -65,8 +65,7 @@
     <div class="header-bottom">
         <div class="container">
             <div class="row">
-                <div class="col-sm-1"></div>
-                <div class="col-sm-10">
+                <div class="col-sm-12">
                     <div class="navbar-header">
                         <button
                                 type="button"
@@ -83,6 +82,7 @@
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <li><a href="/admin/orders"><u>Замовлення</u></a></li>
                             <li><a href="/admin/users"><u>Користувачі</u></a></li>
+                            <li><a href="/admin/promocode"><u>Промокоди</u></a></li>
                             <li><a href="/admin/messages">Повідомлення</a></li>
                             <li><a href="/admin/banner">Банери<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
@@ -118,7 +118,6 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-1"></div>
             </div>
         </div>
     </div>

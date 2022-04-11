@@ -19,6 +19,11 @@ class CheckoutController extends Controller
             $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
         }
 
+        // ============================ Если кто то додумается без товаров в корзине пойти на чекаут по урлу ===================================
+        if(!isset($user_cart->products) || empty($user_cart->products) || count($user_cart->products) < 1){
+           return redirect()->back();
+        }
+
         // =================================  Define total cost  ========================================
         $totalSum = 0;
         for ($i = 0; $i < count($user_cart->products); $i++ ) {
@@ -90,7 +95,7 @@ class CheckoutController extends Controller
                     $totalSum = $totalSum - (round($totalSum * ($promocode->discount * 0.01)));
                 }
                 // ========================== deleting promocode  ============================
-                $this->getUser()->promocodes()->where('user_promocode_id', $promocode->id)->delete();
+                $this->getUser()->promocodes()->where('user_promocode_id', $promocode->id)->detach();
             }
         }
 

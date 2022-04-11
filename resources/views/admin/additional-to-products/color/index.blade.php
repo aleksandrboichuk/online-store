@@ -19,7 +19,7 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="add-admin">
+                <div class="btn-admin">
                     <a href="/admin/colors/add"><button type="button" class="btn btn-default todo-btn">Додати</button></a>
                 </div>
             </div>

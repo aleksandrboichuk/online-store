@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\OrdersList;
 use App\Models\ProductSize;
 use App\Models\StatusList;
+use App\Models\UserPromocode;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -52,8 +53,7 @@ class OrderController extends Controller
     public function saveEditOrder(Request $request){
         $order = OrdersList::find($request['id']);
 
-        $sum_field = explode('₴', $request['sum-field']);
-        $total_cost = intval($sum_field[1]);
+        $total_cost = intval($request['sum-field']);
 
         if($request['status-field'] == 4){
             foreach($order->items as $item){
@@ -71,6 +71,22 @@ class OrderController extends Controller
                     'count' => $product->count - $item->count,
                     'popularity' => $product->popularity + 1
                 ]);
+            }
+            // ============================= обновляем инфу о количестве заказов юззера и их сумме ===========================================
+            if(!empty($order->users)){
+                $user = $order->users;
+                $user->update([
+                   'orders_amount' => $user->orders_amount + 1,
+                   'orders_sum' => $user->orders_sum + $order->total_cost
+                ]);
+                // ============================= выдаем промокод юзеру ===========================================
+                if($user->orders_amount >= 10 && $user->orders_sum >= 7000){
+                    $promocode = UserPromocode::where('promocode', 'many-orders-code')->first();
+                    $user->promocodes()->attach($promocode->id, [
+                        'user_id' => $user->id,
+                        'user_promocode_id' => $promocode->id
+                    ]);
+                }
             }
         }
 

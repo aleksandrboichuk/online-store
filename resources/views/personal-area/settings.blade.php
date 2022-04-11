@@ -29,10 +29,22 @@
                         <label for="email-field">Ел. пошта </label>
                         <input type="email" value="{{$user->email}}" name="email-field">
                     </div>
+                     @if (session()->has('email'))
+                        <div class="invalid-feedback invalid-feedback-personal" role="alert">
+                            <strong>{{ session()->get('email') }}</strong>
+                            @php(session()->forget('email'))
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="phone-field">Телефон </label>
-                        <input type="text" value="{{$user->phone}}" name="phone-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
+                        <input type="text" value="{{!empty($user->phone) ? $user->phone : ''}}" name="phone-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                     </div>
+                    @if (session()->has('phone'))
+                        <div class="invalid-feedback invalid-feedback-personal" role="alert">
+                            <strong>{{ session()->get('phone') }}</strong>
+                            @php(session()->forget('phone'))
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="city-field">Місто </label>
                         <input type="text" value="{{$user->city}}" name="city-field">
@@ -73,6 +85,9 @@
             $('.invalid-feedback').css('display', 'none');
         });
         $('input[name="confirm-new-pass-field"]').click(function () {
+            $('.invalid-feedback').css('display', 'none');
+        });
+        $('input[name="phone-field"]').click(function () {
             $('.invalid-feedback').css('display', 'none');
         });
     </script>

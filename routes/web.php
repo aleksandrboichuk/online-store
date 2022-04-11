@@ -82,6 +82,15 @@ Route::group([
     'middleware' => ['app.auth', 'auth']
 ],function () {
 
+    // promocode
+    Route::get('/promocode', [\App\Http\Controllers\Admin\PromocodeController::class, 'index']);
+    Route::get('/promocode/add', [\App\Http\Controllers\Admin\PromocodeController::class, 'addPromocode']);
+    Route::get('/promocode/edit/{promocode_id}', [\App\Http\Controllers\Admin\PromocodeController::class, 'editPromocode'])->name('edit.promocode');
+
+    Route::post('/promocode/add',[\App\Http\Controllers\Admin\PromocodeController::class, 'saveAddPromocode'])->name('save.promocode');
+    Route::post('/promocode/save-edit', [\App\Http\Controllers\Admin\PromocodeController::class, 'saveEditPromocode'])->name('save.edit.promocode');
+    Route::post('/promocode/delete/{promocode_id}',[\App\Http\Controllers\Admin\PromocodeController::class, 'delPromocode'])->name('delete.promocode');
+
     //banner
     if(preg_match("#^\/admin/banner/add\b#", \request()->getRequestUri()) == false) {
         Route::get('/banner/{cat_group?}', [\App\Http\Controllers\Admin\BannerController::class, 'index']);
@@ -97,7 +106,6 @@ Route::group([
 
     Route::get('/messages', [\App\Http\Controllers\Admin\MessageController::class, 'index']);
     Route::get('/messages/{message_id}', [\App\Http\Controllers\Admin\MessageController::class, 'showMessage'])->name('show.message');
-
     Route::post('/messages/delete/{message_id}',[\App\Http\Controllers\Admin\MessageController::class, 'delMessage'])->name('delete.message');
 
 

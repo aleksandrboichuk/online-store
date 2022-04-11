@@ -36,7 +36,7 @@
                     <table class="table table-condensed">
                         <thead>
                         <tr class="general_menu">
-                            <td>Дата</td>
+                            <td><b>Дата</b></td>
                             <td><b>Ім'я</b></td>
                             <td><b>Телефон</b></td>
                             <td> <b>Сума</b></td>
@@ -90,12 +90,9 @@
                      @else
                         <td></td>
                         <td></td>
-                        <td></td>
                         <td>
-                            <p>Наразі таких замовлень немає</p>
+                            <p>Наразі таких замовлень немає.</p>
                         </td>
-                        <td></td>
-                        <td></td>
                         <td></td>
                         <td></td>
                      @endif

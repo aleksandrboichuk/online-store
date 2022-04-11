@@ -54,7 +54,7 @@ class CartController extends Controller
         return view('cart.cart', [
             'user' =>$user,
             'cart' => $user_cart,
-            'promocodes' => $user->promocodes,
+            'promocodes' => !empty($user) ? $user->promocodes : null,
             'products' => isset($user_cart->products) ? $user_cart->products : null
         ]);
     }

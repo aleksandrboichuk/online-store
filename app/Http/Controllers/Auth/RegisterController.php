@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\UserPromocode;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -52,8 +53,6 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'lastname' => ['required', 'string', 'max:20'],
             'address' => ['required', 'string', 'max:255'],
-            'city' => ['required', 'string', 'max:20'],
-            'phone' => ['required', 'integer', 'max:10']
         ]);
     }
 
@@ -71,20 +70,19 @@ class RegisterController extends Controller
     public function toRegister(Request $request){
         $this->validator($request->all());
         foreach (User::all() as $u){
+            // ================================= Проверка уникальности почты и теелфона  ===============================
+
             if($request['email'] == $u->email){
                 session(
                     [
                         'email' => 'Користувач з таким email\'ом вже існує.'
                     ]);
                 return redirect()->back()->withInput($request->all());
-            }elseif($request['phone'] == $u->phone){
-                session(
-                    [
-                        'phone' => 'Користувач з таким номером телефону вже існує.'
-                    ]);
-                return redirect()->back()->withInput($request->all());
             }
         }
+
+        // ================================= Проверка подтверждения пароля  ===========================================
+
         if($request['password'] != $request['password_confirmation']){
             session(
                 [
@@ -93,20 +91,28 @@ class RegisterController extends Controller
             return redirect()->back()->withInput($request->all());
         }
 
+        // ================================= Создаем юзера  ===========================================
         $user = User::create([
             'first_name' => $request['firstname'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
             'last_name' => $request['lastname'],
             'address' => $request['address'],
-            'city' =>  $request['city'],
-            'phone' => $request['phone'],
         ]);
 
+        // ================================= Создание корзины  ===========================================
         Cart::create([
             'user_id' => $user->id
         ]);
 
+        // ================================= Выдаем юзеру промокод  ===========================================
+        $promocode = UserPromocode::where('promocode', 'special-for-reg-user')->first();
+        $user->promocodes()->attach($promocode->id, [
+            'user_id' => $user->id,
+            'user_promocode_id' => $promocode->id
+        ]);
+
+        // ================================= Автовход в кабинет  ===========================================
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
         User::where('email', $request['email'])->update([

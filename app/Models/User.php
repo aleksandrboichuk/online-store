@@ -26,6 +26,8 @@ class User extends Authenticatable
         'superuser',
         'email',
         'password',
+        'orders_amount',
+        'orders_sum',
     ];
 
     /**

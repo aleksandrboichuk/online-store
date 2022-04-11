@@ -54,7 +54,19 @@
                             <td>
                                 @foreach($statuses as $s)
                                     @if($s->id == $item->status)
-                                        <p><b>{{$s->name}}</b></p>
+                                        @if($s->name == 'Новий')
+                                            <p class="new-status">{{$s->name}}</p>
+                                        @elseif($s->name == 'Оброблений')
+                                            <p class="processed-status">{{$s->name}}</p>
+                                        @elseif($s->name == 'Оплачений')
+                                            <p class="paid-status">{{$s->name}}</p>
+                                        @elseif($s->name == 'Доставляється')
+                                            <p class="delivering-status">{{$s->name}}</p>
+                                        @elseif($s->name == 'Доставлений')
+                                            <p class="delivered-status">{{$s->name}}</p>
+                                        @elseif($s->name == 'Завершений')
+                                            <p class="completed-status">{{$s->name}}</p>
+                                        @endif
                                     @endif
                                 @endforeach
                             </td>

@@ -101,15 +101,17 @@
                 </div>
                 <div class="col-lg-4 card-right">
                     <form action="{{route('checkout')}}" method="get">
-                        <select name="promocode" id="promocode">
-                            <option value="no">Без промокоду</option>
-                            @if(!empty($promocodes) && count($promocodes) > 0)
-                                @foreach($promocodes as $promocode)
-                                    <option value="{{$promocode->promocode}}">{{$promocode->description}}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                        <button type="submit" class="site-btn btn btn-default" {{count($products) > 0 ?: "disabled"}}>Оформити замовлення</button>
+                        @if(!empty($user))
+                            <select name="promocode" id="promocode">
+                                <option value="no">Без промокоду</option>
+                                @if(!empty($promocodes) && count($promocodes) > 0)
+                                    @foreach($promocodes as $promocode)
+                                        <option value="{{$promocode->promocode}}">{{$promocode->title}}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        @endif
+                        <button  class="site-btn btn btn-default" {{!empty($products) && count($products) > 0 ? "type=submit": "disabled"}}>Оформити замовлення</button>
                     </form>
 
                     <a href="/shop/women" class="site-btn sb-dark">Продовжити покупки</a>

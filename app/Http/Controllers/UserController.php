@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\OrdersList;
 use App\Models\StatusList;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -86,15 +87,59 @@ class UserController extends Controller
 
     public function saveUserSettings(Request $request){
         $user = $this->getUser();
-
         if(Hash::check($request['old-pass-field'], $user->password)){
+            if($request['email-field'] != $user->email){
+                $users = User::all();
+                foreach ($users as $u) {
+                    if($request['email-field'] == $u->email){
+                        session(
+                            [
+                                'email' => 'Користувач з таким email\'ом вже існує.'
+                            ]);
+                        return redirect()->back()->withInput($request->all());
+                    }
+                }
+            }
             $user->update([
                 'first_name'=> $request['firstname-field'],
                 'last_name'=> $request['lastname-field'],
                 'email'=> $request['email-field'],
-                'phone'=> $request['phone-field'],
-                'city'=> $request['city-field'],
             ]);
+
+            // ============================ Если указан телефон ====================================
+            if(!empty($request['phone-field']) && $user->phone != intval($request['phone-field'])){
+                $users = User::all();
+                foreach ($users as $u) {
+                    if($request['phone-field'] == $u->phone){
+                        session(
+                        [
+                            'phone' => 'Користувач з таким номером телефону вже існує.'
+                        ]);
+                        return redirect()->back()->withInput($request->all());
+                    }
+                }
+                $user->update([
+                    'phone'=> $request['phone-field'],
+                ]);
+            }elseif(empty($request['phone-field']) && $user->phone != intval($request['phone-field'])){
+                $user->update([
+                    'phone'=> null,
+                ]);
+            }
+
+            // ============================ Если указан город ====================================
+
+            if(!empty($request['city-field']) && $user->city != $request['city-field']){
+                $user->update([
+                    'city'=> $request['city-field'],
+                ]);
+            }elseif(empty($request['phone-field']) && $user->city != $request['city-field']){
+                $user->update([
+                    'city'=> null,
+                ]);
+            }
+
+            // ============================ Если указан новый пароль ====================================
 
             if(!empty($request['new-pass-field']) && !empty($request['confirm-new-pass-field'])){
                 if($request['confirm-new-pass-field'] == $request['new-pass-field']){
@@ -110,7 +155,6 @@ class UserController extends Controller
                     return redirect()->back()->withInput($request->all());
                 }
             }
-
         }else{
             session(
                 [

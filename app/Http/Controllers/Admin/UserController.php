@@ -56,13 +56,10 @@ class UserController extends Controller
         if($request['admin-field'] == "on"){
             $superuser = true;
         }
-        $phone = intval($request['phone-field']);
         $user->update([
             'first_name'=> $request['firstname-field'],
             'last_name'=> $request['lastname-field'],
             'email'=> $request['email-field'],
-            'phone'=> $phone,
-            'address'=> $request['address-field'],
             'city'=> $request['city-field'],
             'active'=> $active,
             'superuser'=> $superuser,

@@ -114,8 +114,8 @@
                         <textarea  rows="6" name="comment-field" readonly>{{isset($order->comment) ? $order->comment : ""}}</textarea>
                     </div>
                     <div class="add-block">
-                        <label for="sum-field">Сума </label>
-                        <input type="text" value="₴{{$order->total_cost}}" name="sum-field">
+                        <label for="sum-field">Сума (₴) </label>
+                        <input type="text" value="{{$order->total_cost}}" name="sum-field">
                     </div>
                     <button type="submit" class="btn btn-default todo-btn">Зберегти</button>
                 </form>
