@@ -6,7 +6,8 @@
                 <li><b>Пошта:</b><p>{{$user->email}}</p></li>
                 <li><b>Ім'я:</b><p>{{$user->first_name}}</p></li>
                 <li><b>ID:</b><p>{{$user->id}}</p></li>
-                <li><b>Бонусний рахунок:</b> <p>143 ₴</p></li>
+                <li><b>Виконано замовлень:</b> <p>{{$user->orders_amount}}</p></li>
+                <li><b>Загальна сума замовлень:</b> <p>₴{{$user->orders_sum}}</p></li>
             </ul>
         </div>
 
