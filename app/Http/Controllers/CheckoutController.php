@@ -125,7 +125,6 @@ class CheckoutController extends Controller
                     "post_department"=> isset($postDepartment) ? $postDepartment :  null,
                     "comment"=> $request['comment'],
                     "total_cost" => $totalSum,
-                    "promocode" => isset($request['promocode']) && !empty($request['promocode']) ? $request['promocode'] : null,
                 ]);
             }catch(\Exception $e){
                 return response()->json(['Adding new order error: ' . $e->getMessage()]);
@@ -144,6 +143,7 @@ class CheckoutController extends Controller
                     "post_department"=> isset($postDepartment) ? $postDepartment :  null,
                     "comment"=> $request['comment'],
                     "total_cost" => $totalSum,
+                    "promocode" => isset($request['promocode']) && !empty($request['promocode']) ? $request['promocode'] : null,
                 ]);
             }catch(\Exception $e){
                 return response()->json(['Adding new order error: ' . $e->getMessage()]);
