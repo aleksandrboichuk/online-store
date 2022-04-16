@@ -473,6 +473,9 @@
   .admin-index-title{
     font-size: 45px;
   }
+  .alert-success, .alert-warning{
+    width: 300px ;
+  }
 }
 
 @media screen and (max-width: 850px) {
@@ -707,7 +710,15 @@
   #slider{
     width: 100%;
   }
-  .mini-banner-img{
+  .mini-banner-img {
     right: 3%;
+  }
+  .alert-success, .alert-warning{
+    width: 300px ;
+  }
+}
+@media screen and  (max-width: 290px){
+  .alert-success, .alert-warning{
+    width: 200px ;
   }
 }
