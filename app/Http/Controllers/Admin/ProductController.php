@@ -20,6 +20,23 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+    protected function validator(array $data){
+        $messages = [
+            'name-field.min' => 'Заговоловок має містити не менше 3-х символів.',
+            'seo-field.min' => 'СЕО має містити не менше 3-х символів.',
+            'seo-field.unique' => 'СЕО вже існує.',
+            'description-field.min' => 'Опис має містити не менше 10-ти символів.',
+            'price-field.min' => 'Ціна має містити не менше 1-го символу.',
+        ];
+        return Validator::make($data, [
+            'name-field' => ['string', 'min:3'],
+            'seo-field' => ['string', 'unique:products,seo_name', 'min:3'],
+            'description-field' => ['string', 'min:10'],
+            'price-field' => ['integer', 'min:1'],
+        ], $messages);
+    }
+
+
     public function index(Request $request,$cat_group = null){
         $products = Product::orderBy('id', 'desc')->paginate(5);
         if (!empty($cat_group)) {
@@ -74,7 +91,7 @@ class ProductController extends Controller
 
     //show adding form
 
-    public function addProduct(Request $request){
+    public function add(Request $request){
 
 // --------------------------------------- AJAX -----------------------------------------------
         if(isset($request['categoryGroup']) && !empty($request['categoryGroup'])){
@@ -111,16 +128,15 @@ class ProductController extends Controller
 
     //save adding
 
-    public function saveAddProduct(Request $request){
-        Validator::make($request->all(), [
-            'name-field' => ['required', 'string', 'max:255', 'unique:products'],
-            'seo-field' => ['required', 'string', 'min:3',  'unique:products'],
-            'image-field'=>['required', 'string', 'min:5',  'unique:products'],
-            'description-field'=>['required', 'string'],
-            'price-field'=>['required', 'integer'],
-            'discount-field'=>['required', 'integer'],
-            'count-field'=>['required', 'integer'],
-        ]);
+    public function saveAdd(Request $request){
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
 
         $product = new Product;
         $active = false;
@@ -182,7 +198,6 @@ class ProductController extends Controller
             redirect()->back();
         }
 
-
         if (isset($request['sizes'])) {
             foreach ($request['size-count'] as $k => $val) {
                 if ($val != null) {
@@ -206,15 +221,13 @@ class ProductController extends Controller
                 'count' => $count
             ]);
         }
-
-        session(['success-message' => 'Товар успішно додано.']);
-        return redirect('/admin/products');
+        return redirect('/admin/products')->with(['success-message' => 'Товар успішно додано.']);
     }
 
 
 
 
-    public function editProduct(Request $request,$product_id){
+    public function edit(Request $request,$product_id){
         $product = Product::find($product_id);
 
         if(!$product){
@@ -264,8 +277,29 @@ class ProductController extends Controller
 
     // save editing
 
-    public function saveEditProduct(Request $request){
+    public function saveEdit(Request $request){
         $product = Product::find($request['id']);
+
+        // ================ в случае старого сео не делать валидацию на уникальность==============
+        if($request['seo-field'] == $product->seo_name){
+            $validator = $this->validator($request->except('seo-field'));
+            if ($validator->fails()) {
+                return redirect()
+                    ->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+        }else{
+            // ================ если сео все же изменили то проверить на уникальность ==============
+            $validator = $this->validator($request->all());
+            if ($validator->fails()) {
+                return redirect()
+                    ->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+        }
+        // ======================= определяем активность чекбокса ======================
         $active = false;
 
         if($request['active-field'] == "on"){
@@ -370,19 +404,15 @@ class ProductController extends Controller
                 'count' => $count
             ]);
         }
-
-
-        session(['success-message' => 'Товар успішно змінено.']);
-        return redirect("/admin/products");
+        return redirect("/admin/products")->with(['success-message' => 'Товар успішно змінено.']);
     }
 
     //delete
 
-    public function delProduct($product_id){
+    public function delete($product_id){
         $product = Product::find($product_id);
         $product->delete();
         Storage::disk('public')->deleteDirectory('product-images/'.$product->id);
-        session(['success-message' => 'Товар успішно видалено.']);
-        return redirect("/admin/products");
+        return redirect("/admin/products")->with(['success-message' => 'Товар успішно видалено.']);
     }
 }

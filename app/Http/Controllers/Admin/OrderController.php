@@ -34,7 +34,8 @@ class OrderController extends Controller
             'orders' =>$orders
         ]);
     }
-    public function editOrder($order_id){
+
+    public function edit($order_id){
         $order = OrdersList::find($order_id);
         if(!$order){
             return response()->view('errors.404-admin', [
@@ -50,11 +51,10 @@ class OrderController extends Controller
         ]);
     }
 
-    public function saveEditOrder(Request $request){
+    public function saveEdit(Request $request){
         $order = OrdersList::find($request['id']);
 
         $total_cost = intval($request['sum-field']);
-
         if($request['status-field'] == 4){
             foreach($order->items as $item){
                 $product = $item->product->where('id', $item->product_id)->first();
@@ -92,7 +92,6 @@ class OrderController extends Controller
 
 
         $order->update([
-            'user_id' => $request['id-field'],
             'name' => $request['name-field'],
             'phone' => $request['phone-field'],
             'city' => $request['city-field'],
@@ -103,13 +102,11 @@ class OrderController extends Controller
             'updated_at' => date("Y-m-d H:i:s")
         ]);
 
-        session(['success-message' => 'Замовлення успішно змінено.']);
-        return redirect('/admin/orders');
+        return redirect('/admin/orders')->with(['success-message' => 'Замовлення успішно змінено.']);
     }
 
-    public function delOrder($order_id){
-        session(['success-message' => 'Замовлення успішно видалено.']);
+    public function delete($order_id){
         OrdersList::find($order_id)->delete();
-        return redirect("/admin/orders");
+        return redirect("/admin/orders")->with(['success-message' => 'Замовлення успішно видалено.']);
     }
 }

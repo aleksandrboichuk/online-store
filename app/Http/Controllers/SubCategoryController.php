@@ -20,7 +20,7 @@ class SubCategoryController extends Controller
 {
     public function index(Request $request, $group_seo_name,$category_seo_name,$sub_category_seo_name){
         if(!$this->getUser()){
-            $cart = Cart::where('token', session('_token'))->first();
+            $cart = $this->getCartByToken();
         }
 
 

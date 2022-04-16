@@ -15,13 +15,23 @@
                 <form action="{{route('save.edit.product')}}" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="{{$product->id}}">
                     <div class="add-block">
-                        <label for="name-field">Назва </label>
-                        <input type="text" value="{{$product->name}}" name="name-field">
+                        <label for="name-field">Назва* </label>
+                        <input type="text" value="{{$product->name}}" name="name-field" maxlength="25" required>
                     </div>
+                    @if($errors->has('name-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('name-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
-                        <label for="seo-field">SEO </label>
-                        <input type="text"  value="{{$product->seo_name}}" name="seo-field">
+                        <label for="seo-field">SEO* </label>
+                        <input type="text"  value="{{$product->seo_name}}" name="seo-field" maxlength="25" required>
                     </div>
+                    @if($errors->has('seo-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('seo-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="main-image-field">Головне зображення* </label>
                         <div class="add-image-block">
@@ -50,20 +60,26 @@
                         <a class="btn btn-default pull-right add-image-field">Додати детальне зображення</a>
                     </div>
                     <div class="add-block">
-                        <label for="image-field">Посилання на зображення </label>
-                        <input type="text" value="{{$product->preview_img_url}}" name="image-field">
+                        <label for="description-field">Опис* </label>
+                        <textarea  rows="10" name="description-field" required maxlength="700"> {{$product->description}}</textarea>
                     </div>
+                    @if($errors->has('description-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('description-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
-                        <label for="description-field">Опис </label>
-                        <textarea  rows="10" name="description-field" > {{$product->description}}</textarea>
+                        <label for="price-field">Ціна* </label>
+                        <input type="text" value="{{$product->price}}" name="price-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');" required maxlength="5">
                     </div>
-                    <div class="add-block">
-                        <label for="price-field">Ціна </label>
-                        <input type="text" value="{{$product->price}}" name="price-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
-                    </div>
+                    @if($errors->has('price-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('price-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="discount-field">Знижка (%) </label>
-                        <input type="text" value="{{$product->discount ? $product->discount  : "0"}}" name="discount-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
+                        <input type="text" value="{{$product->discount ? $product->discount  : "0"}}" name="discount-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');" maxlength="2">
                     </div>
                     <div class="add-block">
                         <label for="banner-field">Акція(якщо є) </label>

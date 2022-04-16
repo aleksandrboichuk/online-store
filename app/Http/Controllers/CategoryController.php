@@ -21,9 +21,10 @@ class CategoryController extends Controller
 
     public function index(Request $request, $group_seo_name,$category_seo_name){
         if(!$this->getUser()){
-            $cart = Cart::where('token', session('_token'))->first();
+            $cart = $this->getCartByToken();
         }
-
+        // =========================== получаем необходимые сео для урла ===========================
+        //=========================== при ошибке одного из них отдаем 404 ===========================
         $group = CategoryGroup::where('seo_name',$group_seo_name)->where('active', 1)->first();
         if(!$group){
             return response()->view('errors.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null], 404);
@@ -36,7 +37,8 @@ class CategoryController extends Controller
 
         $group_brands = $this->getGroupBrand($group->id);
 
-        /*----------------------  AJAX  ----------------------*/
+        /*===========================  AJAX  ===========================*/
+//        if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))|| (!empty($request->from_price)) || (!empty($request->to_price))){
         if($request->ajax()){
             return view('ajax.ajax',[
                 'products' => $category_products,
@@ -44,7 +46,9 @@ class CategoryController extends Controller
                 "images"=> ProductImage::all(),
             ])->render();
         }
-//        if((!empty($request->colors)) || (!empty($request->brands)) || (!empty($request->materials))  || (!empty($request->seasons)) || (!empty($request->sizes))|| (!empty($request->from_price)) || (!empty($request->to_price))){
+
+// =========================== вдруг Эластика не станет - на помощь придет Аякс  фильтрация ===========================
+
 //            $category_products = Product::where('category_group_id',$group->id)->where('category_id',$category->id)
 //                ->when(!empty($request->colors), function($query){
 //                    if(request('colors') == "Всі"){
@@ -121,6 +125,7 @@ class CategoryController extends Controller
 //                ])->render();
 //            }
 //        }
+
 
         return view('category.category', [
             'user'=> $this->getUser(),

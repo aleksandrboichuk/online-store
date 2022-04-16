@@ -27,7 +27,7 @@ class SearchController extends Controller
         $group_brands = $this->getGroupBrand($group->id);
 
         if(!$this->getUser()){
-            $cart = Cart::where('token', session('_token'))->first();
+            $cart = $this->getCartByToken();
         }
 
         if(isset($request['orderBy'])){
@@ -87,7 +87,7 @@ class SearchController extends Controller
     public function filtersRequest(Request $request, ElasticSearch $elasticSearch){
 
         if(!$this->getUser()){
-            $cart = Cart::where('token', session('_token'))->first();
+            $cart = $this->getCartByToken();
         }
 
         //explode query string

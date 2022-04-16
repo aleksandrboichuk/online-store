@@ -17,17 +17,32 @@
                 <form action="{{route('save.edit.banner')}}" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="{{$banner->id}}">
                     <div class="add-block">
-                        <label for="title-field">Заголовок </label>
-                        <input type="text" name="title-field" value="{{$banner->title}}">
+                        <label for="title-field">Заголовок* </label>
+                        <input type="text" name="title-field" value="{{$banner->title}}" required maxlength="30">
                     </div>
+                    @if($errors->has('title-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('title-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
-                        <label for="description-field">Опис </label>
-                        <input type="text" name="description-field" value="{{$banner->description}}">
+                        <label for="description-field">Опис* </label>
+                         <textarea  name="description-field" id="" cols="30" rows="10" required maxlength="500"> {{$banner->description}} </textarea>
                     </div>
+                    @if($errors->has('description-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('description-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
-                        <label for="description-field">SEO </label>
-                        <input type="text" name="seo-field" value="{{$banner->seo_name}}">
+                        <label for="seo-field">SEO* </label>
+                        <input type="text" name="seo-field" value="{{$banner->seo_name}}" required maxlength="40">
                     </div>
+                    @if($errors->has('seo-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('seo-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="main-image-field">Головне зображення </label>
                         <div class="add-image-block">

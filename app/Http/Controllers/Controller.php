@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\ProductBrand;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -19,7 +20,6 @@ class Controller extends BaseController
         }else{
             return null;
         }
-
     }
 
     public function getGroupBrand($group_id){
@@ -38,6 +38,10 @@ class Controller extends BaseController
             return  null ;
         }
 
+    }
+
+    public function getCartByToken(){
+        return Cart::where('token', session('_token'))->first();
     }
 
 

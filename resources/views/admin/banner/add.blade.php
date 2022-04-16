@@ -15,17 +15,32 @@
             {{--<h2>Додавання категорії</h2>--}}
             <form action="{{route('save.banner')}}" method="post" enctype="multipart/form-data">
                 <div class="add-block">
-                    <label for="title-field">Заголовок </label>
-                    <input type="text" name="title-field">
+                    <label for="title-field">Заголовок* </label>
+                    <input type="text" name="title-field" maxlength="30">
                 </div>
+                @if($errors->has('title-field'))
+                    <div class="invalid-feedback admin-feedback" role="alert">
+                        <strong>{{ $errors->first('title-field') }}</strong>
+                    </div>
+                @endif
                 <div class="add-block">
-                    <label for="description-field">Опис </label>
-                    <input type="text" name="description-field">
+                    <label for="description-field">Опис* </label>
+                    <textarea  name="description-field" id="" cols="30" rows="10" required maxlength="500"> </textarea>
                 </div>
+                @if($errors->has('description-field'))
+                    <div class="invalid-feedback admin-feedback" role="alert">
+                        <strong>{{ $errors->first('description-field') }}</strong>
+                    </div>
+                @endif
                 <div class="add-block">
-                    <label for="description-field">SEO </label>
-                    <input type="text" name="seo-field">
+                    <label for="description-field">SEO* </label>
+                    <input type="text" name="seo-field" maxlength="40">
                 </div>
+                @if($errors->has('seo-field'))
+                    <div class="invalid-feedback admin-feedback" role="alert">
+                        <strong>{{ $errors->first('seo-field') }}</strong>
+                    </div>
+                @endif
                 <div class="add-block">
                     <label for="main-image-field">Головне зображення* </label>
                     <input type="file" name="main-image-field" accept=".jpg, .jpeg, .png" required>

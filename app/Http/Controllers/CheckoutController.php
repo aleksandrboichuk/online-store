@@ -14,7 +14,7 @@ class CheckoutController extends Controller
 {
     public function checkout(Request $request){
         if(!$this->getUser()){
-            $user_cart = Cart::where('token', session('_token'))->first();
+            $user_cart = $this->getCartByToken();
         }else{
             $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
         }
@@ -50,11 +50,11 @@ class CheckoutController extends Controller
             }
             if(!empty($promocode->min_cart_products)){
                 if($promocode->min_cart_products >  count($user_cart->products)){
-                    session(
+                    return redirect()->back()->with(
                         [
                             'warning-message' => 'Недостатня кількість товарів кошику для застосування обраного вами промокоду. Потрібно не менше '. $promocode->min_cart_products .'. Спробуйте обрати інший промокод, або додати ще товарів до кошику.'
-                        ]);
-                    return redirect()->back();
+                        ]
+                    );
                 }else{
                     $allowPromocode = true;
                 }
@@ -73,7 +73,7 @@ class CheckoutController extends Controller
     public  function saveOrder(Request $request){
 
         if(!$this->getUser()){
-            $cart = Cart::where('token', session('_token'))->first();
+            $cart = $this->getCartByToken();
         }else{
             $cart = Cart::where("user_id",$this->getUser()->id)->first();
         }
@@ -180,17 +180,14 @@ class CheckoutController extends Controller
         }
 
         if(!$this->getUser()){
-            session(
-                [
-                    'success-message' => 'Ви успішно виконали замовлення. У найближчий час з вами зв\'яжеться адміністратор для уточнення деталей.'
-                ]);
-            return redirect('/cart');
+            return redirect('/cart')->with(
+                ['success-message' => 'Ви успішно виконали замовлення. У найближчий час з вами зв\'яжеться адміністратор для уточнення деталей.']
+            );
         }else{
-            session(
-                [
-                    'success-message' => 'Ви успішно виконали замовлення. У найближчий час з вами зв\'яжеться адміністратор для уточнення деталей.'
-                ]);
-            return redirect('/personal/orders');
+
+            return redirect('/personal/orders')->with(
+                ['success-message' => 'Ви успішно виконали замовлення. У найближчий час з вами зв\'яжеться адміністратор для уточнення деталей.']
+            );
         }
 
 

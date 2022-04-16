@@ -7,13 +7,32 @@ use App\Models\Banner;
 use App\Models\CategoryGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class BannerController extends Controller
 {
 
+    protected function validator(array $data){
+        $messages = [
+            'title-field.min' => 'Заговоловок має містити не менше 3-х символів.',
+            'description-field.min' => 'Опис має містити не менше 10-ти символів.',
+            'seo-field.min' => 'СЕО має містити не менше 3-х символів.',
+            'seo-field.unique' => 'СЕО вже існує.',
+        ];
+        return Validator::make($data, [
+            'title-field' => ['string', 'min:3'],
+            'description-field' => [ 'string', 'min:10'],
+            'seo-field' => ['string', 'unique:banners,seo_name', 'min:3'],
+        ], $messages);
+    }
+
     public function index($cat_group = null)
     {
         $banners = Banner::orderBy('id', 'desc')->get();
+
+        // ===================================== отдает баннеры в зависимости =============================
+        // ===================================== от выбранной категории в дропдаун меню====================
+
         if (!empty($cat_group)) {
             switch ($cat_group) {
                 case 'men':
@@ -39,7 +58,7 @@ class BannerController extends Controller
 
     //show adding form
 
-    public function addBanner(){
+    public function add(){
 
         return view('admin.banner.add',[
             'user'=>$this->getUser(),
@@ -49,13 +68,23 @@ class BannerController extends Controller
 
     //saving add
 
-    public function saveAddBanner(Request $request){
-        $banner = new Banner;
+    public function saveAdd(Request $request){
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // ================== Определение активности чекбокса =================
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
         }
-        $banner->create([
+
+        // ===================== Создание баннера ===============================
+        $banner = Banner::create([
             'title' => $request['title-field'],
             'category_group_id' => $request['cat-field'],
             'seo_name' => $request['seo-field'],
@@ -63,28 +92,28 @@ class BannerController extends Controller
             'active' => $active,
         ]);
 
-        $getBanner = Banner::where('seo_name',$request['seo-field'])->first();
-        // добавление картинок в хранилище и в БД
+        // ========================== добавление картинок в хранилище и в БД ==========================
 
         $mainImageFile = $request->file('main-image-field');
+        Storage::disk('public')->putFileAs('banner-images/'.$banner->id, $mainImageFile, $mainImageFile->getClientOriginalName());
+
 //        $miniImageFile = $request->file('mini-image-field');
-        Storage::disk('public')->putFileAs('banner-images/'.$getBanner->id, $mainImageFile, $mainImageFile->getClientOriginalName());
 //        Storage::disk('public')->putFileAs('banner-images/'.$getBanner->id, $miniImageFile, $miniImageFile->getClientOriginalName());
 
-        $getBanner->update([
+        $banner->update([
             'image_url' => $mainImageFile->getClientOriginalName(),
 //            'mini_img_url' => $miniImageFile->getClientOriginalName(),
         ]);
 
-        session(['success-message' => 'Банер успішно додано.']);
-        return redirect('/admin/banner');
+        return redirect('/admin/banner')->with(['success-message' => 'Банер успішно додано.']);
     }
 
     //editing
 
-    public function editBanner($banner_id){
+    public function edit($banner_id){
         $banner = Banner::find($banner_id);
 
+    // ===================== в случае неправильной строки запроса отдать 404 ====================
         if(!$banner){
             return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
@@ -101,13 +130,39 @@ class BannerController extends Controller
 
     //saving edit
 
-    public function saveEditBanner(Request $request){
+    public function saveEdit(Request $request){
 
         $banner = Banner::find($request['id']);
+
+        // ================ в случае старого сео не делать валидацию на уникальность==============
+
+        if($request['seo-field'] == $banner->seo_name){
+            $validator = $this->validator($request->except('seo-field'));
+            if ($validator->fails()) {
+                return redirect()
+                    ->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+        }else{
+            // ================ если сео все же изменили то проверить на уникальность ==============
+
+            $validator = $this->validator($request->all());
+            if ($validator->fails()) {
+                return redirect()
+                    ->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+        }
+
+        // ======================= определяем активность чекбокса ======================
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
         }
+
+        // ======================= обновляем запись в базе ======================
         $banner->update([
             'title' => $request['title-field'],
             'category_group_id' => $request['cat-field'],
@@ -117,7 +172,8 @@ class BannerController extends Controller
             'updated_at' => date("Y-m-d H:i:s")
         ]);
 
-        // обновление картинок, если они были загружены
+        // ============ обновление картинок, если они были загружены =============
+
         if(isset($request['main-image-field'])){
             $mainImageFile = $request->file('main-image-field');
             Storage::disk('public')->delete('banner-images/'.$banner->id.'/' . $banner->image_url);
@@ -127,28 +183,28 @@ class BannerController extends Controller
             ]);
         }
 
-        if(isset($request['mini-image-field'])){
-            $miniImageFile = $request->file('mini-image-field');
-            Storage::disk('public')->delete('banner-images/'.$banner->id.'/' . $banner->mini_img_url);
-            Storage::disk('public')->putFileAs('banner-images/'.$banner->id.'/', $miniImageFile, $miniImageFile->getClientOriginalName());
-            $banner->update([
-                'mini_img_url' => $miniImageFile->getClientOriginalName()
-            ]);
-        }
+//        if(isset($request['mini-image-field'])){
+//            $miniImageFile = $request->file('mini-image-field');
+//            Storage::disk('public')->delete('banner-images/'.$banner->id.'/' . $banner->mini_img_url);
+//            Storage::disk('public')->putFileAs('banner-images/'.$banner->id.'/', $miniImageFile, $miniImageFile->getClientOriginalName());
+//            $banner->update([
+//                'mini_img_url' => $miniImageFile->getClientOriginalName()
+//            ]);
+//        }
 
-        session(['success-message' => 'Банер успішно змінено.']);
-        return redirect("/admin/banner");
+        return redirect("/admin/banner")->with(['success-message' => 'Банер успішно змінено.']);
     }
 
     //delete
 
-    public function delBanner($banner_id){
+    public function delete($banner_id){
         $banner = Banner::find($banner_id);
         $banner->delete();
 
+        // ============ удаление папки баннера в хранилище =============
+
         Storage::disk('public')->deleteDirectory('banner-images/'.$banner->id);
 
-        session(['success-message' => 'Банер успішно видалено.']);
-        return redirect("/admin/banner");
+        return redirect("/admin/banner")->with(['success-message' => 'Банер успішно видалено.']);
     }
 }

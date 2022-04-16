@@ -46,7 +46,7 @@ class LoginController extends Controller
 
     public function showLoginForm(){
         if(!$this->getUser()){
-            $cart = Cart::where('token', session('_token'))->first();
+            $cart = $this->getCartByToken();
         }
         return view('auth.login',[
             'user' => $this->getUser(),
@@ -55,18 +55,14 @@ class LoginController extends Controller
     }
 
     public function toLogin(Request $request){
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
+//        $validator = Validator::make($request->all(), [
+//            'email' => ['required', 'email', 'max:30', 'exists:users'],
+//            'password' => 'required|string',
+//        ]);
 
         $user = User::where('email', $request['email'])->first();
         if($user && !$user->active){
-            session(
-                [
-                    'error' => 'Ваш акаунт деактивовано.'
-                ]);
-            return redirect()->back()->withInput($request->all());
+            return redirect()->back()->withErrors(['error' => 'Ваш акаунт деактивовано.'])->withInput($request->all());
         }
 
        if(!empty($request['remember'])){
@@ -79,11 +75,7 @@ class LoginController extends Controller
                ]);
                return  redirect('/shop/women');
            } else{
-               session(
-                   [
-                       'error' => 'Логін або пароль невірний'
-                   ]);
-               return redirect()->back()->withInput($request->all());
+               return redirect()->back()->withInput($request->all())->withErrors(['error' => 'Логін або пароль невірний' ]);
            }
        }else{
            $credentials = $request->only('email', 'password');
@@ -94,11 +86,8 @@ class LoginController extends Controller
                ]);
                return  redirect('/shop/women');
            } else{
-               session(
-                   [
-                       'error' => 'Логін або пароль невірний'
-                   ]);
-               return redirect()->back()->withInput($request->all());
+
+               return redirect()->back()->withInput($request->all())->withErrors(['error' => 'Логін або пароль невірний' ]);
            }
        }
 

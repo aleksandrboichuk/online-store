@@ -83,19 +83,19 @@
                     </div>
                     <div class="add-block">
                         <label for="id-field">ID користувача</label>
-                        <input type="text" value="{{$order->user_id}}" name="id-field">
+                        <input type="text" value="{{$order->user_id}}" name="id-field" readonly>
                     </div>
                     <div class="add-block">
                         <label for="name-field">Ім'я </label>
-                        <input type="text" value="{{$order->name}}" name="name-field">
+                        <input type="text" value="{{$order->name}}" name="name-field" required maxlength="20">
                     </div>
                     <div class="add-block">
                         <label for="phone-field">Телефон </label>
-                        <input type="text" value="{{$order->phone}}" name="phone-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
+                        <input type="text" value="{{$order->phone}}" name="phone-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');" required  maxlength="11">
                     </div>
                     <div class="add-block">
                         <label for="city-field">Місто </label>
-                        <input type="text" value="{{$order->city}}" name="city-field">
+                        <input type="text" value="{{$order->city}}" name="city-field" required maxlength="20">
                     </div>
                     @if(!empty($order->address))
                         <div class="add-block">
@@ -106,7 +106,7 @@
                     @if(!empty($order->post_department))
                         <div class="add-block">
                             <label for="post-field">Номер поштового відділення</label>
-                            <input type="text" value="{{$order->post_department}}" name="post-field">
+                            <input type="text" value="{{$order->post_department}}" name="post-field" maxlength="3">
                         </div>
                     @endif
                     <div class="add-block">
@@ -115,7 +115,7 @@
                     </div>
                     <div class="add-block">
                         <label for="sum-field">Сума (₴) </label>
-                        <input type="text" value="{{$order->total_cost}}" name="sum-field">
+                        <input type="text" value="{{$order->total_cost}}" name="sum-field" required>
                     </div>
                     <button type="submit" class="btn btn-default todo-btn">Зберегти</button>
                 </form>

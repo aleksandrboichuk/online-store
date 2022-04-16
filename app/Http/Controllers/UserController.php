@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -78,26 +79,45 @@ class UserController extends Controller
 
     // =====================================  Settings  ==============================================
 
-    public function getUserSettings(Request $request){
+    public function getUserSettings(){
 
         return view('personal-area.settings',[
             'user' => $this->getUser(),
         ]);
     }
 
+    protected function validator(array $data){
+        $messages = [
+            'firstname-field.min' => 'Ім\'я має містити не менше 2-х символів.',
+            'lastname-field.min' => 'Прізвище має містити не менше 2-х символів.',
+            'email-field.min' => 'Email має містити не менше 8-ми символів.',
+            'email-field.unique' => 'Користувач з такми Email вже існує.',
+            'city-field.exists' => 'В дане місто доставка неможлива.',
+            'phone-field.unique' => 'Користувач з такми  телефоном вже існує.',
+            'phone-field.min' => 'Телефон має містити не менше 10-ти символів.',
+            'password.confirmed' => 'Паролі не співпадають.',
+            'password.min' => 'Пароль має містити не менше 3-х символів.',
+        ];
+        return Validator::make($data, [
+            'firstname-field' => ['string', 'min:2'],
+            'lastname-field' => ['string', 'min:2'],
+            'phone-field' => ['string', 'min:10', 'unique:users,phone'],
+            'city-field' => ['string', 'exists:ukraine_cities,name'],
+            'email-field' => ['string', 'unique:users,email', 'min:8'],
+            'password' => ['string', 'min:3', 'confirmed'],
+        ], $messages);
+    }
+
     public function saveUserSettings(Request $request){
         $user = $this->getUser();
         if(Hash::check($request['old-pass-field'], $user->password)){
             if($request['email-field'] != $user->email){
-                $users = User::all();
-                foreach ($users as $u) {
-                    if($request['email-field'] == $u->email){
-                        session(
-                            [
-                                'email' => 'Користувач з таким email\'ом вже існує.'
-                            ]);
-                        return redirect()->back()->withInput($request->all());
-                    }
+                $validator = $this->validator($request->only(['firstname-field', 'lastname-field', 'email-field']));
+                if ($validator->fails()) {
+                    return redirect()
+                        ->back()
+                        ->withErrors($validator)
+                        ->withInput();
                 }
             }
             $user->update([
@@ -107,16 +127,14 @@ class UserController extends Controller
             ]);
 
             // ============================ Если указан телефон ====================================
+
             if(!empty($request['phone-field']) && $user->phone != intval($request['phone-field'])){
-                $users = User::all();
-                foreach ($users as $u) {
-                    if($request['phone-field'] == $u->phone){
-                        session(
-                        [
-                            'phone' => 'Користувач з таким номером телефону вже існує.'
-                        ]);
-                        return redirect()->back()->withInput($request->all());
-                    }
+                $validator = $this->validator($request->only(['phone-field']));
+                if ($validator->fails()) {
+                    return redirect()
+                        ->back()
+                        ->withErrors($validator)
+                        ->withInput();
                 }
                 $user->update([
                     'phone'=> $request['phone-field'],
@@ -130,10 +148,17 @@ class UserController extends Controller
             // ============================ Если указан город ====================================
 
             if(!empty($request['city-field']) && $user->city != $request['city-field']){
+                $validator = $this->validator($request->only(['city-field']));
+                if ($validator->fails()) {
+                    return redirect()
+                        ->back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
                 $user->update([
                     'city'=> $request['city-field'],
                 ]);
-            }elseif(empty($request['phone-field']) && $user->city != $request['city-field']){
+            }elseif(empty($request['city-field']) && $user->city != $request['city-field']){
                 $user->update([
                     'city'=> null,
                 ]);
@@ -141,34 +166,22 @@ class UserController extends Controller
 
             // ============================ Если указан новый пароль ====================================
 
-            if(!empty($request['new-pass-field']) && !empty($request['confirm-new-pass-field'])){
-                if($request['confirm-new-pass-field'] == $request['new-pass-field']){
-                    $user->update([
-                        'password' => Hash::make($request['new-pass-field'])
-                    ]);
-                    return redirect('/personal/orders');
-                }else {
-                    session(
-                        [
-                            'confirm-new-pass-error' => 'Підтвердження нового паролю не співпадає з новим паролем.'
-                        ]);
-                    return redirect()->back()->withInput($request->all());
+            if(!empty($request['password'])){
+                $validator = $this->validator($request->only(['password', 'password_confirmation']));
+                if ($validator->fails()) {
+                    return redirect()
+                        ->back()
+                        ->withErrors($validator)
+                        ->withInput();
                 }
+                $user->update([
+                    'password' => Hash::make($request['password'])
+                ]);
             }
         }else{
-            session(
-                [
-                    'old-pass-error' => 'Пароль невірний.'
-                ]);
-            return redirect()->back()->withInput($request->all());
+            return redirect()->back()->withInput($request->all())->with(['old-pass-error' => 'Пароль невірний.']);
         }
-
-        session(
-            [
-                'settings-save-success' => 'Налаштування профілю успішно змінено.'
-            ]);
-        return redirect('/personal/orders');
-
+        return redirect('/personal/orders')->with(['settings-save-success' => 'Налаштування профілю успішно змінено.']);
     }
 
     // =====================================  Promocodes  ==============================================

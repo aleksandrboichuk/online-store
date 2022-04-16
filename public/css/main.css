@@ -1542,11 +1542,26 @@ h2.title {
 }
 .login-form {
 }
+.card-body .row{
+    display: grid;
+    margin-bottom: 10px;
+}
 .invalid-feedback {
-    width: 100%;
-    margin-top: 0.25rem;
-    font-size: 80%;
+    margin-left: auto;
+    text-align: right;
+    max-width: 390px;
+    margin-top: -20px;
+    margin-bottom: 10px;
+    padding-left: 15px;
+    font-size: 16px;
     color: #dc3545;
+}
+.admin-feedback{
+    width: 100%;
+    font-size: 16px;
+    margin-left: auto;
+    text-align: right;
+    margin-bottom: 10px;
 }
 .form-control{
     margin-bottom: 15px;
@@ -1575,11 +1590,15 @@ h2.title {
     transition: all .2s linear;
 }
 .offset-md-4 .btn-link{
-    padding-bottom: 0;
-    padding-top: 25px ;
+    padding: 0;
     width: 100%;
     text-align: center;
-    font-size: 20px;
+    font-size: 14px;
+}
+.btns-login-inner{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
 }
 #email, #password, #firstname, #lastname, #address, #city, #phone, #password-confirm{
     background-color: #e7e2d4;

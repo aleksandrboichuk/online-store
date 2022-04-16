@@ -48,7 +48,6 @@ class MessageController extends Controller
     public function delMessage($message_id){
         $message = UserMessage::find($message_id);
         $message->delete();
-        session(['success-message' => 'Повідомлення успішно видалено.']);
-        return redirect("/admin/messages");
+        return redirect("/admin/messages")->with(['success-message' => 'Повідомлення успішно видалено.']);
     }
 }

@@ -5,9 +5,23 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ProductColor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ColorController extends Controller
 {
+
+    protected function validator(array $data){
+        $messages = [
+            'name-field.min' => 'Заговоловок має містити не менше 2-х символів.',
+            'seo-field.min' => 'СЕО має містити не менше 2-х символів.',
+            'seo-field.unique' => 'СЕО вже існує.',
+        ];
+        return Validator::make($data, [
+            'name-field' => ['string', 'min:2'],
+            'seo-field' => ['string', 'unique:product_colors,seo_name', 'min:2'],
+        ], $messages);
+    }
+
     public function index(){
         $colors = ProductColor::orderBy('id', 'desc')->get();
         return view('admin.additional-to-products.color.index', [
@@ -16,14 +30,21 @@ class ColorController extends Controller
         ]);
     }
 
-    public function addColor(){
-
+    public function add(){
         return view('admin.additional-to-products.color.add',[
             'user' => $this->getUser(),
         ]);
     }
-    public function saveAddColor(Request $request){
+    public function saveAdd(Request $request){
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
+        // ======================= определяем активность чекбокса ======================
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
@@ -34,10 +55,9 @@ class ColorController extends Controller
             'active' => $active
 
         ]);
-        session(['success-message' => 'Колір успішно додано.']);
-        return redirect('/admin/colors');
+        return redirect('/admin/colors')->with(['success-message' => 'Колір успішно додано.']);
     }
-    public function editColor($color_id){
+    public function edit($color_id){
         $color = ProductColor::find($color_id);
         if(!$color){
             return response()->view('errors.404-admin', [
@@ -51,8 +71,32 @@ class ColorController extends Controller
         ]);
     }
 
-    public function saveEditColor(Request $request){
+    public function saveEdit(Request $request){
         $color = ProductColor::find($request['id']);
+
+        // ================ в случае старого сео не делать валидацию на уникальность==============
+
+        if($request['seo-field'] == $color->seo_name){
+            $validator = $this->validator($request->except('seo-field'));
+            if ($validator->fails()) {
+                return redirect()
+                    ->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+        }else{
+            // ================ если сео все же изменили то проверить на уникальность ==============
+
+            $validator = $this->validator($request->all());
+            if ($validator->fails()) {
+                return redirect()
+                    ->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+        }
+
+        // ======================= определяем активность чекбокса ======================
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
@@ -62,13 +106,11 @@ class ColorController extends Controller
             'seo_name'=> $request['seo-field'],
             'active' => $active
         ]);
-        session(['success-message' => 'Колір успішно змінено.']);
-        return redirect('admin/colors');
+        return redirect('admin/colors')->with(['success-message' => 'Колір успішно змінено.']);
     }
 
-    public function delColor($color_id){
+    public function delete($color_id){
         ProductColor::find($color_id)->delete();
-        session(['success-message' => 'Колір успішно видалено.']);
-        return redirect('admin/colors');
+        return redirect('admin/colors')->with(['success-message' => 'Колір успішно видалено.']);
     }
 }

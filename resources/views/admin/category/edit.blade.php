@@ -17,17 +17,32 @@
                 <form action="{{route('save.edit.category')}}" method="post">
                     <input type="hidden" name="id" value="{{$category->id}}">
                     <div class="add-block">
-                        <label for="title-field">Заголовок </label>
-                        <input type="text" value="{{$category->title}}" name="title-field">
+                        <label for="title-field">Заголовок* </label>
+                        <input type="text" value="{{$category->title}}" name="title-field" required maxlength="20">
                     </div>
+                    @if($errors->has('title-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('title-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
-                        <label for="name-field">Назва </label>
-                        <input type="text" value="{{$category->name}}" name="name-field">
+                        <label for="name-field">Назва* </label>
+                        <input type="text" value="{{$category->name}}" name="name-field" required maxlength="20">
                     </div>
+                    @if($errors->has('name-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('name-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
-                        <label for="seo-field">SEO </label>
-                        <input type="text" value="{{$category->seo_name}}" name="seo-field">
+                        <label for="seo-field">SEO* </label>
+                        <input type="text" value="{{$category->seo_name}}" name="seo-field" required maxlength="25">
                     </div>
+                    @if($errors->has('seo-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('seo-field') }}</strong>
+                        </div>
+                    @endif
                     @if(isset($category->categoryGroups))
                     <div class="add-block">
                         <label for="cat-field">Група категорій </label>

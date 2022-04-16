@@ -15,20 +15,35 @@
             {{--<h2>Додавання категорії</h2>--}}
             <form action="{{route('save.subcategory')}}" method="post">
                 <div class="add-block">
-                    <label for="title-field">Заголовок </label>
-                    <input type="text" name="title-field">
+                    <label for="title-field">Заголовок* </label>
+                    <input type="text" name="title-field" required maxlength="15">
                 </div>
+                @if($errors->has('title-field'))
+                    <div class="invalid-feedback admin-feedback" role="alert">
+                        <strong>{{ $errors->first('title-field') }}</strong>
+                    </div>
+                @endif
                 <div class="add-block">
-                    <label for="name-field">Назва </label>
-                    <input type="text" name="name-field">
+                    <label for="name-field">Назва* </label>
+                    <input type="text" name="name-field" required maxlength="15">
                 </div>
+                @if($errors->has('name-field'))
+                    <div class="invalid-feedback admin-feedback" role="alert">
+                        <strong>{{ $errors->first('name-field') }}</strong>
+                    </div>
+                @endif
                 <div class="add-block">
-                    <label for="seo-field">SEO </label>
-                    <input type="text" name="seo-field">
+                    <label for="seo-field">SEO* </label>
+                    <input type="text" name="seo-field" required maxlength="20">
                 </div>
+                @if($errors->has('seo-field'))
+                    <div class="invalid-feedback admin-feedback" role="alert">
+                        <strong>{{ $errors->first('seo-field') }}</strong>
+                    </div>
+                @endif
                 <div class="add-block">
-                    <label for="cat-field">Категорія </label>
-                        <select required size="5" name="cat-field" class="select-option">
+                    <label for="cat-field">Категорія* </label>
+                        <select required size="5" name="cat-field" class="select-option" >
                             @foreach($categories as $c)
                                 <option value="{{$c->id}}">{{$c->title}}</option>
                             @endforeach

@@ -10,6 +10,21 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
+
+    protected function validator(array $data){
+        $messages = [
+            'title-field.min' => 'Заговоловок має містити не менше 3-х символів.',
+            'name-field.min' => 'Назва має містити не менше 3-х символів.',
+            'seo-field.min' => 'СЕО має містити не менше 3-х символів.',
+            'seo-field.unique' => 'СЕО вже існує.',
+        ];
+        return Validator::make($data, [
+            'title-field' => ['string', 'min:3'],
+            'name-field' => [ 'string', 'min:3'],
+            'seo-field' => [ 'string', 'min:3',  'unique:categories,seo_name']
+        ], $messages);
+    }
+
     public function index()
     {
         $categories = Category::orderBy('id', 'desc')->get();
@@ -21,7 +36,7 @@ class CategoryController extends Controller
 
     //show adding form
 
-    public function addCategory(){
+    public function add(){
 
         return view('admin.category.add',[
             'user'=>$this->getUser(),
@@ -31,36 +46,40 @@ class CategoryController extends Controller
 
     //saving add
 
-    public function saveAddCategory(Request $request){
-        Validator::make($request->all(), [
-            'title-field' => ['required', 'string', 'max:255', 'unique:categories'],
-            'name-field' => ['required', 'string', 'max:255', 'unique:categories'],
-            'seo-field' => ['required', 'string', 'min:8',  'unique:categories']
-        ]);
+    public function saveAdd(Request $request){
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
-        $category = new Category();
+        // ================== Определение активности чекбокса =================
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
         }
-        $category->create([
+
+        // ===================== Создание категории ===============================
+        $category =  Category::create([
             'title' => $request['title-field'],
             'name' => $request['name-field'],
             'seo_name' => $request['seo-field'],
             'active' => $active,
         ]);
-        $addedCategory = Category::where('title', $request['title-field'])->first();
-        $category->categoryGroups()->attach($addedCategory->id,[
+
+        // ===================== Связь категории с группой категорий ===============================
+        $category->categoryGroups()->attach($category->id,[
             'category_group_id' => $request['cat-field'],
-            'category_id' => $addedCategory->id
+            'category_id' => $category->id
         ]);
-        session(['success-message' => 'Категорію успішно додано.']);
-        return redirect('/admin/categories');
+        return redirect('/admin/categories')->with(['success-message' => 'Категорію успішно додано.']);
     }
 
     //editing
 
-    public function editCategory($category_id){
+    public function edit($category_id){
         $category =  Category::find($category_id);
 
         if(!$category){
@@ -79,9 +98,31 @@ class CategoryController extends Controller
 
     //saving edit
 
-    public function saveEditCategory(Request $request){
-
+    public function saveEdit(Request $request){
         $category = Category::find($request['id']);
+
+        // ================ в случае старого сео не делать валидацию на уникальность==============
+
+        if($request['seo-field'] == $category->seo_name){
+            $validator = $this->validator($request->except('seo-field'));
+            if ($validator->fails()) {
+                return redirect()
+                    ->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+        }else{
+            // ================ если сео все же изменили то проверить на уникальность ==============
+
+            $validator = $this->validator($request->all());
+            if ($validator->fails()) {
+                return redirect()
+                    ->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+        }
+
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
@@ -104,6 +145,7 @@ class CategoryController extends Controller
             }
         }
 
+        // ======================= обновляем запись в базе ======================
         $category->update([
             'title' => $request['title-field'],
             'name' => $request['name-field'],
@@ -112,17 +154,17 @@ class CategoryController extends Controller
             'updated_at' => date("Y-m-d H:i:s")
         ]);
 
+        // ======================= обновляем связь с группой категорий ======================
+
         $category->categoryGroups()->where('category_id', $request['id'])->update(["category_group_id" => $request['cat-field']]);
-        session(['success-message' => 'Категорію успішно змінено.']);
-        return redirect("/admin/categories");
+        return redirect("/admin/categories")->with(['success-message' => 'Категорію успішно змінено.']);
     }
 
     //delete
 
-    public function delCategory($category_id){
+    public function delete($category_id){
         $category = Category::find($category_id);
         $category->delete();
-        session(['success-message' => 'Категорію успішно видалено.']);
-        return redirect("/admin/categories");
+        return redirect("/admin/categories")->with(['success-message' => 'Категорію успішно видалено.']);
     }
 }

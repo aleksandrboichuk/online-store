@@ -19,7 +19,7 @@ class PromotionController extends Controller
 {
     public function index(Request $request, $group_seo_name, $seo_name_banner){
         if(!$this->getUser()){
-            $cart = Cart::where('token', session('_token'))->first();
+            $cart = $this->getCartByToken();
         }
         $group = CategoryGroup::where('seo_name',$group_seo_name)->where('active', 1)->first();
         $brands = $this->getGroupBrand($group->id);

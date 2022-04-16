@@ -5,9 +5,23 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ProductSize;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SizeController extends Controller
 {
+
+    protected function validator(array $data){
+        $messages = [
+            'name-field.min' => 'Заговоловок має містити не менше 2-х символів.',
+            'seo-field.min' => 'СЕО має містити не менше 2-х символів.',
+            'seo-field.unique' => 'СЕО вже існує.',
+        ];
+        return Validator::make($data, [
+            'name-field' => ['string', 'min:2'],
+            'seo-field' => ['string', 'unique:product_sizes,seo_name', 'min:2'],
+        ], $messages);
+    }
+
     public function index(){
         $sizes =  ProductSize::orderBy('id', 'desc')->get();
         return view('admin.additional-to-products.size.index', [
@@ -16,13 +30,20 @@ class SizeController extends Controller
         ]);
     }
 
-    public function addSize(){
+    public function add(){
 
         return view('admin.additional-to-products.size.add',[
             'user' => $this->getUser(),
         ]);
     }
-    public function saveAddSize(Request $request){
+    public function saveAdd(Request $request){
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         $active = false;
         if($request['active-field'] == "on"){
@@ -34,10 +55,9 @@ class SizeController extends Controller
             'active' => $active
 
         ]);
-        session(['success-message' => 'Розмір успішно додано.']);
-        return redirect('/admin/sizes');
+        return redirect('/admin/sizes')->with(['success-message' => 'Розмір успішно додано.']);
     }
-    public function editSize($size_id){
+    public function edit($size_id){
         $size = ProductSize::find($size_id);
         if(!$size){
             return response()->view('errors.404-admin', [
@@ -50,8 +70,29 @@ class SizeController extends Controller
         ]);
     }
 
-    public function saveEditSize(Request $request){
+    public function saveEdit(Request $request){
         $size = ProductSize::find($request['id']);
+        // ================ в случае старого сео не делать валидацию на уникальность==============
+        if($request['seo-field'] == $size->seo_name){
+            $validator = $this->validator($request->except('seo-field'));
+            if ($validator->fails()) {
+                return redirect()
+                    ->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+        }else{
+            // ================ если сео все же изменили то проверить на уникальность ==============
+
+            $validator = $this->validator($request->all());
+            if ($validator->fails()) {
+                return redirect()
+                    ->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+        }
+        // ======================= определяем активность чекбокса ======================
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
@@ -61,13 +102,11 @@ class SizeController extends Controller
             'seo_name'=> $request['seo-field'],
             'active' => $active
         ]);
-        session(['success-message' => 'Розмір успішно змінено.']);
-        return redirect('admin/sizes');
+        return redirect('admin/sizes')->with(['success-message' => 'Розмір успішно змінено.']);
     }
 
-    public function delSize($size_id){
+    public function delete($size_id){
         ProductSize::find($size_id)->delete();
-        session(['success-message' => 'Розмір успішно видалено.']);
-        return redirect('admin/sizes');
+        return redirect('admin/sizes')->with(['success-message' => 'Розмір успішно видалено.']);
     }
 }

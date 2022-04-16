@@ -18,6 +18,10 @@ $(window).on('load', function () {
 });
 
 $(document).ready(function () {
+
+  $('.alert-btn-close').click(function () {
+    $(this).parent().parent().removeClass('alert-active');
+  });
   //=========================== Selecting chose category group =======================
     var url = location.pathname.split('/');
   console.log(url);

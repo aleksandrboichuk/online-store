@@ -18,7 +18,7 @@ class ProductController extends Controller
 {
     public function showProductDetails (Request $request, $group_seo_name, $category_seo_name,$sub_category_seo_name, $product_seo_name){
         if(!$this->getUser()){
-            $cart = Cart::where('token', session('_token'))->first();
+            $cart = $this->getCartByToken();
         }else{
             $cart = Cart::where('user_id', Auth::id())->first();
         }

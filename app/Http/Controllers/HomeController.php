@@ -29,7 +29,7 @@ class HomeController extends Controller
 
     public function contact(){
         if(!$this->getUser()){
-            $cart = Cart::where('token', session('_token'))->first();
+            $cart = $this->getCartByToken();
         }
         return view('contact.contact', [
            'user' => $this->getUser(),

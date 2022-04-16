@@ -21,56 +21,68 @@
                         <label for="firstname-field">Ім'я </label>
                         <input type="text" value="{{$user->first_name}}" name="firstname-field">
                     </div>
+                    @if($errors->has('firstname-field'))
+                        <div class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('firstname-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="lastname-field">Прізвище </label>
                         <input type="text" value="{{$user->last_name}}" name="lastname-field">
                     </div>
+                    @if($errors->has('lastname-field'))
+                        <div class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('lastname-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="email-field">Ел. пошта </label>
                         <input type="email" value="{{$user->email}}" name="email-field">
                     </div>
-                     @if (session()->has('email'))
-                        <div class="invalid-feedback invalid-feedback-personal" role="alert">
-                            <strong>{{ session()->get('email') }}</strong>
-                            @php(session()->forget('email'))
+                    @if($errors->has('email-field'))
+                        <div class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('email-field') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
                         <label for="phone-field">Телефон </label>
                         <input type="text" value="{{!empty($user->phone) ? $user->phone : ''}}" name="phone-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                     </div>
-                    @if (session()->has('phone'))
-                        <div class="invalid-feedback invalid-feedback-personal" role="alert">
-                            <strong>{{ session()->get('phone') }}</strong>
-                            @php(session()->forget('phone'))
+                    @if($errors->has('phone-field'))
+                        <div class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('phone-field') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
                         <label for="city-field">Місто </label>
                         <input type="text" value="{{$user->city}}" name="city-field">
                     </div>
+                    @if($errors->has('city-field'))
+                        <div class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('city-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="old-pass-field">Пароль* </label>
                         <input type="password"  name="old-pass-field" required>
                     </div>
-                    @if (session()->has('old-pass-error'))
-                        <div class="invalid-feedback invalid-feedback-personal" role="alert">
-                            <strong>{{ session()->get('old-pass-error') }}</strong>
-                            @php(session()->forget('old-pass-error'))
+                    @if(session()->has('old-pass-error'))
+                        <div class="invalid-feedback" role="alert">
+                            <strong>{{ session('old-pass-error')}}</strong>
                         </div>
+                        @php(session()->forget('old-pass-error'))
                     @endif
                     <div class="add-block block-passwords">
                         <label for="new-pass-field">Новий пароль </label>
-                        <input type="password" name="new-pass-field">
+                        <input type="password" name="password">
                     </div>
                     <div class="add-block">
                         <label for="confirm-new-pass-field">Підтвердження нового паролю </label>
-                        <input type="password"  name="confirm-new-pass-field">
+                        <input type="password"  name="password_confirmation">
                     </div>
-                    @if (session()->has('confirm-new-pass-error'))
-                        <div class="invalid-feedback invalid-feedback-personal" role="alert">
-                            <strong>{{ session()->get('confirm-new-pass-error') }}</strong>
-                            @php(session()->forget('confirm-new-pass-error'))
+                    @if($errors->has('password'))
+                        <div class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('password') }}</strong>
                         </div>
                     @endif
                     <button type="submit" class="btn btn-default todo-btn">Зберегти</button>

@@ -47,18 +47,28 @@ class RegisterController extends Controller
     }
 
     protected function validator(array $data){
+        $messages = [
+          'password.confirmed' => 'Паролі не співпадають.',
+          'password.min' => 'Пароль має містити не менше 3-х символів.',
+          'firstname.min' => 'Ім\'я має містити не менше 3-х символів.',
+          'lastname.min' => 'Прізвище має містити не менше 3-х символів.',
+          'firstname.max' => 'Ім\'я має містити не більше 20-ти символів.',
+          'lastname.max' => 'Прізвище має містити не більше 20-ти символів.',
+          'email.min' => 'Пошта має містити не менше 8-ми символів.',
+          'email.max' => 'Пошта має містити не більше 30-ти символів.',
+          'email.unique' => 'Користувач з такою поштою вже існує.',
+        ];
         return Validator::make($data, [
-            'firstname' => ['required', 'string', 'max:20'],
-            'email' => ['required', 'string', 'email', 'max:20', 'unique:users'],
+            'firstname' => ['required', 'string', 'max:20', 'min:3'],
+            'lastname' => ['required', 'string', 'max:20', 'min:3'],
+            'email' => ['required', 'string', 'email', 'max:30', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'lastname' => ['required', 'string', 'max:20'],
-            'address' => ['required', 'string', 'max:255'],
-        ]);
+        ], $messages);
     }
 
     public function showRegistrationForm(){
         if(!$this->getUser()){
-            $cart = Cart::where('token', session('_token'))->first();
+            $cart = $this->getCartByToken();
         }
         return view('auth.register', [
             'user' => $this->getUser(),
@@ -68,27 +78,13 @@ class RegisterController extends Controller
     }
 
     public function toRegister(Request $request){
-        $this->validator($request->all());
-        foreach (User::all() as $u){
-            // ================================= Проверка уникальности почты и теелфона  ===============================
 
-            if($request['email'] == $u->email){
-                session(
-                    [
-                        'email' => 'Користувач з таким email\'ом вже існує.'
-                    ]);
-                return redirect()->back()->withInput($request->all());
-            }
-        }
-
-        // ================================= Проверка подтверждения пароля  ===========================================
-
-        if($request['password'] != $request['password_confirmation']){
-            session(
-                [
-                    'new-pass' => 'Паролі не співпадають.'
-                ]);
-            return redirect()->back()->withInput($request->all());
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
         }
 
         // ================================= Создаем юзера  ===========================================
@@ -97,7 +93,6 @@ class RegisterController extends Controller
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
             'last_name' => $request['lastname'],
-            'address' => $request['address'],
         ]);
 
         // ================================= Создание корзины  ===========================================

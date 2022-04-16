@@ -11,10 +11,10 @@ class CartController extends Controller
 {
 
     public function showUserCart(Request $request){
-
+        // ==================== определяем юзера ====================
         if(!$this->getUser()){
-            $user_cart = Cart::where('token', session('_token'))->first();
-
+            $user_cart = $this->getCartByToken();
+            // ==================== аякс при изменении кол-ва товара в корзине ====================
             if(!empty($request->value) && !empty($request->updateId) && !empty($request->updateSize)) {
                 $product = $user_cart->products()->where("product_id",$request->updateId)->first();
                 $product->carts()->where('token', session('_token'))->where('size', $request->updateSize)->update(["count" => $request->value]);
@@ -27,6 +27,7 @@ class CartController extends Controller
                 }
             }
         }else{
+            // ==================== юзера нет - ищем корзину по токену ====================
             $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
             if(!empty($request->value) && !empty($request->updateId) && !empty($request->updateSize)) {
                 $product = $user_cart->products()->where("product_id",$request->updateId)->first();
@@ -40,7 +41,7 @@ class CartController extends Controller
                 }
             }
         }
-
+// ==================== может быть будет желание сделать удаление через аякс ====================
 //        if(!empty($request->deleteId)) {
 //            $user_cart->products()->detach($request->deleteId);
 //            if($request->ajax()){
@@ -50,6 +51,7 @@ class CartController extends Controller
 //            ])->render();
 //            }
 //        }
+
         $user = $this->getUser();
         return view('cart.cart', [
             'user' =>$user,
@@ -63,7 +65,7 @@ class CartController extends Controller
     public function deleteFromCart(Request $request){
 
         if(!$this->getUser()){
-            $user_cart = Cart::where('token', session('_token'))->first();
+            $user_cart = $this->getCartByToken();
         }else{
             $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
         }
@@ -71,8 +73,7 @@ class CartController extends Controller
         if(!empty($request['delete-id'])) {
             $user_cart->products()->detach($request['delete-id']);
         }
-        session(['success-message-delete' => 'Товар успішно видалено з кошику.']);
-         return back();
+         return back()->with(['success-message-delete' => 'Товар успішно видалено з кошику.']);
     }
 
 }

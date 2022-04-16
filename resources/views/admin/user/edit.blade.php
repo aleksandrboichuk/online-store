@@ -18,20 +18,35 @@
                     <input type="hidden" name="id" value="{{$adm_user->id}}">
                     <div class="add-block">
                         <label for="firstname-field">Ім'я </label>
-                        <input type="text" value="{{$adm_user->first_name}}" name="firstname-field">
+                        <input type="text" value="{{$adm_user->first_name}}" name="firstname-field" required maxlength="20">
                     </div>
+                    @if($errors->has('firstname-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('firstname-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="lastname-field">Прізвище </label>
-                        <input type="text" value="{{$adm_user->last_name}}" name="lastname-field">
+                        <input type="text" value="{{$adm_user->last_name}}" name="lastname-field" required maxlength="20">
                     </div>
+                    @if($errors->has('lastname-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('lastname-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="admin-field">Адмін </label>
                         <input type="checkbox"  name="admin-field" {{$adm_user->superuser ? "checked" : ""}}>
                     </div>
                     <div class="add-block">
                         <label for="email-field">Ел. пошта </label>
-                        <input type="email" value="{{$adm_user->email}}" name="email-field">
+                        <input type="email" value="{{$adm_user->email}}" name="email-field" required maxlength="20">
                     </div>
+                    @if($errors->has('email-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('email-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="phone-field">Телефон </label>
                         <input type="text" value="{{!empty($adm_user->phone) ? $adm_user->phone : ''}}" readonly name="phone-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">

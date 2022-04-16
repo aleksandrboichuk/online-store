@@ -19,7 +19,7 @@
                                 <input type="text" name="name" value="{{!empty($user) ? $user->first_name : ""}}" class="form-control" required="required" placeholder="Ім'я" />
                             </div>
                             <div class="form-group col-md-6">
-                                <input type="email" name="email" value="{{!empty($user) ? $user->email : ""}}" class="form-control" required="required" placeholder="Ел. пошта" />
+                                <input type="email" name="email" value="{{!empty($user) ? $user->email : ""}}" class="form-control" placeholder="Ел. пошта" readonly/>
                             </div>
                             <div class="form-group col-md-12">
                                 <input type="text" name="theme" class="form-control"  required="required" placeholder="Тема"  maxlength="20"/>

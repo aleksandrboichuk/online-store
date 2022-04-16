@@ -18,12 +18,22 @@
                     <input type="hidden" name="id" value="{{$brand->id}}">
                     <div class="add-block">
                         <label for="name-field">Назва </label>
-                        <input type="text" value="{{$brand->name}}" name="name-field">
+                        <input type="text" value="{{$brand->name}}" name="name-field" required maxlength="15">
                     </div>
+                    @if($errors->has('name-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('name-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="seo-field">SEO </label>
-                        <input type="text" value="{{$brand->seo_name}}" name="seo-field">
+                        <input type="text" value="{{$brand->seo_name}}" name="seo-field" required maxlength="15">
                     </div>
+                    @if($errors->has('seo-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('seo-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="active-field">Активність </label>
                         <input type="checkbox" name="active-field" {{$brand->active ? "checked" : ""}}>

@@ -17,20 +17,35 @@
                     <input type="hidden" name="id">
                     <div class="add-block">
                         <label for="title-field">Назва*</label>
-                        <input type="text" name="title-field" required>
+                        <input type="text" name="title-field" required maxlength="20">
                     </div>
+                    @if($errors->has('title-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('title-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="description-field">Опис* </label>
-                        <textarea  name="description-field" cols="30"  rows="10" required></textarea>
+                        <textarea  name="description-field" cols="30"  rows="10" required maxlength="100"></textarea>
                     </div>
+                    @if($errors->has('description-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('description-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="discount-field">Знижка на товари у кошику* </label>
-                        <input type="text" name="discount-field" required  onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
+                        <input type="text" name="discount-field" required  onkeyup="this.value = this.value.replace(/[^\d]/g,'');" maxlength="2">
                     </div>
                     <div class="add-block">
                         <label for="promocode-field">Промокод* </label>
                         <input type="text" name="promocode-field" required maxlength="20">
                     </div>
+                    @if($errors->has('promocode-field'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('promocode-field') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="min-cart-products-field">Мінімальна кількість товарів у кошику </label>
                         <input type="text"  name="min-cart-products-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');" placeholder="0 - без обмежень">
