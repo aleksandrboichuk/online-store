@@ -1540,12 +1540,14 @@ h2.title {
     margin-top: 185px;
     overflow: hidden;
 }
-.login-form {
+.auth-form {
+    max-width: 400px;
 }
 .card-body .row{
     display: grid;
     margin-bottom: 10px;
 }
+
 .invalid-feedback {
     margin-left: auto;
     text-align: right;
@@ -1555,6 +1557,9 @@ h2.title {
     padding-left: 15px;
     font-size: 16px;
     color: #dc3545;
+}
+.auth-feedback{
+    margin: -10px 20px 0 0;
 }
 .admin-feedback{
     width: 100%;
@@ -1571,23 +1576,24 @@ h2.title {
     margin-bottom: 20px;
 }
 .card .form-check{
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    max-height: 25px;
 }
 .offset-md-4 .btn-primary{
+    background: #6fa1f4;
     width: 100%;
     font-size: 16px;
-
+    border: 1px solid #6fa1f4;
 }
-
+.offset-md-4 .btn-primary:hover{
+    background: transparent;
+    color: #6fa1f4;
+    border: 1px solid #6fa1f4;
+    transition: all .2s linear;
+}
 .or-a a:hover{
     cursor: default;
     color: black;
-}
-.offset-md-4 .btn-primary:hover{
-    color: black;
-    background-color: white;
-    border: 1px solid #b8b8b8;
-    transition: all .2s linear;
 }
 .offset-md-4 .btn-link{
     padding: 0;
