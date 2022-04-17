@@ -19,10 +19,10 @@ class CartByToken
     public function handle(Request $request, Closure $next)
     {
         if(!Auth::check()){
-            $cart = Cart::where('token', session('_token'))->first();
+            $cart = Cart::where('token', session()->getId())->first();
             if(!$cart){
                  Cart::create([
-                    'token' => session('_token')
+                    'token' => session()->getId()
                 ]);
                 // не практично, но сойдет
                 $cart = Cart::where('user_id', null)->where('created_at', '<', date('Y-m-d H:i:s', strtotime('-5 hours')))->get();

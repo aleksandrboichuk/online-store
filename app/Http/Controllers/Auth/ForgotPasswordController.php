@@ -71,7 +71,7 @@ class ForgotPasswordController extends Controller
         DB::table('password_resets')->insert([
            'email' =>  $user->email,
            'confirm_code' => $code,
-           'session_code' => session('_token'),
+           'session_code' => session()->getId(),
            'created_at' => date('Y-m-d H:i:s')
         ]);
         //==================== чтоб не было доступа к урлу - все далаем по цепочке вьюх ====================
@@ -84,7 +84,7 @@ class ForgotPasswordController extends Controller
 //==================== проверяем на любопытных, которые меняют имя инпута на фронте ====================
         if(isset($request['code'])){
             //==================== получаем ранее созданную запись в бд через токен сессии ====================
-            $record = DB::table('password_resets')->where('session_code', session('_token'))->orderBy('created_at', 'desc')->first();
+            $record = DB::table('password_resets')->where('session_code',session()->getId())->orderBy('created_at', 'desc')->first();
 
             if(!$record){
                 return redirect('/login')->with(['error' => 'Щось пішло не так. Спробуйте ще раз через декілька хвилин.']);
@@ -108,7 +108,7 @@ class ForgotPasswordController extends Controller
     }
 
     public function savePassword(Request $request){
-        $record = DB::table('password_resets')->where('session_code', session('_token'))->orderBy('created_at', 'desc')->first();
+        $record = DB::table('password_resets')->where('session_code', session()->getId())->orderBy('created_at', 'desc')->first();
         if(!$record){
             return redirect('/login')->with(['error' => 'Щось пішло не так. Спробуйте ще раз через декілька хвилин.']);
         }

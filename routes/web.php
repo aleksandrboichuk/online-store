@@ -65,7 +65,7 @@ if(preg_match("#^\/register\b#", \request()->getRequestUri()) == false
     && preg_match("#^\/shop\b#", \request()->getRequestUri()) == false) {
     Route::get('{any?}', function () {
         if(!Auth::user()){
-            $cart = \App\Models\Cart::where('token', session('_token'))->first();
+            $cart = \App\Models\Cart::where('token', session()->getId())->first();
         }
         return response()->view('errors.404', ['user' => Auth::user(), 'cart' => isset($cart) ? $cart : null ], 404);
     })->where('any', '.*');

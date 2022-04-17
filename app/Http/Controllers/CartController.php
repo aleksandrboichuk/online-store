@@ -17,7 +17,7 @@ class CartController extends Controller
             // ==================== аякс при изменении кол-ва товара в корзине ====================
             if(!empty($request->value) && !empty($request->updateId) && !empty($request->updateSize)) {
                 $product = $user_cart->products()->where("product_id",$request->updateId)->first();
-                $product->carts()->where('token', session('_token'))->where('size', $request->updateSize)->update(["count" => $request->value]);
+                $product->carts()->where('token', session()->getId())->where('size', $request->updateSize)->update(["count" => $request->value]);
                 if($request->ajax()){
                     return view('ajax.ajax-cart',[
                         'user' =>$this->getUser(),

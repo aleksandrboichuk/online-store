@@ -115,7 +115,7 @@ class CheckoutController extends Controller
         if(!$this->getUser()) {
             try{
                 $ordersList = OrdersList::create([
-                    "token"=> session('_token'),
+                    "token"=> session()->getId(),
                     "name" =>$request['user-firstname'] . ' ' . $request['user-lastname'],
                     "email"=> isset($email) ? $email : null,
                     "pay_now"=> $payNow,

@@ -41,7 +41,7 @@ class Controller extends BaseController
     }
 
     public function getCartByToken(){
-        return Cart::where('token', session('_token'))->first();
+        return Cart::where('token', session()->getId())->first();
     }
 
 
