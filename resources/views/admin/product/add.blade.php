@@ -75,10 +75,6 @@
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="count-field">Кількість </label>
-                        <input type="text" name="count-field" readonly>
-                    </div>
-                    <div class="add-block">
                         <label for="active-field">Активність </label>
                         <input type="checkbox" name="active-field">
                     </div>

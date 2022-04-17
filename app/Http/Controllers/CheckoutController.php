@@ -30,7 +30,7 @@ class CheckoutController extends Controller
             $productPrice = $user_cart->products[$i]['discount'] != 0
                 ? $user_cart->products[$i]['price'] - (round($user_cart->products[$i]['price'] * ($user_cart->products[$i]['discount'] * 0.01)))
                 : $user_cart->products[$i]['price'];
-            $totalSum += $user_cart->products[$i]->pivot->count * $productPrice;
+            $totalSum += $user_cart->products[$i]->pivot->product_count * $productPrice;
         }
 
 
@@ -84,7 +84,7 @@ class CheckoutController extends Controller
             $productPrice = $cart->products[$i]['discount'] != 0
                 ? $cart->products[$i]['price'] - (round($cart->products[$i]['price'] * ($cart->products[$i]['discount'] * 0.01)))
                 : $cart->products[$i]['price'];
-            $totalSum += $cart->products[$i]->pivot->count *  $productPrice;
+            $totalSum += $cart->products[$i]->pivot->product_count *  $productPrice;
         }
 
         // ====================== define total sum with promocode ================
@@ -158,8 +158,8 @@ class CheckoutController extends Controller
                     "product_id" => $product->id,
                     "name" => $product->name,
                     "price" => $productPrice,
-                    "count" => $product->pivot->count,
-                    "total_cost" => $productPrice * $product->pivot->count,
+                    "product_count" => $product->pivot->product_count,
+                    "total_cost" => $productPrice * $product->pivot->product_count,
                     "size" => $product->pivot->size,
                 ]);
 

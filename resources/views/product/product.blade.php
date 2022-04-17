@@ -130,8 +130,10 @@
                                    @endif
                                 <div class="product-characteristics">
                                     <b>Наявність:</b>
-                                    <p style="color: {{$product->in_stock ? 'green' : "red" }};">
-                                        {{$product->in_stock ? " У наявності": "Немає у наявності"}}</p>
+                                    <p class="stock-status {{$stockStatus[0]}}">
+                                        {{$stockStatus[1]}}
+                                    </p>
+
                                 </div>
                                     <div class="product-characteristics">
                                         <b>Бренд: </b>

@@ -137,13 +137,11 @@ class ProductController extends Controller
                 ->withInput();
         }
 
-
-        $product = new Product;
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
         }
-        $product->create([
+        $product = Product::create([
             'name' => $request['name-field'],
             'seo_name' => $request['seo-field'],
             'preview_img_url' => $request->file('main-image-field')->getClientOriginalName(),
@@ -160,28 +158,24 @@ class ProductController extends Controller
             'product_brand_id' => $request['brand-field'],
         ]);
 
-        $getProduct = Product::where('name', $request['name-field'])->first();
-
         // добавление картинок в хранилище и в БД
-
         $mainImageFile = $request->file('main-image-field');
         $imageNames = [];
         //в первьюхи
-        Storage::disk('public')->putFileAs('product-images/'.$getProduct->id.'/preview', $mainImageFile, $mainImageFile->getClientOriginalName());
-
+        Storage::disk('public')->putFileAs('product-images/'.$product->id.'/preview', $mainImageFile, $mainImageFile->getClientOriginalName());
         // детальные изобр. все
         if(isset($request['additional-image-field-1'])){
             for($i = 0; $i <= 7; $i++){
                 if(isset($request['additional-image-field-' . $i])){
                     $imgFile = $request->file('additional-image-field-' . $i);
-                    Storage::disk('public')->putFileAs('product-images/'.$getProduct->id.'/details', $imgFile, $imgFile->getClientOriginalName());
+                    Storage::disk('public')->putFileAs('product-images/'.$product->id.'/details', $imgFile, $imgFile->getClientOriginalName());
                     $imageNames['images'][$i] = $imgFile->getClientOriginalName();
                 }
             }
             foreach($imageNames['images'] as $addImage){
                 ProductImage::create([
                     'url' => $addImage,
-                    'product_id' => $getProduct->id
+                    'product_id' => $product->id
                 ]);
             }
         }
@@ -189,8 +183,8 @@ class ProductController extends Controller
         // материалы , размеры
         if(isset($request['materials'])){
             foreach ($request['materials'] as $key => $value){
-                $getProduct->materials()->attach($getProduct->id,[
-                    'product_id' => $getProduct->id,
+                $product->materials()->attach($product->id,[
+                    'product_id' => $product->id,
                     'product_material_id' => $value
                 ]);
             }
@@ -205,22 +199,23 @@ class ProductController extends Controller
                 }
             }
             for($i = 0; $i < count($request['sizes']); $i++){
-                $getProduct->sizes()->attach($getProduct->id,[
-                    'product_id' => $getProduct->id,
+                $product->sizes()->attach($product->id,[
+                    'product_id' => $product->id,
                     'product_size_id' => $request['sizes'][$i],
                     'count' =>  isset($sizeCount[$i]) ? $sizeCount[$i] : 1
                 ]);
             }
         }
-        if(isset($getProduct->sizes) && !empty($getProduct->sizes)){
+        if(isset($product->sizes) && !empty($product->sizes)){
             $count = 0;
-            foreach ($getProduct->sizes as $s){
+            foreach ($product->sizes as $s){
                 $count += $s->pivot->count;
             }
-            $getProduct->update([
+            $product->update([
                 'count' => $count
             ]);
         }
+
         return redirect('/admin/products')->with(['success-message' => 'Товар успішно додано.']);
     }
 
@@ -244,7 +239,6 @@ class ProductController extends Controller
         for($i = 0; $i < count($product->materials); $i++){
             $selectedMaterials[] =  $product->materials[$i]['id'];
         }
-
         for($i = 0; $i < count($product->sizes); $i++){
             $selectedSizes[] =  $product->sizes[$i]['id'];
         }

@@ -14,10 +14,11 @@ class CartController extends Controller
         // ==================== определяем юзера ====================
         if(!$this->getUser()){
             $user_cart = $this->getCartByToken();
+            // ==================== юзера нет - ищем корзину по токену ====================
             // ==================== аякс при изменении кол-ва товара в корзине ====================
             if(!empty($request->value) && !empty($request->updateId) && !empty($request->updateSize)) {
                 $product = $user_cart->products()->where("product_id",$request->updateId)->first();
-                $product->carts()->where('token', session()->getId())->where('size', $request->updateSize)->update(["count" => $request->value]);
+                $product->carts()->where('token', session()->getId())->where('size', $request->updateSize)->update(["product_count" => $request->value]);
                 if($request->ajax()){
                     return view('ajax.ajax-cart',[
                         'user' =>$this->getUser(),
@@ -27,11 +28,10 @@ class CartController extends Controller
                 }
             }
         }else{
-            // ==================== юзера нет - ищем корзину по токену ====================
             $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
             if(!empty($request->value) && !empty($request->updateId) && !empty($request->updateSize)) {
                 $product = $user_cart->products()->where("product_id",$request->updateId)->first();
-                $product->carts()->where('user_id', $this->getUser()->id)->where('size', $request->updateSize)->update(["count" => $request->value]);
+                $product->carts()->where('user_id', $this->getUser()->id)->where('size', $request->updateSize)->update(["product_count" => $request->value]);
                 if($request->ajax()){
                     return view('ajax.ajax-cart',[
                         'user' =>$this->getUser(),

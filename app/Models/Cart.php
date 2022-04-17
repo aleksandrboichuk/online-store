@@ -14,7 +14,7 @@ class Cart extends Model
         'token',
         ];
     public function products(){
-        return $this->belongsToMany('App\Models\Product')->withPivot('count', 'size');
+        return $this->belongsToMany('App\Models\Product')->withPivot('product_count', 'size');
     }
 
     public function user(){

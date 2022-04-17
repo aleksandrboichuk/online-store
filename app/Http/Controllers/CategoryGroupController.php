@@ -22,13 +22,11 @@ class CategoryGroupController extends Controller
         if(!$this->getUser()){
             $cart = $this->getCartByToken();
         }
-
         $group = CategoryGroup::where('seo_name',$group_seo_name)->where('active', 1)->first();
         if(!$group){
             return response()->view('errors.404', ['user' => $this->getUser(), 'cart' => isset($cart) ? $cart : null], 404);
         }
         $group_products = Product::where('category_group_id',$group->id)->where('active', 1)->orderBy('created_at', 'desc')->paginate(8);
-
         $group_brands = $this->getGroupBrand($group->id);
 
         /*----------------------  AJAX  ----------------------*/
@@ -124,7 +122,6 @@ class CategoryGroupController extends Controller
 //                ])->render();
 //            }
 //        }
-        
 
         return view('index',[
             'banners' => Banner::where('active', 1)->where('category_group_id', $group->id)->get(),

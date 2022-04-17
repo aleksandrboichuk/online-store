@@ -52,15 +52,15 @@
                                     <p>{{$item->pivot->size}}</p>
                                 </td>
                                 <td class="cart_quantity">
-                                    <p>{{$item->pivot->count}}</p>
+                                    <p>{{$item->pivot->product_count}}</p>
                                 </td>
                                 @if($item->discount != 0)
                                     <td class="cart_total">
-                                        <p class="cart_total_price">₴{{$item->pivot->count * ($item->price - (round($item->price * ($item->discount * 0.01))))}}</p>
+                                        <p class="cart_total_price">₴{{$item->pivot->product_count * ($item->price - (round($item->price * ($item->discount * 0.01))))}}</p>
                                     </td>
                                 @else
                                     <td class="cart_total">
-                                        <p class="cart_total_price">₴{{$item->pivot->count * $item->price}}</p>
+                                        <p class="cart_total_price">₴{{$item->pivot->product_count * $item->price}}</p>
                                     </td>
                                 @endif
                             </tr>

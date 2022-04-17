@@ -17,7 +17,6 @@ class OrderController extends Controller
      *
     */
 
-
     public  function index(){
         $orders = OrdersList::orderBy('status', 'asc')->orderBy('created_at', 'desc')->paginate(10);
 
@@ -53,7 +52,6 @@ class OrderController extends Controller
 
     public function saveEdit(Request $request){
         $order = OrdersList::find($request['id']);
-
         $total_cost = intval($request['sum-field']);
         if($request['status-field'] == 4){
             foreach($order->items as $item){
@@ -72,7 +70,7 @@ class OrderController extends Controller
                     'popularity' => $product->popularity + 1
                 ]);
             }
-            // ============================= обновляем инфу о количестве заказов юззера и их сумме ===========================================
+            // ================ обновляем инфу о количестве заказов юззера и их сумме ===================
             if(!empty($order->users)){
                 $user = $order->users;
                 $user->update([
@@ -89,7 +87,6 @@ class OrderController extends Controller
                 }
             }
         }
-
 
         $order->update([
             'name' => $request['name-field'],

@@ -71,7 +71,7 @@
                                         class="cart_quantity_input"
                                         type="text"
                                         name="quantity"
-                                        value="{{$item->pivot->count}}"
+                                        value="{{$item->pivot->product_count}}"
                                         autocomplete="off"
                                         size="2"
                                         id="{{$item->id}}"
@@ -79,11 +79,11 @@
                         </td>
                         @if($item->discount != 0)
                             <td class="cart_total">
-                                <p class="cart_total_price">₴{{$item->pivot->count * ($item->price - (round($item->price * ($item->discount * 0.01))))}}</p>
+                                <p class="cart_total_price">₴{{$item->pivot->product_count * ($item->price - (round($item->price * ($item->discount * 0.01))))}}</p>
                             </td>
                         @else
                             <td class="cart_total">
-                                <p class="cart_total_price">₴{{$item->pivot->count * $item->price}}</p>
+                                <p class="cart_total_price">₴{{$item->pivot->product_count * $item->price}}</p>
                             </td>
                         @endif
                         <td class="cart_delete">

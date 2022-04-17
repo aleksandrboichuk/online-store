@@ -25,7 +25,7 @@ class CartByToken
                     'token' => session()->getId()
                 ]);
                 // не практично, но сойдет
-                $cart = Cart::where('user_id', null)->where('created_at', '<', date('Y-m-d H:i:s', strtotime('-5 hours')))->get();
+                $cart = Cart::where('user_id', null)->where('created_at', '<', date('Y-m-d H:i:s', strtotime('-2 days')))->get();
                 foreach ($cart as $c){
                     $c->delete();
                 }

@@ -24,7 +24,6 @@ $(document).ready(function () {
   });
   //=========================== Selecting chose category group =======================
     var url = location.pathname.split('/');
-  console.log(url);
    if(url.length > 2) {
      if (url[2] == "women") {
        $('.mainmenu').find('a[class="women"]').addClass("active-nav-item");

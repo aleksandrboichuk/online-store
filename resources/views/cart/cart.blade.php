@@ -64,16 +64,16 @@
                                                 <div class="quantity-group">
                                                     <input type="button" class="quantity-minus" value="-">
                                                         <input type="hidden" name="size" id="size" value="{{$item->pivot->size}}">
-                                                        <input type="text" class="quantity" name="quantity"  value="{{$item->pivot->count}}" id="{{$item->id}}"  autocomplete="off" readonly />
+                                                        <input type="text" class="quantity" name="quantity"  value="{{$item->pivot->product_count}}" id="{{$item->id}}"  autocomplete="off" readonly />
                                                     <input type="button"  class="quantity-plus" value="+">
                                                 </div>
                                             </td>
                                             <td class="size-col"><h4>{{$item->pivot->size}}</h4></td>
                                             <td class="total-col"><h4>
                                             @if($item->discount != 0)
-                                                  ₴{{$item->pivot->count * ($item->price - (round($item->price * ($item->discount * 0.01))))}}
+                                                  ₴{{$item->pivot->product_count * ($item->price - (round($item->price * ($item->discount * 0.01))))}}
                                             @else
-                                                  ₴{{$item->pivot->count * $item->price}}
+                                                  ₴{{$item->pivot->product_count * $item->price}}
                                             @endif
                                             </h4></td>
                                             <td class="del-col">

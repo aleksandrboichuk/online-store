@@ -1386,6 +1386,20 @@ h2.title {
     font-weight: 700;
     margin-right: 5px;
 }
+
+.stock-status{
+    font-weight: bold;
+}
+.in-stock{
+    color: green !important;
+}
+.not-in-stock{
+    color: red !important;
+}
+.ends-in-stock{
+    color: #ff7c0d !important;
+}
+
 .share {
     margin-top: 15px;
 }
@@ -2592,10 +2606,24 @@ h2.title {
     font-size: 18px;
 }
 .input-count{
-    margin-left: 20px;
+    margin-left: 10px;
     font-size: 15px;
-    width: 290px;
+    width: 50px;
+    margin-right: 10px;
 }
+.input-count-p{
+    width: 110px !important;
+    font-size: 14px !important;
+}
+
+.add-sizes .input-block-item{
+    width: 250px;
+}
+.add-sizes .inputs-block{
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .product-img-admin-edit{
     max-width: 100px;
     max-height: 100px;
@@ -2669,7 +2697,7 @@ h2.title {
 }
 .input-block-item{
     display: flex;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 
@@ -2707,19 +2735,24 @@ h2.title {
 
 
 .add-sizes{
+    padding-top: 30px;
+    border-top: 1px solid #b4b1ab;
     max-height: 550px;
     overflow: auto;
 }
 .add-materials{
     max-height: 400px;
     overflow: auto;
-
+    margin-bottom: 40px;
+}
+.add-materials .input-block-item{
+    width: 250px;
+}
+.add-materials .inputs-block{
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.email-password-reset{
-
-
-}
 .content-mail{
     width: 700px;
     margin: auto;

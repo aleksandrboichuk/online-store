@@ -22,7 +22,6 @@ class ProductController extends Controller
         }else{
             $cart = Cart::where('user_id', Auth::id())->first();
         }
-
         $group = CategoryGroup::where('seo_name',$group_seo_name)->where('active', 1)->first();
             if(!$group){
                 return response()->view('errors.404', ['user' => Auth::user(), 'cart' => $cart], 404);
@@ -39,9 +38,19 @@ class ProductController extends Controller
             if(!$product){
                 return response()->view('errors.404', ['user' => Auth::user(), 'cart' => $cart], 404);
             }
+
+        if($product->count > 50){
+            $stockStatus = ['in-stock', 'У наявності'];
+        }elseif($product->count <= 50){
+            $stockStatus = ['ends-in-stock', 'Закінчується'];
+        }elseif($product->count == 0){
+            $stockStatus = ['not-in-stock', 'Закінчився'];
+        }elseif(!$product->in_stock){
+            $stockStatus = ['not-in-stock', 'Немає у наявності'];
+        }
+
         $recommended_products = Product::where('category_group_id', $group->id)->where('active', 1)->inRandomOrder()->take(4)->get();
         $reviews = UserReview::where('product_id', $product->id)->paginate(2);
-
         $group_brands = $this->getGroupBrand($group->id);
 
 // ------------------------------------------------- AJAX --------------------------------------------------------
@@ -49,10 +58,9 @@ class ProductController extends Controller
             $is_product = false;
             for ($i = 0; $i < count($cart->products); $i++) {
                 if ($cart->products[$i]['id'] == $request->productId ) {
-                    $product = $cart->products()->where("product_id", $request->productId)->first();
-                    for($a = 0; $a < count($product->carts()->pluck('size')); $a++){
-                       if($product->carts()->pluck('size')[$a] == $request->productSize){
-                           $product->carts()->where("size", $request->productSize)->update(["count" => $request->productCount, "size" => $request->productSize]);
+                    for($a = 0; $a < count($cart->products()->where('product_id', $request->productId)->pluck('size')); $a++){
+                       if($cart->products()->where('product_id', $request->productId)->pluck('size')[$a] == $request->productSize){
+                           $cart->products()->where('product_id', $request->productId)->where("size", $request->productSize)->update(['product_count'=> $request->productCount]);
                            $is_product = true;
                            break;
                        }
@@ -60,12 +68,15 @@ class ProductController extends Controller
                 }
             }
             if (!$is_product) {
+               // $product = Product::where("id", $request->productId)->first();
+                //dd($product->sizes()->where('product_size_id', $request->productSize));
                 $cart->products()->attach($request->productId, [
                     'cart_id' => $cart->id,
                     'product_id' => $request->productId,
-                    'count' => $request->productCount,
+                    'product_count' => $request->productCount,
                     'size' => $request->productSize,
                 ]);
+
 
                 if($request->ajax()) {
                     return count($cart->products) + 1;
@@ -92,6 +103,7 @@ class ProductController extends Controller
              'category'  => $category,
              'sub_category'  => $sub_category,
              'product'  => $product,
+             'stockStatus'  => $stockStatus,
              'reviews'  => $reviews,
             'group_categories' => $group->categories,
             'brands' => $group_brands,

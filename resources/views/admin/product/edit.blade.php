@@ -41,7 +41,6 @@
                     </div>
                     @if(isset($product->images) && !empty($product->images))
                         @foreach($product->images as $key => $img)
-                            @if($img->url != $product->preview_img_url)
                                 <div class="add-block">
                                     <label for="image-field">Детальне зобр. №{{$key+1}}</label>
                                     <div class="add-image-block">
@@ -53,7 +52,6 @@
                                         </svg></a>
                                     </div>
                                 </div>
-                            @endif
                         @endforeach
                     @endif
                     <div class="add-block button-add-block">
