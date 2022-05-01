@@ -113,7 +113,6 @@ Route::group([
 
     Route::get('', [\App\Http\Controllers\CartController::class, 'showUserCart'])->name('show.cart');
     Route::get('/checkout', [\App\Http\Controllers\CheckoutController::class, 'checkout'])->name('checkout');
-
     Route::post('/delete-from-cart',[\App\Http\Controllers\CartController::class, 'deleteFromCart'])->name('delete.from.cart');
     Route::post('/save-order', [\App\Http\Controllers\CheckoutController::class, 'saveOrder'])->name('save.order');
 });
@@ -208,8 +207,6 @@ Route::post('/{product_id}',[\App\Http\Controllers\ProductController::class, 'se
 /**
  * auth
  */
-
-// Mail::to($request->user())->send(new OrderShipped($order));
 
 Auth::routes();
 
