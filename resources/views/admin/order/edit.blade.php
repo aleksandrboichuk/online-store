@@ -71,8 +71,8 @@
                     </table>
 
                 </div>
-                <form action="{{route('save.edit.order')}}" method="post">
-                    <input type="hidden" name="id" value="{{$order->id}}">
+                <form action="{{route('orders.update',$order->id)}}" method="post">
+                    @method('PUT')
                     <div class="add-block">
                         <label for="status-field">Статус </label>
                         <select required size="6" name="status-field" class="select-option">

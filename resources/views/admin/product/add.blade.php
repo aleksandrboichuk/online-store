@@ -13,7 +13,7 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-9">
                 {{--<h2>Додавання категорії</h2>--}}
-                <form action="{{route('save.product')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('products.store')}}" method="post" enctype="multipart/form-data">
                     <div class="add-block">
                         <label for="name-field">Назва* </label>
                         <input type="text" name="name-field" required maxlength="25">
@@ -162,7 +162,7 @@
 @section('custom-js')
     <script src="/js/ajax-product-admin.js"></script>
     <script>
-        ajaxRequests("{{route('add.product')}}")
+        ajaxRequests("{{route('products.create')}}")
         $(document).ready(function () {
             var countImages = 1;
             $('.add-image-field').click(function () {

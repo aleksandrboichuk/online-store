@@ -14,8 +14,8 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-8">
                 {{--<h2>Додавання категорії</h2>--}}
-                <form action="{{route('save.edit.user')}}" method="post">
-                    <input type="hidden" name="id" value="{{$adm_user->id}}">
+                <form action="{{route('users.update', $adm_user->id)}}" method="post">
+                    @method('PUT')
                     <div class="add-block">
                         <label for="firstname-field">Ім'я </label>
                         <input type="text" value="{{$adm_user->first_name}}" name="firstname-field" required maxlength="20">

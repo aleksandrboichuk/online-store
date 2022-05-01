@@ -22,7 +22,13 @@ class SizeController extends Controller
         ], $messages);
     }
 
-    public function index(){
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         $sizes =  ProductSize::orderBy('id', 'desc')->get();
         return view('admin.additional-to-products.size.index', [
             'user' => $this->getUser(),
@@ -30,13 +36,26 @@ class SizeController extends Controller
         ]);
     }
 
-    public function add(){
-
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         return view('admin.additional-to-products.size.add',[
             'user' => $this->getUser(),
         ]);
     }
-    public function saveAdd(Request $request){
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $validator = $this->validator($request->all());
         if ($validator->fails()) {
             return redirect()
@@ -57,8 +76,27 @@ class SizeController extends Controller
         ]);
         return redirect('/admin/sizes')->with(['success-message' => 'Розмір успішно додано.']);
     }
-    public function edit($size_id){
-        $size = ProductSize::find($size_id);
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $size = ProductSize::find($id);
         if(!$size){
             return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
@@ -70,8 +108,16 @@ class SizeController extends Controller
         ]);
     }
 
-    public function saveEdit(Request $request){
-        $size = ProductSize::find($request['id']);
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $size = ProductSize::find($id);
         // ================ в случае старого сео не делать валидацию на уникальность==============
         if($request['seo-field'] == $size->seo_name){
             $validator = $this->validator($request->except('seo-field'));
@@ -105,8 +151,15 @@ class SizeController extends Controller
         return redirect('admin/sizes')->with(['success-message' => 'Розмір успішно змінено.']);
     }
 
-    public function delete($size_id){
-        ProductSize::find($size_id)->delete();
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        ProductSize::find($id)->delete();
         return redirect('admin/sizes')->with(['success-message' => 'Розмір успішно видалено.']);
     }
 }

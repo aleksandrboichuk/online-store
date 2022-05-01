@@ -14,8 +14,8 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-8">
                 {{--<h2>Додавання категорії</h2>--}}
-                <form action="{{route('save.edit.category')}}" method="post">
-                    <input type="hidden" name="id" value="{{$category->id}}">
+                <form action="{{route('categories.update', $category->id)}}" method="post">
+                    @method('PUT')
                     <div class="add-block">
                         <label for="title-field">Заголовок* </label>
                         <input type="text" value="{{$category->title}}" name="title-field" required maxlength="20">

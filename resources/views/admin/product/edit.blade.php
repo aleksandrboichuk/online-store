@@ -12,8 +12,8 @@
         <div class="container">
             <div class="col-sm-2"></div>
             <div class="col-sm-9">
-                <form action="{{route('save.edit.product')}}" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="id" value="{{$product->id}}">
+                <form action="{{route('products.update', $product->id)}}" method="post" enctype="multipart/form-data">
+                    @method('PUT')
                     <div class="add-block">
                         <label for="name-field">Назва* </label>
                         <input type="text" value="{{$product->name}}" name="name-field" maxlength="25" required>
@@ -210,7 +210,7 @@
             let imageSrcArr = $(this).parent().find('img').attr('src').split('/');
             let imgUrl = imageSrcArr[imageSrcArr.length - 1];
             $.ajax({
-                url: "{{route('edit.product', [$product->id])}}" ,
+                url: "{{route('products.edit', [$product->id])}}" ,
                 type: "GET",
                 data: {
                     imgUrl: imgUrl,

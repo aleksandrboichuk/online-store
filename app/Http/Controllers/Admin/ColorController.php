@@ -22,7 +22,13 @@ class ColorController extends Controller
         ], $messages);
     }
 
-    public function index(){
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         $colors = ProductColor::orderBy('id', 'desc')->get();
         return view('admin.additional-to-products.color.index', [
             'user' => $this->getUser(),
@@ -30,12 +36,26 @@ class ColorController extends Controller
         ]);
     }
 
-    public function add(){
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         return view('admin.additional-to-products.color.add',[
             'user' => $this->getUser(),
         ]);
     }
-    public function saveAdd(Request $request){
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $validator = $this->validator($request->all());
         if ($validator->fails()) {
             return redirect()
@@ -57,8 +77,27 @@ class ColorController extends Controller
         ]);
         return redirect('/admin/colors')->with(['success-message' => 'Колір успішно додано.']);
     }
-    public function edit($color_id){
-        $color = ProductColor::find($color_id);
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $color = ProductColor::find($id);
         if(!$color){
             return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
@@ -71,11 +110,17 @@ class ColorController extends Controller
         ]);
     }
 
-    public function saveEdit(Request $request){
-        $color = ProductColor::find($request['id']);
-
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $color = ProductColor::find($id);
         // ================ в случае старого сео не делать валидацию на уникальность==============
-
         if($request['seo-field'] == $color->seo_name){
             $validator = $this->validator($request->except('seo-field'));
             if ($validator->fails()) {
@@ -95,7 +140,6 @@ class ColorController extends Controller
                     ->withInput();
             }
         }
-
         // ======================= определяем активность чекбокса ======================
         $active = false;
         if($request['active-field'] == "on"){
@@ -109,8 +153,15 @@ class ColorController extends Controller
         return redirect('admin/colors')->with(['success-message' => 'Колір успішно змінено.']);
     }
 
-    public function delete($color_id){
-        ProductColor::find($color_id)->delete();
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        ProductColor::find($id)->delete();
         return redirect('admin/colors')->with(['success-message' => 'Колір успішно видалено.']);
     }
 }

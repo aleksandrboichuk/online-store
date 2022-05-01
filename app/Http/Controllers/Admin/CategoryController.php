@@ -25,6 +25,11 @@ class CategoryController extends Controller
         ], $messages);
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $categories = Category::orderBy('id', 'desc')->get();
@@ -34,19 +39,27 @@ class CategoryController extends Controller
         ]);
     }
 
-    //show adding form
-
-    public function add(){
-
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         return view('admin.category.add',[
             'user'=>$this->getUser(),
             'category_groups' => CategoryGroup::where('active', 1)->get()
         ]);
     }
 
-    //saving add
-
-    public function saveAdd(Request $request){
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $validator = $this->validator($request->all());
         if ($validator->fails()) {
             return redirect()
@@ -77,10 +90,26 @@ class CategoryController extends Controller
         return redirect('/admin/categories')->with(['success-message' => 'Категорію успішно додано.']);
     }
 
-    //editing
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
 
-    public function edit($category_id){
-        $category =  Category::find($category_id);
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $category =  Category::find($id);
 
         if(!$category){
             return response()->view('errors.404-admin', [
@@ -95,11 +124,16 @@ class CategoryController extends Controller
         ]);
     }
 
-
-    //saving edit
-
-    public function saveEdit(Request $request){
-        $category = Category::find($request['id']);
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $category = Category::find($id);
 
         // ================ в случае старого сео не делать валидацию на уникальность==============
 
@@ -144,7 +178,6 @@ class CategoryController extends Controller
                 $subCat->update(['active' => $active]);
             }
         }
-
         // ======================= обновляем запись в базе ======================
         $category->update([
             'title' => $request['title-field'],
@@ -160,10 +193,16 @@ class CategoryController extends Controller
         return redirect("/admin/categories")->with(['success-message' => 'Категорію успішно змінено.']);
     }
 
-    //delete
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 
-    public function delete($category_id){
-        $category = Category::find($category_id);
+    public function destroy($id)
+    {
+        $category = Category::find($id);
         $category->delete();
         return redirect("/admin/categories")->with(['success-message' => 'Категорію успішно видалено.']);
     }

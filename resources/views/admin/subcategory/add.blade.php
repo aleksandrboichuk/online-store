@@ -13,10 +13,10 @@
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
             {{--<h2>Додавання категорії</h2>--}}
-            <form action="{{route('save.subcategory')}}" method="post">
+            <form action="{{route('subcategories.store')}}" method="post">
                 <div class="add-block">
                     <label for="title-field">Заголовок* </label>
-                    <input type="text" name="title-field" required maxlength="15">
+                    <input type="text" name="title-field" required maxlength="30">
                 </div>
                 @if($errors->has('title-field'))
                     <div class="invalid-feedback admin-feedback" role="alert">
@@ -25,7 +25,7 @@
                 @endif
                 <div class="add-block">
                     <label for="name-field">Назва* </label>
-                    <input type="text" name="name-field" required maxlength="15">
+                    <input type="text" name="name-field" required maxlength="30">
                 </div>
                 @if($errors->has('name-field'))
                     <div class="invalid-feedback admin-feedback" role="alert">
@@ -34,7 +34,7 @@
                 @endif
                 <div class="add-block">
                     <label for="seo-field">SEO* </label>
-                    <input type="text" name="seo-field" required maxlength="20">
+                    <input type="text" name="seo-field" required maxlength="30">
                 </div>
                 @if($errors->has('seo-field'))
                     <div class="invalid-feedback admin-feedback" role="alert">

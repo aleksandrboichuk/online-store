@@ -25,6 +25,11 @@ class SubCategoryController extends Controller
         ], $messages);
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $subcategories =  SubCategory::orderBy('id', 'desc')->get();
@@ -34,19 +39,27 @@ class SubCategoryController extends Controller
         ]);
     }
 
-    //show adding form
-
-    public function add(){
-
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         return view('admin.subcategory.add',[
             'user'=>$this->getUser(),
             'categories' => Category::where('active', 1)->get()
         ]);
     }
 
-    //saving add
-
-    public function saveAdd(Request $request){
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $validator = $this->validator($request->all());
         if ($validator->fails()) {
             return redirect()
@@ -70,10 +83,26 @@ class SubCategoryController extends Controller
         return redirect('/admin/subcategories')->with(['success-message' => 'Підкатегорію успішно додано.']);
     }
 
-    //editing
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
 
-    public function edit($subcategory_id){
-        $subCategory = SubCategory::find($subcategory_id);
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $subCategory = SubCategory::find($id);
 
         if(!$subCategory){
             return response()->view('errors.404-admin', [
@@ -87,12 +116,16 @@ class SubCategoryController extends Controller
         ]);
     }
 
-
-    //saving edit
-
-    public function saveEdit(Request $request){
-        $subcategory = SubCategory::find($request['id']);
-
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $subcategory = SubCategory::find($id);
         // ================ в случае старого сео не делать валидацию на уникальность==============
         if($request['seo-field'] == $subcategory->seo_name){
             $validator = $this->validator($request->except('seo-field'));
@@ -104,7 +137,6 @@ class SubCategoryController extends Controller
             }
         }else{
             // ================ если сео все же изменили то проверить на уникальность ==============
-
             $validator = $this->validator($request->all());
             if ($validator->fails()) {
                 return redirect()
@@ -143,10 +175,15 @@ class SubCategoryController extends Controller
         return redirect("/admin/subcategories")->with(['success-message' => 'Підкатегорію успішно змінено.']);
     }
 
-    //delete
-
-    public function delete($subcategory_id){
-        $subcategory = SubCategory::find($subcategory_id);
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $subcategory = SubCategory::find($id);
         $subcategory->delete();
         return redirect("/admin/subcategories")->with(['success-message' => 'Підкатегорію успішно видалено.']);
     }

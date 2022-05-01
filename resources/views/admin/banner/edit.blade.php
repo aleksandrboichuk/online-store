@@ -5,7 +5,7 @@
     <div class="breadcrumbs admin-bread">
         <ol class="breadcrumb">
             <li><a href="/admin">Панель Адміністратора</a> </li>
-            <li><a href="/admin/banner">Банери</a> </li>
+            <li><a href="/admin/banners">Банери</a> </li>
             <li class="active">Редагування</li>
         </ol>
     </div>
@@ -14,8 +14,8 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-9">
                 {{--<h2>Додавання категорії</h2>--}}
-                <form action="{{route('save.edit.banner')}}" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="id" value="{{$banner->id}}">
+                <form action="{{route('banners.update', $banner->id)}}" method="post" enctype="multipart/form-data">
+                    @method('PUT')
                     <div class="add-block">
                         <label for="title-field">Заголовок* </label>
                         <input type="text" name="title-field" value="{{$banner->title}}" required maxlength="30">

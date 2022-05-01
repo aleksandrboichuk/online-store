@@ -78,121 +78,27 @@ if(preg_match("#^\/register\b#", \request()->getRequestUri()) == false
 
 Route::group([
     'prefix' => 'admin',
-    'namespace' => 'Admin',
     'middleware' => ['app.auth', 'auth']
 ],function () {
 
-    // promocode
-    Route::get('/promocode', [\App\Http\Controllers\Admin\PromocodeController::class, 'index']);
-    Route::get('/promocode/add', [\App\Http\Controllers\Admin\PromocodeController::class, 'add']);
-    Route::get('/promocode/edit/{promocode_id}', [\App\Http\Controllers\Admin\PromocodeController::class, 'edit'])->name('edit.promocode');
-
-    Route::post('/promocode/add',[\App\Http\Controllers\Admin\PromocodeController::class, 'saveAdd'])->name('save.promocode');
-    Route::post('/promocode/save-edit', [\App\Http\Controllers\Admin\PromocodeController::class, 'saveEdit'])->name('save.edit.promocode');
-    Route::post('/promocode/delete/{promocode_id}',[\App\Http\Controllers\Admin\PromocodeController::class, 'delete'])->name('delete.promocode');
-
-    //banner
-    if(preg_match("#^\/admin/banner/add\b#", \request()->getRequestUri()) == false) {
-        Route::get('/banner/{cat_group?}', [\App\Http\Controllers\Admin\BannerController::class, 'index']);
+    Route::resource('promocodes', \App\Http\Controllers\Admin\PromocodeController::class);
+    if(!preg_match("#^\/admin/banners/create\b#", \request()->getRequestUri())) {
+        Route::get('/banners/{cat_group?}', [\App\Http\Controllers\Admin\BannerController::class, 'index']);
     }
-    Route::get('/banner/add', [\App\Http\Controllers\Admin\BannerController::class, 'add']);
-    Route::get('/banner/edit/{banner_id}', [\App\Http\Controllers\Admin\BannerController::class, 'edit'])->name('edit.banner');
-
-    Route::post('/banner/add',[\App\Http\Controllers\Admin\BannerController::class, 'saveAdd'])->name('save.banner');
-    Route::post('/banner/save-edit', [\App\Http\Controllers\Admin\BannerController::class, 'saveEdit'])->name('save.edit.banner');
-    Route::post('/banner/delete/{banner_id}',[\App\Http\Controllers\Admin\BannerController::class, 'delete'])->name('delete.banner');
-
-    //messages
-
-    Route::get('/messages', [\App\Http\Controllers\Admin\MessageController::class, 'index']);
-    Route::get('/messages/{message_id}', [\App\Http\Controllers\Admin\MessageController::class, 'showMessage'])->name('show.message');
-    Route::post('/messages/delete/{message_id}',[\App\Http\Controllers\Admin\MessageController::class, 'delMessage'])->name('delete.message');
-
-
-    // categories
-
-    Route::get('/categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index']);
-    Route::get('/categories/add', [\App\Http\Controllers\Admin\CategoryController::class, 'add']);
-    Route::get('/categories/edit/{category_id}', [\App\Http\Controllers\Admin\CategoryController::class, 'edit'])->name('edit.category');
-
-    Route::post('/categories/add',[\App\Http\Controllers\Admin\CategoryController::class, 'saveAdd'])->name('save.category');
-    Route::post('/categories/save-edit', [\App\Http\Controllers\Admin\CategoryController::class, 'saveEdit'])->name('save.edit.category');
-    Route::post('/categories/delete/{category_id}',[\App\Http\Controllers\Admin\CategoryController::class, 'delete'])->name('delete.category');
-
-    // sub categories
-
-    Route::get('/subcategories', [\App\Http\Controllers\Admin\SubCategoryController::class, 'index']);
-    Route::get('/subcategories/add', [\App\Http\Controllers\Admin\SubCategoryController::class, 'add']);
-    Route::get('/subcategories/edit/{subcategory_id}', [\App\Http\Controllers\Admin\SubCategoryController::class, 'edit'])->name('edit.subcategory');
-
-    Route::post('/subcategories/add',[\App\Http\Controllers\Admin\SubCategoryController::class, 'saveAdd'])->name('save.subcategory');
-    Route::post('/subcategories/save-edit', [\App\Http\Controllers\Admin\SubCategoryController::class, 'saveEdit'])->name('save.edit.subcategory');
-    Route::post('/subcategories/delete/{subcategory_id}',[\App\Http\Controllers\Admin\SubCategoryController::class, 'delete'])->name('delete.subcategory');
-
-    //products
-
-    if(preg_match("#^\/admin/products/add\b#", \request()->getRequestUri()) == false) {
+        Route::resource('banners', \App\Http\Controllers\Admin\BannerController::class);
+    Route::resource('messages', \App\Http\Controllers\Admin\MessageController::class);
+    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+    Route::resource('subcategories', \App\Http\Controllers\Admin\SubCategoryController::class);
+    if(!preg_match("#^\/admin/products/create\b#", \request()->getRequestUri())) {
         Route::get('/products/{cat_group?}', [\App\Http\Controllers\Admin\ProductController::class, 'index']);
     }
-    Route::get('/products/add', [\App\Http\Controllers\Admin\ProductController::class, 'add'])->name('add.product');
-    Route::get('/products/edit/{product_id}', [\App\Http\Controllers\Admin\ProductController::class, 'edit'])->name('edit.product');
-
-    Route::post('/products/add',[\App\Http\Controllers\Admin\ProductController::class, 'saveAdd'])->name('save.product');
-    Route::post('/products/save-edit', [\App\Http\Controllers\Admin\ProductController::class, 'saveEdit'])->name('save.edit.product');
-    Route::post('/products/delete/{product_id}',[\App\Http\Controllers\Admin\ProductController::class, 'delete'])->name('delete.product');
-
-    // orders
-    Route::get('/orders', [\App\Http\Controllers\Admin\OrderController::class, 'index']);
-    Route::get('/orders/edit/{order_id}', [\App\Http\Controllers\Admin\OrderController::class, 'edit'])->name('edit.order');
-    Route::post('/orders/save-edit', [\App\Http\Controllers\Admin\OrderController::class, 'saveEdit'])->name('save.edit.order');
-    Route::post('/orders/delete/{order_id}',[\App\Http\Controllers\Admin\OrderController::class, 'delete'])->name('delete.order');
-
-    //users
-
-    Route::get('/users', [\App\Http\Controllers\Admin\UserController::class, 'index']);
-    Route::get('/users/edit/{user_id}', [\App\Http\Controllers\Admin\UserController::class, 'edit'])->name('edit.user');
-    Route::post('/users/save-edit', [\App\Http\Controllers\Admin\UserController::class, 'saveEdit'])->name('save.edit.user');
-    Route::post('/users/delete/{user_id}',[\App\Http\Controllers\Admin\UserController::class, 'delete'])->name('delete.user');
-
-    //colors
-
-    Route::get('/colors', [\App\Http\Controllers\Admin\ColorController::class, 'index']);
-    Route::get('/colors/add', [\App\Http\Controllers\Admin\ColorController::class, 'add']);
-    Route::get('/colors/edit/{color_id}', [\App\Http\Controllers\Admin\ColorController::class, 'edit'])->name('edit.color');
-
-    Route::post('/colors/add',[\App\Http\Controllers\Admin\ColorController::class, 'saveAdd'])->name('save.color');
-    Route::post('/colors/save-edit', [\App\Http\Controllers\Admin\ColorController::class, 'saveEdit'])->name('save.edit.color');
-    Route::post('/colors/delete/{color_id}',[\App\Http\Controllers\Admin\ColorController::class, 'delete'])->name('delete.color');
-
-    //brands
-
-    Route::get('/brands', [\App\Http\Controllers\Admin\BrandController::class, 'index']);
-    Route::get('/brands/add', [\App\Http\Controllers\Admin\BrandController::class, 'add']);
-    Route::get('/brands/edit/{brand_id}', [\App\Http\Controllers\Admin\BrandController::class, 'edit'])->name('edit.brand');
-
-    Route::post('/brands/add',[\App\Http\Controllers\Admin\BrandController::class, 'saveAdd'])->name('save.brand');
-    Route::post('/brands/save-edit', [\App\Http\Controllers\Admin\BrandController::class, 'saveEdit'])->name('save.edit.brand');
-    Route::post('/brands/delete/{brand_id}',[\App\Http\Controllers\Admin\BrandController::class, 'delete'])->name('delete.brand');
-
-    //materials
-
-    Route::get('/materials', [\App\Http\Controllers\Admin\MaterialController::class, 'index']);
-    Route::get('/materials/add', [\App\Http\Controllers\Admin\MaterialController::class, 'add']);
-    Route::get('/materials/edit/{material_id}', [\App\Http\Controllers\Admin\MaterialController::class, 'edit'])->name('edit.material');
-
-    Route::post('/materials/add',[\App\Http\Controllers\Admin\MaterialController::class, 'saveAdd'])->name('save.material');
-    Route::post('/materials/save-edit', [\App\Http\Controllers\Admin\MaterialController::class, 'saveEdit'])->name('save.edit.material');
-    Route::post('/materials/delete/{material_id}',[\App\Http\Controllers\Admin\MaterialController::class, 'delete'])->name('delete.material');
-
-    //sizes
-
-    Route::get('/sizes', [\App\Http\Controllers\Admin\SizeController::class, 'index']);
-    Route::get('/sizes/add', [\App\Http\Controllers\Admin\SizeController::class, 'add']);
-    Route::get('/sizes/edit/{size_id}', [\App\Http\Controllers\Admin\SizeController::class, 'edit'])->name('edit.size');
-
-    Route::post('/sizes/add',[\App\Http\Controllers\Admin\SizeController::class, 'saveAdd'])->name('save.size');
-    Route::post('/sizes/save-edit', [\App\Http\Controllers\Admin\SizeController::class, 'saveEdit'])->name('save.edit.size');
-    Route::post('/sizes/delete/{size_id}',[\App\Http\Controllers\Admin\SizeController::class, 'delete'])->name('delete.size');
+        Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
+    Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class);
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+    Route::resource('colors', \App\Http\Controllers\Admin\ColorController::class);
+    Route::resource('brands', \App\Http\Controllers\Admin\BrandController::class);
+    Route::resource('materials', \App\Http\Controllers\Admin\MaterialController::class);
+    Route::resource('sizes', \App\Http\Controllers\Admin\SizeController::class);
 
 });
 

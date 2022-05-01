@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 class MessageController extends Controller
 {
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $messages = UserMessage::orderBy('id', 'desc')->paginate(3);
@@ -26,10 +31,36 @@ class MessageController extends Controller
         ]);
     }
 
-    //showing
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
-    public function showMessage($message_id){
-        $message = UserMessage::find($message_id);
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $message = UserMessage::find($id);
 
         if(!$message){
             return response()->view('errors.404-admin', [
@@ -43,10 +74,38 @@ class MessageController extends Controller
         ]);
     }
 
-    //delete
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
 
-    public function delMessage($message_id){
-        $message = UserMessage::find($message_id);
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $message = UserMessage::find($id);
         $message->delete();
         return redirect("/admin/messages")->with(['success-message' => 'Повідомлення успішно видалено.']);
     }

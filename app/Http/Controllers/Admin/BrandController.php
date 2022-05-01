@@ -22,7 +22,13 @@ class BrandController extends Controller
         ], $messages);
     }
 
-    public function index(){
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         $brands =  ProductBrand::orderBy('id', 'desc')->get();
         return view('admin.additional-to-products.brand.index', [
             'user' => $this->getUser(),
@@ -30,14 +36,26 @@ class BrandController extends Controller
         ]);
     }
 
-    public function add(){
-
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         return view('admin.additional-to-products.brand.add',[
             'user' => $this->getUser(),
         ]);
     }
-    public function saveAdd(Request $request){
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $validator = $this->validator($request->all());
         if ($validator->fails()) {
             return redirect()
@@ -60,8 +78,27 @@ class BrandController extends Controller
         ]);
         return redirect('/admin/brands')->with(['success-message' => 'Бренд успішно додано.']);
     }
-    public function edit($brand_id){
-        $brand = ProductBrand::find($brand_id);
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $brand = ProductBrand::find($id);
         if(!$brand){
             return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
@@ -73,9 +110,16 @@ class BrandController extends Controller
         ]);
     }
 
-    public function saveEdit(Request $request){
-        $brand = ProductBrand::find($request['id']);
-
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $brand = ProductBrand::find($id);
         // ================ в случае старого сео не делать валидацию на уникальность==============
         if($request['seo-field'] == $brand->seo_name){
             $validator = $this->validator($request->except('seo-field'));
@@ -87,7 +131,6 @@ class BrandController extends Controller
             }
         }else{
             // ================ если сео все же изменили то проверить на уникальность ==============
-
             $validator = $this->validator($request->all());
             if ($validator->fails()) {
                 return redirect()
@@ -96,14 +139,11 @@ class BrandController extends Controller
                     ->withInput();
             }
         }
-
         // ======================= определяем активность чекбокса ======================
-
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
         }
-
         // ======================= обновляем запись в базе ======================
         $brand->update([
             'name' => $request['name-field'],
@@ -113,8 +153,15 @@ class BrandController extends Controller
         return redirect('admin/brands')->with(['success-message' => 'Бренд успішно змінено.']);
     }
 
-    public function delete($brand_id){
-        ProductBrand::find($brand_id)->delete();
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        ProductBrand::find($id)->delete();
         return redirect('admin/brands')->with(['success-message' => 'Бренд успішно видалено.']);
     }
 }

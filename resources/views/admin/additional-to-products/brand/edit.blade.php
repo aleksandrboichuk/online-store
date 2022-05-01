@@ -14,8 +14,8 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-8">
                 {{--<h2>Додавання категорії</h2>--}}
-                <form action="{{route('save.edit.brand')}}" method="post">
-                    <input type="hidden" name="id" value="{{$brand->id}}">
+                <form action="{{route('brands.update', $brand->id)}}" method="post">
+                    @method('PUT')
                     <div class="add-block">
                         <label for="name-field">Назва </label>
                         <input type="text" value="{{$brand->name}}" name="name-field" required maxlength="15">

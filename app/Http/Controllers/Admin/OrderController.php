@@ -11,13 +11,13 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    /*
+    /**
+     * Display a listing of the resource.
      *
-     * Editing/Adding/Saving ORDERS
-     *
-    */
-
-    public  function index(){
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         $orders = OrdersList::orderBy('status', 'asc')->orderBy('created_at', 'desc')->paginate(10);
 
         if(request()->ajax()){
@@ -34,8 +34,47 @@ class OrderController extends Controller
         ]);
     }
 
-    public function edit($order_id){
-        $order = OrdersList::find($order_id);
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $order = OrdersList::find($id);
         if(!$order){
             return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
@@ -50,8 +89,16 @@ class OrderController extends Controller
         ]);
     }
 
-    public function saveEdit(Request $request){
-        $order = OrdersList::find($request['id']);
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $order = OrdersList::find($id);
         $total_cost = intval($request['sum-field']);
         if($request['status-field'] == 4){
             foreach($order->items as $item){
@@ -74,8 +121,8 @@ class OrderController extends Controller
             if(!empty($order->users)){
                 $user = $order->users;
                 $user->update([
-                   'orders_amount' => $user->orders_amount + 1,
-                   'orders_sum' => $user->orders_sum + $order->total_cost
+                    'orders_amount' => $user->orders_amount + 1,
+                    'orders_sum' => $user->orders_sum + $order->total_cost
                 ]);
                 // ============================= выдаем промокод юзеру ===========================================
                 if($user->orders_amount >= 10 && $user->orders_sum >= 7000){
@@ -87,7 +134,6 @@ class OrderController extends Controller
                 }
             }
         }
-
         $order->update([
             'name' => $request['name-field'],
             'phone' => $request['phone-field'],
@@ -102,8 +148,15 @@ class OrderController extends Controller
         return redirect('/admin/orders')->with(['success-message' => 'Замовлення успішно змінено.']);
     }
 
-    public function delete($order_id){
-        OrdersList::find($order_id)->delete();
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        OrdersList::find($id)->delete();
         return redirect("/admin/orders")->with(['success-message' => 'Замовлення успішно видалено.']);
     }
 }

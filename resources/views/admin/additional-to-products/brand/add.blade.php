@@ -13,10 +13,10 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-8">
                 {{--<h2>Додавання категорії</h2>--}}
-                <form action="{{route('save.brand')}}" method="post">
+                <form action="{{route('brands.store')}}" method="post">
                     <div class="add-block">
                         <label for="name-field">Назва* </label>
-                        <input type="text" name="name-field" required> maxlength="15">
+                        <input type="text" name="name-field" required maxlength="15">
                     </div>
                     @if($errors->has('name-field'))
                         <div class="invalid-feedback admin-feedback" role="alert">

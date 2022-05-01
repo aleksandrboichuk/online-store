@@ -14,8 +14,8 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-8">
                 {{--<h2>Додавання категорії</h2>--}}
-                <form action="{{route('save.edit.size')}}" method="post">
-                    <input type="hidden" name="id" value="{{$size->id}}">
+                <form action="{{route('sizes.update', $size->id)}}" method="post">
+                    @method('PUT')
                     <div class="add-block">
                         <label for="name-field">Назва* </label>
                         <input type="text" value="{{$size->name}}" name="name-field" required maxlength="10">

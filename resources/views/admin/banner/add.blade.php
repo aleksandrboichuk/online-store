@@ -4,7 +4,7 @@
     <div class="breadcrumbs admin-bread">
         <ol class="breadcrumb">
             <li><a href="/admin">Панель Адміністратора</a> </li>
-            <li><a href="/admin/banner">Банери</a> </li>
+            <li><a href="/admin/banners">Банери</a> </li>
             <li class="active">Додавання</li>
         </ol>
     </div>
@@ -13,7 +13,7 @@
         <div class="col-sm-2"></div>
         <div class="col-sm-9">
             {{--<h2>Додавання категорії</h2>--}}
-            <form action="{{route('save.banner')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('banners.store')}}" method="post" enctype="multipart/form-data">
                 <div class="add-block">
                     <label for="title-field">Заголовок* </label>
                     <input type="text" name="title-field" maxlength="30">
@@ -62,7 +62,6 @@
                     </select>
                 </div>
                 <button type="submit" class="btn btn-default todo-btn">Додати</button>
-
             </form>
         </div>
         <div class="col-sm-1"></div>

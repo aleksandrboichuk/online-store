@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Validator;
 
 class PromocodeController extends Controller
 {
-
-
     protected function validator(array $data){
         $messages = [
             'title-field.min' => 'Заговоловок має містити не менше 3-х символів.',
@@ -26,6 +24,11 @@ class PromocodeController extends Controller
         ], $messages);
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $promocodes = UserPromocode::orderBy('id', 'desc')->paginate(5);
@@ -43,18 +46,26 @@ class PromocodeController extends Controller
         ]);
     }
 
-    //show adding form
-
-    public function add(){
-
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         return view('admin.promocode.add',[
             'user'=>$this->getUser(),
         ]);
     }
 
-    //saving add
-
-    public function saveAdd(Request $request){
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $validator = $this->validator($request->all());
         if ($validator->fails()) {
             return redirect()
@@ -76,13 +87,29 @@ class PromocodeController extends Controller
             'promocode' => $request['promocode-field'],
             'active' => $active,
         ]);
-        return redirect('/admin/promocode')->with(['success-message' => 'Промокод успішно додано.']);
+        return redirect('/admin/promocodes')->with(['success-message' => 'Промокод успішно додано.']);
     }
 
-    //editing
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
 
-    public function edit($promocode_id){
-        $promocode = UserPromocode::find($promocode_id);
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $promocode = UserPromocode::find($id);
 
         if(!$promocode){
             return response()->view('errors.404-admin', [
@@ -95,13 +122,16 @@ class PromocodeController extends Controller
         ]);
     }
 
-
-    //saving edit
-
-    public function saveEdit(Request $request){
-
-        $promocode = UserPromocode::find($request['id']);
-
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $promocode = UserPromocode::find($id);
         // ================ в случае старого promocode не делать валидацию на уникальность==============
         if($request['promocode-field'] == $promocode->promocode){
             $validator = $this->validator($request->except('promocode-field'));
@@ -121,7 +151,6 @@ class PromocodeController extends Controller
                     ->withInput();
             }
         }
-
         if(!$promocode){
             if($this->getUser()){
                 $cart = $this->getCartByToken();
@@ -143,14 +172,19 @@ class PromocodeController extends Controller
             'updated_at' => date("Y-m-d H:i:s")
         ]);
 
-        return redirect("/admin/promocode")->with(['success-message' => 'Промокод успішно змінено.']);
+        return redirect("/admin/promocodes")->with(['success-message' => 'Промокод успішно змінено.']);
     }
 
-    //delete
-
-    public function delete($promocode_id){
-        $promocode = UserPromocode::find($promocode_id);
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $promocode = UserPromocode::find($id);
         $promocode->delete();
-        return redirect("/admin/promocode")->with(['success-message' => 'Промокод успішно видалено.']);
+        return redirect("/admin/promocodes")->with(['success-message' => 'Промокод успішно видалено.']);
     }
 }

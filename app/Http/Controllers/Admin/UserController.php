@@ -29,8 +29,13 @@ class UserController extends Controller
         ], $messages);
     }
 
-    public function index(){
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         $adm_users = User::orderBy('id','asc')->paginate(2);
 
         if(request()->ajax()){
@@ -45,8 +50,47 @@ class UserController extends Controller
         ]);
     }
 
-    public function edit($user_id){
-        $user = User::find($user_id);
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $user = User::find($id);
 
         if(!$user){
             return response()->view('errors.404-admin', [
@@ -60,8 +104,16 @@ class UserController extends Controller
         ]);
     }
 
-    public function saveEdit(Request $request){
-        $user = User::find($request['id']);
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $user = User::find($id);
 
         // ================ в случае старого email не делать валидацию на уникальность==============
         if($request['email-field'] == $user->email){
@@ -103,8 +155,15 @@ class UserController extends Controller
         return redirect('/admin/users')->with(['success-message' => 'Користувача успішно змінено.']);
     }
 
-    public function delete($user_id){
-        User::find($user_id)->delete();
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        User::find($id)->delete();
         return redirect('/admin/users')->with(['success-message' => 'Користувача успішно видалено.']);
     }
 }

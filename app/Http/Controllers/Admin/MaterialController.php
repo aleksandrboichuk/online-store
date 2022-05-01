@@ -22,7 +22,13 @@ class MaterialController extends Controller
         ], $messages);
     }
 
-    public function index(){
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         $materials = ProductMaterial::orderBy('id', 'desc')->get();
         return view('admin.additional-to-products.material.index', [
             'user' => $this->getUser(),
@@ -30,13 +36,26 @@ class MaterialController extends Controller
         ]);
     }
 
-    public function add(){
-
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         return view('admin.additional-to-products.material.add',[
             'user' => $this->getUser(),
         ]);
     }
-    public function saveAdd(Request $request){
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $validator = $this->validator($request->all());
         if ($validator->fails()) {
             return redirect()
@@ -57,10 +76,29 @@ class MaterialController extends Controller
             'active' => $active
 
         ]);
-        return redirect('/admin/brands')->with(['success-message' => 'Матеріал успішно додано.']);
+        return redirect('/admin/materials')->with(['success-message' => 'Матеріал успішно додано.']);
     }
-    public function edit($material_id){
-        $material = ProductMaterial::find($material_id);
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $material = ProductMaterial::find($id);
         if(!$material){
             return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
@@ -72,10 +110,17 @@ class MaterialController extends Controller
         ]);
     }
 
-    public function saveEdit(Request $request){
-        $material = ProductMaterial::find($request['id']);
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $material = ProductMaterial::find($id);
         // ================ в случае старого сео не делать валидацию на уникальность==============
-
         if($request['seo-field'] == $material->seo_name){
             $validator = $this->validator($request->except('seo-field'));
             if ($validator->fails()) {
@@ -86,7 +131,6 @@ class MaterialController extends Controller
             }
         }else{
             // ================ если сео все же изменили то проверить на уникальность ==============
-
             $validator = $this->validator($request->all());
             if ($validator->fails()) {
                 return redirect()
@@ -95,7 +139,6 @@ class MaterialController extends Controller
                     ->withInput();
             }
         }
-
         // ======================= определяем активность чекбокса ======================
         $active = false;
         if($request['active-field'] == "on"){
@@ -109,8 +152,15 @@ class MaterialController extends Controller
         return redirect('admin/materials')->with(['success-message' => 'Матеріал успішно змінено.']);
     }
 
-    public function delete($material_id){
-        ProductMaterial::find($material_id)->delete();
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        ProductMaterial::find($id)->delete();
         return redirect('admin/materials')->with(['success-message' => 'Матеріал успішно видалено.']);
     }
 }

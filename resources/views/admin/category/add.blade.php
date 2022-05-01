@@ -13,7 +13,7 @@
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
             {{--<h2>Додавання категорії</h2>--}}
-            <form action="{{route('save.category')}}" method="post">
+            <form action="{{route('categories.store')}}" method="post">
                 <div class="add-block">
                     <label for="title-field">Заголовок* </label>
                     <input type="text" name="title-field" required maxlength="20">

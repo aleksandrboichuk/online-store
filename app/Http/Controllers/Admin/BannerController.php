@@ -25,14 +25,15 @@ class BannerController extends Controller
             'seo-field' => ['string', 'unique:banners,seo_name', 'min:3'],
         ], $messages);
     }
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     * @param $cat_group
+     */
     public function index($cat_group = null)
     {
         $banners = Banner::orderBy('id', 'desc')->get();
-
-        // ===================================== отдает баннеры в зависимости =============================
-        // ===================================== от выбранной категории в дропдаун меню====================
-
         if (!empty($cat_group)) {
             switch ($cat_group) {
                 case 'men':
@@ -56,19 +57,27 @@ class BannerController extends Controller
         ]);
     }
 
-    //show adding form
-
-    public function add(){
-
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         return view('admin.banner.add',[
             'user'=>$this->getUser(),
             'category_groups' => CategoryGroup::where('active', 1)->get(),
         ]);
     }
 
-    //saving add
-
-    public function saveAdd(Request $request){
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $validator = $this->validator($request->all());
         if ($validator->fails()) {
             return redirect()
@@ -76,14 +85,11 @@ class BannerController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-
         // ================== Определение активности чекбокса =================
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
         }
-
-        // ===================== Создание баннера ===============================
         $banner = Banner::create([
             'title' => $request['title-field'],
             'category_group_id' => $request['cat-field'],
@@ -91,29 +97,39 @@ class BannerController extends Controller
             'description' => $request['description-field'],
             'active' => $active,
         ]);
-
         // ========================== добавление картинок в хранилище и в БД ==========================
-
         $mainImageFile = $request->file('main-image-field');
         Storage::disk('public')->putFileAs('banner-images/'.$banner->id, $mainImageFile, $mainImageFile->getClientOriginalName());
-
 //        $miniImageFile = $request->file('mini-image-field');
 //        Storage::disk('public')->putFileAs('banner-images/'.$getBanner->id, $miniImageFile, $miniImageFile->getClientOriginalName());
-
         $banner->update([
             'image_url' => $mainImageFile->getClientOriginalName(),
 //            'mini_img_url' => $miniImageFile->getClientOriginalName(),
         ]);
-
-        return redirect('/admin/banner')->with(['success-message' => 'Банер успішно додано.']);
+        return redirect('/admin/banners')->with(['success-message' => 'Банер успішно додано.']);
     }
 
-    //editing
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
 
-    public function edit($banner_id){
-        $banner = Banner::find($banner_id);
-
-    // ===================== в случае неправильной строки запроса отдать 404 ====================
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $banner = Banner::find($id);
+        // ===================== в случае неправильной строки запроса отдать 404 ====================
         if(!$banner){
             return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
@@ -127,15 +143,17 @@ class BannerController extends Controller
         ]);
     }
 
-
-    //saving edit
-
-    public function saveEdit(Request $request){
-
-        $banner = Banner::find($request['id']);
-
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $banner = Banner::find($id);
         // ================ в случае старого сео не делать валидацию на уникальность==============
-
         if($request['seo-field'] == $banner->seo_name){
             $validator = $this->validator($request->except('seo-field'));
             if ($validator->fails()) {
@@ -146,7 +164,6 @@ class BannerController extends Controller
             }
         }else{
             // ================ если сео все же изменили то проверить на уникальность ==============
-
             $validator = $this->validator($request->all());
             if ($validator->fails()) {
                 return redirect()
@@ -155,13 +172,11 @@ class BannerController extends Controller
                     ->withInput();
             }
         }
-
         // ======================= определяем активность чекбокса ======================
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
         }
-
         // ======================= обновляем запись в базе ======================
         $banner->update([
             'title' => $request['title-field'],
@@ -171,9 +186,7 @@ class BannerController extends Controller
             'active' => $active,
             'updated_at' => date("Y-m-d H:i:s")
         ]);
-
         // ============ обновление картинок, если они были загружены =============
-
         if(isset($request['main-image-field'])){
             $mainImageFile = $request->file('main-image-field');
             Storage::disk('public')->delete('banner-images/'.$banner->id.'/' . $banner->image_url);
@@ -182,7 +195,6 @@ class BannerController extends Controller
                 'image_url' => $mainImageFile->getClientOriginalName()
             ]);
         }
-
 //        if(isset($request['mini-image-field'])){
 //            $miniImageFile = $request->file('mini-image-field');
 //            Storage::disk('public')->delete('banner-images/'.$banner->id.'/' . $banner->mini_img_url);
@@ -191,20 +203,22 @@ class BannerController extends Controller
 //                'mini_img_url' => $miniImageFile->getClientOriginalName()
 //            ]);
 //        }
-
-        return redirect("/admin/banner")->with(['success-message' => 'Банер успішно змінено.']);
+        return redirect("/admin/banners")->with(['success-message' => 'Банер успішно змінено.']);
     }
 
-    //delete
-
-    public function delete($banner_id){
-        $banner = Banner::find($banner_id);
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $banner = Banner::find($id);
         $banner->delete();
-
         // ============ удаление папки баннера в хранилище =============
-
         Storage::disk('public')->deleteDirectory('banner-images/'.$banner->id);
 
-        return redirect("/admin/banner")->with(['success-message' => 'Банер успішно видалено.']);
+        return redirect("/admin/banners")->with(['success-message' => 'Банер успішно видалено.']);
     }
 }

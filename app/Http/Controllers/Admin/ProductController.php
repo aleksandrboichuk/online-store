@@ -36,8 +36,15 @@ class ProductController extends Controller
         ], $messages);
     }
 
-
-    public function index(Request $request,$cat_group = null){
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @param $cat_group
+     */
+    public function index(Request $request,$cat_group = null)
+    {
         $products = Product::orderBy('id', 'desc')->paginate(5);
         if (!empty($cat_group)) {
             switch ($cat_group) {
@@ -88,12 +95,14 @@ class ProductController extends Controller
         ]);
     }
 
-
-    //show adding form
-
-    public function add(Request $request){
-
-// --------------------------------------- AJAX -----------------------------------------------
+    /**
+     * Show the form for creating a new resource.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request  $request)
+    {
+        // --------------------------------------- AJAX -----------------------------------------------
         if(isset($request['categoryGroup']) && !empty($request['categoryGroup'])){
             $categoryGroup = CategoryGroup::find($request['categoryGroup']);
             if(request()->ajax()){
@@ -126,9 +135,14 @@ class ProductController extends Controller
         ]);
     }
 
-    //save adding
-
-    public function saveAdd(Request $request){
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $validator = $this->validator($request->all());
         if ($validator->fails()) {
             return redirect()
@@ -219,11 +233,27 @@ class ProductController extends Controller
         return redirect('/admin/products')->with(['success-message' => 'Товар успішно додано.']);
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
 
-
-
-    public function edit(Request $request,$product_id){
-        $product = Product::find($product_id);
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request $request, $id)
+    {
+        $product = Product::find($id);
 
         if(!$product){
             return response()->view('errors.404-admin', [
@@ -269,11 +299,16 @@ class ProductController extends Controller
         ]);
     }
 
-    // save editing
-
-    public function saveEdit(Request $request){
-        $product = Product::find($request['id']);
-
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $product = Product::find($id);
         // ================ в случае старого сео не делать валидацию на уникальность==============
         if($request['seo-field'] == $product->seo_name){
             $validator = $this->validator($request->except('seo-field'));
@@ -345,7 +380,6 @@ class ProductController extends Controller
                 ]);
             }
         }
-
         $product->update([
             'name' => $request['name-field'],
             'seo_name' => $request['seo-field'],
@@ -401,10 +435,15 @@ class ProductController extends Controller
         return redirect("/admin/products")->with(['success-message' => 'Товар успішно змінено.']);
     }
 
-    //delete
-
-    public function delete($product_id){
-        $product = Product::find($product_id);
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $product = Product::find($id);
         $product->delete();
         Storage::disk('public')->deleteDirectory('product-images/'.$product->id);
         return redirect("/admin/products")->with(['success-message' => 'Товар успішно видалено.']);

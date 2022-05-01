@@ -5,7 +5,7 @@
     <div class="breadcrumbs admin-bread">
         <ol class="breadcrumb">
             <li><a href="/admin">Панель Адміністратора</a> </li>
-            <li><a href="/admin/promocode">Промокоди</a> </li>
+            <li><a href="/admin/promocodes">Промокоди</a> </li>
             <li class="active">Додавання</li>
         </ol>
     </div>
@@ -13,7 +13,7 @@
         <div class="container">
             <div class="col-sm-1"></div>
             <div class="col-sm-10">
-                <form action="{{route('save.promocode')}}" method="post">
+                <form action="{{route('promocodes.store')}}" method="post">
                     <input type="hidden" name="id">
                     <div class="add-block">
                         <label for="title-field">Назва*</label>
