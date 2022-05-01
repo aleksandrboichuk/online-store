@@ -2536,6 +2536,10 @@ h2.title {
     color: white;
     font-size: 18px;
 }
+
+.button-column{
+    padding-left: 20px !important;
+}
 .promocode-btn{
     background: orange;
     border: 1px solid  orange;
