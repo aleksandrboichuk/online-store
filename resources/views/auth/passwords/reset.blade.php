@@ -7,13 +7,13 @@
                 <div class="col-md-4">
 
                 </div>
-                <div class="col-md-8 justify-content-center">
+                <div class="col-md-8 justify-content-center forgot_password_form">
                     <div class="card">
                         <div class="card-header">{{ __('Введіть ваш логін (E-mail адресу)') }}</div>
                         <div class="card-body">
                             <form method="POST" action="{{route('send.code')}}">
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <input id="email" type="email" placeholder="E-mail" class="form-control"  name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                     </div>
                                     @error('email')
@@ -23,7 +23,7 @@
                                     @enderror
                                 </div>
                                 <div class="row mb-0">
-                                    <div class="col-md-6 offset-md-4">
+                                    <div class="col-md-12 offset-md-4">
                                         <button type="submit" class="btn btn-primary">
                                             {{ __('Відправити код підтвердження') }}
                                         </button>

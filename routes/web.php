@@ -81,24 +81,24 @@ Route::group([
     'middleware' => ['app.auth', 'auth']
 ],function () {
 
-    Route::resource('promocodes', \App\Http\Controllers\Admin\PromocodeController::class);
+    Route::resource('promocodes', \App\Http\Controllers\Admin\PromocodeController::class)->middleware('content.manager.role');
     if(!preg_match("#^\/admin/banners/create\b#", \request()->getRequestUri())) {
-        Route::get('/banners/{cat_group?}', [\App\Http\Controllers\Admin\BannerController::class, 'index']);
+        Route::get('/banners/{cat_group?}', [\App\Http\Controllers\Admin\BannerController::class, 'index'])->middleware('content.manager.role');
     }
-        Route::resource('banners', \App\Http\Controllers\Admin\BannerController::class);
-    Route::resource('messages', \App\Http\Controllers\Admin\MessageController::class);
-    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
-    Route::resource('subcategories', \App\Http\Controllers\Admin\SubCategoryController::class);
+        Route::resource('banners', \App\Http\Controllers\Admin\BannerController::class)->middleware('content.manager.role');
+    Route::resource('messages', \App\Http\Controllers\Admin\MessageController::class)->middleware('orders.admin.role');
+    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class)->middleware('content.manager.role');
+    Route::resource('subcategories', \App\Http\Controllers\Admin\SubCategoryController::class)->middleware('content.manager.role');
     if(!preg_match("#^\/admin/products/create\b#", \request()->getRequestUri())) {
-        Route::get('/products/{cat_group?}', [\App\Http\Controllers\Admin\ProductController::class, 'index']);
+        Route::get('/products/{cat_group?}', [\App\Http\Controllers\Admin\ProductController::class, 'index'])->middleware('content.manager.role');
     }
-        Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
-    Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class);
-    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
-    Route::resource('colors', \App\Http\Controllers\Admin\ColorController::class);
-    Route::resource('brands', \App\Http\Controllers\Admin\BrandController::class);
-    Route::resource('materials', \App\Http\Controllers\Admin\MaterialController::class);
-    Route::resource('sizes', \App\Http\Controllers\Admin\SizeController::class);
+        Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->middleware('content.manager.role');
+    Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class)->middleware('orders.admin.role');
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->middleware('main.admin.role');
+    Route::resource('colors', \App\Http\Controllers\Admin\ColorController::class)->middleware('content.manager.role');
+    Route::resource('brands', \App\Http\Controllers\Admin\BrandController::class)->middleware('content.manager.role');
+    Route::resource('materials', \App\Http\Controllers\Admin\MaterialController::class)->middleware('content.manager.role');
+    Route::resource('sizes', \App\Http\Controllers\Admin\SizeController::class)->middleware('content.manager.role');
 
 });
 

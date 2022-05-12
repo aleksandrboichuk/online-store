@@ -60,4 +60,8 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\UserPromocode');
     }
 
+    public function roles(){
+        return $this->belongsToMany(UserRole::class);
+    }
+
 }

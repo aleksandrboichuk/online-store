@@ -7,14 +7,14 @@
                 <div class="col-md-4">
 
                 </div>
-                <div class="col-md-8 justify-content-center">
+                <div class="col-md-8 justify-content-center forgot_password_form">
                     <div class="card">
                         <div class="card-header">{{ __('Введіть новий пароль') }}</div>
                         <div class="card-body">
                             <form method="POST" action="{{route('save.password')}}">
                                 <div class="row mb-3">
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <input id="password" type="password" placeholder="Пароль" class="form-control"  name="password" value="{{ old('password') }}" required autocomplete="password" autofocus>
                                     </div>
                                     @if(isset($password_error))
@@ -22,7 +22,7 @@
                                         <strong>{{$password_error }}</strong>
                                     </span>
                                     @endif
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <input id="password-confirm" type="password" placeholder="Підтвердження паролю" class="form-control"  name="password_confirmation" value="{{ old('password-confirm') }}" required autocomplete="password-confirm" autofocus>
                                     </div>
                                     @if(isset($password_confirm_error) && !empty($password_confirm_error))
@@ -32,7 +32,7 @@
                                     @endif
                                 </div>
                                 <div class="row mb-0">
-                                    <div class="col-md-6 offset-md-4">
+                                    <div class="col-md-12 offset-md-4">
                                         <button type="submit" class="btn btn-primary">
                                             {{ __('Змінити пароль') }}
                                         </button>

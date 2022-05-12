@@ -58,7 +58,7 @@
                                     <p>{{$item->phone}}</p>
                                 </td>
                                 <td>
-                                    <u><p>₴{{$item->total_cost}}</p></u>
+                                   <p><b>₴{{$item->total_cost}}</b></p>
                                 </td>
                                 <td>
                                     @foreach($statuses as $s)

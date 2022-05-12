@@ -6,6 +6,8 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="shortcut icon" href="/images/home/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/home/favicon.ico" type="image/x-icon">
     <title>Divisima</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/css/font-awesome.min.css" rel="stylesheet" />

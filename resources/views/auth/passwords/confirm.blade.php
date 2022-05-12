@@ -16,14 +16,14 @@
                 <div class="col-md-4">
 
                 </div>
-                <div class="col-md-8 justify-content-center">
+                <div class="col-md-8 justify-content-center forgot_password_form">
                     <div class="card">
-                        <div class="card-header">{{ __('Введіть код, який надійшов на E-mail адресу') }}</div>
+                        <div class="card-header">{{ __('Введіть 6-значний код, який надійшов на вашу E-mail адресу') }}</div>
                         <div class="card-body">
                             <form method="POST" action="{{route('confirm.code')}}">
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <input id="code" type="text" placeholder="000000" class="form-control"  name="code" value="{{ old('code') }}" required autocomplete="code" autofocus>
+                                    <div class="col-md-12">
+                                        <input id="code" type="text" placeholder="000000" class="form-control"  name="code" value="{{ old('code') }}" required autocomplete="code" autofocus maxlength="6">
                                     </div>
                                     @if(isset($code))
                                         <span class="invalid-feedback" role="alert">
@@ -32,7 +32,7 @@
                                     @endif
                                 </div>
                                 <div class="row mb-0">
-                                    <div class="col-md-6 offset-md-4">
+                                    <div class="col-md-12 offset-md-4">
                                         <button type="submit" class="btn btn-primary">
                                             {{ __('Відправити') }}
                                         </button>

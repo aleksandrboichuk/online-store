@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -98,9 +99,18 @@ class UserController extends Controller
             ], 404);
         }
 
+        if(!empty($user->roles) && count($user->roles) > 0){
+            $arRoles = [];
+            foreach ($user->roles as $r){
+                $arRoles[] = $r->id;
+            }
+        }
+
         return view('admin.user.edit',[
             'user' => $this->getUser(),
             'adm_user' => $user,
+            'roles' => UserRole::all(),
+            'arRoles' => isset($arRoles) ? $arRoles : null,
         ]);
     }
 
@@ -139,19 +149,27 @@ class UserController extends Controller
         if($request['active-field'] == "on"){
             $active = true;
         }
-        $superuser = false;
-        if($request['admin-field'] == "on"){
-            $superuser = true;
-        }
+
         $user->update([
             'first_name'=> $request['firstname-field'],
             'last_name'=> $request['lastname-field'],
             'email'=> $request['email-field'],
             'city'=> $request['city-field'],
             'active'=> $active,
-            'superuser'=> $superuser,
-
         ]);
+
+        $user->roles()->detach();
+        if(isset($request['roles']) && !empty($request['roles']) && count($request['roles']) > 0){
+            $user->update(['superuser' => 1]);
+            foreach ($request['roles'] as $r) {
+                $user->roles()->attach([
+                    'user_role_id' => intval($r),
+                ]);
+            }
+        }else{
+            $user->update(['superuser' => 0]);
+        }
+
         return redirect('/admin/users')->with(['success-message' => 'Користувача успішно змінено.']);
     }
 

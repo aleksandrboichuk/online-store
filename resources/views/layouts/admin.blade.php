@@ -7,13 +7,14 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="shortcut icon" href="/images/home/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/home/favicon.ico" type="image/x-icon">
     <title>Divisima</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/css/font-awesome.min.css" rel="stylesheet" />
     <link href="/css/animate.css" rel="stylesheet" />
     <link href="/css/main.css" rel="stylesheet" />
     <link href="/css/responsive.css" rel="stylesheet" />
-
     <!--[if lt IE 9]>
     <script src="/js/html5shiv.js"></script>
     <script src="/js/respond.min.js"></script>
@@ -80,41 +81,54 @@
                     </div>
                     <div class="mainmenu pull-left admin-navbar">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a href="/admin/orders"><u>Замовлення</u></a></li>
-                            <li><a href="/admin/users"><u>Користувачі</u></a></li>
-                            <li><a href="/admin/promocodes"><u>Промокоди</u></a></li>
-                            <li><a href="/admin/messages">Повідомлення</a></li>
-                            <li><a href="/admin/banners">Банери<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
-                                    <li><a href="/admin/banners/women">Для жінок</a></li>
-                                    <li><a href="/admin/banners/men">Для чоловіків</a></li>
-                                    <li><a href="/admin/banners/boys">Для хлопчиків</a></li>
-                                    <li><a href="/admin/banners/girls">Для дівчаток</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Групи категорій<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
-                                    <li><a href="/admin/categories">Категорії</a></li>
-                                    <li><a href="/admin/subcategories">Підкатегорії</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="/admin/products">Товари<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
-                                    <li><a href="/admin/products/women">Жіночі</a></li>
-                                    <li><a href="/admin/products/men">Чоловічі</a></li>
-                                    <li><a href="/admin/products/boys">Для хлопчиків</a></li>
-                                    <li><a href="/admin/products/girls">Для дівчаток</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#">Властивості товарів<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
-                                    <li><a href="/admin/colors">Кольори</a></li>
-                                    <li><a href="/admin/brands">Бренди</a></li>
-                                    <li><a href="/admin/materials">Матеріали</a></li>
-                                    <li><a href="/admin/sizes">Розміри</a></li>
-                                </ul>
-                            </li>
+                            @if(isset($user->roles) && count($user->roles) > 0)
+                                @foreach($user->roles as $role)
+                                    @if($role->seo_name == 'main-admin' || $role->seo_name == 'orders-admin')
+                                        <li><a href="/admin/orders"><u>Замовлення</u></a></li>
+                                        <li><a href="/admin/messages"><u>Повідомлення</u></a></li>
+                                    @endif
+                                    @if($role->seo_name == 'main-admin')
+                                            <li><a href="/admin/users">Користувачі</a></li>
+                                    @endif
+                                    @if($role->seo_name == 'main-admin' || $role->seo_name == 'content-manager')
+                                            <li><a href="/admin/promocodes">Промокоди</a></li>
+                                            <li><a href="/admin/banners">Банери<i class="fa fa-angle-down"></i></a>
+                                                <ul role="menu" class="sub-menu">
+                                                    <li><a href="/admin/banners/women">Для жінок</a></li>
+                                                    <li><a href="/admin/banners/men">Для чоловіків</a></li>
+                                                    <li><a href="/admin/banners/boys">Для хлопчиків</a></li>
+                                                    <li><a href="/admin/banners/girls">Для дівчаток</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="/admin/categories" >Групи категорій<i class="fa fa-angle-down"></i></a>
+                                                <ul role="menu" class="sub-menu">
+                                                    <li><a href="/admin/categories">Категорії</a></li>
+                                                    <li><a href="/admin/subcategories">Підкатегорії</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="/admin/products">Товари<i class="fa fa-angle-down"></i></a>
+                                                <ul role="menu" class="sub-menu">
+                                                    <li><a href="/admin/products/women">Жіночі</a></li>
+                                                    <li><a href="/admin/products/men">Чоловічі</a></li>
+                                                    <li><a href="/admin/products/boys">Для хлопчиків</a></li>
+                                                    <li><a href="/admin/products/girls">Для дівчаток</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown">
+                                                <a href="#">Властивості товарів<i class="fa fa-angle-down"></i></a>
+                                                <ul role="menu" class="sub-menu">
+                                                    <li><a href="/admin/colors">Кольори</a></li>
+                                                    <li><a href="/admin/brands">Бренди</a></li>
+                                                    <li><a href="/admin/materials">Матеріали</a></li>
+                                                    <li><a href="/admin/sizes">Розміри</a></li>
+                                                </ul>
+                                            </li>
+                                    @endif
+                                 @endforeach
+                            @endif
+
+
+
                         </ul>
                     </div>
                 </div>

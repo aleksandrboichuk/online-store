@@ -58,6 +58,9 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'app.auth' =>\App\Http\Middleware\AppAuth::class,
+        'content.manager.role' =>\App\Http\Middleware\ContentManagerRoleCheck::class,
+        'main.admin.role' =>\App\Http\Middleware\MainAdminRoleCheck::class,
+        'orders.admin.role' =>\App\Http\Middleware\OrdersAdminRoleCheck::class,
         'cart.by.token' =>\App\Http\Middleware\CartByToken::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,

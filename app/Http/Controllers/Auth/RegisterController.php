@@ -49,7 +49,7 @@ class RegisterController extends Controller
     protected function validator(array $data){
         $messages = [
           'password.confirmed' => 'Паролі не співпадають.',
-          'password.min' => 'Пароль має містити не менше 3-х символів.',
+          'password.min' => 'Пароль має містити не менше 8-ми символів.',
           'firstname.min' => 'Ім\'я має містити не менше 3-х символів.',
           'lastname.min' => 'Прізвище має містити не менше 3-х символів.',
           'firstname.max' => 'Ім\'я має містити не більше 20-ти символів.',
