@@ -48,7 +48,7 @@
 
                                 @if($user->superuser)
                                     <li>
-                                        <a href="/admin"><i class="fa fa-crosshairs"></i>Адмін. панель</a>
+                                        <a href="/admin"><i class="fa fa-crosshairs"></i>Адмін-панель</a>
                                     </li>
                                 @endif
                                 <li>
@@ -83,6 +83,7 @@
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             @if(isset($user->roles) && count($user->roles) > 0)
                                 @foreach($user->roles as $role)
+
                                     @if($role->seo_name == 'main-admin' || $role->seo_name == 'orders-admin')
                                         <li><a href="/admin/orders"><u>Замовлення</u></a></li>
                                         <li><a href="/admin/messages"><u>Повідомлення</u></a></li>

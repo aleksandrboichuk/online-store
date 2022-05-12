@@ -55,7 +55,7 @@
                                 {{--</li>--}}
                                 @if($user->superuser)
                                 <li>
-                                    <a href="/admin"><i class="fa fa-crosshairs"></i> Адмін. панель</a>
+                                    <a href="/admin"><i class="fa fa-crosshairs"></i> Адмін-панель</a>
                                 </li>
                                  @endif
                                 <li>
