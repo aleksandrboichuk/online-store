@@ -41,7 +41,7 @@
         <td>
         </td>
         <td>
-            <p>Not Found</p>
+            <p>Не знайдено</p>
         </td>
         <td>
         </td>
