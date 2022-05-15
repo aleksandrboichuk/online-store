@@ -82,17 +82,12 @@
                     <div class="mainmenu pull-left admin-navbar">
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             @if(isset($user->roles) && count($user->roles) > 0)
-                                @foreach($user->roles as $role)
-
-                                    @if($role->seo_name == 'main-admin' || $role->seo_name == 'orders-admin')
-                                        <li><a href="/admin/orders"><u>Замовлення</u></a></li>
-                                        <li><a href="/admin/messages"><u>Повідомлення</u></a></li>
-                                        <li><a href="/admin/statistic"><u>Статистика</u></a></li>
-                                    @endif
-                                    @if($role->seo_name == 'main-admin')
+                                    @foreach($user->roles as $key => $r)
+                                        @if($r->seo_name == 'main-admin')
+                                            <li><a href="/admin/orders"><u>Замовлення</u></a></li>
+                                            <li><a href="/admin/messages"><u>Повідомлення</u></a></li>
+                                            <li><a href="/admin/statistic"><u>Статистика</u></a></li>
                                             <li><a href="/admin/users">Користувачі</a></li>
-                                    @endif
-                                    @if($role->seo_name == 'main-admin' || $role->seo_name == 'content-manager')
                                             <li><a href="/admin/promocodes">Промокоди</a></li>
                                             <li><a href="/admin/banners">Банери<i class="fa fa-angle-down"></i></a>
                                                 <ul role="menu" class="sub-menu">
@@ -125,8 +120,49 @@
                                                     <li><a href="/admin/sizes">Розміри</a></li>
                                                 </ul>
                                             </li>
-                                    @endif
-                                 @endforeach
+                                            @unset($user->roles[$key])
+                                            @break
+                                        @elseif($r->seo_name == 'orders-admin')
+                                            <li><a href="/admin/orders"><u>Замовлення</u></a></li>
+                                            <li><a href="/admin/messages"><u>Повідомлення</u></a></li>
+                                            <li><a href="/admin/statistic"><u>Статистика</u></a></li>
+                                            @unset($user->roles[$key])
+                                        @elseif($r->seo_name == 'content-manager')
+                                            <li><a href="/admin/promocodes">Промокоди</a></li>
+                                            <li><a href="/admin/banners">Банери<i class="fa fa-angle-down"></i></a>
+                                                <ul role="menu" class="sub-menu">
+                                                    <li><a href="/admin/banners/women">Для жінок</a></li>
+                                                    <li><a href="/admin/banners/men">Для чоловіків</a></li>
+                                                    <li><a href="/admin/banners/boys">Для хлопчиків</a></li>
+                                                    <li><a href="/admin/banners/girls">Для дівчаток</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="/admin/categories" >Групи категорій<i class="fa fa-angle-down"></i></a>
+                                                <ul role="menu" class="sub-menu">
+                                                    <li><a href="/admin/categories">Категорії</a></li>
+                                                    <li><a href="/admin/subcategories">Підкатегорії</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="/admin/products">Товари<i class="fa fa-angle-down"></i></a>
+                                                <ul role="menu" class="sub-menu">
+                                                    <li><a href="/admin/products/women">Жіночі</a></li>
+                                                    <li><a href="/admin/products/men">Чоловічі</a></li>
+                                                    <li><a href="/admin/products/boys">Для хлопчиків</a></li>
+                                                    <li><a href="/admin/products/girls">Для дівчаток</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown">
+                                                <a href="#">Властивості товарів<i class="fa fa-angle-down"></i></a>
+                                                <ul role="menu" class="sub-menu">
+                                                    <li><a href="/admin/colors">Кольори</a></li>
+                                                    <li><a href="/admin/brands">Бренди</a></li>
+                                                    <li><a href="/admin/materials">Матеріали</a></li>
+                                                    <li><a href="/admin/sizes">Розміри</a></li>
+                                                </ul>
+                                            </li>
+                                            @unset($user->roles[$key])
+                                        @endif
+                                    @endforeach
                             @endif
 
 

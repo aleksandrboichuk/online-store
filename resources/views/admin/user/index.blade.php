@@ -44,7 +44,16 @@
                                 <p>{{$adm_user->email}}</p>
                             </td>
                             <td>
-                                <p>{{$adm_user->superuser ? "Адмін" : "Користувач"}}</p>
+                                <p>
+                                @if(!empty($adm_user->roles) && count($adm_user->roles) > 0)
+                                    @foreach($adm_user->roles as $key => $r)
+                                        {{$r->name}}{{$key == count($adm_user->roles) - 1 ? '' : ', '}}
+                                    @endforeach
+
+                                @else
+                                    Користувач
+                                @endif
+                                </p>
                             </td>
                             <td>
                                 <p>{{$adm_user->first_name . ' ' . $adm_user->last_name}}</p>
