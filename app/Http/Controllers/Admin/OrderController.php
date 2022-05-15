@@ -18,7 +18,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = OrdersList::orderBy('status', 'asc')->orderBy('created_at', 'desc')->paginate(10);
+        $orders = OrdersList::orderBy('status', 'asc')->orderBy('created_at', 'desc')->paginate(7);
 
         if(request()->ajax()){
             return view('admin.order.ajax.ajax-pagination', [
