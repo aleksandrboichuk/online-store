@@ -1695,7 +1695,13 @@ h2.title {
     margin-bottom: 15px;
     word-wrap: anywhere;
 }
-
+.alert h4{
+    font-size: 24px;
+    font-weight: bold;
+}
+.alert > p{
+    font-size: 18px;
+}
 .alert-active{
     display: block;
     opacity: 95%;
@@ -2783,4 +2789,24 @@ h2.title {
 }
 .email-body{
     background-color: #dddad4;
+}
+
+
+/* statistic */
+.admin_statistic_dates{
+    max-height: 90px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.admin_statistic_dates .btn-admin{
+    float: none;
+
+}
+.admin_statistic_dates .date_start, .admin_statistic_dates  .date_finish{
+    font-size: 16px;
+    margin-right: 30px;
+    margin-left: 20px;
+    padding-top: 10px;
+    max-width: 130px;
 }

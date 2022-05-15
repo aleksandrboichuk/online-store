@@ -87,6 +87,7 @@
                                     @if($role->seo_name == 'main-admin' || $role->seo_name == 'orders-admin')
                                         <li><a href="/admin/orders"><u>Замовлення</u></a></li>
                                         <li><a href="/admin/messages"><u>Повідомлення</u></a></li>
+                                        <li><a href="/admin/statistic"><u>Статистика</u></a></li>
                                     @endif
                                     @if($role->seo_name == 'main-admin')
                                             <li><a href="/admin/users">Користувачі</a></li>

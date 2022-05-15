@@ -100,6 +100,8 @@ Route::group([
     Route::resource('materials', \App\Http\Controllers\Admin\MaterialController::class)->middleware('content.manager.role');
     Route::resource('sizes', \App\Http\Controllers\Admin\SizeController::class)->middleware('content.manager.role');
 
+    Route::get('/statistic', [\App\Http\Controllers\StatisticController::class, 'index'])->name('statistic');
+
 });
 
 
