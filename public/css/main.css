@@ -916,7 +916,7 @@ h2.title:before {
     display:block;
     box-shadow: 1px 1px 1px 1px #8c8c88;
     position: absolute;
-    z-index: 1000;
+    z-index: 1002;
 }
 
 .btn-info-filters{
