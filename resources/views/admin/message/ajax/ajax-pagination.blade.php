@@ -10,7 +10,7 @@
             <p>{{$message->theme}}</p>
         </td>
         <td>
-            <p>{{$message->message}}</p>
+            <p>{{strlen($message->message) > 10 ? '...' : $message->message}}</p>
         </td>
         <td>
             <p>{{date("d.m.Y - H:i", strtotime($message->created_at))}}</p>

@@ -41,10 +41,10 @@
                                 <p>{{$message->email}}</p>
                             </td>
                             <td>
-                                <p>{{strlen($message->theme) > 10 ? substr_replace($message->theme, '...', 7) : $message->theme}}</p>
+                                <p>{{$message->theme}}</p>
                             </td>
                             <td>
-                                <p>{{strlen($message->message) > 10 ? substr_replace($message->message, '...', 7) : $message->message}}</p>
+                                <p>{{strlen($message->message) > 10 ? '...' : $message->message}}</p>
                             </td>
                             <td>
                                 <p>{{date("d.m.Y - H:i", strtotime($message->created_at))}}</p>

@@ -16,7 +16,7 @@
             <form action="{{route('banners.store')}}" method="post" enctype="multipart/form-data">
                 <div class="add-block">
                     <label for="title-field">Заголовок* </label>
-                    <input type="text" name="title-field" maxlength="30">
+                    <input type="text" name="title-field" maxlength="35">
                 </div>
                 @if($errors->has('title-field'))
                     <div class="invalid-feedback admin-feedback" role="alert">

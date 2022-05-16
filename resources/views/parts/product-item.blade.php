@@ -28,7 +28,7 @@
                     @else
                         <h4>₴{{$item->price}}</h4>
                     @endif
-                    <h5><strong>{{$item->brands['name']}}</strong> / {{$item->name}}</h5>
+                    <h5><b>{{$item->brands['name']}}</b> / {{$item->name}}</h5>
                 </a>
                 {{--<span class="sizes-info"><strong>Розміри:</strong>--}}
                     {{--@foreach($item->sizes as $key => $s)--}}
