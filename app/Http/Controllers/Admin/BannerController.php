@@ -85,7 +85,7 @@ class BannerController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        // ================== Определение активности чекбокса =================
+        //   Определение активности чекбокса
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
@@ -97,11 +97,11 @@ class BannerController extends Controller
             'description' => $request['description-field'],
             'active' => $active,
         ]);
-        // ========================== добавление картинок в хранилище и в БД ==========================
+        //   добавление картинок в хранилище и в БД
         $mainImageFile = $request->file('main-image-field');
-        Storage::disk('public')->putFileAs('banner-images/'.$banner->id, $mainImageFile, $mainImageFile->getClientOriginalName());
+        Storage::disk('banners')->putFileAs('banner-images/'.$banner->id, $mainImageFile, $mainImageFile->getClientOriginalName());
 //        $miniImageFile = $request->file('mini-image-field');
-//        Storage::disk('public')->putFileAs('banner-images/'.$getBanner->id, $miniImageFile, $miniImageFile->getClientOriginalName());
+//        Storage::disk('banners')->putFileAs('banner-images/'.$getBanner->id, $miniImageFile, $miniImageFile->getClientOriginalName());
         $banner->update([
             'image_url' => $mainImageFile->getClientOriginalName(),
 //            'mini_img_url' => $miniImageFile->getClientOriginalName(),
@@ -129,7 +129,7 @@ class BannerController extends Controller
     public function edit($id)
     {
         $banner = Banner::find($id);
-        // ===================== в случае неправильной строки запроса отдать 404 ====================
+        //   в случае неправильной строки запроса отдать 404
         if(!$banner){
             return response()->view('errors.404-admin', [
                 'user' => $this->getUser(),
@@ -153,7 +153,7 @@ class BannerController extends Controller
     public function update(Request $request, $id)
     {
         $banner = Banner::find($id);
-        // ================ в случае старого сео не делать валидацию на уникальность==============
+        //   в случае старого сео не делать валидацию на уникальность
         if($request['seo-field'] == $banner->seo_name){
             $validator = $this->validator($request->except('seo-field'));
             if ($validator->fails()) {
@@ -163,7 +163,7 @@ class BannerController extends Controller
                     ->withInput();
             }
         }else{
-            // ================ если сео все же изменили то проверить на уникальность ==============
+            //   если сео все же изменили то проверить на уникальность
             $validator = $this->validator($request->all());
             if ($validator->fails()) {
                 return redirect()
@@ -172,12 +172,12 @@ class BannerController extends Controller
                     ->withInput();
             }
         }
-        // ======================= определяем активность чекбокса ======================
+        //   определяем активность чекбокса
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
         }
-        // ======================= обновляем запись в базе ======================
+        //   обновляем запись в базе
         $banner->update([
             'title' => $request['title-field'],
             'category_group_id' => $request['cat-field'],
@@ -186,19 +186,19 @@ class BannerController extends Controller
             'active' => $active,
             'updated_at' => date("Y-m-d H:i:s")
         ]);
-        // ============ обновление картинок, если они были загружены =============
+        //   обновление картинок, если они были загружены
         if(isset($request['main-image-field'])){
             $mainImageFile = $request->file('main-image-field');
-            Storage::disk('public')->delete('banner-images/'.$banner->id.'/' . $banner->image_url);
-            Storage::disk('public')->putFileAs('banner-images/'.$banner->id.'/', $mainImageFile, $mainImageFile->getClientOriginalName());
+            Storage::disk('banners')->delete('banner-images/'.$banner->id.'/' . $banner->image_url);
+            Storage::disk('banners')->putFileAs('banner-images/'.$banner->id.'/', $mainImageFile, $mainImageFile->getClientOriginalName());
             $banner->update([
                 'image_url' => $mainImageFile->getClientOriginalName()
             ]);
         }
 //        if(isset($request['mini-image-field'])){
 //            $miniImageFile = $request->file('mini-image-field');
-//            Storage::disk('public')->delete('banner-images/'.$banner->id.'/' . $banner->mini_img_url);
-//            Storage::disk('public')->putFileAs('banner-images/'.$banner->id.'/', $miniImageFile, $miniImageFile->getClientOriginalName());
+//            Storage::disk('banners')->delete('banner-images/'.$banner->id.'/' . $banner->mini_img_url);
+//            Storage::disk('banners')->putFileAs('banner-images/'.$banner->id.'/', $miniImageFile, $miniImageFile->getClientOriginalName());
 //            $banner->update([
 //                'mini_img_url' => $miniImageFile->getClientOriginalName()
 //            ]);
@@ -216,7 +216,7 @@ class BannerController extends Controller
     {
         $banner = Banner::find($id);
         $banner->delete();
-        // ============ удаление папки баннера в хранилище =============
+        //   удаление папки баннера в хранилище
         Storage::disk('public')->deleteDirectory('banner-images/'.$banner->id);
 
         return redirect("/admin/banners")->with(['success-message' => 'Банер успішно видалено.']);

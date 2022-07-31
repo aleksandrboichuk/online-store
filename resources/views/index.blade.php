@@ -83,10 +83,10 @@
     {{--</script>--}}
     <script>
         $(document).on('mouseover','.hidden-img', function () {
-            $(this).parent().css("background-image", "url('/storage/product-images/" + $(this).attr('id') +  "')");
+            $(this).parent().css("background-image", "url('/images/products/" + $(this).attr('id') +  "')");
         });
         $(document).on('mouseout','.hidden-img',function () {
-            $(this).parent().css("background-image", "url('/storage/product-images/" + $(this).parent().attr('id') +  "')");
+            $(this).parent().css("background-image", "url('/images/products/" + $(this).parent().attr('id') +  "')");
         });
     </script>
     <script src="/js/elastic-filters.js"></script>

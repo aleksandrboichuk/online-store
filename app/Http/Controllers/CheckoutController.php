@@ -19,12 +19,12 @@ class CheckoutController extends Controller
             $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
         }
 
-        // ============================ Если кто то додумается без товаров в корзине пойти на чекаут по урлу ===================================
+        //   Если кто то додумается без товаров в корзине пойти на чекаут по урлу
         if(!isset($user_cart->products) || empty($user_cart->products) || count($user_cart->products) < 1){
            return redirect()->back();
         }
 
-        // =================================  Define total cost  ========================================
+        //    Define total cost
         $totalSum = 0;
         for ($i = 0; $i < count($user_cart->products); $i++ ) {
             $productPrice = $user_cart->products[$i]['discount'] != 0
@@ -78,7 +78,7 @@ class CheckoutController extends Controller
             $cart = Cart::where("user_id",$this->getUser()->id)->first();
         }
 
-        // ====================== define total sum  ================
+        //   define total sum
         $totalSum = 0;
         for ($i = 0; $i < count($cart->products); $i++ ){
             $productPrice = $cart->products[$i]['discount'] != 0
@@ -87,19 +87,19 @@ class CheckoutController extends Controller
             $totalSum += $cart->products[$i]->pivot->product_count *  $productPrice;
         }
 
-        // ====================== define total sum with promocode ================
+        //   define total sum with promocode
         if(isset($request['promocode']) && !empty($request['promocode']) && Auth::check()){
             $promocode = UserPromocode::where('promocode', $request['promocode'])->first();
             if($promocode){
                 for ($i = 0; $i < count($cart->products); $i++ ){
                     $totalSum = $totalSum - (round($totalSum * ($promocode->discount * 0.01)));
                 }
-                // ========================== deleting promocode  ============================
+                //   deleting promocode
                 $this->getUser()->promocodes()->where('user_promocode_id', $promocode->id)->detach();
             }
         }
 
-        // ====================== define delivery ================
+        //   define delivery
         if(isset($request['post-department-field'])){
             $postDepartment = intval($request['post-department-field']);
         }elseif(isset($request['address-field'])){

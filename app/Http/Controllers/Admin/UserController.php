@@ -125,7 +125,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        // ================ в случае старого email не делать валидацию на уникальность==============
+        //   в случае старого email не делать валидацию на уникальность
         if($request['email-field'] == $user->email){
             $validator = $this->validator($request->except('email-field'));
             if ($validator->fails()) {
@@ -135,7 +135,7 @@ class UserController extends Controller
                     ->withInput();
             }
         }else{
-            // ================ если email все же изменили то проверить на уникальность ==============
+            //   если email все же изменили то проверить на уникальность
             $validator = $this->validator($request->all());
             if ($validator->fails()) {
                 return redirect()

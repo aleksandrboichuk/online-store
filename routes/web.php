@@ -219,7 +219,7 @@ Route::get('/logout', function(){
 });
 Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'toRegister'])->name('register');
 
-// ========================== Reset password by email =====================================================
+//   Reset password by email  
 Route::post('/send-code', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendEmailWithCode'])->name('send.code');
 Route::post('/confirm-code', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'confirmEmailCode'])->name('confirm.code');
 Route::post('/save-password', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'savePassword'])->name('save.password');

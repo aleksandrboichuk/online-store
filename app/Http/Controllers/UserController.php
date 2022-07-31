@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    // =====================================  Orders  ==============================================
+    //    Orders
     public function getUserOrders($status = null){
         $user_orders = OrdersList::where('user_id', $this->getUser()->id)->orderBy('status', 'asc')->orderBy('created_at', 'desc')->get();
         $statusName = "Замовлення";
@@ -77,7 +77,7 @@ class UserController extends Controller
         ]);
     }
 
-    // =====================================  Settings  ==============================================
+    //    Settings
 
     public function getUserSettings(){
 
@@ -126,7 +126,7 @@ class UserController extends Controller
                 'email'=> $request['email-field'],
             ]);
 
-            // ============================ Если указан телефон ====================================
+            //   Если указан телефон
 
             if(!empty($request['phone-field']) && $user->phone != intval($request['phone-field'])){
                 $validator = $this->validator($request->only(['phone-field']));
@@ -145,7 +145,7 @@ class UserController extends Controller
                 ]);
             }
 
-            // ============================ Если указан город ====================================
+            //   Если указан город
 
             if(!empty($request['city-field']) && $user->city != $request['city-field']){
                 $validator = $this->validator($request->only(['city-field']));
@@ -164,7 +164,7 @@ class UserController extends Controller
                 ]);
             }
 
-            // ============================ Если указан новый пароль ====================================
+            //   Если указан новый пароль
 
             if(!empty($request['password'])){
                 $validator = $this->validator($request->only(['password', 'password_confirmation']));
@@ -184,7 +184,7 @@ class UserController extends Controller
         return redirect('/personal/orders')->with(['settings-save-success' => 'Налаштування профілю успішно змінено.']);
     }
 
-    // =====================================  Promocodes  ==============================================
+    //    Promocodes
 
     public function getUserPromocodes(){
         $user =  $this->getUser();

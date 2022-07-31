@@ -55,10 +55,10 @@
     {{--</script>--}}
     <script>
         $('.hidden-img').hover(function () {
-            $(this).parent().css("background-image", "url('/storage/product-images/" + $(this).attr('id') +  "')")
+            $(this).parent().css("background-image", "url('/images/products/" + $(this).attr('id') +  "')")
         });
         $('.hidden-img').mouseout(function () {
-            $(this).parent().css("background-image", "url('/storage/product-images/" + $(this).parent().attr('id') +  "')");
+            $(this).parent().css("background-image", "url('/images/products/" + $(this).parent().attr('id') +  "')");
         })
     </script>
     <script src="/js/elastic-filters.js"></script>

@@ -68,13 +68,13 @@ class CategoryController extends Controller
                 ->withInput();
         }
 
-        // ================== Определение активности чекбокса =================
+        //   Определение активности чекбокса
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
         }
 
-        // ===================== Создание категории ===============================
+        //   Создание категории
         $category =  Category::create([
             'title' => $request['title-field'],
             'name' => $request['name-field'],
@@ -82,7 +82,7 @@ class CategoryController extends Controller
             'active' => $active,
         ]);
 
-        // ===================== Связь категории с группой категорий ===============================
+        //   Связь категории с группой категорий
         $category->categoryGroups()->attach($category->id,[
             'category_group_id' => $request['cat-field'],
             'category_id' => $category->id
@@ -135,7 +135,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
 
-        // ================ в случае старого сео не делать валидацию на уникальность==============
+        //   в случае старого сео не делать валидацию на уникальность
 
         if($request['seo-field'] == $category->seo_name){
             $validator = $this->validator($request->except('seo-field'));
@@ -146,7 +146,7 @@ class CategoryController extends Controller
                     ->withInput();
             }
         }else{
-            // ================ если сео все же изменили то проверить на уникальность ==============
+            //   если сео все же изменили то проверить на уникальность
 
             $validator = $this->validator($request->all());
             if ($validator->fails()) {
@@ -178,7 +178,7 @@ class CategoryController extends Controller
                 $subCat->update(['active' => $active]);
             }
         }
-        // ======================= обновляем запись в базе ======================
+        //   обновляем запись в базе
         $category->update([
             'title' => $request['title-field'],
             'name' => $request['name-field'],
@@ -187,7 +187,7 @@ class CategoryController extends Controller
             'updated_at' => date("Y-m-d H:i:s")
         ]);
 
-        // ======================= обновляем связь с группой категорий ======================
+        //   обновляем связь с группой категорий
 
         $category->categoryGroups()->where('category_id', $request['id'])->update(["category_group_id" => $request['cat-field']]);
         return redirect("/admin/categories")->with(['success-message' => 'Категорію успішно змінено.']);

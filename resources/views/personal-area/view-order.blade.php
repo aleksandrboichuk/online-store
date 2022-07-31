@@ -34,7 +34,7 @@
 
                             <tr>
                                 <td class="cart_product">
-                                    <a href="{{route('show.product.details', [$i->product->categoryGroups->seo_name, $i->product->categories->seo_name, $i->product->subCategories->seo_name, $i->product->seo_name])}}"><img src="/storage/product-images/{{$i->product->id}}/preview/{{$i->product->preview_img_url}}" alt="" /></a>
+                                    <a href="{{route('show.product.details', [$i->product->categoryGroups->seo_name, $i->product->categories->seo_name, $i->product->subCategories->seo_name, $i->product->seo_name])}}"><img src="/images/products/{{$i->product->id}}/preview/{{$i->product->preview_img_url}}" alt="" /></a>
                                 </td>
                                 <td class="cart_description">
                                     <h4><a href="{{route('show.product.details', [$i->product->categoryGroups->seo_name, $i->product->categories->seo_name, $i->product->subCategories->seo_name, $i->product->seo_name])}}">{{$i->name}}</a></h4>

@@ -64,12 +64,12 @@ class BrandController extends Controller
                 ->withInput();
         }
 
-        // ======================= определяем активность чекбокса ======================
+        //   определяем активность чекбокса
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
         }
-        // ===================== Создание бренда ===============================
+        //   Создание бренда
         ProductBrand::create([
             'name' => $request['name-field'],
             'seo_name'=> $request['seo-field'],
@@ -120,7 +120,7 @@ class BrandController extends Controller
     public function update(Request $request, $id)
     {
         $brand = ProductBrand::find($id);
-        // ================ в случае старого сео не делать валидацию на уникальность==============
+        //   в случае старого сео не делать валидацию на уникальность
         if($request['seo-field'] == $brand->seo_name){
             $validator = $this->validator($request->except('seo-field'));
             if ($validator->fails()) {
@@ -130,7 +130,7 @@ class BrandController extends Controller
                     ->withInput();
             }
         }else{
-            // ================ если сео все же изменили то проверить на уникальность ==============
+            //   если сео все же изменили то проверить на уникальность
             $validator = $this->validator($request->all());
             if ($validator->fails()) {
                 return redirect()
@@ -139,12 +139,12 @@ class BrandController extends Controller
                     ->withInput();
             }
         }
-        // ======================= определяем активность чекбокса ======================
+        //   определяем активность чекбокса
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
         }
-        // ======================= обновляем запись в базе ======================
+        //   обновляем запись в базе
         $brand->update([
             'name' => $request['name-field'],
             'seo_name'=> $request['seo-field'],

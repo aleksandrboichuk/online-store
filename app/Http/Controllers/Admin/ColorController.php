@@ -64,7 +64,7 @@ class ColorController extends Controller
                 ->withInput();
         }
 
-        // ======================= определяем активность чекбокса ======================
+        //   определяем активность чекбокса
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;
@@ -120,7 +120,7 @@ class ColorController extends Controller
     public function update(Request $request, $id)
     {
         $color = ProductColor::find($id);
-        // ================ в случае старого сео не делать валидацию на уникальность==============
+        //   в случае старого сео не делать валидацию на уникальность
         if($request['seo-field'] == $color->seo_name){
             $validator = $this->validator($request->except('seo-field'));
             if ($validator->fails()) {
@@ -130,7 +130,7 @@ class ColorController extends Controller
                     ->withInput();
             }
         }else{
-            // ================ если сео все же изменили то проверить на уникальность ==============
+            //   если сео все же изменили то проверить на уникальность
 
             $validator = $this->validator($request->all());
             if ($validator->fails()) {
@@ -140,7 +140,7 @@ class ColorController extends Controller
                     ->withInput();
             }
         }
-        // ======================= определяем активность чекбокса ======================
+        //   определяем активность чекбокса
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;

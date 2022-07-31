@@ -36,7 +36,7 @@
                         <label for="main-image-field">Головне зображення* </label>
                         <div class="add-image-block">
                             <input class="file" type="file" name="main-image-field" accept="main-image-field/png, main-image-field/jpeg">
-                            <img src="/storage/product-images/{{$product->id}}/preview/{{$product->preview_img_url}}" class="product-img-admin-edit" alt="">
+                            <img src="/images/products/{{$product->id}}/preview/{{$product->preview_img_url}}" class="product-img-admin-edit" alt="">
                         </div>
                     </div>
                     @if(isset($product->images) && !empty($product->images))
@@ -45,7 +45,7 @@
                                     <label for="image-field">Детальне зобр. №{{$key+1}}</label>
                                     <div class="add-image-block">
                                         <input class="file detail-img-file" type="file" name="additional-image-field-{{$key}}" accept=".jpg, .jpeg, .png">
-                                        <img src="/storage/product-images/{{$product->id}}/details/{{$img->url}}" class="product-img-admin-edit" alt="">
+                                        <img src="/images/products/{{$product->id}}/details/{{$img->url}}" class="product-img-admin-edit" alt="">
                                         <a id="{{$product->id}}"  class="btn btn-danger btn-danger-admin"><svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                                                 <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
                                                 <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>

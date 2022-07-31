@@ -87,7 +87,7 @@ class RegisterController extends Controller
                 ->withInput();
         }
 
-        // ================================= Создаем юзера  ===========================================
+        //   Создаем юзера   
         $user = User::create([
             'first_name' => $request['firstname'],
             'email' => $request['email'],
@@ -95,19 +95,19 @@ class RegisterController extends Controller
             'last_name' => $request['lastname'],
         ]);
 
-        // ================================= Создание корзины  ===========================================
+        //   Создание корзины   
         Cart::create([
             'user_id' => $user->id
         ]);
 
-        // ================================= Выдаем юзеру промокод  ===========================================
+        //   Выдаем юзеру промокод   
         $promocode = UserPromocode::where('promocode', 'special-for-reg-user')->first();
         $user->promocodes()->attach($promocode->id, [
             'user_id' => $user->id,
             'user_promocode_id' => $promocode->id
         ]);
 
-        // ================================= Автовход в кабинет  ===========================================
+        //   Автовход в кабинет   
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
         User::where('email', $request['email'])->update([

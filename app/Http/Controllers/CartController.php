@@ -11,11 +11,11 @@ class CartController extends Controller
 {
 
     public function showUserCart(Request $request){
-        // ==================== определяем юзера ====================
+        //   определяем юзера
         if(!$this->getUser()){
             $user_cart = $this->getCartByToken();
-            // ==================== юзера нет - ищем корзину по токену ====================
-            // ==================== аякс при изменении кол-ва товара в корзине ====================
+            //   юзера нет - ищем корзину по токену
+            //   аякс при изменении кол-ва товара в корзине
             if(!empty($request->value) && !empty($request->updateId) && !empty($request->updateSize)) {
                 $product = $user_cart->products()->where("product_id",$request->updateId)->first();
                 $product->carts()->where('token', session()->getId())->where('size', $request->updateSize)->update(["product_count" => $request->value]);
@@ -41,7 +41,7 @@ class CartController extends Controller
                 }
             }
         }
-// ==================== может быть будет желание сделать удаление через аякс ====================
+//   может быть будет желание сделать удаление через аякс
 //        if(!empty($request->deleteId)) {
 //            $user_cart->products()->detach($request->deleteId);
 //            if($request->ajax()){

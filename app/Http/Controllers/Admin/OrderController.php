@@ -117,14 +117,14 @@ class OrderController extends Controller
                     'popularity' => $product->popularity + 1
                 ]);
             }
-            // ================ обновляем инфу о количестве заказов юззера и их сумме ===================
+            //   обновляем инфу о количестве заказов юззера и их сумме
             if(!empty($order->users)){
                 $user = $order->users;
                 $user->update([
                     'orders_amount' => $user->orders_amount + 1,
                     'orders_sum' => $user->orders_sum + $order->total_cost
                 ]);
-                // ============================= выдаем промокод юзеру ===========================================
+                //   выдаем промокод юзеру
                 if($user->orders_amount >= 10 && $user->orders_sum >= 7000){
                     $promocode = UserPromocode::where('promocode', 'many-orders-code')->first();
                     $user->promocodes()->attach($promocode->id, [

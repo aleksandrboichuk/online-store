@@ -132,7 +132,7 @@ class PromocodeController extends Controller
     public function update(Request $request, $id)
     {
         $promocode = UserPromocode::find($id);
-        // ================ в случае старого promocode не делать валидацию на уникальность==============
+        //   в случае старого promocode не делать валидацию на уникальность
         if($request['promocode-field'] == $promocode->promocode){
             $validator = $this->validator($request->except('promocode-field'));
             if ($validator->fails()) {
@@ -142,7 +142,7 @@ class PromocodeController extends Controller
                     ->withInput();
             }
         }else{
-            // ================ если promocode все же изменили то проверить на уникальность ==============
+            //   если promocode все же изменили то проверить на уникальность
             $validator = $this->validator($request->all());
             if ($validator->fails()) {
                 return redirect()

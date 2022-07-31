@@ -118,7 +118,7 @@ class SizeController extends Controller
     public function update(Request $request, $id)
     {
         $size = ProductSize::find($id);
-        // ================ в случае старого сео не делать валидацию на уникальность==============
+        //   в случае старого сео не делать валидацию на уникальность
         if($request['seo-field'] == $size->seo_name){
             $validator = $this->validator($request->except('seo-field'));
             if ($validator->fails()) {
@@ -128,7 +128,7 @@ class SizeController extends Controller
                     ->withInput();
             }
         }else{
-            // ================ если сео все же изменили то проверить на уникальность ==============
+            //   если сео все же изменили то проверить на уникальность
 
             $validator = $this->validator($request->all());
             if ($validator->fails()) {
@@ -138,7 +138,7 @@ class SizeController extends Controller
                     ->withInput();
             }
         }
-        // ======================= определяем активность чекбокса ======================
+        //   определяем активность чекбокса
         $active = false;
         if($request['active-field'] == "on"){
             $active = true;

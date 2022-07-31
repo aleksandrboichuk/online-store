@@ -126,7 +126,7 @@ class SubCategoryController extends Controller
     public function update(Request $request, $id)
     {
         $subcategory = SubCategory::find($id);
-        // ================ в случае старого сео не делать валидацию на уникальность==============
+        //   в случае старого сео не делать валидацию на уникальность
         if($request['seo-field'] == $subcategory->seo_name){
             $validator = $this->validator($request->except('seo-field'));
             if ($validator->fails()) {
@@ -136,7 +136,7 @@ class SubCategoryController extends Controller
                     ->withInput();
             }
         }else{
-            // ================ если сео все же изменили то проверить на уникальность ==============
+            //   если сео все же изменили то проверить на уникальность
             $validator = $this->validator($request->all());
             if ($validator->fails()) {
                 return redirect()

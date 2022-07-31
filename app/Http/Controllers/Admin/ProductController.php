@@ -176,13 +176,13 @@ class ProductController extends Controller
         $mainImageFile = $request->file('main-image-field');
         $imageNames = [];
         //в первьюхи
-        Storage::disk('public')->putFileAs('product-images/'.$product->id.'/preview', $mainImageFile, $mainImageFile->getClientOriginalName());
+        Storage::disk('products')->putFileAs($product->id.'/preview', $mainImageFile, $mainImageFile->getClientOriginalName());
         // детальные изобр. все
         if(isset($request['additional-image-field-1'])){
             for($i = 0; $i <= 7; $i++){
                 if(isset($request['additional-image-field-' . $i])){
                     $imgFile = $request->file('additional-image-field-' . $i);
-                    Storage::disk('public')->putFileAs('product-images/'.$product->id.'/details', $imgFile, $imgFile->getClientOriginalName());
+                    Storage::disk('products')->putFileAs($product->id.'/details', $imgFile, $imgFile->getClientOriginalName());
                     $imageNames['images'][$i] = $imgFile->getClientOriginalName();
                 }
             }
@@ -263,7 +263,7 @@ class ProductController extends Controller
         // ajax на удаление картинки
         if(!empty($request->imgUrl)){
             ProductImage::where('url',($request->imgUrl))->delete();
-            Storage::disk('public')->delete('product-images/'.$product->id.'/details/' . $request->imgUrl);
+            Storage::disk('products')->delete($product->id.'/details/' . $request->imgUrl);
         }
 
         for($i = 0; $i < count($product->materials); $i++){
@@ -309,7 +309,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
-        // ================ в случае старого сео не делать валидацию на уникальность==============
+        //   в случае старого сео не делать валидацию на уникальность
         if($request['seo-field'] == $product->seo_name){
             $validator = $this->validator($request->except('seo-field'));
             if ($validator->fails()) {
@@ -319,7 +319,7 @@ class ProductController extends Controller
                     ->withInput();
             }
         }else{
-            // ================ если сео все же изменили то проверить на уникальность ==============
+            //   если сео все же изменили то проверить на уникальность
             $validator = $this->validator($request->all());
             if ($validator->fails()) {
                 return redirect()
@@ -328,7 +328,7 @@ class ProductController extends Controller
                     ->withInput();
             }
         }
-        // ======================= определяем активность чекбокса ======================
+        //   определяем активность чекбокса
         $active = false;
 
         if($request['active-field'] == "on"){
@@ -338,8 +338,8 @@ class ProductController extends Controller
         // работа с картинками товара
         if(isset($request['main-image-field'])){
             $mainImageFile = $request->file('main-image-field');
-            Storage::disk('public')->delete('product-images/'.$product->id.'/preview/' . $product->preview_img_url);
-            Storage::disk('public')->putFileAs('product-images/'.$product->id.'/preview', $mainImageFile, $mainImageFile->getClientOriginalName());
+            Storage::disk('products')->delete($product->id.'/preview/' . $product->preview_img_url);
+            Storage::disk('products')->putFileAs($product->id.'/preview', $mainImageFile, $mainImageFile->getClientOriginalName());
             $product->update([
                 'preview_img_url' => $mainImageFile->getClientOriginalName()
             ]);
@@ -354,8 +354,8 @@ class ProductController extends Controller
         foreach ( $productImages as $key => $img) {
             if(isset($request['additional-image-field-' . ($key)])){
                 $imgFile = $request->file('additional-image-field-' . ($key));
-                Storage::disk('public')->delete('product-images/'.$product->id.'/details/' . $img->url);
-                Storage::disk('public')->putFileAs('product-images/'.$product->id.'/details', $imgFile, $imgFile->getClientOriginalName());
+                Storage::disk('products')->delete($product->id.'/details/' . $img->url);
+                Storage::disk('products')->putFileAs($product->id.'/details', $imgFile, $imgFile->getClientOriginalName());
                 $img->update([
                     'url' => $imgFile->getClientOriginalName()
                 ]);
@@ -368,7 +368,7 @@ class ProductController extends Controller
         for($i = count($product->images); $i <= 7; $i++){
             if(isset($request['additional-image-field-' . $i])){
                 $imgFile = $request->file('additional-image-field-' . $i);
-                Storage::disk('public')->putFileAs('product-images/'.$product->id.'/details', $imgFile, $imgFile->getClientOriginalName());
+                Storage::disk('products')->putFileAs($product->id.'/details', $imgFile, $imgFile->getClientOriginalName());
                 $imageNames['images'][$i] = $imgFile->getClientOriginalName();
             }
         }
@@ -445,7 +445,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $product->delete();
-        Storage::disk('public')->deleteDirectory('product-images/'.$product->id);
+        Storage::disk('products')->deleteDirectory($product->id);
         return redirect("/admin/products")->with(['success-message' => 'Товар успішно видалено.']);
     }
 }

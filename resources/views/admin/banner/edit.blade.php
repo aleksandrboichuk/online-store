@@ -47,14 +47,14 @@
                         <label for="main-image-field">Головне зображення </label>
                         <div class="add-image-block">
                             <input class="file" type="file" name="main-image-field" accept="main-image-field/png, main-image-field/jpeg">
-                            <img src="/storage/banner-images/{{$banner->id}}/{{$banner->image_url}}" class="product-img-admin-edit" alt="">
+                            <img src="/images/banners/{{$banner->id}}/{{$banner->image_url}}" class="product-img-admin-edit" alt="">
                         </div>
                     </div>
                     {{--<div class="add-block">--}}
                         {{--<label for="main-image-field">Міні-зображення (справа)</label>--}}
                         {{--<div class="add-image-block">--}}
                             {{--<input class="file" type="file" name="mini-image-field" accept="main-image-field/png, main-image-field/jpeg">--}}
-                            {{--<img src="/storage/banner-images/{{$banner->id}}/{{$banner->mini_img_url}}" class="product-img-admin-edit" alt="">--}}
+                            {{--<img src="/images/banners/{{$banner->id}}/{{$banner->mini_img_url}}" class="product-img-admin-edit" alt="">--}}
                         {{--</div>--}}
                     {{--</div>--}}
                     <div class="add-block">

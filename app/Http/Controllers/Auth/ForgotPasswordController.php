@@ -38,8 +38,8 @@ class ForgotPasswordController extends Controller
         ], $messages);
     }
 
-    // =========================    ОСТОРОЖНО!!    ===========================
-    // =========================     Г**НО КОД     ===========================
+    //      ОСТОРОЖНО!!     
+    //       Г**НО КОД      
 
 
     public function showForgotPasswordForm(){
@@ -59,7 +59,7 @@ class ForgotPasswordController extends Controller
 
         $user = \App\Models\User::where('email', $request['email'])->first();
 
-        //==================== генерируем код и отправляем письмо ===================
+        //  генерируем код и отправляем письмо  
         $code = rand(100001, 999999);
         try{
             Mail::to($request['email'])->send(new PasswordReset($code, $user));
@@ -67,23 +67,23 @@ class ForgotPasswordController extends Controller
             return redirect()->back();
         }
 
-        //==================== в спец табоицу в базе вносим данные ====================
+        //  в спец табоицу в базе вносим данные  
         DB::table('password_resets')->insert([
            'email' =>  $user->email,
            'confirm_code' => $code,
            'session_code' => session()->getId(),
            'created_at' => date('Y-m-d H:i:s')
         ]);
-        //==================== чтоб не было доступа к урлу - все далаем по цепочке вьюх ====================
+        //  чтоб не было доступа к урлу - все далаем по цепочке вьюх  
         return  view('auth.passwords.confirm', [
             'cart' => $this->getCartByToken(),
         ])->with(['success' => 'Лист з кодом відправлено на вказаний E-mail.']);
     }
 
     public function confirmEmailCode(Request $request){
-//==================== проверяем на любопытных, которые меняют имя инпута на фронте ====================
+//  проверяем на любопытных, которые меняют имя инпута на фронте  
         if(isset($request['code'])){
-            //==================== получаем ранее созданную запись в бд через токен сессии ====================
+            //  получаем ранее созданную запись в бд через токен сессии  
             $record = DB::table('password_resets')->where('session_code',session()->getId())->orderBy('created_at', 'desc')->first();
 
             if(!$record){
@@ -112,7 +112,7 @@ class ForgotPasswordController extends Controller
         if(!$record){
             return redirect('/login')->with(['error' => 'Щось пішло не так. Спробуйте ще раз через декілька хвилин.']);
         }
-        // ==================== валидация нового пароля ====================
+        //   валидация нового пароля  
         $messages = [
             'password.min' => 'Пароль повинен містити не менше 3-x символів.',
             'password.confirmed' => 'Паролі не співпадають.',
@@ -122,13 +122,13 @@ class ForgotPasswordController extends Controller
         ], $messages);
 
         if ($validator->fails()) {
-//==================== опять же все через цепочку вьюх ====================
+//  опять же все через цепочку вьюх  
             return view('auth.passwords.new-password')->with([
                'password_error'=> $validator->errors()->get('password')[0],
                'password_confirm_error' => isset($validator->errors()->get('password')[1]) ? $validator->errors()->get('password')[1] :  null
             ]);
         }
-// ==================== наконец обновляем пароль в бд ====================
+//   наконец обновляем пароль в бд  
         $user = User::where('email', $record->email)->first();
         $user->update([
             'password' => Hash::make($request['password'])

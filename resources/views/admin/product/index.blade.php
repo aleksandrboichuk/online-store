@@ -55,7 +55,7 @@
                                 <p>{{$item->seo_name}}</p>
                             </td>
                             <td class="cart_product">
-                                <img src="/storage/product-images/{{$item->id}}/preview/{{$item->preview_img_url}}" alt="" />
+                                <img src="/images/products/{{$item->id}}/preview/{{$item->preview_img_url}}" alt="" />
                             </td>
                             <td>
                                 <p>₴{{$item->price}}</p>

@@ -54,7 +54,7 @@
                                 {{--<p>{{$item->mini_img_url}}</p>--}}
                             {{--</td>--}}
                             <td class="cart_product">
-                                <img src="/storage/banner-images/{{$item->id}}/{{$item->image_url}}" alt="" />
+                                <img src="/images/banners/{{$item->id}}/{{$item->image_url}}" alt="" />
                             </td>
                             <td>
                                 <input type="checkbox" {{$item->active ? "checked" : ""}} disabled>
