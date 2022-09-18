@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class ProductSeason extends Model
+class ProductSeason extends BaseModel
 {
     use HasFactory;
     protected $fillable = [
@@ -14,7 +15,14 @@ class ProductSeason extends Model
         'seo_name',
         'active'
     ];
-    public function products(){
+
+    /**
+     * Связь Сезон - продукты
+     *
+     * @return HasMany
+     */
+    public function products(): HasMany
+    {
         return $this->hasMany('App\Models\Product','product_season_id', 'id');
     }
 }

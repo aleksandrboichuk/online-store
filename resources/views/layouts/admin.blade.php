@@ -86,7 +86,6 @@
                                         @if($r->seo_name == 'main-admin')
                                             <li><a href="/admin/orders"><u>Замовлення</u></a></li>
                                             <li><a href="/admin/messages"><u>Повідомлення</u></a></li>
-                                            <li><a href="/admin/statistic"><u>Статистика</u></a></li>
                                             <li><a href="/admin/users">Користувачі</a></li>
                                             <li><a href="/admin/promocodes">Промокоди</a></li>
                                             <li><a href="/admin/banners">Банери<i class="fa fa-angle-down"></i></a>
@@ -125,7 +124,6 @@
                                         @elseif($r->seo_name == 'orders-admin')
                                             <li><a href="/admin/orders"><u>Замовлення</u></a></li>
                                             <li><a href="/admin/messages"><u>Повідомлення</u></a></li>
-                                            <li><a href="/admin/statistic"><u>Статистика</u></a></li>
                                             @unset($user->roles[$key])
                                         @elseif($r->seo_name == 'content-manager')
                                             <li><a href="/admin/promocodes">Промокоди</a></li>

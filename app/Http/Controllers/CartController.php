@@ -2,78 +2,70 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
-
-use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
 
-    public function showUserCart(Request $request){
-        //   определяем юзера
-        if(!$this->getUser()){
-            $user_cart = $this->getCartByToken();
-            //   юзера нет - ищем корзину по токену
-            //   аякс при изменении кол-ва товара в корзине
-            if(!empty($request->value) && !empty($request->updateId) && !empty($request->updateSize)) {
-                $product = $user_cart->products()->where("product_id",$request->updateId)->first();
-                $product->carts()->where('token', session()->getId())->where('size', $request->updateSize)->update(["product_count" => $request->value]);
-                if($request->ajax()){
-                    return view('ajax.ajax-cart',[
-                        'user' =>$this->getUser(),
-                        'cart' => $user_cart,
-                        'products' => $user_cart->products
-                    ])->render();
-                }
-            }
-        }else{
-            $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
-            if(!empty($request->value) && !empty($request->updateId) && !empty($request->updateSize)) {
-                $product = $user_cart->products()->where("product_id",$request->updateId)->first();
-                $product->carts()->where('user_id', $this->getUser()->id)->where('size', $request->updateSize)->update(["product_count" => $request->value]);
-                if($request->ajax()){
-                    return view('ajax.ajax-cart',[
-                        'user' =>$this->getUser(),
-                        'cart' => $user_cart,
-                        'products' => $user_cart->products
-                    ])->render();
-                }
+    /**
+     * Страница корзины
+     *
+     * @param Request $request
+     * @return Application|Factory|View|string
+     */
+    public function index(Request $request): Application|Factory|View|string
+    {
+        $user = $this->user();
+        $cart = $this->getCart();
+
+        //   AJAX обновления количества продукта в корзине
+        if ($request->get('updateId') && $request->get('updateSize') && $request->get('value')) {
+
+            $product_id = $request->get('updateId');
+            $size = $request->get('updateSize');
+            $value = $request->get('value');
+
+            $cart->updateProductCount($product_id, $size, $value);
+
+            if ($request->ajax()) {
+                return view('ajax.ajax-cart', [
+                    'user' => $this->user(),
+                    'cart' => $cart,
+                    'products' => $cart->products
+                ])->render();
             }
         }
-//   может быть будет желание сделать удаление через аякс
-//        if(!empty($request->deleteId)) {
-//            $user_cart->products()->detach($request->deleteId);
-//            if($request->ajax()){
-//                return view('ajax.ajax-cart',[
-//                'user' =>$this->getUser(),
-//                'products' => $user_cart->products
-//            ])->render();
-//            }
-//        }
 
-        $user = $this->getUser();
         return view('cart.cart', [
-            'user' =>$user,
-            'cart' => $user_cart,
-            'promocodes' => !empty($user) ? $user->promocodes : null,
-            'products' => isset($user_cart->products) ? $user_cart->products : null
+            'promocodes' => $user->promocodes ?? null,
+            'products' => $cart->products ?? null
         ]);
     }
 
-
+    /**
+     * Удаление товара из корзины
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
     public function deleteFromCart(Request $request){
 
-        if(!$this->getUser()){
-            $user_cart = $this->getCartByToken();
-        }else{
-            $user_cart = Cart::where("user_id",$this->getUser()->id)->first();
+        $cart = $this->getCart();
+
+        $product_id = $request->get('delete-id');
+        $size = $request->get('size');
+
+        if($product_id && $size) {
+            $cart->deleteProduct($product_id, $size);
         }
 
-        if(!empty($request['delete-id'])) {
-            $user_cart->products()->detach($request['delete-id']);
-        }
-         return back()->with(['success-message-delete' => 'Товар успішно видалено з кошику.']);
+         return redirect()->back()->with([
+             'success-message-delete' => 'Товар успішно видалено з кошику.'
+         ]);
     }
 
 }

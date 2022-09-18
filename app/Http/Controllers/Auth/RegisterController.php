@@ -3,11 +3,18 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegistrationRequest;
 use App\Models\Cart;
 use App\Models\UserPromocode;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +41,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected string $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -46,75 +53,51 @@ class RegisterController extends Controller
 //        $this->middleware('guest');
     }
 
-    protected function validator(array $data){
-        $messages = [
-          'password.confirmed' => 'Паролі не співпадають.',
-          'password.min' => 'Пароль має містити не менше 8-ми символів.',
-          'firstname.min' => 'Ім\'я має містити не менше 3-х символів.',
-          'lastname.min' => 'Прізвище має містити не менше 3-х символів.',
-          'firstname.max' => 'Ім\'я має містити не більше 20-ти символів.',
-          'lastname.max' => 'Прізвище має містити не більше 20-ти символів.',
-          'email.min' => 'Пошта має містити не менше 8-ми символів.',
-          'email.max' => 'Пошта має містити не більше 30-ти символів.',
-          'email.unique' => 'Користувач з такою поштою вже існує.',
-        ];
-        return Validator::make($data, [
-            'firstname' => ['required', 'string', 'max:20', 'min:3'],
-            'lastname' => ['required', 'string', 'max:20', 'min:3'],
-            'email' => ['required', 'string', 'email', 'max:30', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ], $messages);
+    /**
+     * Registration page
+     *
+     * @return Application|Factory|View
+     */
+    public function showRegistrationForm(): View|Factory|Application
+    {
+        return view('auth.register');
     }
 
-    public function showRegistrationForm(){
-        if(!$this->getUser()){
-            $cart = $this->getCartByToken();
-        }
-        return view('auth.register', [
-            'user' => $this->getUser(),
-            'cart' => isset($cart) && !empty($cart) ? $cart : null,
-        ]);
+    /**
+     * Registration request
+     *
+     * @param RegistrationRequest $request
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function toRegister(RegistrationRequest $request): Redirector|RedirectResponse|Application
+    {
+        //   Создаем юзера
+        $user = User::query()->create($request->all());
 
+        //   Создание корзины
+        $user->createCart();
+
+        // выдаем промокод
+        $this->setPromocode($user);
+
+        Auth::loginUsingId($user->id);
+
+        return redirect('/shop/women');
     }
 
-    public function toRegister(Request $request){
-
-        $validator = $this->validator($request->all());
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        //   Создаем юзера   
-        $user = User::create([
-            'first_name' => $request['firstname'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
-            'last_name' => $request['lastname'],
-        ]);
-
-        //   Создание корзины   
-        Cart::create([
-            'user_id' => $user->id
-        ]);
-
-        //   Выдаем юзеру промокод   
+    /**
+     * Выдача промокода юзеру
+     *
+     * @param Model $user
+     * @return void
+     */
+    private function setPromocode(Model $user): void
+    {
         $promocode = UserPromocode::where('promocode', 'special-for-reg-user')->first();
+
         $user->promocodes()->attach($promocode->id, [
             'user_id' => $user->id,
             'user_promocode_id' => $promocode->id
         ]);
-
-        //   Автовход в кабинет   
-        $credentials = $request->only('email', 'password');
-        Auth::attempt($credentials);
-        User::where('email', $request['email'])->update([
-            'session_token' => Str::random(60),
-            'last_logged_in' => date("Y-m-d H:i:s"),
-        ]);
-
-        return redirect('/shop/women');
     }
 }

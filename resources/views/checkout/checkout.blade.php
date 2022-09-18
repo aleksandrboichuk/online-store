@@ -111,15 +111,15 @@
                                         <div class="total_area">
                                             @if(isset($user) && !empty($user))
                                                 <ul class="total-area-user-data">
-                                                    <li><b>Ім'я:</b><span><input type="text" name="user-firstname" value="{{$user->first_name}}" required></span></li>
-                                                    <li><b>Прізвище:</b><span><input type="text" name="user-lastname" value="{{$user->last_name}}" required></span></li>
-                                                    <li><b>Телефон:</b><span><input type="text" name="user-phone" value="{{!empty($user->phone) ? $user->phone : ""}}" required onkeyup="this.value = this.value.replace(/[^\d]/g,'');"></span></li>
+                                                    <li><b>Ім'я:</b><span><input type="text" name="first_name" value="{{$user->first_name}}" required></span></li>
+                                                    <li><b>Прізвище:</b><span><input type="text" name="last_name" value="{{$user->last_name}}" required></span></li>
+                                                    <li><b>Телефон:</b><span><input type="text" name="phone" value="{{!empty($user->phone) ? $user->phone : ""}}" required onkeyup="this.value = this.value.replace(/[^\d]/g,'');"></span></li>
                                                 </ul>
                                             @else
                                                 <ul class="total-area-user-data">
-                                                    <li><b>Ім'я:</b><span><input type="text" name="user-firstname" value="" required></span></li>
-                                                    <li><b>Прізвище:</b><span><input type="text" name="user-lastname" value="" required></span></li>
-                                                    <li><b>Телефон:</b><span><input type="text" name="user-phone" value="" required onkeyup="this.value = this.value.replace(/[^\d]/g,'');"></span></li>
+                                                    <li><b>Ім'я:</b><span><input type="text" name="first_name" value="" required></span></li>
+                                                    <li><b>Прізвище:</b><span><input type="text" name="last_name" value="" required></span></li>
+                                                    <li><b>Телефон:</b><span><input type="text" name="phone" value="" required onkeyup="this.value = this.value.replace(/[^\d]/g,'');"></span></li>
                                                 </ul>
                                             @endif
                                         </div>
@@ -137,26 +137,26 @@
                                 <div class="delivery-area">
                                     <div class="bill-to">
                                         <p>Доставка</p>
-                                        <select name="user-city" id="user-city">
+                                        <select name="city" id="city">
                                             @foreach($cities as $city)
                                                 <option value="{{$city->name}}" {{!empty($user) && $city->name == $user->city ? "selected" : ""}}>{{$city->name}}</option>
                                             @endforeach
                                         </select>
                                         <div class="delivery-input">
-                                            <input type="radio" name="delivery-field" id="post" checked >
+                                            <input type="radio" name="delivery" id="post" checked >
                                             <label for="post">Самовивіз з відділення Нова Пошта</label>
                                         </div>
-                                        <div class="post-department-field">
+                                        <div class="post_department">
                                             <label for="post-department">Відділення №</label>
-                                            <input type="text" name="post-department-field" id="post-department" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
+                                            <input type="text" name="post_department" id="post-department" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                                         </div>
                                         <div class="delivery-input">
-                                            <input type="radio" name="delivery-field" id="courier">
+                                            <input type="radio" name="delivery" id="courier">
                                             <label for="courier">Доставка кур'єром за адресою</label>
                                         </div>
-                                        <div class="address-field">
-                                            <label for="address-field">Адреса: </label>
-                                            <input type="text" name="address-field" id="address-field">
+                                        <div class="address">
+                                            <label for="address">Адреса: </label>
+                                            <input type="text" name="address" id="address">
                                         </div>
 
                                     </div>
@@ -174,16 +174,16 @@
                                             @endif
                                         </div>
                                         <div class="later-pay">
-                                            <input type="radio" name="pay-field" id="later-pay" checked>
+                                            <input type="radio" name="payment" id="later-pay" checked>
                                             <label for="later-pay">Оплата при отриманні товару</label>
                                         </div>
                                         <div class="now-pay">
-                                            <input type="radio" name="pay-field" id="now-pay">
+                                            <input type="radio" name="payment" id="now-pay">
                                             <label for="now-pay">Оплата карткою зараз</label>
                                         </div>
-                                        <div class="email-field">
-                                            <label for="email-field">Електронна пошта: </label>
-                                            <input type="email" name="email-field" id="email-field">
+                                        <div class="email">
+                                            <label for="email">Електронна пошта: </label>
+                                            <input type="email" name="email" id="email">
                                         </div>
 
                                     </div>
@@ -211,34 +211,35 @@
             // $('.total-price').text("₴" + subtotal);
 
            if($('#courier').prop('checked')){
-                $('.address-field').css('display', 'block');
-                $('.post-department-field').css('display', 'none').find('input').val('');
+                $('.address').css('display', 'block');
+                $('.post_department').css('display', 'none').find('input').val('');
             }
+
             if( $('#now-pay').prop('checked')){
-                $('.email-field').css('display', 'block');
+                $('.email').css('display', 'block');
             }
 
             $('#courier').change(function () {
                 if($(this).prop('checked')){
-                   $('.address-field').css('display', 'block');
-                   $('.post-department-field').css('display', 'none').find('input').val('');
+                   $('.address').css('display', 'block');
+                   $('.post_department').css('display', 'none').find('input').val('');
                 }
             });
             $('#post').change(function () {
                 if($(this).prop('checked')){
-                    $('.address-field').css('display', 'none').find('input').val('');
-                    $('.post-department-field').css('display', 'block');
+                    $('.address').css('display', 'none').find('input').val('');
+                    $('.post_department').css('display', 'block');
                 }
             });
             $('#later-pay').change(function () {
                 if($(this).prop('checked')){
-                    $('.email-field').css('display', 'none').find('input').val('');
+                    $('.email').css('display', 'none').find('input').val('');
                 }
             });
 
             $('#now-pay').change(function () {
                 if($(this).prop('checked')){
-                    $('.email-field').css('display', 'block');
+                    $('.email').css('display', 'block');
                 }
             });
 

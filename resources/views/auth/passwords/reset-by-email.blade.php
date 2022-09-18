@@ -1,13 +1,46 @@
-<body class="email-body">
-<link href="/css/main.css" rel="stylesheet" />
-    <div class="email-password-reset">
-        <div class="content-mail">
-            <img src="/images/home/logo.png" alt=""/>
-            <p>Шановний {{$user->first_name}}, ми отримали запит на відновлення пароля. <br>
-                Для відновлення пароля введіть код  <u><b>{{$code}}</b></u>  у форму на сторінці відновлення пароля.
-                <br>Якщо ви не робили запиту на відновлення пароля, то проігноруйте цей лист.
-            </p>
-            <p>З повагою, команда Divisima.</p>
+@extends('layouts.main')
+
+@section('content')
+    <section id="form">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-8 justify-content-center forgot_password_form">
+                    <div class="card">
+                        <div class="card-header">{{ __('Введіть ваш логін (E-mail адресу)') }}</div>
+                        <div class="card-body">
+                            <form method="POST" action="{{route('send.code')}}">
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <input id="email" type="email" placeholder="E-mail" class="form-control"  name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                    </div>
+                                    @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                                <div class="row mb-0">
+                                    <div class="col-md-12 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            {{ __('Відправити код підтвердження') }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</body>
+    </section>
+@endsection
+@section('custom-js')
+    <script>
+        $('#email').click(function () {
+            $('.invalid-feedback').css('display', 'none');
+        });
+    </script>
+@endsection

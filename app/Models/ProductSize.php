@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class ProductSize extends Model
+class ProductSize extends BaseModel
 {
     use HasFactory;
     protected $fillable = [
@@ -14,7 +15,15 @@ class ProductSize extends Model
         'seo_name',
         'active'
     ];
-    public function products(){
+
+    /**
+     * Связь размеры - продукты
+     *
+     * @return BelongsToMany
+     */
+    public function products(): BelongsToMany
+    {
         return $this->belongsToMany('App\Models\Product');
     }
+
 }

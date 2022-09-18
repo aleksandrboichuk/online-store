@@ -18,53 +18,53 @@
                 <form action="{{route('user.settings.save')}}" method="post">
                     <input type="hidden" name="id" value="{{$user->id}}">
                     <div class="add-block">
-                        <label for="firstname-field">Ім'я </label>
-                        <input type="text" value="{{$user->first_name}}" name="firstname-field">
+                        <label for="first_name">Ім'я </label>
+                        <input type="text" value="{{$user->first_name}}" name="first_name">
                     </div>
-                    @if($errors->has('firstname-field'))
+                    @if($errors->has('first_name'))
                         <div class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('firstname-field') }}</strong>
+                            <strong>{{ $errors->first('first_name') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="lastname-field">Прізвище </label>
-                        <input type="text" value="{{$user->last_name}}" name="lastname-field">
+                        <label for="last_name">Прізвище </label>
+                        <input type="text" value="{{$user->last_name}}" name="last_name">
                     </div>
-                    @if($errors->has('lastname-field'))
+                    @if($errors->has('last_name'))
                         <div class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('lastname-field') }}</strong>
+                            <strong>{{ $errors->first('last_name') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="email-field">Ел. пошта </label>
-                        <input type="email" value="{{$user->email}}" name="email-field">
+                        <label for="email">Ел. пошта </label>
+                        <input type="email" value="{{$user->email}}" name="email">
                     </div>
-                    @if($errors->has('email-field'))
+                    @if($errors->has('email'))
                         <div class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('email-field') }}</strong>
+                            <strong>{{ $errors->first('email') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="phone-field">Телефон </label>
-                        <input type="text" value="{{!empty($user->phone) ? $user->phone : ''}}" name="phone-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
+                        <label for="phone">Телефон </label>
+                        <input type="text" value="{{!empty($user->phone) ? $user->phone : ''}}" name="phone" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                     </div>
-                    @if($errors->has('phone-field'))
+                    @if($errors->has('phone'))
                         <div class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('phone-field') }}</strong>
+                            <strong>{{ $errors->first('phone') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="city-field">Місто </label>
-                        <input type="text" value="{{$user->city}}" name="city-field">
+                        <label for="cit">Місто </label>
+                        <input type="text" value="{{$user->city}}" name="city">
                     </div>
-                    @if($errors->has('city-field'))
+                    @if($errors->has('city'))
                         <div class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('city-field') }}</strong>
+                            <strong>{{ $errors->first('city') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="old-pass-field">Пароль* </label>
-                        <input type="password"  name="old-pass-field" required>
+                        <label for="old-pass">Пароль* </label>
+                        <input type="password"  name="old-pass" required>
                     </div>
                     @if(session()->has('old-pass-error'))
                         <div class="invalid-feedback" role="alert">
@@ -73,11 +73,11 @@
                         @php(session()->forget('old-pass-error'))
                     @endif
                     <div class="add-block block-passwords">
-                        <label for="new-pass-field">Новий пароль </label>
+                        <label for="new-pass">Новий пароль </label>
                         <input type="password" name="password">
                     </div>
                     <div class="add-block">
-                        <label for="confirm-new-pass-field">Підтвердження нового паролю </label>
+                        <label for="confirm-new-pass">Підтвердження нового паролю </label>
                         <input type="password"  name="password_confirmation">
                     </div>
                     @if($errors->has('password'))
@@ -93,13 +93,13 @@
 @endsection
 @section('custom-js')
     <script>
-        $('input[name="old-pass-field"]').click(function () {
+        $('input[name="old-pass"]').click(function () {
             $('.invalid-feedback').css('display', 'none');
         });
-        $('input[name="confirm-new-pass-field"]').click(function () {
+        $('input[name="confirm-new-pass"]').click(function () {
             $('.invalid-feedback').css('display', 'none');
         });
-        $('input[name="phone-field"]').click(function () {
+        $('input[name="phone"]').click(function () {
             $('.invalid-feedback').css('display', 'none');
         });
     </script>

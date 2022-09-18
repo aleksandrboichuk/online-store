@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class OrderListItem extends Model
+class OrderListItem extends BaseModel
 {
     use HasFactory;
 
@@ -19,7 +21,13 @@ class OrderListItem extends Model
         "size"
     ];
 
-    public function product() {
-        return $this->belongsTo('App\Models\Product');
+    /**
+     * Relation order list - products
+     *
+     * @return HasOne
+     */
+    public function product(): HasOne
+    {
+        return $this->hasOne(Product::class,'id', 'product_id');
     }
 }

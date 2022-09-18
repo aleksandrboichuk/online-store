@@ -4,109 +4,68 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\UserMessage;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 
 class MessageController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View|string
      */
-    public function index()
+    public function index(): View|Factory|string|Application
     {
-        $messages = UserMessage::orderBy('id', 'desc')->paginate(3);
+        $messages = UserMessage::query()->orderBy('id', 'desc')->paginate(3);
 
+        // ajax pagination
         if(request()->ajax()){
             return view('admin.message.ajax.ajax-pagination', [
                 'messages' => $messages,
             ])->render();
         }
 
-        return view('admin.message.index',[
-            'user'=>$this->getUser(),
-            'messages' => $messages,
-
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return view('admin.message.index', compact('messages'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Application|Factory|View|Response
      */
-    public function show($id)
+    public function show(int $id): View|Factory|Response|Application
     {
-        $message = UserMessage::find($id);
+        $message = UserMessage::query()->find($id);
 
         if(!$message){
-            return response()->view('errors.404-admin', [
-                'user' => $this->getUser(),
-            ], 404);
+           abort(404);
         }
-        return view('admin.message.single-message',[
-            'user' => $this->getUser(),
-            'message' => $message ,
 
-        ]);
+        return view('admin.message.single-message', compact('message'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     *  Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Application|RedirectResponse|Redirector
      */
-    public function edit($id)
+    public function destroy(int $id): Redirector|RedirectResponse|Application
     {
-        //
-    }
+        $message = UserMessage::query()->find($id);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        if(!$message){
+            abort(404);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $message = UserMessage::find($id);
         $message->delete();
+
         return redirect("/admin/messages")->with(['success-message' => 'Повідомлення успішно видалено.']);
     }
 }

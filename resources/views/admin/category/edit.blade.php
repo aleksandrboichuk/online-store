@@ -17,45 +17,45 @@
                 <form action="{{route('categories.update', $category->id)}}" method="post">
                     @method('PUT')
                     <div class="add-block">
-                        <label for="title-field">Заголовок* </label>
-                        <input type="text" value="{{$category->title}}" name="title-field" required maxlength="20">
+                        <label for="title">Заголовок* </label>
+                        <input type="text" value="{{$category->title}}" name="title" required maxlength="20">
                     </div>
-                    @if($errors->has('title-field'))
+                    @if($errors->has('title'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('title-field') }}</strong>
+                            <strong>{{ $errors->first('title') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="name-field">Назва* </label>
-                        <input type="text" value="{{$category->name}}" name="name-field" required maxlength="20">
+                        <label for="name">Назва* </label>
+                        <input type="text" value="{{$category->name}}" name="name" required maxlength="20">
                     </div>
-                    @if($errors->has('name-field'))
+                    @if($errors->has('name'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('name-field') }}</strong>
+                            <strong>{{ $errors->first('name') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="seo-field">SEO* </label>
-                        <input type="text" value="{{$category->seo_name}}" name="seo-field" required maxlength="25">
+                        <label for="seo_name">SEO* </label>
+                        <input type="text" value="{{$category->seo_name}}" name="seo_name" required maxlength="25">
                     </div>
-                    @if($errors->has('seo-field'))
+                    @if($errors->has('seo_name'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('seo-field') }}</strong>
+                            <strong>{{ $errors->first('seo_name') }}</strong>
                         </div>
                     @endif
-                    @if(isset($category->categoryGroups))
+                    @if(isset($category->categoryGroup))
                     <div class="add-block">
-                        <label for="cat-field">Група категорій </label>
-                        <select required size="5" name="cat-field" class="select-option">
+                        <label for="category_group">Група категорій </label>
+                        <select required size="5" name="category_group" class="select-option">
                             @foreach($category_groups as $group)
-                                <option value="{{$group->id}}" {{$group->id == $category->categoryGroups[0]['id'] ? "selected" : "" }}>{{$group->name}}</option>
+                                <option value="{{$group->id}}" {{$group->id == $category->categoryGroup->id ? "selected" : "" }}>{{$group->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     @endif
                     <div class="add-block">
-                        <label for="active-field">Активність </label>
-                        <input type="checkbox" name="active-field" {{$category->active ? "checked" : ""}}>
+                        <label for="active">Активність </label>
+                        <input type="checkbox" name="active" {{$category->active ? "checked" : ""}}>
                     </div>
                     <button type="submit" class="btn btn-default todo-btn">Зберегти</button>
                 </form>

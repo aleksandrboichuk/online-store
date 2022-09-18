@@ -6,8 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -32,7 +37,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected string $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -44,53 +49,77 @@ class LoginController extends Controller
 //        $this->middleware('guest')->except('logout');
     }
 
-    public function showLoginForm(){
-        if(!$this->getUser()){
-            $cart = $this->getCartByToken();
-        }
-        return view('auth.login',[
-            'user' => $this->getUser(),
-            'cart' => isset($cart) && !empty($cart) ? $cart : null,
-        ]);
+    /**
+     * Login page
+     *
+     * @return Factory|View|Application
+     */
+    public function showLoginForm(): Factory|View|Application
+    {
+        return view('auth.login');
     }
 
-    public function toLogin(Request $request){
-//        $validator = Validator::make($request->all(), [
-//            'email' => ['required', 'email', 'max:30', 'exists:users'],
-//            'password' => 'required|string',
-//        ]);
+    /**
+     * Login process
+     *
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function toLogin(Request $request): Redirector|RedirectResponse|Application
+    {
 
-        $user = User::where('email', $request['email'])->first();
+        $user = User::getUserByEmail($request->get('email'));
+
         if($user && !$user->active){
-            return redirect()->back()->withErrors(['error' => 'Ваш акаунт деактивовано.'])->withInput($request->all());
+            return redirect()->back()
+                ->withErrors(['error' => 'Ваш акаунт деактивовано.'])
+                ->withInput($request->all());
         }
 
-       if(!empty($request['remember'])){
-           $remember = Str::random(100);
-           $credentials = $request->only('email', 'password');
-           if (Auth::attempt($credentials, $remember)) {
-               User::where('email', $request['email'])->update([
-                   'session_token' => Str::random(60),
-                   'last_logged_in' => date("Y-m-d H:i:s"),
-               ]);
-               return  redirect('/shop/women');
-           } else{
-               return redirect()->back()->withInput($request->all())->withErrors(['error' => 'Логін або пароль невірний' ]);
-           }
-       }else{
-           $credentials = $request->only('email', 'password');
-           if (Auth::attempt($credentials)) {
-               User::where('email', $request['email'])->update([
-                   'session_token' => Str::random(60),
-                   'last_logged_in' => date("Y-m-d H:i:s"),
-               ]);
-               return  redirect('/shop/women');
-           } else{
+        $email = $request->get('email');
+        $remember = $request->get('remember');
+        $credentials = $request->only('email', 'password');
 
-               return redirect()->back()->withInput($request->all())->withErrors(['error' => 'Логін або пароль невірний' ]);
-           }
-       }
+        $authenticated = $this->attemptAuth($credentials, (bool)$remember);
 
+        if($authenticated){
+
+            $this->updateEntryAfterLogin($email);
+
+            return  redirect('/shop/women');
+
+        }else{
+
+            return redirect()->back()
+                ->withInput($request->all())
+                ->withErrors(['error' => 'Логін або пароль невірний' ]);
+        }
+    }
+
+    /**
+     * To do attempting auth
+     *
+     * @param array $credentials
+     * @param bool $remember
+     * @return bool
+     */
+    private function attemptAuth(array $credentials, bool $remember):bool
+    {
+        return Auth::attempt($credentials, $remember);
+    }
+
+    /**
+     * Updating user data in database after login
+     *
+     * @param string $email
+     * @return bool
+     */
+    private function updateEntryAfterLogin(string $email): bool
+    {
+       return (bool)User::query()->where('email', $email)->update([
+            'session_token' => Str::random(60),
+            'last_logged_in' => date("Y-m-d H:i:s"),
+        ]);
     }
 
 }

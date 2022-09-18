@@ -15,39 +15,39 @@
             {{--<h2>Додавання категорії</h2>--}}
             <form action="{{route('categories.store')}}" method="post">
                 <div class="add-block">
-                    <label for="title-field">Заголовок* </label>
-                    <input type="text" name="title-field" required maxlength="20">
+                    <label for="title">Заголовок* </label>
+                    <input type="text" name="title" required maxlength="20">
                 </div>
-                @if($errors->has('title-field'))
+                @if($errors->has('title'))
                     <div class="invalid-feedback admin-feedback" role="alert">
-                        <strong>{{ $errors->first('title-field') }}</strong>
+                        <strong>{{ $errors->first('title') }}</strong>
                     </div>
                 @endif
                 <div class="add-block">
-                    <label for="name-field">Назва* </label>
-                    <input type="text" name="name-field" required  maxlength="20">
+                    <label for="name">Назва* </label>
+                    <input type="text" name="name" required  maxlength="20">
                 </div>
-                @if($errors->has('name-field'))
+                @if($errors->has('name'))
                     <div class="invalid-feedback admin-feedback" role="alert">
-                        <strong>{{ $errors->first('name-field') }}</strong>
+                        <strong>{{ $errors->first('name') }}</strong>
                     </div>
                 @endif
                 <div class="add-block">
-                    <label for="seo-field">SEO* </label>
-                    <input type="text" name="seo-field" required maxlength="25" >
+                    <label for="seo_name">SEO* </label>
+                    <input type="text" name="seo_name" required maxlength="25" >
                 </div>
-                @if($errors->has('seo-field'))
+                @if($errors->has('seo_name'))
                     <div class="invalid-feedback admin-feedback" role="alert">
-                        <strong>{{ $errors->first('seo-field') }}</strong>
+                        <strong>{{ $errors->first('seo_name') }}</strong>
                     </div>
                 @endif
                 <div class="add-block">
-                    <label for="active-field">Активність </label>
-                    <input type="checkbox" name="active-field">
+                    <label for="active">Активність </label>
+                    <input type="checkbox" name="active">
                 </div>
                 <div class="add-block">
-                    <label for="cat-field">Група категорій </label>
-                    <select required size="5" name="cat-field" class="select-option">
+                    <label for="category_group">Група категорій </label>
+                    <select required size="5" name="category_group" class="select-option">
                         @foreach($category_groups as $group)
                             <option value="{{$group->id}}">{{$group->name}}</option>
                         @endforeach

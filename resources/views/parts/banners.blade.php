@@ -29,7 +29,7 @@
                                         <div class="slider-text">
                                             <h4>{{$value->title}}</h4>
                                             <p>{{$value->description}}</p>
-                                            <button type="button" class="btn btn-default "><a href="/promotions/{{$value->categoryGroups[0]->seo_name}}/{{$value->seo_name}}">Переглянути</a></button>
+                                            <button type="button" class="btn btn-default "><a href="/promotions/{{$value->categoryGroup->seo_name}}/{{$value->seo_name}}">Переглянути</a></button>
                                         </div>
                                     </div>
                                 </div>
@@ -43,7 +43,7 @@
                                         <div class="slider-text">
                                             <h4>{{$value->title}}</h4>
                                             <p>{{$value->description}}</p>
-                                            <button type="button" class="btn btn-default "><a href="/promotions/{{$value->categoryGroups[0]->seo_name}}/{{$value->seo_name}}">Переглянути</a></button>
+                                            <button type="button" class="btn btn-default "><a href="/promotions/{{$value->categoryGroup->seo_name}}/{{$value->seo_name}}">Переглянути</a></button>
                                         </div>
                                     </div>
                                 </div>

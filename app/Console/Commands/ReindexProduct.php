@@ -3,14 +3,15 @@
 namespace App\Console\Commands;
 
 use App\Models\Product;
-use Elasticsearch\ClientBuilder;
 use Illuminate\Console\Command;
+use Elasticsearch\ClientBuilder;
 use Elasticsearch\Client;
 use Illuminate\Support\Facades\DB;
 use function PHPUnit\Framework\returnArgument;
 
 class ReindexProduct extends Command
 {
+
     /**
      * The name and signature of the console command.
      *
@@ -37,7 +38,7 @@ class ReindexProduct extends Command
         parent::__construct();
 
         $this->elasticsearch = $elasticsearch;
-        $this->items = DB::table('elastic_products')->orderBy('id')->get();
+//        $this->items = DB::table('elastic_products')->orderBy('id')->get();
     }
 
     /**

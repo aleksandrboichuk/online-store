@@ -2,141 +2,130 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
+
 use App\Models\Category;
 use App\Models\CategoryGroup;
 use App\Models\Product;
-use App\Models\ProductBrand;
-use App\Models\ProductColor;
 use App\Models\ProductImage;
 use App\Models\SubCategory;
 use App\Models\UserReview;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    public function showProductDetails (Request $request, $group_seo_name, $category_seo_name,$sub_category_seo_name, $product_seo_name){
-        if(!$this->getUser()){
-            $cart = $this->getCartByToken();
-        }else{
-            $cart = Cart::where('user_id', Auth::id())->first();
-        }
-        $group = CategoryGroup::where('seo_name',$group_seo_name)->where('active', 1)->first();
-            if(!$group){
-                return response()->view('errors.404', ['user' => Auth::user(), 'cart' => $cart], 404);
-            }
-        $category = Category::where('seo_name',$category_seo_name)->where('active', 1)->first();
-            if(!$category){
-            return response()->view('errors.404', ['user' => Auth::user(), 'cart' => $cart], 404);
-            }
-        $sub_category = SubCategory::where('seo_name',$sub_category_seo_name)->where('active', 1)->where('category_id',$category->id)->first();
-            if(!$sub_category){
-                return response()->view('errors.404', ['user' => Auth::user(), 'cart' => $cart], 404);
-            }
-        $product = Product::where('category_group_id', $group->id)->where('active', 1)->where('category_sub_id',$sub_category->id)->where('category_id',$category->id)->where('seo_name',$product_seo_name)->first();
-            if(!$product){
-                return response()->view('errors.404', ['user' => Auth::user(), 'cart' => $cart], 404);
-            }
 
-        if($product->count > 50){
-            $stockStatus = ['in-stock', 'У наявності'];
-        }elseif($product->count <= 50){
-            $stockStatus = ['ends-in-stock', 'Закінчується'];
-        }elseif($product->count == 0){
-            $stockStatus = ['not-in-stock', 'Закінчився'];
-        }elseif(!$product->in_stock){
-            $stockStatus = ['not-in-stock', 'Немає у наявності'];
-        }
+    /**
+     * Product page
+     *
+     * @param Request $request
+     * @param string $group_seo_name
+     * @param string $category_seo_name
+     * @param string $sub_category_seo_name
+     * @param string $product_seo_name
+     * @return View|Factory|int|string|Application
+     */
+    public function index (
+        Request $request,
+        string $group_seo_name,
+        string $category_seo_name,
+        string $sub_category_seo_name,
+        string $product_seo_name
+    ): View|Factory|int|string|Application
+    {
+        $this->group_seo_name = $group_seo_name;
+        $this->category_seo_name = $category_seo_name;
+        $this->sub_category_seo_name = $sub_category_seo_name;
+        $this->product_seo_name = $product_seo_name;
 
-        $recommended_products = Product::where('category_group_id', $group->id)->where('active', 1)->inRandomOrder()->take(4)->get();
-        $reviews = UserReview::where('product_id', $product->id)->paginate(2);
-        $group_brands = $this->getGroupBrand($group->id);
+        $this->getPageData();
 
-// ------------------------------------------------- AJAX --------------------------------------------------------
-        if(!empty($request->productId)) {
-            $is_product = false;
-            for ($i = 0; $i < count($cart->products); $i++) {
-                if ($cart->products[$i]['id'] == $request->productId ) {
-                    for($a = 0; $a < count($cart->products()->where('product_id', $request->productId)->pluck('size')); $a++){
-                       if($cart->products()->where('product_id', $request->productId)->pluck('size')[$a] == $request->productSize){
-                           $cart->products()->where('product_id', $request->productId)->where("size", $request->productSize)->update(['product_count'=> $request->productCount]);
-                           $is_product = true;
-                           break;
-                       }
-                    }
-                }
-            }
-            if (!$is_product) {
-               // $product = Product::where("id", $request->productId)->first();
-                //dd($product->sizes()->where('product_size_id', $request->productSize));
-                $cart->products()->attach($request->productId, [
-                    'cart_id' => $cart->id,
-                    'product_id' => $request->productId,
-                    'product_count' => $request->productCount,
-                    'size' => $request->productSize,
-                ]);
-
-
-                if($request->ajax()) {
-                    return count($cart->products) + 1;
-                }
-            }
-
-            if($request->ajax()) {
-                return count($cart->products);
+        // AJAX for adding product to cart
+        if($request->get('productId')) {
+            if($request->ajax()){
+                return $this->setProductToCart($request);
             }
         }
 
         if($request->ajax()){
             return view('ajax.ajax-reviews',[
-                'reviews' => $reviews,
-                'group' => $group,
+                'reviews' => $this->pageData['reviews'],
+                'group' => $this->pageData['group'],
                 "images"=> ProductImage::all(),
             ])->render();
         }
 
-        return view('product.product',[
-            'user'=> $this->getUser(),
-            'cart' => $cart,
-             'group'  => $group,
-             'category'  => $category,
-             'sub_category'  => $sub_category,
-             'product'  => $product,
-             'stockStatus'  => $stockStatus,
-             'reviews'  => $reviews,
-            'group_categories' => $group->categories,
-            'brands' => $group_brands,
-            'recommended_products' =>$recommended_products,
-            'product_img' => $product->images(),
-            "images"=> ProductImage::all(),
-        ]);
+        return view('product.product', $this->pageData);
     }
 
-    public function sendReview($product_id, Request $request){
-       $product = Product::find($product_id);
+    /**
+     * Getting data for the view
+     *
+     * @return void
+     */
+    public function getPageData(): void
+    {
+        $group = CategoryGroup::getOneBySeoName($this->group_seo_name);
 
-       UserReview::create([
-           'product_id' => $product->id,
-           'user_id' =>  Auth::id(),
-           'grade' => $request['grade'],
-           'review' => $request['review']
-       ]);
+        $category = Category::getOneBySeoName($this->category_seo_name);
 
-       $reviews = UserReview::where('product_id',$product->id)->get();
+        $sub_category = SubCategory::getOneBySeoName($this->sub_category_seo_name);
 
-       $rating = 0;
-        if(isset($reviews) && !empty($reviews)){
-            foreach ($reviews as $review) {
-                $rating += $review->grade;
-               }
-            $totalRating = $rating / count($reviews);
+        $product = Product::getOneBySeoName($this->product_seo_name);
+
+        if(!$group || !$category || !$sub_category || !$product){
+            abort(404);
         }
 
-        $product->update([
-           'rating' => isset($totalRating) ? round($totalRating, 1) : 5.0
-       ]);
+        $brands = $this->getGroupBrands($group->id);
 
-       return redirect()->back();
+        $stockStatus = $product->getProductAmountStatus();
+
+        $recommended_products = Product::getRecommendedProducts($group->id);
+
+        $reviews = UserReview::getPaginatedProductReviews($product->id);
+
+        $product_images = $product->images();
+
+        $data = [
+            'group'                => $group,
+            'category'             => $category,
+            'sub_category'         => $sub_category,
+            'group_categories'     => $group->getCategories(),
+            'brands'               => $brands,
+            'product'              => $product,
+            'stockStatus'          => $stockStatus,
+            'recommended_products' => $recommended_products,
+            'reviews'              => $reviews,
+            'product_img'          => $product_images,
+            'images'               => ProductImage::all(),
+        ];
+
+        $this->pageData = $data;
+    }
+
+    /**
+     * Adding or updating product in the cart
+     *
+     * @param Request $request
+     * @return int
+     */
+    private function setProductToCart(Request  $request): int
+    {
+        $cart = $this->getCart();
+
+        $product_id = $request->get('productId');
+        $product_size = $request->get('productSize');
+        $product_count = $request->get('productCount');
+
+        $was_product_updated = $cart->updateCartProductCount($product_id, $product_size, $product_count);
+
+        if (!$was_product_updated) {
+           $cart->addProductToTheCart($product_id, $product_size, $product_count);
+        }
+
+        return $cart->products()->count();
     }
 }

@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
-use App\Traits\Searchable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Category extends Model
+class Category extends BaseModel
 {
     protected $fillable = [
         'title',
@@ -15,17 +18,34 @@ class Category extends Model
         'active',
         'created_at',
         'updated_at',
+        'category_group'
         ];
 
-    use Searchable;
-    public function products() {
+    /**
+     * Связь категории - продукты
+     * @return HasMany
+     */
+    public function products(): HasMany
+    {
         return $this->hasMany('App\Models\Product', 'category_id', 'id');
     }
-    public function categoryGroups() {
-        return $this->belongsToMany('App\Models\CategoryGroup');
+
+    /**
+     * Category - category group relation
+     *
+     * @return HasOne
+     */
+    public function categoryGroup(): HasOne
+    {
+        return $this->hasOne(CategoryGroup::class, 'id', 'category_group');
     }
 
-    public function subCategories(){
+    /**
+     * Связь категории-подкатегории
+     * @return HasMany
+     */
+    public function subCategories(): HasMany
+    {
         return $this->hasMany('App\Models\SubCategory','category_id','id');
     }
 }
