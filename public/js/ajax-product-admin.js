@@ -1,5 +1,5 @@
 function ajaxRequests(url) {
-    $('select[name="cat-field"]').click(function () {
+    $('select[name="category_group_id"]').click(function () {
         var categoryGroup = $(this).val();
         $.ajax({
             url: url,
@@ -11,11 +11,11 @@ function ajaxRequests(url) {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(data){
-                $('select[name="category-field"]').html(data)
+                $('select[name="category_id"]').html(data)
             }
         });
     });
-    $('select[name="category-field"]').click(function () {
+    $('select[name="category_id"]').click(function () {
         var category = $(this).val();
         $.ajax({
             url: url,
@@ -27,7 +27,7 @@ function ajaxRequests(url) {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(data){
-                $('select[name="sub-category-field"]').html(data)
+                $('select[name="category_sub_id"]').html(data)
             }
         });
     });

@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Http\Request;
 
 class Cart extends BaseModel
 {
@@ -16,46 +19,56 @@ class Cart extends BaseModel
 
     /**
      * связь корзина - продукты
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function products(){
-        return $this->belongsToMany('App\Models\Product')->withPivot('product_count', 'size');
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'cart_product', 'cart_id', 'product_id')
+            ->withPivot('product_count', 'size');
     }
 
     /**
      * Связь корзина - юзер
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function user(){
+    public function user(): HasOne
+    {
         return $this->hasOne('App\Models\User');
     }
 
     /**
      * обновление количества продукта в корзине
-     * @param int $product_id
-     * @param int $size
-     * @param int $value
+     *
+     * @param Request $request
      * @return int
      */
-    public function updateProductCount(int $product_id, int $size, int $value){
+    public function updateProductCount(Request $request): int
+    {
+        $product_id = $request->get('updateId');
+        $size = $request->get('updateSize');
+        $value = $request->get('value');
+
         return $this->products()
             ->where("product_id", $product_id)
             ->where('size', $size)
             ->update(["product_count" => $value]);
-
     }
 
     /**
-     * удаление продукта из корзины
-     * @param int $product_id
-     * @param int $size
+     * Deleting product from cart by id
+     *
+     * @param Request $request
      * @return int
      */
-    public function deleteProduct(int $product_id, int $size)
+    public function deleteProduct(Request $request): int
     {
-        return $this->products()
+        $product_id = $request->get('delete-id');
+        $size = $request->get('size');
+
+        return $this
+            ->products()
             ->where('product_id', $product_id)
-            ->where('size', $size)
+            ->wherePivot('size', $size)
             ->detach();
     }
 
@@ -63,7 +76,7 @@ class Cart extends BaseModel
      * Считает сумму товаров в корзине
      * @return float|int
      */
-    public function calculateTotal()
+    public function calculateTotal(): float|int
     {
         $products = $this->products()->get();
 

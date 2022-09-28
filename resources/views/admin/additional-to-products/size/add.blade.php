@@ -15,26 +15,26 @@
                 {{--<h2>Додавання категорії</h2>--}}
                 <form action="{{route('sizes.store')}}" method="post">
                     <div class="add-block">
-                        <label for="name-field">Назва* </label>
-                        <input type="text" name="name-field" required maxlength="10">
+                        <label for="name">Назва* </label>
+                        <input type="text" name="name" required maxlength="10">
                     </div>
-                    @if($errors->has('name-field'))
+                    @if($errors->has('name'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('seo-field') }}</strong>
+                            <strong>{{ $errors->first('seo_name') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="seo-field">SEO* </label>
-                        <input type="text" name="seo-field" required maxlength="10">
+                        <label for="seo_name">SEO* </label>
+                        <input type="text" name="seo_name" required maxlength="10">
                     </div>
-                    @if($errors->has('seo-field'))
+                    @if($errors->has('seo_name'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('seo-field') }}</strong>
+                            <strong>{{ $errors->first('seo_name') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="active-field">Активність </label>
-                        <input type="checkbox" name="active-field">
+                        <label for="active">Активність </label>
+                        <input type="checkbox" name="active">
                     </div>
                     <button type="submit" class="btn btn-default todo-btn">Додати</button>
 

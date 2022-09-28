@@ -64,7 +64,7 @@
                                 <p>{{$item->count}}</p>
                             </td>
                             <td>
-                                <p>{{$item->categoryGroups->name}}</p>
+                                <p>{{$item->categoryGroup->name}}</p>
                             </td>
                             <td>
                                 <p>{{$item->categories->name}}</p>

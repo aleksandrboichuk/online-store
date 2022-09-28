@@ -15,36 +15,36 @@
                 <form action="{{route('products.update', $product->id)}}" method="post" enctype="multipart/form-data">
                     @method('PUT')
                     <div class="add-block">
-                        <label for="name-field">Назва* </label>
-                        <input type="text" value="{{$product->name}}" name="name-field" maxlength="25" required>
+                        <label for="name">Назва* </label>
+                        <input type="text" value="{{$product->name}}" name="name" maxlength="25" required>
                     </div>
-                    @if($errors->has('name-field'))
+                    @if($errors->has('name'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('name-field') }}</strong>
+                            <strong>{{ $errors->first('name') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="seo-field">SEO* </label>
-                        <input type="text"  value="{{$product->seo_name}}" name="seo-field" maxlength="25" required>
+                        <label for="seo_name">SEO* </label>
+                        <input type="text"  value="{{$product->seo_name}}" name="seo_name" maxlength="25" required>
                     </div>
-                    @if($errors->has('seo-field'))
+                    @if($errors->has('seo_name'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('seo-field') }}</strong>
+                            <strong>{{ $errors->first('seo_name') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="main-image-field">Головне зображення* </label>
+                        <label for="preview_image">Головне зображення* </label>
                         <div class="add-image-block">
-                            <input class="file" type="file" name="main-image-field" accept="main-image-field/png, main-image-field/jpeg">
+                            <input class="file" type="file" name="preview_image" accept="preview_image/png, preview_image/jpeg">
                             <img src="/images/products/{{$product->id}}/preview/{{$product->preview_img_url}}" class="product-img-admin-edit" alt="">
                         </div>
                     </div>
                     @if(isset($product->images) && !empty($product->images))
                         @foreach($product->images as $key => $img)
                                 <div class="add-block">
-                                    <label for="image-field">Детальне зобр. №{{$key+1}}</label>
+                                    <label for="image">Детальне зобр. №{{$key+1}}</label>
                                     <div class="add-image-block">
-                                        <input class="file detail-img-file" type="file" name="additional-image-field-{{$key}}" accept=".jpg, .jpeg, .png">
+                                        <input class="file detail-img-file" type="file" name="additional-image-{{$key}}" accept=".jpg, .jpeg, .png">
                                         <img src="/images/products/{{$product->id}}/details/{{$img->url}}" class="product-img-admin-edit" alt="">
                                         <a id="{{$product->id}}"  class="btn btn-danger btn-danger-admin"><svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                                                 <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
@@ -55,33 +55,33 @@
                         @endforeach
                     @endif
                     <div class="add-block button-add-block">
-                        <a class="btn btn-default pull-right add-image-field">Додати детальне зображення</a>
+                        <a class="btn btn-default pull-right add-image">Додати детальне зображення</a>
                     </div>
                     <div class="add-block">
-                        <label for="description-field">Опис* </label>
-                        <textarea  rows="10" name="description-field" required maxlength="700"> {{$product->description}}</textarea>
+                        <label for="description">Опис* </label>
+                        <textarea  rows="10" name="description" required maxlength="700"> {{$product->description}}</textarea>
                     </div>
-                    @if($errors->has('description-field'))
+                    @if($errors->has('description'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('description-field') }}</strong>
+                            <strong>{{ $errors->first('description') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="price-field">Ціна* </label>
-                        <input type="text" value="{{$product->price}}" name="price-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');" required maxlength="5">
+                        <label for="price">Ціна* </label>
+                        <input type="text" value="{{$product->price}}" name="price" onkeyup="this.value = this.value.replace(/[^\d]/g,'');" required maxlength="5">
                     </div>
-                    @if($errors->has('price-field'))
+                    @if($errors->has('price'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('price-field') }}</strong>
+                            <strong>{{ $errors->first('price') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="discount-field">Знижка (%) </label>
-                        <input type="text" value="{{$product->discount ? $product->discount  : "0"}}" name="discount-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');" maxlength="2">
+                        <label for="discount">Знижка (%) </label>
+                        <input type="text" value="{{$product->discount ? $product->discount  : "0"}}" name="discount" onkeyup="this.value = this.value.replace(/[^\d]/g,'');" maxlength="2">
                     </div>
                     <div class="add-block">
-                        <label for="banner-field">Акція(якщо є) </label>
-                        <select size="4" name="banner-field" class="select-option">
+                        <label for="banner">Акція(якщо є) </label>
+                        <select size="4" name="banner" class="select-option">
                             @if(!empty($banners))
                             @foreach($banners as $banner)
                                 <option value="{{$banner->id}}" {{$banner->id == $product->banner_id ? "selected": ""}}>{{$banner->title}}</option>
@@ -90,56 +90,56 @@
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="count-field">Кількість </label>
-                        <input type="text" value="{{$product->count}}" name="count-field" readonly>
+                        <label for="count">Кількість </label>
+                        <input type="text" value="{{$product->count}}" name="count" readonly>
                     </div>
                     <div class="add-block">
-                        <label for="active-field">Активність </label>
-                        <input type="checkbox" name="active-field" {{$product->active ? "checked" : ""}}>
+                        <label for="active">Активність </label>
+                        <input type="checkbox" name="active" {{$product->active ? "checked" : ""}}>
                     </div>
                     <div class="add-block">
-                        <label for="cat-field">Група категорій </label>
-                        <select required size="4" name="cat-field" class="select-option">
+                        <label for="category_group_id">Група категорій </label>
+                        <select required size="4" name="category_group_id" class="select-option">
                             @foreach($category_groups as $g)
                                 <option value="{{$g->id}}" {{$g->id == $product->category_group_id ? "selected": ""}}>{{$g->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="category-field">Категорія </label>
-                        <select required size="3" name="category-field" class="select-option" >
+                        <label for="category_id">Категорія </label>
+                        <select required size="3" name="category_id" class="select-option" >
                             @foreach($categories as $c)
                                 <option value="{{$c->id}}" {{$c->id == $product->category_id ? "selected": ""}}>{{$c->title}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="sub-category-field">Підкатегорія </label>
-                        <select required size="7" name="sub-category-field" class="select-option" >
+                        <label for="category_sub_id">Підкатегорія </label>
+                        <select required size="7" name="category_sub_id" class="select-option" >
                             @foreach($sub_categories as $sc)
                                 <option value="{{$sc->id}}" {{$sc->id == $product->category_sub_id ? "selected": ""}}>{{$sc->title}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="color-field">Колір </label>
-                        <select required size="7" name="color-field" class="select-option">
+                        <label for="product_color_id">Колір </label>
+                        <select required size="7" name="product_color_id" class="select-option">
                             @foreach($colors as $col)
                                 <option value="{{$col->id}}"  {{$col->id == $product->product_color_id ? "selected": ""}}>{{$col->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="season-field">Сезон </label>
-                        <select required size="7" name="season-field" class="select-option">
+                        <label for="product_season_id">Сезон </label>
+                        <select required size="7" name="product_season_id" class="select-option">
                             @foreach($seasons as $s)
                                 <option value="{{$s->id}}"  {{$s->id == $product->product_season_id ? "selected": ""}}>{{$s->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="brand-field">Бренд </label>
-                        <select required size="7" name="brand-field" class="select-option">
+                        <label for="product_brand_id">Бренд </label>
+                        <select required size="7" name="product_brand_id" class="select-option">
                             @foreach($brands as $b)
                                 <option value="{{$b->id}}" {{$b->id == $product->product_brand_id ? "selected": ""}}>{{$b->name}}</option>
                             @endforeach
@@ -193,11 +193,11 @@
            if(detailImgs !== 'undefined'){
                countImages = detailImgs.length + 1;
            }
-           $('.add-image-field').click(function () {
+           $('.add-image').click(function () {
                $(this).parent().before(function () {
                    return '<div class="add-block">\n' +
-                       '                <label for="image-field">Детальне зобр. №'+ countImages + '  </label>\n' +
-                       '                   <input type="file" class="file detail-img-file" name="additional-image-field-'+ countImages +'" accept=".jpg, .jpeg, .png">\n' +
+                       '                <label for="image">Детальне зобр. №'+ countImages + '  </label>\n' +
+                       '                   <input type="file" class="file detail-img-file" name="additional-image-'+ countImages +'" accept=".jpg, .jpeg, .png">\n' +
                        '                </div>'
                });
                countImages += 1;

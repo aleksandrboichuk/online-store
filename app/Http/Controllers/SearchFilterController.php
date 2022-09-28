@@ -464,9 +464,11 @@ class SearchFilterController extends Controller
         }else{
 
             $this->group = CategoryGroup::getOneBySeoName(request()->segment(2));
+
             if(request()->segment(3)){
                 $this->category = Category::getOneBySeoName(request()->segment(3));
             }
+
             if(request()->segment(4)){
                 $this->subCategory =  SubCategory::getOneBySeoName(request()->segment(4));
             }

@@ -25,15 +25,10 @@ class CartController extends Controller
         //   AJAX обновления количества продукта в корзине
         if ($request->get('updateId') && $request->get('updateSize') && $request->get('value')) {
 
-            $product_id = $request->get('updateId');
-            $size = $request->get('updateSize');
-            $value = $request->get('value');
-
-            $cart->updateProductCount($product_id, $size, $value);
+            $cart->updateProductCount($request);
 
             if ($request->ajax()) {
                 return view('ajax.ajax-cart', [
-                    'user' => $this->user(),
                     'cart' => $cart,
                     'products' => $cart->products
                 ])->render();
@@ -52,20 +47,15 @@ class CartController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function deleteFromCart(Request $request){
-
+    public function deleteFromCart(Request $request): RedirectResponse
+    {
         $cart = $this->getCart();
 
-        $product_id = $request->get('delete-id');
-        $size = $request->get('size');
+        $cart->deleteProduct($request);
 
-        if($product_id && $size) {
-            $cart->deleteProduct($product_id, $size);
-        }
-
-         return redirect()->back()->with([
-             'success-message-delete' => 'Товар успішно видалено з кошику.'
-         ]);
+        return redirect()->back()->with([
+            'success-message-delete' => 'Товар успішно видалено з кошику.'
+        ]);
     }
 
 }

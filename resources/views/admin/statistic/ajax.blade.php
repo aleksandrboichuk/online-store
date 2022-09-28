@@ -14,7 +14,7 @@
             <p><b>₴{{$total}}</b></p>
         </td>
         <td>
-            <p>{{$products[0]->categoryGroups->name}}</p>
+            <p>{{$products[0]->categoryGroup->name}}</p>
         </td>
         <td>
             <p>{{$products[0]->categories->name}}</p>

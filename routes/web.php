@@ -52,10 +52,10 @@ Route::group([
     Route::resource('messages', \App\Http\Controllers\Admin\MessageController::class)->middleware('orders.admin.role');
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class)->middleware('content.manager.role');
     Route::resource('subcategories', \App\Http\Controllers\Admin\SubCategoryController::class)->middleware('content.manager.role');
-    Route::get('/products/{cat_group?}', [\App\Http\Controllers\Admin\ProductController::class, 'index'])
-        ->where('cat_group', '!#create#')
-        ->middleware('content.manager.role');
-    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->middleware('content.manager.role');
+    if(!preg_match("#^\/admin/products/create\b#", \request()->getRequestUri())) {
+        Route::get('/products/{cat_group?}', [\App\Http\Controllers\Admin\ProductController::class, 'index'])->middleware('content.manager.role');
+    }
+        Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->middleware('content.manager.role');
     Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class)->middleware('orders.admin.role');
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->middleware('main.admin.role');
     Route::resource('colors', \App\Http\Controllers\Admin\ColorController::class)->middleware('content.manager.role');

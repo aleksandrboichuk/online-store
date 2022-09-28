@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class Banner extends BaseModel
 {
@@ -64,17 +66,46 @@ class Banner extends BaseModel
     }
 
     /**
-     * Returns list of banners by category group id
+     * Saving banner image to storage
      *
-     * @param int $category_group_id
-     * @param string $order_by
-     * @return Builder[]|Collection
+     * @param UploadedFile $image
+     * @return void
      */
-    public static function getListOfBanners(int $category_group_id, string $order_by = 'asc'): Collection|array
+    public function saveImage(UploadedFile $image): void
     {
-        return self::query()
-            ->where('category_group_id', $category_group_id)
-            ->orderBy('id', $order_by)
-            ->get();
+        (bool)Storage::disk('banners')->putFileAs($this->id, $image, $image->getClientOriginalName());
+    }
+
+
+    /**
+     * Deleting old and saving new file image of banner in storage
+     *
+     * @param UploadedFile $image
+     * @return void
+     */
+    public function updateImageInStorage(UploadedFile $image): void
+    {
+        $this->deleteOldImage();
+        Storage::disk('banners')->putFileAs($this->id, $image, $image->getClientOriginalName());
+    }
+
+    /**
+     * Deleting old banner image in storage
+     *
+     * @return void
+     */
+    public function deleteOldImage(): void
+    {
+        Storage::disk('banners')->delete($this->id . '/' . $this->image_url);
+    }
+
+    /**
+     * Deleting old banner image in storage
+     *
+     * @return void
+     */
+    public function deleteFolder(): void
+    {
+        Storage::disk('banners')->deleteDirectory($this->id);
     }
 }

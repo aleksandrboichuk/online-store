@@ -3,9 +3,10 @@ namespace App\Services;
 
 
 use App\Models\Product;
-//use Elasticsearch\Client;
-//use Elasticsearch\ClientBuilder;
+use Elasticsearch\Client;
+use Elasticsearch\ClientBuilder;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 
 class ElasticSearchService
@@ -16,7 +17,7 @@ class ElasticSearchService
      *
      * @var Client
      */
-    private $elasticsearch;
+    private Client $elasticsearch;
 
 
     public function __construct()
@@ -151,14 +152,14 @@ class ElasticSearchService
      * Кастомная пагинация
      *
      * @param $items
-     * @param $perPage
-     * @param $page
-     * @param $options
+     * @param int $perPage
+     * @param int|null $page
+     * @param array $options
      * @return LengthAwarePaginator
      */
-    private function paginate($items, $perPage = 9, $page = null, $options = [])
+    private function paginate($items, int $perPage = 9, int $page = null, array $options = []): LengthAwarePaginator
     {
-        $page = $page ?: (\Illuminate\Pagination\Paginator::resolveCurrentPage() ?: 1);
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
 
         return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
@@ -172,6 +173,7 @@ class ElasticSearchService
      */
     private function getSortedProducts(array $ids, string $sorting): \Illuminate\Database\Eloquent\Collection
     {
+        //TODO:: search without database requests!!!
         switch ($sorting)
         {
             case 'popularity':

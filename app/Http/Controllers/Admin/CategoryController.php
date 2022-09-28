@@ -89,10 +89,8 @@ class CategoryController extends AdminController
         $active = $request->get('active');
 
         if($category->active != $active){
-            $this->setActiveFieldToCategoryRelations($category, $active, ['products', 'subCategories']);
+            $this->setActiveFieldToModelRelations($category, $active, ['products', 'subCategories']);
         }
-
-        $request->merge(['active' => $active]);
 
         $category->update($request->all());
 
@@ -102,10 +100,10 @@ class CategoryController extends AdminController
     /**
      * Remove the specified resource from storage.
      *
-     * @param $id
+     * @param int $id
      * @return Application|RedirectResponse|Redirector
      */
-    public function destroy($id): Redirector|RedirectResponse|Application
+    public function destroy(int $id): Redirector|RedirectResponse|Application
     {
         $category = Category::query()->find($id);
 

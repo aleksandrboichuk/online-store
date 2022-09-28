@@ -43,4 +43,20 @@ class BaseModel extends Model
     {
         return self::query()->where('active', 1)->get();
     }
+
+    /**
+     *  Returns list of some entries by category group id
+     *
+     * @param int $category_group_id
+     * @param string $order_by
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
+    public static function getListByCategoryGroup(int $category_group_id, string $order_by = 'asc', int $perPage = 20): LengthAwarePaginator
+    {
+        return self::query()
+            ->where('category_group_id', $category_group_id)
+            ->orderBy('id', $order_by)
+            ->paginate($perPage);
+    }
 }

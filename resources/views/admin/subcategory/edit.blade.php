@@ -17,43 +17,43 @@
                 <form action="{{route('subcategories.update', $subcategory->id)}}" method="post">
                    @method('PUT')
                     <div class="add-block">
-                        <label for="title-field">Заголовок* </label>
-                        <input type="text" value="{{$subcategory->title}}" name="title-field" required maxlength="30">
+                        <label for="title">Заголовок* </label>
+                        <input type="text" value="{{$subcategory->title}}" name="title" required maxlength="30">
                     </div>
-                    @if($errors->has('title-field'))
+                    @if($errors->has('title'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('title-field') }}</strong>
+                            <strong>{{ $errors->first('title') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="name-field">Назва* </label>
-                        <input type="text" value="{{$subcategory->name}}" name="name-field" required maxlength="30">
+                        <label for="name">Назва* </label>
+                        <input type="text" value="{{$subcategory->name}}" name="name" required maxlength="30">
                     </div>
-                    @if($errors->has('name-field'))
+                    @if($errors->has('name'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('name-field') }}</strong>
+                            <strong>{{ $errors->first('name') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="seo-field">SEO* </label>
-                        <input type="text" value="{{$subcategory->seo_name}}" name="seo-field" required maxlength="30">
+                        <label for="seo_name">SEO* </label>
+                        <input type="text" value="{{$subcategory->seo_name}}" name="seo_name" required maxlength="30">
                     </div>
-                    @if($errors->has('seo-field'))
+                    @if($errors->has('seo_name'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('seo-field') }}</strong>
+                            <strong>{{ $errors->first('seo_name') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="cat-field">Категорія </label>
-                        <select required size="5" name="cat-field" class="select-option">
+                        <label for="category_id">Категорія </label>
+                        <select required size="5" name="category_id" class="select-option">
                             @foreach($categories as $c)
                                 <option value="{{$c->id}}" {{$c->id == $subcategory->categories->id ? "selected" : "" }}>{{$c->title}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="active-field">Активність </label>
-                        <input type="checkbox" name="active-field" {{$subcategory->active ? "checked" : ""}}>
+                        <label for="active">Активність </label>
+                        <input type="checkbox" name="active" {{$subcategory->active ? "checked" : ""}}>
                     </div>
                     <button type="submit" class="btn btn-default todo-btn">Зберегти</button>
                 </form>

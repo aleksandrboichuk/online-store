@@ -37,7 +37,7 @@ class BannerController extends AdminController
                abort(404);
             }
 
-            $banners = Banner::getListOfBanners($category_group_id, 'desc');
+            $banners = Banner::getListByCategoryGroup($category_group_id, 'desc');
         }else{
 
             $banners = Banner::query()->orderBy('id', 'desc')->get();
@@ -78,7 +78,7 @@ class BannerController extends AdminController
 
         $banner = Banner::query()->create($request->all());
 
-        $this->saveBannerImage($banner->id, $image);
+        $banner->saveImage($image);
 
         return redirect('/admin/banners')
             ->with(['success-message' => 'Банер успішно додано.']);
@@ -121,7 +121,7 @@ class BannerController extends AdminController
         }
 
         if($image = $request->file('image')){
-            $this->updateBannerImageInStorage($banner, $image);
+            $banner->updateImageInStorage($image);
         }
 
         $request->setActiveField();
@@ -151,57 +151,9 @@ class BannerController extends AdminController
 
         $banner->delete();
 
-        $this->deleteBannerFolder($id);
+        $banner->deleteFolder();
 
         return redirect("/admin/banners")->with(['success-message' => 'Банер успішно видалено.']);
     }
 
-
-    /**
-     * Saving banner image to storage
-     *
-     * @param int $banner_id
-     * @param UploadedFile $image
-     * @return void
-     */
-    private function saveBannerImage(int $banner_id, UploadedFile $image): void
-    {
-        (bool)Storage::disk('banners')->putFileAs($banner_id, $image, $image->getClientOriginalName());
-    }
-
-
-    /**
-     * Deleting old and saving new file image of banner in storage
-     *
-     * @param Model $banner
-     * @param UploadedFile $image
-     * @return void
-     */
-    private function updateBannerImageInStorage(Model $banner, UploadedFile $image): void
-    {
-        $this->deleteOldBannerImage($banner);
-        Storage::disk('banners')->putFileAs($banner->id, $image, $image->getClientOriginalName());
-    }
-
-    /**
-     * Deleting old banner image in storage
-     *
-     * @param Model $banner
-     * @return void
-     */
-    private function deleteOldBannerImage(Model $banner): void
-    {
-        Storage::disk('banners')->delete($banner->id . '/' . $banner->image_url);
-    }
-
-    /**
-     * Deleting old banner image in storage
-     *
-     * @param int $banner_id
-     * @return void
-     */
-    private function deleteBannerFolder(int $banner_id): void
-    {
-        Storage::disk('banners')->deleteDirectory($banner_id);
-    }
 }

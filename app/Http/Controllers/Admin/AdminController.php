@@ -29,7 +29,7 @@ class AdminController extends Controller
      * @param string|array $relations
      * @return bool
      */
-    public function setActiveFieldToCategoryRelations(Model $model, bool $active, string|array $relations): bool
+    public function setActiveFieldToModelRelations(Model $model, bool $active, string|array $relations): bool
     {
         if(is_array($relations)) {
             foreach ($relations as $relation) {

@@ -14,47 +14,47 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-8">
                 {{--<h2>Додавання категорії</h2>--}}
-                <form action="{{route('users.update', $adm_user->id)}}" method="post">
+                <form action="{{route('users.update', $selected_user->id)}}" method="post">
                     @method('PUT')
                     <div class="add-block">
-                        <label for="firstname-field">Ім'я </label>
-                        <input type="text" value="{{$adm_user->first_name}}" name="firstname-field" required maxlength="20">
+                        <label for="first_name">Ім'я </label>
+                        <input type="text" value="{{$selected_user->first_name}}" name="first_name" required maxlength="20">
                     </div>
-                    @if($errors->has('firstname-field'))
+                    @if($errors->has('first_name'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('firstname-field') }}</strong>
+                            <strong>{{ $errors->first('first_name') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="lastname-field">Прізвище </label>
-                        <input type="text" value="{{$adm_user->last_name}}" name="lastname-field" required maxlength="20">
+                        <label for="last_name">Прізвище </label>
+                        <input type="text" value="{{$selected_user->last_name}}" name="last_name" required maxlength="20">
                     </div>
-                    @if($errors->has('lastname-field'))
+                    @if($errors->has('last_name'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('lastname-field') }}</strong>
+                            <strong>{{ $errors->first('last_name') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="email-field">Ел. пошта </label>
-                        <input type="email" value="{{$adm_user->email}}" name="email-field" required maxlength="20">
+                        <label for="email">Ел. пошта </label>
+                        <input type="email" value="{{$selected_user->email}}" name="email" required maxlength="20">
                     </div>
-                    @if($errors->has('email-field'))
+                    @if($errors->has('email'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('email-field') }}</strong>
+                            <strong>{{ $errors->first('email') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="phone-field">Телефон </label>
-                        <input type="text" value="{{!empty($adm_user->phone) ? $adm_user->phone : ''}}" readonly name="phone-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
+                        <label for="phone">Телефон </label>
+                        <input type="text" value="{{!empty($selected_user->phone) ? $selected_user->phone : ''}}" readonly name="phone" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                     </div>
                     <div class="add-block">
-                        <label for="city-field">Місто </label>
-                        <input type="text" value="{{$adm_user->city}}" name="city-field">
+                        <label for="city">Місто </label>
+                        <input type="text" value="{{$selected_user->city}}" name="city">
                     </div>
 
                     <div class="add-block">
-                        <label for="active-field">Активність </label>
-                        <input type="checkbox" name="active-field" {{$adm_user->active ? "checked" : ""}}>
+                        <label for="active">Активність </label>
+                        <input type="checkbox" name="active" {{$selected_user->active ? "checked" : ""}}>
                     </div>
                     <div class="add-block add-materials">
                         <label for="">Ролі* </label>
