@@ -43,31 +43,43 @@ class CheckoutController extends Controller
      */
     public function index(Request $request): Application|Factory|View|RedirectResponse
     {
-        $this->cart = $this->getCart();
+        $this->setCart();
 
-        //   Если кто-то додумается без товаров в корзине пойти на чекаут по урлу
-        if(!$this->cart->products || count($this->cart->products) < 1){
-           return redirect()->back();
-        }
-
-        $this->total = $this->cart->calculateTotal();
+        $this->setTotal();
 
         $promocodeParameter = $request->get('promocode');
 
         if($promocodeParameter && $promocodeParameter != 'no'){
-            $promocode = $this->getPromocode($promocodeParameter);
+            $promocode = UserPromocode::getPromocode($promocodeParameter);
         }
 
-        return view('checkout.checkout', [
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
+        return view('pages.checkout.index', [
             'products' => $this->cart->products,
             'totalSum' => $this->total,
             'promocode' => $promocode ?? null,
             'cities' => UkraineCity::all(),
+            'breadcrumbs' => $this->breadcrumbs
         ]);
     }
 
     /**
-     * Сохранение заказа
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    private function getBreadcrumbs(): array
+    {
+        return [
+            ['Головна', route('index', 'women')],
+            ["Кошик",   route('cart')],
+            ["Оформлення замовлення"],
+        ];
+    }
+
+    /**
+     * Save the order
      *
      * @param $request $request
      * @return Application|RedirectResponse|Redirector
@@ -77,7 +89,7 @@ class CheckoutController extends Controller
     public  function saveOrder(CheckoutRequest $request): Application|RedirectResponse|Redirector
     {
         $this->cart = $this->getCart();
-        $this->total = $this->cart->calculateTotal();
+        $this->total = $this->cart->getTotal();
 
         $promocodeParameter = $request->get('promocode');
 
@@ -87,15 +99,15 @@ class CheckoutController extends Controller
 
         $ordersList = $this->saveOrderEntry($request);
 
-        $this->saveOrderItems($ordersList);
+        $ordersList->saveItems($this->cart->products);
 
-        $this->clearCart();
+        $this->cart->clear();
 
         return $this->redirectUser();
     }
 
     /**
-     * Сохраняет запись заказа
+     * Save order entry into DB
      *
      * @param CheckoutRequest $request
      * @return Builder|Model
@@ -119,95 +131,9 @@ class CheckoutController extends Controller
 
         $request->merge($arrBasicData);
 
-       return OrdersList::query()->create($request->toArray());
+        return OrdersList::query()->create($request->toArray());
     }
 
-    /**
-     * Сохраняет продукты из корзины в заказ
-     *
-     * @param Model $ordersList
-     * @return void
-     */
-    private function saveOrderItems(Model $ordersList)
-    {
-        foreach ($this->cart->products as $product){
-            $productPrice =  $product->getProductPriceWithDiscount();
-            $ordersList->items()->create([
-                "order_id" =>  $ordersList->id,
-                "product_id" => $product->id,
-                "name" => $product->name,
-                "price" => $productPrice,
-                "product_count" => $product->pivot->product_count,
-                "total_cost" => $productPrice * $product->pivot->product_count,
-                "size" => $product->pivot->size,
-            ]);
-        }
-    }
-
-    /**
-     * Удаление продуктов из корзины
-     * @return void
-     */
-    private function clearCart(): void
-    {
-        foreach ($this->cart->products as $product) {
-            $product->pivot->delete();
-        }
-    }
-
-    /**
-     * Проверка выполнения условий промокода
-     *
-     * @param Model $promocodeEntry
-     * @param int $total
-     * @param $cart
-     * @return bool|RedirectResponse
-     */
-    private function checkPromocodeAllow(Model $promocodeEntry, int $total,  $cart): bool|RedirectResponse
-    {
-        $allowPromocode = false;
-
-        if($promocodeEntry->min_cart_total){
-            if($promocodeEntry->min_cart_total >  $total){
-                session(
-                    [
-                        'warning-message' => 'Недостатня сума товарів кошику для застосування обраного вами промокоду. Потрібно не менше  ₴'. $promocodeEntry->min_cart_total .'. Спробуйте обрати інший промокод, або додати ще товарів до кошику.'
-                    ]);
-                return redirect()->back();
-            }else{
-                $allowPromocode = true;
-            }
-        }
-
-        if(!empty($promocodeEntry->min_cart_products)){
-            if($promocodeEntry->min_cart_products >  count($cart->products)){
-                return redirect()->back()->with(
-                    [
-                        'warning-message' => 'Недостатня кількість товарів кошику для застосування обраного вами промокоду. Потрібно не менше '. $promocodeEntry->min_cart_products .'. Спробуйте обрати інший промокод, або додати ще товарів до кошику.'
-                    ]
-                );
-            }else{
-                $allowPromocode = true;
-            }
-        }
-
-        return $allowPromocode;
-    }
-
-    /**
-     * Получение/не получение промокода согласно условиям
-     *
-     * @param $promocode
-     * @return Builder|Model|null
-     */
-    private function getPromocode($promocode): Builder|Model|null
-    {
-        $promocodeEntry = UserPromocode::getPromocode($promocode);
-
-        $allowPromocode = $this->checkPromocodeAllow($promocodeEntry, $this->total, $this->cart);
-
-        return $allowPromocode ? $promocodeEntry : null;
-    }
 
     /**
      * Установка полной стоимости с учетом промокода
@@ -237,6 +163,7 @@ class CheckoutController extends Controller
     private function defineDelivery(): array
     {
         $arrDelivery = [];
+
         if(request()->get('post-department-field')){
 
             $arrDelivery['post_department'] = intval(request()->get('post-department-field'));
@@ -245,6 +172,7 @@ class CheckoutController extends Controller
 
             $arrDelivery['address'] = request()->get('address-field');
         }
+
         return $arrDelivery;
     }
 
@@ -266,6 +194,26 @@ class CheckoutController extends Controller
         }
 
         return $arPayment;
+    }
+
+    /**
+     * Set total cart field
+     *
+     * @return void
+     */
+    private function setTotal(): void
+    {
+        $this->total = $this->cart->getTotal();
+    }
+
+    /**
+     * Set user cart field
+     *
+     * @return void
+     */
+    private function setCart(): void
+    {
+        $this->cart = $this->getCart();
     }
 
     /**

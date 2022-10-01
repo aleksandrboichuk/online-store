@@ -43,7 +43,7 @@ class ForgotPasswordController extends Controller
      */
     public function showForgotPasswordForm(): Factory|View|Application
     {
-        return view('auth.passwords.reset-by-email');
+        return view('pages.auth.passwords.reset-by-email');
     }
 
     /**

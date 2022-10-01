@@ -35,12 +35,12 @@ class OrderController extends Controller
 
         // ajax pagination
         if(request()->ajax()){
-            return view('admin.order.ajax.ajax-pagination',
+            return view('admin.order.ajax.pagination',
                 compact('orders', 'statuses')
             )->render();
         }
 
-        return view('admin.order.orders', compact('orders', 'statuses'));
+        return view('admin.order.index', compact('orders', 'statuses'));
     }
 
     /**

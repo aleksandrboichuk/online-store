@@ -29,14 +29,14 @@ class CategoryGroupController extends Controller
 
         // AJAX
         if($request->ajax()){
-            return view('ajax.ajax',[
+            return view('pages.components.pagination',[
                 'products' => $this->pageData['products'],
                 'group' => $this->pageData['group'],
                 "images"=> ProductImage::all(),
             ])->render();
         }
 
-        return view('index', $this->pageData);
+        return view('pages.main.index', $this->pageData);
     }
 
     /**

@@ -19,7 +19,6 @@ class CartController extends Controller
      */
     public function index(Request $request): Application|Factory|View|string
     {
-        $user = $this->user();
         $cart = $this->getCart();
 
         //   AJAX обновления количества продукта в корзине
@@ -28,16 +27,16 @@ class CartController extends Controller
             $cart->updateProductCount($request);
 
             if ($request->ajax()) {
-                return view('ajax.ajax-cart', [
-                    'cart' => $cart,
+                return view('pages.cart.ajax.index', [
+                    'cart'     => $cart,
                     'products' => $cart->products
                 ])->render();
             }
         }
 
-        return view('cart.cart', [
-            'promocodes' => $user->promocodes ?? null,
-            'products' => $cart->products ?? null
+        return view('pages.cart.index', [
+            'promocodes' => $this->user()?->getPromocodes(),
+            'products'   => $cart->products ?? null
         ]);
     }
 
@@ -57,5 +56,4 @@ class CartController extends Controller
             'success-message-delete' => 'Товар успішно видалено з кошику.'
         ]);
     }
-
 }

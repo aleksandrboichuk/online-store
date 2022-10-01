@@ -67,7 +67,7 @@
                     @endforeach
                     </tbody>
                 </table>
-                {{$messages->appends(request()->query())->links('parts.pagination')}}
+                {{$messages->appends(request()->query())->links('components.pagination')}}
             </div>
         </div>
     </section>

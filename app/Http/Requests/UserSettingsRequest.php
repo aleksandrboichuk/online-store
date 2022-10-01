@@ -55,7 +55,7 @@ class UserSettingsRequest extends FormRequest
             'last_name.min' => 'Прізвище має містити не менше 2-х символів.',
             'email.min' => 'Email має містити не менше 8-ми символів.',
             'email.unique,id,' . $this->user_id => 'Користувач з такми Email вже існує.',
-            'city.exists' => 'В дане місто доставка неможлива.',
+            'city.exists' => 'У дане місто доставка неможлива.',
             'phone.unique' => 'Користувач з такми  телефоном вже існує.',
             'phone.min' => 'Телефон має містити не менше 10-ти символів.',
             'password.confirmed' => 'Паролі не співпадають.',

@@ -67,6 +67,13 @@ class Controller extends BaseController
     protected array $pageData = [];
 
     /**
+     * Page breadcrumbs
+     *
+     * @var array
+     */
+    protected array $breadcrumbs = [];
+
+    /**
      * Получение авторизованого пользователя
      * @return Authenticatable|null
      */
@@ -115,12 +122,11 @@ class Controller extends BaseController
     public function getCart(): mixed
     {
         if($this->user()){
-            $cart = $this->user()->cart;
-        }else{
-            $cart = $this->getCartByToken();
+            return $this->user()->cart;
         }
 
-        return $cart;
+        return $this->getCartByToken();
+
     }
 
     /**
@@ -130,7 +136,7 @@ class Controller extends BaseController
      */
     public function getCartByToken(): Model|Builder|null
     {
-        return Cart::query()->where('token', session()->getId())->first();
+        return Cart::getByToken();
     }
 
     /**
@@ -179,12 +185,28 @@ class Controller extends BaseController
     protected function getUserIdOrSessionId(): int|string
     {
         if(Auth::check()){
-
             return Auth::id();
-
-        }else{
-            return session()->getId();
         }
+
+        return session()->getId();
+
     }
 
+    /**
+     * Set page breadcrumbs
+     *
+     * @param array $pages_arrays
+     * @return void
+     */
+    protected function setBreadcrumbs(array $pages_arrays): void
+    {
+        foreach ($pages_arrays as $page_array) {
+            if(count($page_array) >= 1){
+                $this->breadcrumbs[] = [
+                    'title' => $page_array[0],
+                    'link' => $page_array[1] ?? null,
+                ];
+            }
+        }
+    }
 }

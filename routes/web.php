@@ -73,7 +73,7 @@ Route::group([
     'prefix' => 'cart',
 ], function () {
 
-    Route::get('', [\App\Http\Controllers\CartController::class, 'index'])->name('show.cart');
+    Route::get('', [\App\Http\Controllers\CartController::class, 'index'])->name('cart');
     Route::get('/checkout', [\App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout');
     Route::post('/delete-from-cart',[\App\Http\Controllers\CartController::class, 'deleteFromCart'])->name('delete.from.cart');
     Route::post('/save-order', [\App\Http\Controllers\CheckoutController::class, 'saveOrder'])->name('save.order');
@@ -103,13 +103,13 @@ Route::group([
         })->where('any', '.*');
     }
 
-    Route::get('/orders/{status?}',[\App\Http\Controllers\UserController::class, 'index'])->name('user.orders');
-    Route::get('/orders/view-order/{order_id}', [\App\Http\Controllers\UserController::class, 'viewUserOrder'])->name('view.order');
-    Route::get('/promocodes', [\App\Http\Controllers\UserController::class, 'getUserPromocodes'])->name('user.promocodes');
+    Route::get('/orders/{status?}',[\App\Http\Controllers\Profile\ProfileController::class, 'index'])->name('user.orders');
+    Route::get('/orders/view-order/{order_id}', [\App\Http\Controllers\Profile\OrderController::class, 'index'])->name('view.order');
+    Route::get('/promocodes', [\App\Http\Controllers\Profile\PromocodeController::class, 'index'])->name('user.promocodes');
     //Route::get('/bonuses', [\App\Http\Controllers\UserController::class, 'gerUserBonuses'])->name('user.bonuses');
 
-    Route::get('/settings', [\App\Http\Controllers\UserController::class, 'getUserSettings'])->name('user.settings');
-    Route::post('/settings-save', [\App\Http\Controllers\UserController::class, 'saveUserSettings'])->name('user.settings.save');
+    Route::get('/settings', [\App\Http\Controllers\Profile\SettingsController::class, 'index'])->name('user.settings');
+    Route::post('/settings-save', [\App\Http\Controllers\Profile\SettingsController::class, 'saveUserSettings'])->name('user.settings.save');
 
 });
 
@@ -130,7 +130,7 @@ Route::group([
     ) {
         Route::any('/{group_seo_name?}/{banner_seo_name?}/{queryString?}', [\App\Http\Controllers\SearchFilterController::class, 'index'])->name('filters.request');
     }
-    Route::get('/{group_seo_name}/{seo_name_banner}', [\App\Http\Controllers\PromotionController::class, 'index'])->name('show.promotion.details');
+    Route::get('/{group_seo_name}/{seo_name_banner}', [\App\Http\Controllers\PromotionController::class, 'index'])->name('promotion');
 });
 
 /**
@@ -157,9 +157,9 @@ if(preg_match("/\?colors/", request()->getRequestUri())
 }
 
 Route::get('/{group_seo_name}', [\App\Http\Controllers\CategoryGroupController::class,'index'])->name('index');
-Route::get('/{group_seo_name}/{category_seo_name}',[\App\Http\Controllers\CategoryController::class,'index'])->name('show.category');
-Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}',[\App\Http\Controllers\SubCategoryController::class,'index'])->name('show.sub.category');
-Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}/{product_seo_name}',[\App\Http\Controllers\ProductController::class, 'index'])->name('show.product.details');
+Route::get('/{group_seo_name}/{category_seo_name}',[\App\Http\Controllers\CategoryController::class,'index'])->name('category');
+Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}',[\App\Http\Controllers\SubCategoryController::class,'index'])->name('subcategory');
+Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}/{product_seo_name}',[\App\Http\Controllers\ProductController::class, 'index'])->name('product');
 
 //send product review
 Route::post('/{product_id}',[\App\Http\Controllers\ReviewController::class, 'index'])->name('send.review');

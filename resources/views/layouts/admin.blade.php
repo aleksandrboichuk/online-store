@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="search_box">
-                        @include('parts.search-form')
+                        @include('components.search')
                     </div>
                 </div>
                 <div class="col-md-6 clearfix">
@@ -52,7 +52,7 @@
                                     </li>
                                 @endif
                                 <li>
-                                    <a class="a-cart-title"    href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>{{isset($user->cart->products) ? count($user->cart->products) : "0"}}</b></a>
+                                    <a class="a-cart-title"    href="{{route('cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>{{isset($user->cart->products) ? count($user->cart->products) : "0"}}</b></a>
                                 </li>
                                 <li>
                                     <a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Вихід</a>

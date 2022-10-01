@@ -135,7 +135,7 @@ class SearchFilterController extends Controller
         $this->getPageData();
 
         if(request()->ajax()){
-            return view('ajax.ajax',[
+            return view('pages.components.ajax.pagination',[
                 'products' => $this->pageData['products'],
                 'group' => $this->pageData['group'],
                 "images"=> ProductImage::all(),
@@ -217,7 +217,7 @@ class SearchFilterController extends Controller
             ['match' => ['product_category' => $this->category->id]],
             ['match' => ['product_category_sub' => $this->subCategory->id]]
         ];
-        $this->view = 'SubCategory.subcategory';
+        $this->view = 'pages.subcategory.index';
     }
 
     /**
@@ -231,7 +231,7 @@ class SearchFilterController extends Controller
             ['match' => ['product_category_group' => $this->group->id]],
             ['match' => ['product_category' => $this->category->id]]
         ];
-        $this->view = 'category.category';
+        $this->view = 'pages.category.index';
     }
 
     /**
@@ -258,7 +258,7 @@ class SearchFilterController extends Controller
             ['match' => ['cg_seo_name' => $this->group_seo_name]],
             ['match' => ['banner_id' => $this->promotionBanner->id]],
         ];
-        $this->view = 'promotions.index';
+        $this->view = 'pages.promotions.index';
     }
 
     /**
@@ -491,25 +491,60 @@ class SearchFilterController extends Controller
 
         $sorting = request()->has('orderBy') && !empty(request()->get('orderBy')) ? request()->get('orderBy') : null;
 
-        $products = $this->searchProductsByFilters($sorting);
-
-        $brands = $this->getGroupBrands($this->group->id);
-
         if($this->view == 'index'){
             $banners = Banner::getBannersByGroupId($this->group->id);
         }
 
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
         $data  = [
             'group'            => $this->group,
-            'products'         => $products,
+            'products'         => $this->searchProductsByFilters($sorting),
             'group_categories' => $this->group->getCategories(),
-            'brands'           => $brands,
+            'brands'           => $this->getGroupBrands($this->group->id),
             'category'         => $this->category ?? null,
             'sub_category'     => $this->subCategory ?? null,
             'banner'           => $this->promotionBanner ?? null,
             'banners'          => $banners ?? null,
+            'breadcrumbs'      => $this->breadcrumbs
         ];
 
         $this->pageData = array_merge($data, $this->getProductProperties());
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    private function getBreadcrumbs(): array
+    {
+        $breadcrumbs = [];
+
+        if($this->group){
+            $breadcrumbs[] = [
+                $this->group->name,
+                route('index', $this->group->seo_name)
+            ];
+        }
+
+        if($this->category){
+            $breadcrumbs[] = [
+                $this->category->name,
+                route('category', [$this->group->seo_name, $this->category->seo_name])
+            ];
+        }
+
+        if($this->subCategory){
+            $breadcrumbs[] = [$this->subCategory->name];
+        }
+
+        if($this->promotionBanner){
+            $breadcrumbs[] = [
+                $this->promotionBanner->name,
+            ];
+        }
+
+        return $breadcrumbs;
     }
 }

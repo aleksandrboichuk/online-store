@@ -60,7 +60,7 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm(): View|Factory|Application
     {
-        return view('auth.register');
+        return view('pages.auth.register');
     }
 
     /**

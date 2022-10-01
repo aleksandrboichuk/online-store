@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -34,6 +35,26 @@ class Cart extends BaseModel
     public function user(): HasOne
     {
         return $this->hasOne('App\Models\User');
+    }
+
+    /**
+     * @return Model|Builder|null
+     */
+    public static function getByToken(): Model|Builder|null
+    {
+        return self::query()->where('token', session()->getId())->first();
+    }
+
+    /**
+     * Create cart by session token
+     *
+     * @return void
+     */
+    public static function createByToken(): void
+    {
+        self::query()->create([
+            'token' => session()->getId()
+        ]);
     }
 
     /**
@@ -76,7 +97,7 @@ class Cart extends BaseModel
      * Считает сумму товаров в корзине
      * @return float|int
      */
-    public function calculateTotal(): float|int
+    public function getTotal(): float|int
     {
         $products = $this->products()->get();
 
@@ -143,5 +164,17 @@ class Cart extends BaseModel
             'product_count' => $product_count,
             'size' => $product_size,
         ]);
+    }
+
+    /**
+     * Delete products from cart
+     *
+     * @return void
+     */
+    private function clear(): void
+    {
+        foreach ($this->products as $product) {
+            $product->pivot->delete();
+        }
     }
 }

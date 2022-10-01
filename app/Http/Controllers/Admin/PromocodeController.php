@@ -26,7 +26,7 @@ class PromocodeController extends Controller
         $promocodes = UserPromocode::query()->orderBy('id', 'desc')->paginate(5);
 
         if(request()->ajax()){
-            return view('admin.promocode.ajax.ajax-pagination', compact('promocodes'))->render();
+            return view('admin.promocode.ajax.pagination', compact('promocodes'))->render();
         }
 
         return view('admin.promocode.index', compact('promocodes'));

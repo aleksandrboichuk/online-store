@@ -29,7 +29,7 @@ class UserController extends Controller
 
         // ajax pagination
         if(request()->ajax()){
-            return view('admin.user.ajax.ajax-pagination', compact('users'))->render();
+            return view('admin.user.ajax.pagination', compact('users'))->render();
         }
 
         return view('admin.user.index', compact('users'));

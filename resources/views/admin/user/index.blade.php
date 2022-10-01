@@ -85,7 +85,7 @@
                     @endforeach
                     </tbody>
                 </table>
-                {{$users->appends(request()->query())->links('parts.pagination')}}
+                {{$users->appends(request()->query())->links('components.pagination')}}
             </div>
         </div>
     </section>

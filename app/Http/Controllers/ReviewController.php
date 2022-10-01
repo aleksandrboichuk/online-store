@@ -11,14 +11,8 @@ use Illuminate\Support\Facades\Auth;
 class ReviewController extends Controller
 {
     /**
-     * Айди продукта
+     * Save the review
      *
-     * @var int $product_id
-     */
-    private int $product_id;
-
-    /**
-     * Сохранение оценки
      * @param int $product_id
      * @param Request $request
      * @return RedirectResponse
@@ -31,11 +25,9 @@ class ReviewController extends Controller
             abort(500);
         }
 
-        $this->product_id = $product->id;
+        UserReview::createReview($request, $product_id);
 
-        UserReview::createReview($request, $product->id);
-
-        $grade = $this->processRating();
+        $grade = $this->processRating($product_id);
 
         $product->updateRating($grade);
 
@@ -43,20 +35,25 @@ class ReviewController extends Controller
     }
 
     /**
-     * Вычисление оценки продукта
+     * Process a stars of product
      *
+     * @param int $product_id
      * @return float
      */
-    private function processRating(): float
+    private function processRating(int $product_id): float
     {
-        $reviews = UserReview::getProductReviews($this->product_id);
+        $reviews = UserReview::getProductReviews($product_id);
 
         $rating = 0;
+
         $totalRating = 5.0;
-        if(isset($reviews) && !empty($reviews)){
+
+        if($reviews){
+
             foreach ($reviews as $review) {
                 $rating += $review->grade;
             }
+
             $totalRating = round($rating / count($reviews), 1);
         }
 

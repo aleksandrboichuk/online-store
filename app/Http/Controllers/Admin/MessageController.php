@@ -25,7 +25,7 @@ class MessageController extends Controller
 
         // ajax pagination
         if(request()->ajax()){
-            return view('admin.message.ajax.ajax-pagination', [
+            return view('admin.message.ajax.pagination', [
                 'messages' => $messages,
             ])->render();
         }

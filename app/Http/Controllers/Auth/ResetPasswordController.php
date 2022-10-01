@@ -23,7 +23,7 @@ class ResetPasswordController extends Controller
      */
     public function showPasswordResetForm(string $token): View|Factory|Application
     {
-        return view('auth.passwords.password-reset', compact('token'));
+        return view('pages.auth.passwords.password-reset', compact('token'));
     }
 
     /**

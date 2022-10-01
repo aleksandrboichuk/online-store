@@ -112,4 +112,26 @@ class OrdersList extends BaseModel
             $item->product->updateTotalCountAndPopularity($item->count);
         }
     }
+
+    /**
+     * Saving order items
+     *
+     * @param array|Collection $products
+     * @return void
+     */
+    public function saveItems(array|Collection $products)
+    {
+        foreach ($products as $product){
+            $productPrice =  $product->getProductPriceWithDiscount();
+            $this->items()->create([
+                "order_id" =>  $this->id,
+                "product_id" => $product->id,
+                "name" => $product->name,
+                "price" => $productPrice,
+                "product_count" => $product->pivot->product_count,
+                "total_cost" => $productPrice * $product->pivot->product_count,
+                "size" => $product->pivot->size,
+            ]);
+        }
+    }
 }

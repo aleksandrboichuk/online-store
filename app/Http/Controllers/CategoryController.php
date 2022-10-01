@@ -9,6 +9,7 @@ use App\Models\ProductImage;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -40,7 +41,7 @@ class CategoryController extends Controller
         }
 
 
-        return view('category.category', $this->pageData);
+        return view('pages.category.index', $this->pageData);
     }
 
     /**
@@ -58,19 +59,32 @@ class CategoryController extends Controller
             abort(404);
         }
 
-        $products = $category->getPaginateProducts(8);
-
-        $brands = $this->getGroupBrands($group->id);
+        $this->setBreadcrumbs($this->getBreadcrumbs($group, $category));
 
         $data = [
             'group'            => $group,
             'category'         => $category,
-            'products'         => $products,
+            'products'         => $category->getPaginateProducts(8),
             'group_categories' => $group->getCategories(),
-            'brands'           => $brands
+            'brands'           => $this->getGroupBrands($group->id),
+            'breadcrumbs'      => $this->breadcrumbs
         ];
 
         $this->pageData = array_merge($data, $this->getProductProperties());
     }
 
+    /**
+     * Get the breadcrumbs array
+     *
+     * @param Model $group
+     * @param Model $category
+     * @return array[]
+     */
+    private function getBreadcrumbs(Model $group, Model $category): array
+    {
+        return [
+            [$group->name, route('index', $group->seo_name)],
+            [$category->name],
+        ];
+    }
 }

@@ -10,6 +10,7 @@ use App\Models\SubCategory;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller
@@ -39,14 +40,14 @@ class SubCategoryController extends Controller
 
         // AJAX
         if($request->ajax()){
-            return view('ajax.ajax',[
+            return view('pages.components.ajax.pagination',[
                 'products' => $this->pageData['products'],
                 'group'    => $this->pageData['group'],
                 'images'   => ProductImage::all(),
             ])->render();
         }
 
-        return view('SubCategory.subcategory', $this->pageData);
+        return view('pages.subcategory.index', $this->pageData);
     }
 
     /**
@@ -66,19 +67,35 @@ class SubCategoryController extends Controller
             abort(404);
         }
 
-        $products = $sub_category->getPaginateProducts(8);
-
-        $brands = $this->getGroupBrands($group->id);
+        $this->setBreadcrumbs($this->getBreadcrumbs($group, $category, $sub_category));
 
         $data = [
             'group'            => $group,
             'category'         => $category,
             'sub_category'     => $sub_category,
-            'products'         => $products,
+            'products'         => $sub_category->getPaginateProducts(8),
             'group_categories' => $group->getCategories(),
-            'brands'           => $brands
+            'brands'           => $this->getGroupBrands($group->id),
+            'breadcrumbs'      => $this->breadcrumbs
         ];
 
         $this->pageData = array_merge($data, $this->getProductProperties());
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @param Model $group
+     * @param Model $category
+     * @param Model $sub_category
+     * @return array[]
+     */
+    private function getBreadcrumbs(Model $group, Model $category, Model $sub_category): array
+    {
+        return [
+            [$group->name,        route('index', $group->seo_name)],
+            [$category->name,     route('category', [$group->seo_name, $category->seo_name])],
+            [$sub_category->name],
+        ];
     }
 }

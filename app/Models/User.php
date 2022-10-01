@@ -109,6 +109,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Returns is user superuser or not
+     *
+     * @return bool
+     */
+    public static function isSuperuser(): bool
+    {
+        return auth()->user()->superuser;
+    }
+
+    /**
      * Update statistic about amount user orders and total their cost
      *
      * @param int $order_total_cost
@@ -138,4 +148,28 @@ class User extends Authenticatable
         }
     }
 
+    /**
+     * Returns an array of user promocodes using info about user cart
+     *
+     * @return array|null
+     */
+    public function getPromocodes(): array|null
+    {
+        $promocodes = [];
+
+        $cart_total = $this->cart->getTotal();
+
+        foreach ($this->promocodes as $promocode) {
+
+            if(
+                $promocode->min_cart_total       <= $cart_total
+                || $promocode->min_cart_products <= count($this->cart->products)
+            ){
+                $promocodes[] = $promocode;
+            }
+
+        }
+
+        return $promocodes ?? null;
+    }
 }

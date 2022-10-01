@@ -12,6 +12,7 @@ use App\Models\UserReview;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -50,14 +51,14 @@ class ProductController extends Controller
         }
 
         if($request->ajax()){
-            return view('ajax.ajax-reviews',[
+            return view('pages.product.ajax.reviews-pagination',[
                 'reviews' => $this->pageData['reviews'],
                 'group' => $this->pageData['group'],
                 "images"=> ProductImage::all(),
             ])->render();
         }
 
-        return view('product.product', $this->pageData);
+        return view('pages.product.index', $this->pageData);
     }
 
     /**
@@ -79,31 +80,43 @@ class ProductController extends Controller
             abort(404);
         }
 
-        $brands = $this->getGroupBrands($group->id);
-
-        $stockStatus = $product->getProductAmountStatus();
-
-        $recommended_products = Product::getRecommendedProducts($group->id);
-
-        $reviews = UserReview::getPaginatedProductReviews($product->id);
-
-        $product_images = $product->images();
+        $this->setBreadcrumbs($this->getBreadcrumbs($group, $category, $sub_category, $product));
 
         $data = [
             'group'                => $group,
             'category'             => $category,
             'sub_category'         => $sub_category,
-            'group_categories'     => $group->getCategories(),
-            'brands'               => $brands,
             'product'              => $product,
-            'stockStatus'          => $stockStatus,
-            'recommended_products' => $recommended_products,
-            'reviews'              => $reviews,
-            'product_img'          => $product_images,
+            'group_categories'     => $group->getCategories(),
+            'brands'               => $this->getGroupBrands($group->id),
+            'stockStatus'          => $product->getProductAmountStatus(),
+            'recommended_products' => Product::getRecommendedProducts($group->id),
+            'reviews'              => UserReview::getPaginatedProductReviews($product->id),
+            'product_img'          => $product->images(),
             'images'               => ProductImage::all(),
+            'breadcrumbs'          => $this->breadcrumbs
         ];
 
         $this->pageData = $data;
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @param Model $group
+     * @param Model $category
+     * @param Model $sub_category
+     * @param Model $product
+     * @return array[]
+     */
+    private function getBreadcrumbs(Model $group, Model $category, Model $sub_category, Model $product): array
+    {
+        return [
+            [$group->name,        route('index', $group->seo_name)],
+            [$category->name,     route('category', [$group->seo_name, $category->seo_name])],
+            [$sub_category->name, route('subcategory', [$group->seo_name, $category->seo_name, $sub_category->seo_name])],
+            [$product->name],
+        ];
     }
 
     /**

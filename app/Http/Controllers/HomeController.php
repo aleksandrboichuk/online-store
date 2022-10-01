@@ -39,7 +39,7 @@ class HomeController extends Controller
      */
     public function contact(): View|Factory|Application
     {
-        return view('contact.contact');
+        return view('pages.contact.index');
     }
 
     /**

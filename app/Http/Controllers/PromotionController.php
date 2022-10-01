@@ -7,6 +7,7 @@ use App\Models\Banner;
 use App\Models\CategoryGroup;
 use App\Models\Product;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 
 class PromotionController extends Controller
 {
@@ -25,7 +26,7 @@ class PromotionController extends Controller
 
         $this->getPageData();
 
-        return view('promotions.index', $this->pageData);
+        return view('pages.promotions.index', $this->pageData);
     }
 
     /**
@@ -43,14 +44,32 @@ class PromotionController extends Controller
 
         $products = Product::getProductsForPromotion($banner->id, $group->id, 6);
 
+        $this->setBreadcrumbs($this->getBreadcrumbs($group, $banner));
+
         $data = [
-            'banner'=> $banner ,
-            'products' => $products,
-            'group' => $group,
+            'banner'           => $banner ,
+            'products'         => $products,
+            'group'            => $group,
             'group_categories' => $group->categories,
-            'brands' => $brands,
+            'brands'           => $brands,
+            'breadcrumbs'      => $this->breadcrumbs
         ];
 
         $this->pageData = array_merge($data, $this->getProductProperties());
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @param Model $group
+     * @param Model $banner
+     * @return array[]
+     */
+    private function getBreadcrumbs(Model $group, Model $banner): array
+    {
+        return [
+            [$group->name, route('index', $group->seo_name)],
+            [$banner->name],
+        ];
     }
 }

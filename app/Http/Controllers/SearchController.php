@@ -17,6 +17,7 @@ use App\Services\ElasticSearchService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Psr\Container\ContainerExceptionInterface;
@@ -64,14 +65,14 @@ class SearchController extends Controller
         $this->getPageData();
 
         if($this->sorting && request()->ajax()){
-            return view('ajax.ajax',[
+            return view('pages.components.ajax.pagination',[
                 'products' => $this->pageData['products'],
                 'group' => $this->pageData['group'],
                 "images"=> ProductImage::all(),
             ])->render();
         }
 
-        return view('search.cg-search', $this->pageData);
+        return view('pages.search.pages.category-group', $this->pageData);
     }
 
 
@@ -102,17 +103,32 @@ class SearchController extends Controller
             abort(404);
         }
 
-        $products = $this->searchProducts();
-
-        $brands = $this->getGroupBrands($group->id);
+        $this->setBreadcrumbs($this->getBreadcrumbs());
 
         $data = [
             'group'            => $group,
-            'products'         => $products,
+            'products'         => $this->searchProducts(),
             'group_categories' => $group->getCategories(),
-            'brands'           => $brands
+            'brands'           => $this->getGroupBrands($group->id),
+            'breadcrumbs'      => $this->breadcrumbs
         ];
 
         $this->pageData = array_merge($data, $this->getProductProperties());
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @param Model $group
+     * @return array
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    private function getBreadcrumbs(Model $group): array
+    {
+        return [
+            [$group->name, route('index', $group->seo_name)],
+            ["Пошук: \"".\request()->get('q')."\""],
+        ];
     }
 }

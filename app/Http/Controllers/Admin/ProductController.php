@@ -43,7 +43,7 @@ class ProductController extends Controller
             $products = Product::query()->orderBy('id', 'desc')->paginate(5);
         }
         if($request->ajax()){
-            return view('admin.product.ajax.ajax-pagination', compact('products'))->render();
+            return view('admin.product.ajax.pagination', compact('products'))->render();
         }
 
         return view('admin.product.index', compact('products'));
@@ -62,7 +62,7 @@ class ProductController extends Controller
 
             $viewData = $this->getCategoriesOrSubcategoriesData($request);
 
-            return view('admin.product.ajax.ajax-category', $viewData)->render();
+            return view('admin.product.ajax.select-categories', $viewData)->render();
         }
 
         return view('admin.product.add', array_merge(
