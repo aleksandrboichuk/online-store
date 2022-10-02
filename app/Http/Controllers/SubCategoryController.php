@@ -32,11 +32,11 @@ class SubCategoryController extends Controller
     ): View|Factory|string|Application
     {
 
-        $this->group_seo_name = $group_seo_name;
-        $this->category_seo_name = $category_seo_name;
-        $this->sub_category_seo_name = $sub_category_seo_name;
+        $this->setCategoryGroupSeoName($group_seo_name);
+        $this->setCategorySeoName($category_seo_name);
+        $this->setSubCategorySeoName($sub_category_seo_name);
 
-        $this->getPageData();
+        $this->setPageData();
 
         // AJAX
         if($request->ajax()){
@@ -55,7 +55,7 @@ class SubCategoryController extends Controller
      *
      * @return void
      */
-    public function getPageData(): void
+    public function setPageData(): void
     {
         $group = CategoryGroup::getOneBySeoName($this->group_seo_name);
 

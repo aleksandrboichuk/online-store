@@ -64,5 +64,4 @@ class CategoryGroup extends BaseModel
     {
         return $this->categories()->where('active', 1)->get();
     }
-
 }

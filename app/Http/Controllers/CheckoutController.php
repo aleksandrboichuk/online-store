@@ -88,8 +88,8 @@ class CheckoutController extends Controller
      */
     public  function saveOrder(CheckoutRequest $request): Application|RedirectResponse|Redirector
     {
-        $this->cart = $this->getCart();
-        $this->total = $this->cart->getTotal();
+        $this->setCart();
+        $this->setTotal();
 
         $promocodeParameter = $request->get('promocode');
 

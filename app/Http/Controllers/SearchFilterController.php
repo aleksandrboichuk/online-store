@@ -37,28 +37,28 @@ class SearchFilterController extends Controller
      *
      * @var  Model|null
      */
-    private  Model|null $promotionBanner;
+    private  Model|null $promotionBanner = null;
 
     /**
      * Группа категорий
      *
      * @var  Model|null
      */
-    private  Model|null $group;
+    private  Model|null $group = null;
 
     /**
      * Категория
      *
      * @var  Model|null
      */
-    private Model|null $category;
+    private Model|null $category = null;
 
     /**
      * Подкатегория
      *
      * @var  Model|null
      */
-    private  Model|null $subCategory;
+    private  Model|null $subCategory = null;
 
     /**
      * Глобальный массив с запросом в эластик
@@ -119,20 +119,19 @@ class SearchFilterController extends Controller
      */
     public function index(): View|Factory|string|Application
     {
-
         $this->arrQuery = request()->query();
 
-        $this->filterType = 'must';
+        $this->setFilterType('must');
 
         $this->setCategoryAndPromotionVariables();
 
         $this->setElasticQueryByQueryString();
 
-        $this->setSeoNamesVariables();
+        $this->setSeoNames();
 
         $this->setMustArray();
 
-        $this->getPageData();
+        $this->setPageData();
 
         if(request()->ajax()){
             return view('pages.components.ajax.pagination',[
@@ -141,7 +140,6 @@ class SearchFilterController extends Controller
                 "images"=> ProductImage::all(),
             ])->render();
         }
-
 
         return view($this->view, $this->pageData);
     }
@@ -153,44 +151,31 @@ class SearchFilterController extends Controller
      */
     private function setMustArray(): void
     {
-        if(!in_array($this->group_seo_name, ['women', 'men', 'girls', 'boys'])){
-
+        if(!key_exists($this->group_seo_name, CategoryGroup::getCategoryGroupsArray())){
             $this->setDefaultMustArray();
-
+            $this->setView('pages.main.index');
         }else{
-            if($this->promotion){
-                if($this->group_seo_name != '') {
-                    // если мы на странице акции
-                    $this->setMustArrayByPromotion();
-                }
+            if($this->atPromotionPage()){
+                // if we are at promotion page
+                $this->setMustArrayByPromotion();
+                $this->setView('pages.promotions.index');
             }else{
-                if(
-                    $this->group_seo_name != ''
-                    && $this->category_seo_name === ''
-                    && $this->sub_category_seo_name === ''
-                ){
-                    // если мы на странице группы категорий
+                if($this->atCategoryGroupPage()){
+                    // if we are at category group (main) page
                     $this->setMustArrayWithGroup();
+                    $this->setView('pages.main.index');
 
-                }elseif(
-                    $this->group_seo_name != ''
-                    && $this->category_seo_name != ''
-                    && $this->sub_category_seo_name === ''
-                ){
-                    // если мы на странице категории
+                }elseif($this->atCategoryPage()){
+                    // if we at category page
                     $this->setMustArrayWithGroupAndCategory();
+                    $this->setView('pages.category.index');
 
-                }elseif(
-                    $this->group_seo_name != ''
-                    && $this->category_seo_name != ''
-                    && $this->sub_category_seo_name != ''
-                ){
-                    // если мы на странице подкатегории
+                }elseif($this->atSubCategoryPage()){
+                    // if we at subcategory page
                     $this->setMustArrayWithAllCategories();
-
+                    $this->setView('pages.subcategory.index');
                 }
             }
-
         }
     }
 
@@ -202,7 +187,11 @@ class SearchFilterController extends Controller
      */
     private function searchProductsByFilters(string|null $sorting): LengthAwarePaginator
     {
-        return $this->elasticSearch->searchByFilters($this->must ?? [], $this->arrElasticQuery, $sorting ?? 'none');
+        return $this->elasticSearch->searchByFilters(
+            $this->must ?? [],
+            $this->arrElasticQuery ?? [],
+            $sorting
+        );
     }
 
     /**
@@ -213,11 +202,10 @@ class SearchFilterController extends Controller
     private function setMustArrayWithAllCategories(): void
     {
         $this->must = [
-            ['match' => ['product_category_group' => $this->group->id]],
-            ['match' => ['product_category' => $this->category->id]],
-            ['match' => ['product_category_sub' => $this->subCategory->id]]
+            ['match' => ['category_group_id' => $this->group->id]],
+            ['match' => ['category_id' => $this->category->id]],
+            ['match' => ['category_sub_id' => $this->subCategory->id]]
         ];
-        $this->view = 'pages.subcategory.index';
     }
 
     /**
@@ -228,10 +216,9 @@ class SearchFilterController extends Controller
     private function setMustArrayWithGroupAndCategory(): void
     {
         $this->must = [
-            ['match' => ['product_category_group' => $this->group->id]],
-            ['match' => ['product_category' => $this->category->id]]
+            ['match' => ['category_group_id' => $this->group->id]],
+            ['match' => ['category_id' => $this->category->id]]
         ];
-        $this->view = 'pages.category.index';
     }
 
     /**
@@ -241,9 +228,8 @@ class SearchFilterController extends Controller
      */
     private function setMustArrayWithGroup(): void
     {
-        $this->view = 'index';
         $this->must = [
-            ['match' => ['cg_seo_name' => $this->group_seo_name]],
+            ['match' => ['category_group_seo_name' => $this->group_seo_name]],
         ];
     }
 
@@ -255,10 +241,9 @@ class SearchFilterController extends Controller
     private function setMustArrayByPromotion(): void
     {
         $this->must = [
-            ['match' => ['cg_seo_name' => $this->group_seo_name]],
+            ['match' => ['category_group_seo_name' => $this->group_seo_name]],
             ['match' => ['banner_id' => $this->promotionBanner->id]],
         ];
-        $this->view = 'pages.promotions.index';
     }
 
     /**
@@ -268,8 +253,7 @@ class SearchFilterController extends Controller
      */
     private function setDefaultMustArray(): void
     {
-        $this->view = 'index';
-        $this->must = ['match' => ['cg_seo_name' => "women"]];
+        $this->must = ['match' => ['category_group_seo_name' => "women"]];
     }
 
     /**
@@ -277,11 +261,13 @@ class SearchFilterController extends Controller
      *
      * @return void
      */
-    private function setSeoNamesVariables(): void
+    private function setSeoNames(): void
     {
-        $this->group_seo_name = $this->group ? $this->group->seo_name : '';
-        $this->category_seo_name = $this->category ? $this->category->seo_name : '';
-        $this->sub_category_seo_name = $this->subCategory ? $this->subCategory->seo_name : '';
+        $this->setCategoryGroupSeoName($this->group ? $this->group->seo_name : '');
+
+        $this->setCategorySeoName($this->category ? $this->category->seo_name : '');
+
+        $this->setSubCategorySeoName($this->subCategory ? $this->subCategory->seo_name : '');
     }
 
     /**
@@ -306,8 +292,7 @@ class SearchFilterController extends Controller
         if(isset($this->arrQuery['sizes'])){
             $this->setSizesToElasticQuery();
         }
-
-        if(isset($this->arrQuery['priceFrom']) && isset($arrQuery['priceTo'])){
+        if(isset($this->arrQuery['priceFrom']) && isset($this->arrQuery['priceTo'])){
             $this->setPriceRangeToElasticQuery();
         }
     }
@@ -359,7 +344,7 @@ class SearchFilterController extends Controller
         }
         $this->arrElasticQuery["bool"][$this->filterType][] =  [
             'terms' => [
-                'pc_id' => $colors
+                'product_color_id' => $colors
             ]
         ];
     }
@@ -379,7 +364,7 @@ class SearchFilterController extends Controller
         }
         $this->arrElasticQuery["bool"][$this->filterType][] =  [
             'terms' => [
-                'pb_id' => $brands
+                'product_brand_id' => $brands
             ]
         ];
     }
@@ -399,7 +384,7 @@ class SearchFilterController extends Controller
         }
         $this->arrElasticQuery["bool"][$this->filterType][] =  [
             'terms' => [
-                'ps_id' => $seasons
+                'product_season_id' => $seasons
             ]
         ];
     }
@@ -419,7 +404,7 @@ class SearchFilterController extends Controller
         }
         $this->arrElasticQuery["bool"][$this->filterType][] =  [
             'terms' => [
-                'pm_id' => $materials
+                'materials_id' => $materials
             ]
         ];
     }
@@ -439,7 +424,7 @@ class SearchFilterController extends Controller
         }
         $this->arrElasticQuery["bool"][$this->filterType][] =  [
             'terms' => [
-                'psize_id' => $sizes
+                'sizes_id' => $sizes
             ]
         ];
     }
@@ -483,7 +468,7 @@ class SearchFilterController extends Controller
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function getPageData(): void
+    public function setPageData(): void
     {
         if(!$this->group){
             abort(404);
@@ -491,7 +476,7 @@ class SearchFilterController extends Controller
 
         $sorting = request()->has('orderBy') && !empty(request()->get('orderBy')) ? request()->get('orderBy') : null;
 
-        if($this->view == 'index'){
+        if($this->atCategoryGroupPage()){
             $banners = Banner::getBannersByGroupId($this->group->id);
         }
 
@@ -513,7 +498,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Get the breadcrumbs array
+     * Returns breadcrumbs array
      *
      * @return array[]
      */
@@ -546,5 +531,92 @@ class SearchFilterController extends Controller
         }
 
         return $breadcrumbs;
+    }
+
+    /**
+     * Sets filter type variable
+     *
+     * @param string $type
+     * @return void
+     */
+    private function setFilterType(string $type): void
+    {
+        $this->filterType = $type;
+    }
+
+    /**
+     * Defines if we are at promotion page
+     *
+     * @return bool
+     */
+    private function atPromotionPage(): bool
+    {
+        if($this->promotion && $this->group_seo_name != ''){
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Defines if we are at category group page
+     *
+     * @return bool
+     */
+    private function atCategoryGroupPage(): bool
+    {
+        if( $this->group_seo_name != ''
+            && $this->category_seo_name === ''
+            && $this->sub_category_seo_name === ''
+        ){
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Defines if we are at category page
+     *
+     * @return bool
+     */
+    private function atCategoryPage(): bool
+    {
+        if( $this->group_seo_name != ''
+            && $this->category_seo_name != ''
+            && $this->sub_category_seo_name === ''
+        ){
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Defines if we are at subcategory page
+     *
+     * @return bool
+     */
+    private function atSubCategoryPage(): bool
+    {
+        if( $this->group_seo_name != ''
+            && $this->category_seo_name != ''
+            && $this->sub_category_seo_name != ''
+        ){
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Sets view variable
+     *
+     * @param string $view
+     * @return void
+     */
+    private function setView(string $view): void
+    {
+        $this->view = $view;
     }
 }

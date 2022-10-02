@@ -27,14 +27,14 @@ class SearchController extends Controller
 {
 
     /**
-     * Глобальный параметр сортировки
+     * Parameter of sorting
      *
-     * @var string
+     * @var string|null
      */
-    private string $sorting;
+    private string|null $sorting;
 
     /**
-     * Клиент эластика
+     * Elasticsearch Client
      *
      * @var ElasticSearchService
      */
@@ -42,14 +42,19 @@ class SearchController extends Controller
 
     /**
      * Construct
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function __construct()
     {
-        $this->elasticSearch = new ElasticSearchService();
+        $this->setElasticClient();
+
+        $this->setSorting();
     }
 
     /**
-     * Страница поиска
+     * Search page
      *
      * @param string $group_seo_name
      * @return Application|Factory|View|string
@@ -58,11 +63,9 @@ class SearchController extends Controller
      */
     public function index(string $group_seo_name): View|Factory|string|Application
     {
-        $this->group_seo_name = $group_seo_name;
+        $this->setCategoryGroupSeoName($group_seo_name);
 
-        $this->sorting = request()->has('orderBy') && !empty(request()->get('orderBy')) ? request()->get('orderBy') : null;
-
-        $this->getPageData();
+        $this->setPageData();
 
         if($this->sorting && request()->ajax()){
             return view('pages.components.ajax.pagination',[
@@ -85,7 +88,7 @@ class SearchController extends Controller
      */
     private function searchProducts(): LengthAwarePaginator
     {
-        return $this->elasticSearch->search($this->group_seo_name, \request()->get('q'), $this->sorting ?? 'none');
+        return $this->elasticSearch->search($this->group_seo_name, \request()->get('q'), $this->sorting);
     }
 
     /**
@@ -95,15 +98,15 @@ class SearchController extends Controller
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function getPageData(): void
+    public function setPageData(): void
     {
-        $group = CategoryGroup::getGroupBySeoName($this->group_seo_name);
+        $group = CategoryGroup::getOneBySeoName($this->group_seo_name);
 
         if(!$group){
             abort(404);
         }
 
-        $this->setBreadcrumbs($this->getBreadcrumbs());
+        $this->setBreadcrumbs($this->getBreadcrumbs($group));
 
         $data = [
             'group'            => $group,
@@ -130,5 +133,29 @@ class SearchController extends Controller
             [$group->name, route('index', $group->seo_name)],
             ["Пошук: \"".\request()->get('q')."\""],
         ];
+    }
+
+    /**
+     * Sets sorting variable
+     *
+     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    private function setSorting(): void
+    {
+        $this->sorting = request()->has('orderBy') && !empty(request()->get('orderBy'))
+            ? request()->get('orderBy')
+            : null;
+    }
+
+    /**
+     * Sets elasticsearch client service
+     *
+     * @return void
+     */
+    private function setElasticClient(): void
+    {
+        $this->elasticSearch = new ElasticSearchService();
     }
 }

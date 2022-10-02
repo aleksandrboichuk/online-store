@@ -193,6 +193,72 @@ class Controller extends BaseController
     }
 
     /**
+     * Sets a category group seo name variable
+     *
+     * @param string $seo_name
+     * @return void
+     */
+    protected function setCategoryGroupSeoName(string $seo_name): void
+    {
+        $this->group_seo_name = $seo_name;
+    }
+
+    /**
+     * Sets a category seo name variable
+     *
+     * @param string $seo_name
+     * @return void
+     */
+    protected function setCategorySeoName(string $seo_name): void
+    {
+        $this->category_seo_name = $seo_name;
+    }
+
+    /**
+     * Sets a subcategory seo name variable
+     *
+     * @param string $seo_name
+     * @return void
+     */
+    protected function setSubCategorySeoName(string $seo_name): void
+    {
+        $this->sub_category_seo_name = $seo_name;
+    }
+
+    /**
+     * Sets a product seo name variable
+     *
+     * @param string $seo_name
+     * @return void
+     */
+    protected function setProductSeoName(string $seo_name): void
+    {
+        $this->product_seo_name = $seo_name;
+    }
+
+    /**
+     * Sets a banner seo name variable
+     *
+     * @param string $seo_name
+     * @return void
+     */
+    protected function setBannerSeoName(string $seo_name): void
+    {
+        $this->banner_seo_name = $seo_name;
+    }
+
+    /**
+     * Sets a category group seo name variable
+     *
+     * @param Authenticatable|Model $user
+     * @return void
+     */
+    protected function setUser(Authenticatable|Model $user): void
+    {
+        $this->user = $user;
+    }
+
+    /**
      * Set page breadcrumbs
      *
      * @param array $pages_arrays

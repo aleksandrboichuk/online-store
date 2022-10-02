@@ -11,7 +11,7 @@
                 />
             @endif
             <div class="productinfo text-center">
-                <a class="product-single" href="{{route('product',[$group->seo_name, $item->categories['seo_name'], $item->subCategories['seo_name'],$item->seo_name ])}}">
+                <a class="product-single" href="{{route('product',[$group->seo_name, $item->categories->seo_name, $item->subCategories->seo_name, $item->seo_name ])}}">
                     {{--<img src="/images/products/preview/{{$item->preview_img_url}}" alt="" />--}}
                     <div class="img" style="background-image: url('{{'/images/products/' . $item->id . '/preview/' . $item->preview_img_url}}')" id="{{$item->id .'/preview/'. $item->preview_img_url}}">
                         @foreach ($images as $img)
@@ -28,7 +28,7 @@
                     @else
                         <h4>₴{{$item->price}}</h4>
                     @endif
-                    <h5><b>{{$item->brands['name']}}</b> / {{$item->name}}</h5>
+                    <h5><b>{{$item->brands->name}}</b> / {{$item->name}}</h5>
                 </a>
                 {{--<span class="sizes-info"><strong>Розміри:</strong>--}}
                     {{--@foreach($item->sizes as $key => $s)--}}
@@ -40,7 +40,7 @@
         <div class="choose">
             <ul class="nav nav-pills nav-justified">
                 <li>
-                    <a href="{{route('product',[$group->seo_name, $item->categories['seo_name'], $item->subCategories['seo_name'],$item->seo_name ])}}"><i class="fa fa-eye"></i> Детальніше</a>
+                    <a href="{{route('product',[$group->seo_name, $item->categories->seo_name, $item->subCategories->seo_name,$item->seo_name ])}}"><i class="fa fa-eye"></i> Детальніше</a>
                 </li>
             </ul>
         </div>

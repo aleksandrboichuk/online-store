@@ -21,10 +21,10 @@ class PromotionController extends Controller
      */
     public function index(string $group_seo_name, string $banner_seo_name): View
     {
-        $this->group_seo_name = $group_seo_name;
-        $this->banner_seo_name = $banner_seo_name;
+        $this->setCategoryGroupSeoName($group_seo_name);
+        $this->setBannerSeoName($banner_seo_name);
 
-        $this->getPageData();
+        $this->setPageData();
 
         return view('pages.promotions.index', $this->pageData);
     }
@@ -34,7 +34,7 @@ class PromotionController extends Controller
      *
      * @return void
      */
-    public function getPageData(): void
+    public function setPageData(): void
     {
         $group = CategoryGroup::getOneBySeoName($this->group_seo_name);
 

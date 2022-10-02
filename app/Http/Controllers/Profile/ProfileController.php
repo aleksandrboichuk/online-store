@@ -30,7 +30,7 @@ class ProfileController extends Controller
     {
         $this->status = $status;
 
-        $this->getPageData();
+        $this->setPageData();
 
         return view('pages.profile.index', $this->pageData);
     }
@@ -80,7 +80,7 @@ class ProfileController extends Controller
      *
      * @return void
      */
-    public function getPageData(): void
+    public function setPageData(): void
     {
         $this->setBreadcrumbs($this->getBreadcrumbs());
 

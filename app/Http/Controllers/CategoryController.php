@@ -25,12 +25,11 @@ class CategoryController extends Controller
      */
     public function index(Request $request, $group_seo_name, $category_seo_name): Application|Factory|View|string
     {
+        $this->setCategoryGroupSeoName($group_seo_name);
 
-        $this->group_seo_name = $group_seo_name;
+        $this->setCategorySeoName($category_seo_name);
 
-        $this->category_seo_name = $category_seo_name;
-
-        $this->getPageData();
+        $this->setPageData();
 
         if($request->ajax()){
             return view('ajax.ajax',[
@@ -49,7 +48,7 @@ class CategoryController extends Controller
      *
      * @return void
      */
-    public function getPageData(): void
+    public function setPageData(): void
     {
         $group = CategoryGroup::getOneBySeoName($this->group_seo_name);
 

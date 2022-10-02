@@ -15,7 +15,7 @@ class CategoryGroupController extends Controller
 {
 
     /**
-     * Главная страница
+     * Main page
      *
      * @param Request $request
      * @param $group_seo_name
@@ -23,9 +23,9 @@ class CategoryGroupController extends Controller
      */
     public function index(Request $request, $group_seo_name): Application|Factory|View|string
     {
-        $this->group_seo_name = $group_seo_name;
+        $this->setCategoryGroupSeoName($group_seo_name);
 
-        $this->getPageData();
+        $this->setPageData();
 
         // AJAX
         if($request->ajax()){
@@ -40,19 +40,19 @@ class CategoryGroupController extends Controller
     }
 
     /**
-     * Получение всех данных для вьюхи
+     * Returns data for the view
      *
      * @return void
      */
-    public function getPageData(): void
+    public function setPageData(): void
     {
         $group = CategoryGroup::getOneBySeoName($this->group_seo_name);
-
-        $brands = $this->getGroupBrands($group->id);
 
         if(!$group){
             abort(404);
         }
+
+        $brands = $this->getGroupBrands($group->id);
 
         $products = $group->getPaginateProducts(8);
 
