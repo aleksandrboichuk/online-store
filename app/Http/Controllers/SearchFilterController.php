@@ -151,31 +151,24 @@ class SearchFilterController extends Controller
      */
     private function setMustArray(): void
     {
-        if(!key_exists($this->group_seo_name, CategoryGroup::getCategoryGroupsArray())){
-            $this->setDefaultMustArray();
+        if($this->atPromotionPage()){
+            // if we are at promotion page
+            $this->setMustArrayWithPromotion();
+            $this->setView('pages.promotions.index');
+        }elseif($this->atCategoryGroupPage()){
+            // if we are at category group (main) page
+            $this->setMustArrayWithGroup();
             $this->setView('pages.main.index');
-        }else{
-            if($this->atPromotionPage()){
-                // if we are at promotion page
-                $this->setMustArrayByPromotion();
-                $this->setView('pages.promotions.index');
-            }else{
-                if($this->atCategoryGroupPage()){
-                    // if we are at category group (main) page
-                    $this->setMustArrayWithGroup();
-                    $this->setView('pages.main.index');
 
-                }elseif($this->atCategoryPage()){
-                    // if we at category page
-                    $this->setMustArrayWithGroupAndCategory();
-                    $this->setView('pages.category.index');
+        }elseif($this->atCategoryPage()){
+            // if we at category page
+            $this->setMustArrayWithGroupAndCategory();
+            $this->setView('pages.category.index');
 
-                }elseif($this->atSubCategoryPage()){
-                    // if we at subcategory page
-                    $this->setMustArrayWithAllCategories();
-                    $this->setView('pages.subcategory.index');
-                }
-            }
+        }elseif($this->atSubCategoryPage()){
+            // if we at subcategory page
+            $this->setMustArrayWithAllCategories();
+            $this->setView('pages.subcategory.index');
         }
     }
 
@@ -238,7 +231,7 @@ class SearchFilterController extends Controller
      *
      * @return void
      */
-    private function setMustArrayByPromotion(): void
+    private function setMustArrayWithPromotion(): void
     {
         $this->must = [
             ['match' => ['category_group_seo_name' => $this->group_seo_name]],
@@ -418,8 +411,8 @@ class SearchFilterController extends Controller
     {
         $requestSizes  =  explode(' ', $this->arrQuery['sizes']);
         $sizes = [];
-        foreach ($requestSizes as $rsize){
-            $sizeModel = ProductSize::getOneBySeoName($rsize);
+        foreach ($requestSizes as $size){
+            $sizeModel = ProductSize::getOneBySeoName($size);
             $sizes[] = $sizeModel->id;
         }
         $this->arrElasticQuery["bool"][$this->filterType][] =  [
@@ -440,15 +433,16 @@ class SearchFilterController extends Controller
 
         //в зависимости от присутствия признака того, что запрос со страницы акций
         // выборка происходит по определенным сегментам строки запроса
+
+        $this->group = CategoryGroup::getOneBySeoName(request()->segment(2));
+
         if(request()->segment(1) == 'promotions'){
 
             $this->promotion = true;
+
             $this->promotionBanner = Banner::getOneBySeoName(request()->segment(3));
-            $this->group = CategoryGroup::getOneBySeoName(request()->segment(2));
 
         }else{
-
-            $this->group = CategoryGroup::getOneBySeoName(request()->segment(2));
 
             if(request()->segment(3)){
                 $this->category = Category::getOneBySeoName(request()->segment(3));
