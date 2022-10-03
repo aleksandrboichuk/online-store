@@ -2,13 +2,9 @@
 
 @section('content')
     <section id="table_items">
-        <div class="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="/shop/women">Головна</a> </li>
-                <li><a href="/cart">Кошик</a> </li>
-                <li class="active">Оформлення замовлення</li>
-            </ol>
-        </div>
+        @if(isset($breadcrumbs))
+            @include('components.breadcrumbs')
+        @endif
         <div class="container">
             <div class="col-sm-1"></div>
             <div class="col-sm-10">

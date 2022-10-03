@@ -1,13 +1,9 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="breadcrumbs admin-bread">
-        <ol class="breadcrumb">
-            <li><a href="/admin">Панель Адміністратора</a> </li>
-            <li><a href="/admin/brands">Бренди</a> </li>
-            <li class="active">Додавання</li>
-        </ol>
-    </div>
+    @if(isset($breadcrumbs))
+        @include('admin.components.breadcrumbs')
+    @endif
     <section class="form-add">
         <div class="container">
             <div class="col-sm-2"></div>

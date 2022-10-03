@@ -10,12 +10,9 @@
         @php(session()->forget('success-message'))
     @endif
     <section id="table_items">
-        <div class="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="/admin">Панель Адміністратора</a> </li>
-                <li class="active">Повідомлення</li>
-            </ol>
-        </div>
+        @if(isset($breadcrumbs))
+            @include('admin.components.breadcrumbs')
+        @endif
         <div class="container">
             <div class="table-responsive general-table-index general-table-index-with-pagination">
                 <table class="table table-condensed table-admin-with-pagination">

@@ -2,13 +2,9 @@
 
 @section('content')
     <section id="personal_area">
-        <div class="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="/shop/women">Головна</a> </li>
-                <li><a href="/personal/orders">Особистий кабінет</a> </li>
-                <li class="active">Налаштування</li>
-            </ol>
-        </div>
+        @if(isset($breadcrumbs))
+            @include('components.breadcrumbs')
+        @endif
         <div class="container personal-area-container">
             <div class="col-sm-12 col-lg-3">
                 @include('components.profile-sidebar')

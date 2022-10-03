@@ -3,20 +3,9 @@
 
 
     <section class="products-section">
-        <div class="breadcrumbs">
-            <ol class="breadcrumb">
-                @if($group->name == "Жінки")
-                    <li><a href="/shop/women">Жінкам</a> </li>
-                @elseif($group->name == "Чоловіки")
-                    <li><a href="/shop/men">Чоловікам</a> </li>
-                @elseif($group->name == "Хлопчики")
-                    <li><a href="/shop/boys">Хлопчикам</a> </li>
-                @elseif($group->name == "Дівчатки")
-                    <li><a href="/shop/girls">Дівчаткам</a> </li>
-                @endif
-                <li class="active">{{$category->title}}</li>
-            </ol>
-        </div>
+        @if(isset($breadcrumbs))
+            @include('components.breadcrumbs')
+        @endif
         <div class="main-container">
             <div class="row">
                 <!--sidebar-->

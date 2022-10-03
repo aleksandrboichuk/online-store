@@ -19,13 +19,9 @@
         @php(session()->forget('settings-save-success'))
     @endif
     <section id="personal_area">
-        <div class="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="/shop/women">Головна</a> </li>
-                <li><a>Особистий кабінет</a> </li>
-                <li class="active">{{$status_name}}</li>
-            </ol>
-        </div>
+        @if(isset($breadcrumbs))
+            @include('components.breadcrumbs')
+        @endif
         <div class="container personal-area-container">
             <div class="col-sm-12 col-lg-3">
                 @include('components.profile-sidebar')

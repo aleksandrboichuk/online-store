@@ -2,13 +2,9 @@
 
 @section('content')
 
-    <div class="breadcrumbs admin-bread">
-        <ol class="breadcrumb">
-            <li><a href="/admin">Панель Адміністратора</a> </li>
-            <li><a href="/admin/promocodes">Промокоди</a> </li>
-            <li class="active">Додавання</li>
-        </ol>
-    </div>
+    @if(isset($breadcrumbs))
+        @include('admin.components.breadcrumbs')
+    @endif
     <section class="form-add">
         <div class="container">
             <div class="col-sm-1"></div>
