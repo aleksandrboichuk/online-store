@@ -78,6 +78,7 @@ class ProductController extends Controller
                 ]);
 
 
+
                 if($request->ajax()) {
                     return count($cart->products) + 1;
                 }
