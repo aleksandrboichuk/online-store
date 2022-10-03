@@ -12,6 +12,7 @@ use App\Models\Season;
 use App\Models\Size;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -25,43 +26,50 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
-     * Сео имя группы категорий
+     * Seo name of category group
+     *
      * @var string
      */
     protected string $group_seo_name;
 
     /**
-     * Сео имя категории
+     * Seo name of category
+     *
      * @var string
      */
     protected string $category_seo_name;
 
     /**
-     * Сео имя под-категории
+     * Seo name of subcategory
+     *
      * @var string
      */
     protected string $sub_category_seo_name;
 
     /**
-     * Сео имя продукта
+     * Seo name of product
+     *
      * @var string
      */
     protected string $product_seo_name;
 
     /**
-     * Сео имя баннера
+     * Seo name of promotion
+     *
      * @var string
      */
-    protected  string $banner_seo_name;
+    protected string $banner_seo_name;
 
     /**
-     * Пользователь
+     * User entry
+     *
      * @var Authenticatable|null
      */
     protected Authenticatable|null $user;
 
     /**
-     * Массив данных для вьюхи
+     * Array with data for view
+     *
      * @var array
      */
     protected array $pageData = [];
@@ -74,7 +82,8 @@ class Controller extends BaseController
     protected array $breadcrumbs = [];
 
     /**
-     * Получение авторизованого пользователя
+     * Returns authorized user
+     *
      * @return Authenticatable|null
      */
     public function user(): Authenticatable|null
@@ -83,7 +92,8 @@ class Controller extends BaseController
     }
 
     /**
-     * Получение авторизованого пользователя
+     * Returns authorized user id
+     *
      * @return int|null
      */
     public function userId(): int|null
@@ -92,30 +102,23 @@ class Controller extends BaseController
     }
 
     /**
-     * Получение всех брендов группы категорий, у которых есть продукты
+     * Returns all brands of category group which has a products
      *
      * @param int $group_id
-     * @return array|null
+     * @return Builder[]|Collection
      */
-    public function getGroupBrands(int $group_id): array|null
+    public function getGroupBrands(int $group_id): Collection|array
     {
-        //TODO
-        $brands = Brand::query()->where('active', 1)->get();
-        foreach ($brands as $brand) {
-            foreach ($brand->products as $brand_product){
-                if($brand_product->category_group_id == $group_id){
-                    $group_brands[] = $brand;
-                    break;
-                }
-            }
-        }
-
-        return $group_brands ?? null;
-
+        return Brand::query()
+            ->where('active', 1)
+            ->whereHas('products', function (Builder $query) use ($group_id){
+                return $query->where('category_group_id', $group_id);
+            })
+            ->get();
     }
 
     /**
-     * получение корзины
+     * Returns cart by session id or by user id
      *
      * @return mixed|null
      */
@@ -130,7 +133,7 @@ class Controller extends BaseController
     }
 
     /**
-     * Получение корзины по токену сессии
+     * Returns cart by session token (id)
      *
      * @return Model|Builder|null
      */
@@ -140,7 +143,8 @@ class Controller extends BaseController
     }
 
     /**
-     * Получение базовых данных для страниц ошибок и тп
+     * Returns basic neccessary data for every view
+     *
      * @return array
      */
     #[ArrayShape([
@@ -156,7 +160,8 @@ class Controller extends BaseController
     }
 
     /**
-     * Получаем массив со свойствами продуктов
+     * Returns an array with product properties
+     *
      * @return array
      */
     #[ArrayShape([
@@ -169,16 +174,16 @@ class Controller extends BaseController
     protected function getProductProperties(): array
     {
         return [
-            'colors' => Color::query()->where('active', 1)->get(),
-            "materials"=> Material::query()->where('active', 1)->get(),
-            "seasons" => Season::query()->where('active', 1)->get(),
-            "sizes" => Size::query()->where('active', 1)->get(),
+            'colors' => Color::getActiveEntries(),
+            "materials"=> Material::getActiveEntries(),
+            "seasons" => Season::getActiveEntries(),
+            "sizes" => Size::getActiveEntries(),
             "images"=> ProductImage::all(),
         ];
     }
 
     /**
-     * Получение идентификатора сессии или юзера
+     * Returns user id or session id
      *
      * @return int|string
      */

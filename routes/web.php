@@ -18,44 +18,29 @@ Route::get('/', function (){
     return redirect('/shop/women');
 });
 
-
+/**
+ * Contact page
+ */
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
 Route::post('/send-message',  [App\Http\Controllers\HomeController::class, 'sendMessage'])->name('send.message');
-
-///**
-// * 404
-// */
-//
-//if(!preg_match(
-//        "#^\/register\b|^\/logout\b|^\/login\b|^\/password\/reset\b|^\/search\b|^\/admin\|^\/personal\b|^\/promotions\b|^\/cart\b|^\/shop\b#",
-//        \request()->getRequestUri())){
-//    Route::get('{any?}', function () {
-//        abort(404);
-//    })->where('any', '.*');
-//}
 
 
 /**
  * admin
  */
-
 Route::group([
     'prefix' => 'admin',
     'middleware' => ['app.auth', 'auth']
 ],function () {
     Route::get('', [\App\Http\Controllers\Admin\AdminController::class, 'index']);
     Route::resource('promocodes', \App\Http\Controllers\Admin\PromocodeController::class)->middleware('content.manager.role');
-    if(!preg_match("#^\/admin/banners/create\b#", \request()->getRequestUri())) {
-        Route::get('/banners/{cat_group?}', [\App\Http\Controllers\Admin\BannerController::class, 'index'])->middleware('content.manager.role');
-    }
+    Route::get('/banners/{cat_group?}', [\App\Http\Controllers\Admin\BannerController::class, 'index'])->middleware('content.manager.role');
     Route::resource('banners', \App\Http\Controllers\Admin\BannerController::class)->middleware('content.manager.role');
     Route::resource('messages', \App\Http\Controllers\Admin\MessageController::class)->middleware('orders.admin.role');
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class)->middleware('content.manager.role');
     Route::resource('subcategories', \App\Http\Controllers\Admin\SubCategoryController::class)->middleware('content.manager.role');
-    if(!preg_match("#^\/admin/products/create\b#", \request()->getRequestUri())) {
-        Route::get('/products/{cat_group?}', [\App\Http\Controllers\Admin\ProductController::class, 'index'])->middleware('content.manager.role');
-    }
-        Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->middleware('content.manager.role');
+    Route::get('/products/{cat_group?}', [\App\Http\Controllers\Admin\ProductController::class, 'index'])->middleware('content.manager.role');
+    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->middleware('content.manager.role');
     Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class)->middleware('orders.admin.role');
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->middleware('main.admin.role');
     Route::resource('colors', \App\Http\Controllers\Admin\ColorController::class)->middleware('content.manager.role');
@@ -66,13 +51,11 @@ Route::group([
 
 
 /**
- * cart
+ * Cart
  */
-
 Route::group([
     'prefix' => 'cart',
 ], function () {
-
     Route::get('', [\App\Http\Controllers\CartController::class, 'index'])->name('cart');
     Route::get('/checkout', [\App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout');
     Route::post('/delete-from-cart',[\App\Http\Controllers\CartController::class, 'deleteFromCart'])->name('delete.from.cart');
@@ -83,7 +66,6 @@ Route::group([
 /**
  * personal
  */
-
 Route::group([
     'prefix' => 'personal',
     'middleware' => ['auth']
@@ -93,84 +75,76 @@ Route::group([
         return redirect('/personal/orders');
     });
 
-    if(!preg_match("#^\/personal/orders\b#", \request()->getRequestUri())
-        && !preg_match("#^\/personal/settings\b#", \request()->getRequestUri())
-        && !preg_match("#^\/personal/promocodes\b#", \request()->getRequestUri())
-        //&& preg_match("#^\/personal/bonuses\b#", \request()->getRequestUri()) == false
-    ) {
-        Route::get('/{any?}', function () {
-            return response()->view('errors.404', ['user' => Auth::user()], 404);
-        })->where('any', '.*');
-    }
+    Route::get('/orders/{status?}',[\App\Http\Controllers\Profile\ProfileController::class, 'index'])
+        ->name('user.orders');
 
-    Route::get('/orders/{status?}',[\App\Http\Controllers\Profile\ProfileController::class, 'index'])->name('user.orders');
-    Route::get('/orders/view-order/{order_id}', [\App\Http\Controllers\Profile\OrderController::class, 'index'])->name('view.order');
-    Route::get('/promocodes', [\App\Http\Controllers\Profile\PromocodeController::class, 'index'])->name('user.promocodes');
-    //Route::get('/bonuses', [\App\Http\Controllers\UserController::class, 'gerUserBonuses'])->name('user.bonuses');
+    Route::get('/orders/view-order/{order_id}', [\App\Http\Controllers\Profile\OrderController::class, 'index'])
+        ->name('view.order');
 
-    Route::get('/settings', [\App\Http\Controllers\Profile\SettingsController::class, 'index'])->name('user.settings');
-    Route::post('/settings-save', [\App\Http\Controllers\Profile\SettingsController::class, 'saveUserSettings'])->name('user.settings.save');
+    Route::get('/promocodes', [\App\Http\Controllers\Profile\PromocodeController::class, 'index'])
+        ->name('user.promocodes');
+
+    Route::get('/settings', [\App\Http\Controllers\Profile\SettingsController::class, 'index'])
+        ->name('user.settings');
+
+    Route::post('/settings-save', [\App\Http\Controllers\Profile\SettingsController::class, 'saveUserSettings'])
+        ->name('user.settings.save');
 
 });
+
 
 /**
  * promotions
  */
-
 Route::group([
     'prefix' => 'promotions',
 ],function () {
-    if(preg_match("/\?colors/", request()->getRequestUri())
-        || preg_match("/\?brands/", request()->getRequestUri())
-        || preg_match("/\?materials/", request()->getRequestUri())
-        || preg_match("/\?orderBy/", request()->getRequestUri())
-        || preg_match("/\?seasons/", request()->getRequestUri())
-        || preg_match("/\?sizes/", request()->getRequestUri())
-        || preg_match("/\?price/", request()->getRequestUri())
-    ) {
-        Route::any('/{group_seo_name?}/{banner_seo_name?}/{queryString?}', [\App\Http\Controllers\SearchFilterController::class, 'index'])->name('filters.request');
+    if(preg_match("/\?colors|\?brands|\?materials|\?orderBy|\?seasons|\?sizes|\?price/", request()->getRequestUri())) {
+
+        Route::any('/{group_seo_name?}/{banner_seo_name?}', [\App\Http\Controllers\SearchFilterController::class, 'index'])
+            ->name('filters.request');
+
     }
-    Route::get('/{group_seo_name}/{seo_name_banner}', [\App\Http\Controllers\PromotionController::class, 'index'])->name('promotion');
+    Route::get('/{group_seo_name}/{seo_name_banner}', [\App\Http\Controllers\PromotionController::class, 'index'])
+        ->name('promotion');
 });
+
 
 /**
  * shop
  */
-
 Route::group([
     'prefix' => 'shop',
     'middleware' => ['cart.by.token']
 ], function () {
 
 Route::get('/{group_seo_name}/search',[\App\Http\Controllers\SearchController::class, 'index'])->name('search');
-Route::post('/{product_id}/{user_id}',[\App\Http\Controllers\CartController::class, 'addToCart'])->name('add.to.cart')->middleware('auth');
+Route::post('/{product_id}/{user_id}',[\App\Http\Controllers\CartController::class, 'addToCart'])->name('add.to.cart')
+    ->middleware('auth');
 Route::get('/','\App\Http\Controllers\CategoryGroupController@home');
 
-if(preg_match("/\?colors/", request()->getRequestUri())
-    || preg_match("/\?brands/", request()->getRequestUri())
-    || preg_match("/\?materials/", request()->getRequestUri())
-    || preg_match("/\?orderBy/", request()->getRequestUri())
-    || preg_match("/\?seasons/", request()->getRequestUri())
-    || preg_match("/\?sizes/", request()->getRequestUri())
-    || preg_match("/\?price/", request()->getRequestUri())){
-    Route::any('/{seo_name?}/{category_seo_name?}/{sub_category_seo_name?}/{queryString?}', [\App\Http\Controllers\SearchFilterController::class, 'index'])->name('filters.request');
+if(preg_match("/\?colors|\?brands|\?materials|\?orderBy|\?seasons|\?sizes|\?price/", request()->getRequestUri())){
+
+    Route::any('/{seo_name?}/{category_seo_name?}/{sub_category_seo_name?}', [\App\Http\Controllers\SearchFilterController::class, 'index'])
+        ->name('filters.request');
 }
 
-Route::get('/{group_seo_name}', [\App\Http\Controllers\CategoryGroupController::class,'index'])->name('index');
-Route::get('/{group_seo_name}/{category_seo_name}',[\App\Http\Controllers\CategoryController::class,'index'])->name('category');
-Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}',[\App\Http\Controllers\SubCategoryController::class,'index'])->name('subcategory');
-Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}/{product_seo_name}',[\App\Http\Controllers\ProductController::class, 'index'])->name('product');
+Route::get('/{group_seo_name}', [\App\Http\Controllers\CategoryGroupController::class,'index'])
+    ->name('index');
+Route::get('/{group_seo_name}/{category_seo_name}',[\App\Http\Controllers\CategoryController::class,'index'])
+    ->name('category');
+Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}',[\App\Http\Controllers\SubCategoryController::class,'index'])
+    ->name('subcategory');
+Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}/{product_seo_name}',[\App\Http\Controllers\ProductController::class, 'index'])    ->name('product');
 
 //send product review
 Route::post('/{product_id}',[\App\Http\Controllers\ReviewController::class, 'index'])->name('send.review');
-
 });
 
 
 /**
  * auth
  */
-
 Auth::routes();
 
 Route::get('/login', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginForm']);

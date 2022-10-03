@@ -6,7 +6,7 @@
                 <h4><a href="{{route('product', [$item->categoryGroup->seo_name, $item->categories->seo_name, $item->subCategories->seo_name, $item->seo_name])}}">{{$item->name}}</a></h4>
                 @if($item->discount != 0)
                     <s>₴{{$item->price}}</s>
-                    <p>₴{{$item->price - (round($item->price * ($item->discount * 0.01)))}}</p>
+                    <p>₴{{$item->getProductPriceWithDiscount()}}</p>
                 @else
                     <p>₴{{$item->price}}</p>
                 @endif
@@ -23,7 +23,7 @@
         <td class="size-col"><h4>{{$item->pivot->size}}</h4></td>
         <td class="total-col"><h4>
                 @if($item->discount != 0)
-                    ₴{{$item->pivot->product_count * ($item->price - (round($item->price * ($item->discount * 0.01))))}}
+                    ₴{{$item->pivot->product_count * $item->getProductPriceWithDiscount()}}
                 @else
                     ₴{{$item->pivot->product_count * $item->price}}
                 @endif

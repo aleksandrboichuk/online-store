@@ -80,7 +80,7 @@ class SearchController extends Controller
 
 
     /**
-     * Осуществление поиска в зависимости от сущестовования сортировки
+     * Search products by elasticsearch
      *
      * @return LengthAwarePaginator
      * @throws ContainerExceptionInterface
@@ -92,7 +92,7 @@ class SearchController extends Controller
     }
 
     /**
-     * Получение всех данных для вьюхи
+     * Getting necessary data for the view
      *
      * @return void
      * @throws ContainerExceptionInterface

@@ -37,7 +37,7 @@
                                 @if($item->discount != 0)
                                     <td class="cart_price">
                                         <p><s>₴{{$item->price}}</s></p>
-                                        <p><b>₴{{$item->price - (round($item->price * ($item->discount * 0.01)))}}</b></p>
+                                        <p><b>₴{{$item->getProductPriceWithDiscount()}}</b></p>
                                     </td>
                                 @else
                                     <td class="cart_price">
@@ -52,7 +52,7 @@
                                 </td>
                                 @if($item->discount != 0)
                                     <td class="cart_total">
-                                        <p class="cart_total_price">₴{{$item->pivot->product_count * ($item->price - (round($item->price * ($item->discount * 0.01))))}}</p>
+                                        <p class="cart_total_price">₴{{$item->pivot->product_count * $item->getProductPriceWithDiscount()}}</p>
                                     </td>
                                 @else
                                     <td class="cart_total">

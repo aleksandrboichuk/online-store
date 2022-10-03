@@ -13,7 +13,7 @@ class PromotionController extends Controller
 {
 
     /**
-     * Страница акции (баннера)
+     * Promotion (banner) page
      *
      * @param string $group_seo_name
      * @param string $banner_seo_name
@@ -30,7 +30,7 @@ class PromotionController extends Controller
     }
 
     /**
-     * Получение всех данных для вьюхи
+     * Getting data necessary for view
      *
      * @return void
      */

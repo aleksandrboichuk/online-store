@@ -34,7 +34,8 @@ class HomeController extends Controller
     }
 
     /**
-     * Страница контактов
+     * Contact page
+     *
      * @return Application|Factory|View
      */
     public function contact(): View|Factory|Application
@@ -43,7 +44,8 @@ class HomeController extends Controller
     }
 
     /**
-     * Отправка сообщения со страницы контактов
+     * Receiving message from contact page
+     *
      * @param Request $request
      * @return Application|RedirectResponse|Redirector
      */

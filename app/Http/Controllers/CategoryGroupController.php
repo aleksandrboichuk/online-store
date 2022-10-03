@@ -29,7 +29,7 @@ class CategoryGroupController extends Controller
 
         // AJAX
         if($request->ajax()){
-            return view('pages.components.pagination',[
+            return view('pages.components.ajax.pagination',[
                 'products' => $this->pageData['products'],
                 'group' => $this->pageData['group'],
                 "images"=> ProductImage::all(),
