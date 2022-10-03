@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SizeRequest;
-use App\Models\ProductSize;
+use App\Models\Size;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -23,7 +23,7 @@ class SizeController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        $sizes =  ProductSize::query()->orderBy('id', 'desc')->get();
+        $sizes =  Size::query()->orderBy('id', 'desc')->get();
         return view('admin.additional-to-products.size.index', compact('sizes'));
     }
 
@@ -47,7 +47,7 @@ class SizeController extends Controller
     {
         $request->setActiveField();
 
-        ProductSize::query()->create($request->all());
+        Size::query()->create($request->all());
 
         return redirect('/admin/sizes')->with(['success-message' => 'Розмір успішно додано.']);
     }
@@ -61,7 +61,7 @@ class SizeController extends Controller
      */
     public function edit(int $id): View|Factory|Application
     {
-        $size = ProductSize::query()->find($id);
+        $size = Size::query()->find($id);
 
         if(!$size){
             abort(404);
@@ -79,7 +79,7 @@ class SizeController extends Controller
      */
     public function update(SizeRequest $request, int $id)
     {
-        $size = ProductSize::query()->find($id);
+        $size = Size::query()->find($id);
 
         if(!$size){
             abort(404);
@@ -100,7 +100,7 @@ class SizeController extends Controller
      */
     public function destroy(int $id): Redirector|RedirectResponse|Application
     {
-        $size = ProductSize::query()->find($id);
+        $size = Size::query()->find($id);
 
         if(!$size){
             abort(404);

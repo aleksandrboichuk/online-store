@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSizeTitleToOrderListItemsTable extends Migration
+class AddPromocodeFieldToOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddSizeTitleToOrderListItemsTable extends Migration
      */
     public function up()
     {
-        Schema::table('order_list_items', function (Blueprint $table) {
-            $table->integer('size')->nullable()->after('count');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->string('promocode')->after('total_cost')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class AddSizeTitleToOrderListItemsTable extends Migration
      */
     public function down()
     {
-        Schema::table('order_list_items', function (Blueprint $table) {
+        Schema::table('orders', function (Blueprint $table) {
             //
         });
     }

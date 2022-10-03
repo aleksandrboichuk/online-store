@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class ProductSize extends BaseModel
+class Size extends BaseModel
 {
     use HasFactory;
     protected $fillable = [
@@ -16,6 +16,8 @@ class ProductSize extends BaseModel
         'active'
     ];
 
+    protected $table = 'sizes';
+
     /**
      * Связь размеры - продукты
      *
@@ -23,7 +25,7 @@ class ProductSize extends BaseModel
      */
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Product');
+        return $this->belongsToMany(Product::class, 'product_sizes');
     }
 
 }

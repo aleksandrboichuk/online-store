@@ -18,7 +18,7 @@ class SizeRequest extends AdminFormRequest
             'title' => ['string', 'min:3'],
             'seo_name' => [
                 'string',
-                Rule::unique('product_sizes', 'seo_name')->ignore($this->route('size')) ,
+                Rule::unique('sizes', 'seo_name')->ignore($this->route('size')) ,
                 'min:3'
             ],
         ];

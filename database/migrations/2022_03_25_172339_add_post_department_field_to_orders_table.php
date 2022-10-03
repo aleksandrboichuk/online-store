@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPayNowFieldToOrdersListsTable extends Migration
+class AddPostDepartmentFieldToOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddPayNowFieldToOrdersListsTable extends Migration
      */
     public function up()
     {
-        Schema::table('orders_lists', function (Blueprint $table) {
-            $table->boolean('pay_now')->after('email')->default(0);
+        Schema::table('orders', function (Blueprint $table) {
+           $table->integer('post_department')->nullable()->after('address');
         });
     }
 
@@ -25,7 +25,7 @@ class AddPayNowFieldToOrdersListsTable extends Migration
      */
     public function down()
     {
-        Schema::table('orders_lists', function (Blueprint $table) {
+        Schema::table('orders', function (Blueprint $table) {
             //
         });
     }

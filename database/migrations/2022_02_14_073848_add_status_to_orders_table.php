@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStatusToOrdersListsTable extends Migration
+class AddStatusToOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddStatusToOrdersListsTable extends Migration
      */
     public function up()
     {
-        Schema::table('orders_lists', function (Blueprint $table) {
+        Schema::table('orders', function (Blueprint $table) {
            $table->bigInteger('status')->unsigned()->nullable()->after('total_cost');
            $table->foreign('status')
                ->references('id')
@@ -29,7 +29,7 @@ class AddStatusToOrdersListsTable extends Migration
      */
     public function down()
     {
-        Schema::table('orders_lists', function (Blueprint $table) {
+        Schema::table('orders', function (Blueprint $table) {
             //
         });
     }

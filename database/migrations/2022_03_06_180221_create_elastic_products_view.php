@@ -17,24 +17,24 @@ clASs CreateElasticProductsView extends Migration
             "CREATE VIEW elastic_products
                    AS
                    SELECT DISTINCT
-                    p.id AS id, 
-                    p.name AS name, 
-                    p.seo_name AS seo_name, 
-                    p.preview_img_url AS preview_img_url, 
-                    p.description AS description, 
-                    p.banner_id AS banner_id, 
-                    p.price AS price, 
-                    p.discount AS discount, 
-                    p.count AS count, 
-                    p.in_stock AS in_stock, 
-                    p.active AS active, 
-                    p.created_at AS created_at, 
-                    p.updated_at AS updated_at, 
-                    p.category_group_id AS product_category_group, 
-                    p.category_id AS product_category, 
-                    p.category_sub_id AS product_category_sub, 
-                    p.product_color_id AS product_color, 
-                    p.product_season_id AS product_season, 
+                    p.id AS id,
+                    p.name AS name,
+                    p.seo_name AS seo_name,
+                    p.preview_img_url AS preview_img_url,
+                    p.description AS description,
+                    p.banner_id AS banner_id,
+                    p.price AS price,
+                    p.discount AS discount,
+                    p.count AS count,
+                    p.in_stock AS in_stock,
+                    p.active AS active,
+                    p.created_at AS created_at,
+                    p.updated_at AS updated_at,
+                    p.category_group_id AS product_category_group,
+                    p.category_id AS product_category,
+                    p.category_sub_id AS product_category_sub,
+                    p.product_color_id AS product_color,
+                    p.product_season_id AS product_season,
                     p.product_brand_id AS product_brand,
                     cg.name AS cg_name,
                     cg.seo_name AS cg_seo_name,
@@ -60,17 +60,17 @@ clASs CreateElasticProductsView extends Migration
                     psize.name AS psize_name,
                     psize.seo_name AS psize_seo_name
                 FROM
-                    products p 
-                    LEFT JOIN category_groups cg ON cg.id = p.category_group_id                
+                    products p
+                    LEFT JOIN category_groups cg ON cg.id = p.category_group_id
                     LEFT JOIN categories c ON c.id = p.category_id
                     LEFT JOIN sub_categories sc ON sc.id = p.category_sub_id
-                    LEFT JOIN product_colors pc ON pc.id = p.product_color_id
-                    LEFT JOIN product_seasons ps ON ps.id = p.product_season_id
-                    LEFT JOIN product_brands pb ON pb.id = p.product_brand_id               
+                    LEFT JOIN color pc ON pc.id = p.product_color_id
+                    LEFT JOIN seasons ps ON ps.id = p.product_season_id
+                    LEFT JOIN brands pb ON pb.id = p.product_brand_id
                     LEFT JOIN product_product_size ppsi ON p.id = ppsi.product_id
-                    LEFT JOIN product_sizes psize ON psize.id = ppsi.product_size_id
+                    LEFT JOIN sizes psize ON psize.id = ppsi.size_id
                     LEFT JOIN product_product_material ppm ON p.id = ppm.product_id
-                    LEFT JOIN product_materials pm ON pm.id = ppm.product_material_id where p.active != false
+                    LEFT JOIN materials pm ON pm.id = ppm.material_id where p.active != false
                     ORDER BY p.id desc"
         );
     }

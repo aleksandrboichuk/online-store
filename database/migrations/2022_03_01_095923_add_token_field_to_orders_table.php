@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPostDepartmentFieldToOrdersListsTable extends Migration
+class AddTokenFieldToOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddPostDepartmentFieldToOrdersListsTable extends Migration
      */
     public function up()
     {
-        Schema::table('orders_lists', function (Blueprint $table) {
-           $table->integer('post_department')->nullable()->after('address');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->string('token')->nullable()->after('user_id');
         });
     }
 
@@ -25,7 +25,7 @@ class AddPostDepartmentFieldToOrdersListsTable extends Migration
      */
     public function down()
     {
-        Schema::table('orders_lists', function (Blueprint $table) {
+        Schema::table('orders', function (Blueprint $table) {
             //
         });
     }

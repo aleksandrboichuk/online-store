@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class UserPromocode extends BaseModel
+class Promocode extends BaseModel
 {
     use HasFactory;
 
@@ -21,13 +21,15 @@ class UserPromocode extends BaseModel
         'active',
     ];
 
+    protected $table = 'promocodes';
+
     /**
      * Связь промокод - юзеры
      * @return BelongsToMany
      */
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\User');
+        return $this->belongsToMany(User::class, 'user_promocodes');
     }
 
     /**

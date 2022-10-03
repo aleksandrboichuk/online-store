@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PromocodeRequest;
 use App\Models\Cart;
-use App\Models\UserPromocode;
+use App\Models\Promocode;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -23,7 +23,7 @@ class PromocodeController extends Controller
      */
     public function index(): View|Factory|string|Application
     {
-        $promocodes = UserPromocode::query()->orderBy('id', 'desc')->paginate(5);
+        $promocodes = Promocode::query()->orderBy('id', 'desc')->paginate(5);
 
         if(request()->ajax()){
             return view('admin.promocode.ajax.pagination', compact('promocodes'))->render();
@@ -54,7 +54,7 @@ class PromocodeController extends Controller
 
        $request->setActiveField();
 
-       UserPromocode::query()->create($request->all());
+       Promocode::query()->create($request->all());
 
        return redirect('/admin/promocodes')->with(['success-message' => 'Промокод успішно додано.']);
     }
@@ -68,7 +68,7 @@ class PromocodeController extends Controller
      */
     public function edit(int $id): View|Factory|Application
     {
-        $promocode = UserPromocode::find($id);
+        $promocode = Promocode::find($id);
 
         if(!$promocode){
             abort(404);
@@ -85,7 +85,7 @@ class PromocodeController extends Controller
      */
     public function update(PromocodeRequest $request, int $id): Redirector|RedirectResponse|Application
     {
-        $promocode = UserPromocode::query()->find($id);
+        $promocode = Promocode::query()->find($id);
 
         if(!$promocode){
             abort(404);
@@ -108,7 +108,7 @@ class PromocodeController extends Controller
      */
     public function destroy(int $id): Redirector|RedirectResponse|Application
     {
-        $promocode = UserPromocode::query()->find($id);
+        $promocode = Promocode::query()->find($id);
 
         if(!$promocode){
             abort(404);

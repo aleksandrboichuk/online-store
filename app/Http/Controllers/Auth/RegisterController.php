@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegistrationRequest;
 use App\Models\Cart;
-use App\Models\UserPromocode;
+use App\Models\Promocode;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
@@ -93,7 +93,7 @@ class RegisterController extends Controller
      */
     private function setPromocode(Model $user): void
     {
-        $promocode = UserPromocode::where('promocode', 'special-for-reg-user')->first();
+        $promocode = Promocode::where('promocode', 'special-for-reg-user')->first();
 
         $user->promocodes()->attach($promocode->id, [
             'user_id' => $user->id,

@@ -34,7 +34,7 @@ class Cart extends BaseModel
      */
     public function user(): HasOne
     {
-        return $this->hasOne('App\Models\User');
+        return $this->hasOne(User::class);
     }
 
     /**
@@ -171,7 +171,7 @@ class Cart extends BaseModel
      *
      * @return void
      */
-    private function clear(): void
+    public function clear(): void
     {
         foreach ($this->products as $product) {
             $product->pivot->delete();

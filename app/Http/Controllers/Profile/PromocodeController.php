@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserSettingsRequest;
-use App\Models\OrdersList;
+use App\Models\Order;
 use App\Models\StatusList;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;

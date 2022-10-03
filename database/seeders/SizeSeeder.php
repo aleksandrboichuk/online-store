@@ -15,7 +15,7 @@ class SizeSeeder extends Seeder
     public function run()
     {
 
-            DB::table('product_materials')->insert([
+            DB::table('materials')->insert([
                 'name'=> 'Еластан',
                 'seo_name'=> 'elastane',
                 'active' => 1

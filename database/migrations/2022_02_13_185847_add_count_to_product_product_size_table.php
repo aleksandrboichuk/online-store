@@ -14,7 +14,7 @@ class AddCountToProductProductSizeTable extends Migration
     public function up()
     {
         Schema::table('product_product_size', function (Blueprint $table) {
-            $table->integer('count')->nullable()->after('product_size_id');
+            $table->integer('count')->nullable()->after('size_id');
         });
     }
 

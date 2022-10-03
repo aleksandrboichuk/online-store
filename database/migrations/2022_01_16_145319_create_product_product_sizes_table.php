@@ -13,7 +13,7 @@ class CreateProductProductSizesTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_product_sizes', function (Blueprint $table) {
+        Schema::create('product_sizes', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')
@@ -23,7 +23,7 @@ class CreateProductProductSizesTable extends Migration
             $table->bigInteger('size_id')->unsigned();
             $table->foreign('size_id')
                 ->references('id')
-                ->on('product_sizes')
+                ->on('sizes')
                 ->ondelete('cascade');
             $table->timestamps();
         });
@@ -36,6 +36,6 @@ class CreateProductProductSizesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_product_sizes');
+        Schema::dropIfExists('product_sizes');
     }
 }

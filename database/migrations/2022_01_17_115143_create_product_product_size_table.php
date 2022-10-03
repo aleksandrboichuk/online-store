@@ -20,10 +20,10 @@ class CreateProductProductSizeTable extends Migration
                 ->references('id')
                 ->on('products')
                 ->onDelete('cascade');
-            $table->bigInteger('product_size_id')->unsigned();
-            $table->foreign('product_size_id')
+            $table->bigInteger('size_id')->unsigned();
+            $table->foreign('size_id')
                 ->references('id')
-                ->on('product_sizes')
+                ->on('sizes')
                 ->onDelete('cascade');
 
             $table->timestamps();

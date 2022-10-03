@@ -10,10 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class OrdersList extends BaseModel
+class Order extends BaseModel
 {
-
-
     use HasFactory;
 
     protected $fillable = [
@@ -32,6 +30,8 @@ class OrdersList extends BaseModel
         'promocode',
     ];
 
+    protected $table = 'orders';
+
     /**
      * Связь заказы - юзеры
      * @return HasOne
@@ -47,7 +47,7 @@ class OrdersList extends BaseModel
      */
     public function products(): HasMany
     {
-        return $this->hasMany('App\Models\Product');
+        return $this->hasMany(Product::class);
     }
 
     /**
@@ -56,7 +56,7 @@ class OrdersList extends BaseModel
      */
     public function items(): HasMany
     {
-        return $this->hasMany("App\Models\OrderListItem");
+        return $this->hasMany(OrderItem::class);
     }
 
     /**

@@ -42,6 +42,8 @@ class Product extends BaseModel
         'product_brand_id',
     ];
 
+    protected $table = 'products';
+
     /**
      * Связь продукт - категории
      * @return BelongsTo
@@ -84,7 +86,7 @@ class Product extends BaseModel
      */
     public function brands(): BelongsTo
     {
-        return $this->belongsTo(ProductBrand::class,'product_brand_id', 'id');
+        return $this->belongsTo(Brand::class,'product_brand_id', 'id');
     }
 
     /**
@@ -93,7 +95,7 @@ class Product extends BaseModel
      */
     public function colors(): BelongsTo
     {
-        return $this->belongsTo(ProductColor::class,'product_color_id', 'id');
+        return $this->belongsTo(Color::class,'product_color_id', 'id');
     }
 
     /**
@@ -102,7 +104,7 @@ class Product extends BaseModel
      */
     public function seasons(): BelongsTo
     {
-        return $this->belongsTo(ProductSeason::class,'product_season_id', 'id');
+        return $this->belongsTo(Season::class,'product_season_id', 'id');
     }
 
     /**
@@ -111,7 +113,7 @@ class Product extends BaseModel
      */
     public function materials(): BelongsToMany
     {
-        return $this->belongsToMany(ProductMaterial::class, 'product_product_material');
+        return $this->belongsToMany(Material::class, 'product_materials');
     }
 
     /**
@@ -120,7 +122,7 @@ class Product extends BaseModel
      */
     public function sizes(): BelongsToMany
     {
-        return $this->belongsToMany(ProductSize::class, 'product_product_size')->withPivot('count');
+        return $this->belongsToMany(Size::class, 'product_sizes')->withPivot('count');
     }
 
     /**
@@ -230,10 +232,10 @@ class Product extends BaseModel
      */
     public function updateSizesCount(int $size_name, int $count): void
     {
-        $size = $this->sizes()->where('product_sizes.name', $size_name)->first();
+        $size = $this->sizes()->where('sizes.name', $size_name)->first();
 
         $this->sizes()
-            ->where('product_size_id', $size->id)
+            ->where('size_id', $size->id)
             ->update([
             'count' =>  $size->pivot->count - $count
         ]);
@@ -272,7 +274,7 @@ class Product extends BaseModel
 
             foreach ($sizes as $key => $size) {
                 $this->sizes()->attach($this->id,[
-                    'product_size_id' => $size,
+                    'size_id' => $size,
                     'count' =>  $sizes_count[$key] ?? 1
                 ]);
             }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ColorRequest;
-use App\Models\ProductColor;
+use App\Models\Color;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -24,7 +24,7 @@ class ColorController extends AdminController
     public function index(): Application|Factory|View
     {
         return view('admin.additional-to-products.color.index', [
-            'colors' => ProductColor::query()->orderBy('id', 'desc')->get()
+            'colors' => Color::query()->orderBy('id', 'desc')->get()
         ]);
     }
 
@@ -48,7 +48,7 @@ class ColorController extends AdminController
     {
         $request->setActiveField();
 
-        ProductColor::query()->create($request->all());
+        Color::query()->create($request->all());
 
         return redirect('/admin/colors')->with(['success-message' => 'Колір успішно додано.']);
     }
@@ -61,7 +61,7 @@ class ColorController extends AdminController
      */
     public function edit(int $id): View|Factory|Application
     {
-        $color = ProductColor::query()->find($id);
+        $color = Color::query()->find($id);
 
         if(!$color){
             abort(404);
@@ -79,7 +79,7 @@ class ColorController extends AdminController
      */
     public function update(ColorRequest $request, int $id): Redirector|RedirectResponse|Application
     {
-        $color = ProductColor::query()->find($id);
+        $color = Color::query()->find($id);
 
         $request->setActiveField();
 
@@ -96,7 +96,7 @@ class ColorController extends AdminController
      */
     public function destroy(int $id): Redirector|RedirectResponse|Application
     {
-        $color = ProductColor::query()->find($id);
+        $color = Color::query()->find($id);
 
         if(!$color) {
             abort(404);

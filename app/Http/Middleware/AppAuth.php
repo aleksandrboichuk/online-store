@@ -19,22 +19,19 @@ class AppAuth
     public function handle(Request $request, Closure $next)
     {
         if($request->getRequestUri() == '/login' || $request->getRequestUri() == '/register' ){
-
             if (Auth::check()) {
                 return redirect('/personal/orders');
             }
 
         }elseif(preg_match('#^\/admin#', $request->getRequestUri())){
 
-            if (Auth::check()) {
-
-                if (!User::isSuperuser()) {
-                    return abort(403);
-                }
-
+            if (!Auth::check()) {
+                return redirect('/login');
             }
 
-            return redirect('/login');
+            if (!User::isSuperuser()) {
+                return abort(403);
+            }
         }
 
         return $next($request);

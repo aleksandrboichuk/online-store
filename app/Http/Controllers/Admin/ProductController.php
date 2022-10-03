@@ -8,7 +8,7 @@ use App\Models\Banner;
 use App\Models\Category;
 use App\Models\CategoryGroup;
 use App\Models\Product;
-use App\Models\ProductBrand;
+use App\Models\Brand;
 use App\Models\SubCategory;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -68,7 +68,7 @@ class ProductController extends Controller
         return view('admin.product.add', array_merge(
            [
                'banners'         => Banner::getActiveEntries(),
-               'brands'          => ProductBrand::getActiveEntries(),
+               'brands'          => Brand::getActiveEntries(),
                'category_groups' => CategoryGroup::getActiveEntries(),
                'categories'      => Category::getActiveEntries(),
                'sub_categories'  => SubCategory::getActiveEntries(),
@@ -140,7 +140,7 @@ class ProductController extends Controller
         return view('admin.product.edit', array_merge(
             [
                 'banners'           => Banner::getActiveEntries(),
-                'brands'            => ProductBrand::getActiveEntries(),
+                'brands'            => Brand::getActiveEntries(),
                 'category_groups'   => CategoryGroup::getActiveEntries(),
                 'categories'        => Category::getActiveEntries(),
                 'sub_categories'    => SubCategory::getActiveEntries(),

@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\OrderRequest;
-use App\Models\OrdersList;
-use App\Models\ProductSize;
+use App\Models\Order;
+use App\Models\Size;
 use App\Models\StatusList;
-use App\Models\UserPromocode;
+use App\Models\Promocode;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -26,7 +26,7 @@ class OrderController extends Controller
      */
     public function index(): View|Factory|string|Application
     {
-        $orders = OrdersList::query()
+        $orders = Order::query()
             ->orderBy('status')
             ->orderBy('created_at', 'desc')
             ->paginate(7);
@@ -51,7 +51,7 @@ class OrderController extends Controller
      */
     public function edit(int $id): View|Factory|Response|Application
     {
-        $order = OrdersList::query()->find($id);
+        $order = Order::query()->find($id);
 
         if(!$order){
            abort(404);
@@ -73,7 +73,7 @@ class OrderController extends Controller
      */
     public function update(OrderRequest $request, int $id): Redirector|RedirectResponse|Application
     {
-        $order = OrdersList::query()->find($id);
+        $order = Order::query()->find($id);
 
         if(!$order){
             abort(404);
@@ -110,7 +110,7 @@ class OrderController extends Controller
      */
     public function destroy(int $id): Redirector|RedirectResponse|Application
     {
-        $order = OrdersList::query()->find($id);
+        $order = Order::query()->find($id);
 
         if(!$order){
             abort(404);

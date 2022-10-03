@@ -59,7 +59,7 @@ class User extends Authenticatable
      */
     public function cart(): HasOne
     {
-        return $this->hasOne('App\Models\Cart');
+        return $this->hasOne(Cart::class);
     }
 
     /**
@@ -68,7 +68,7 @@ class User extends Authenticatable
      */
     public function orders(): void
     {
-        $this->hasMany('App\Models\OrdersList');
+        $this->hasMany(Order::class);
     }
 
     /**
@@ -77,7 +77,7 @@ class User extends Authenticatable
      */
     public function promocodes(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\UserPromocode');
+        return $this->belongsToMany(Promocode::class, 'user_promocodes');
     }
 
     /**
@@ -115,7 +115,7 @@ class User extends Authenticatable
      */
     public static function isSuperuser(): bool
     {
-        return auth()->user()->superuser;
+        return auth()->user()->superuser == 1;
     }
 
     /**
@@ -140,7 +140,7 @@ class User extends Authenticatable
     public function checkAndGiveManyOrdersPromocode(): void
     {
         if($this->orders_amount >= 10 && $this->orders_sum >= 7000){
-            $promocode = UserPromocode::getPromocode('many-orders-code');
+            $promocode = Promocode::getPromocode('many-orders-code');
 
             if($promocode){
                 $this->promocodes()->attach($promocode->id);

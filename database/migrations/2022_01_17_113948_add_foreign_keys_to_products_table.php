@@ -16,11 +16,11 @@ class AddForeignKeysToProductsTable extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->foreign('product_color_id')
                 ->references('id')
-                ->on('product_colors')
+                ->on('colors')
                 ->onDelete('cascade');
             $table->foreign('product_season_id')
                 ->references('id')
-                ->on('product_seasons')
+                ->on('seasons')
                 ->onDelete('cascade');
         });
     }

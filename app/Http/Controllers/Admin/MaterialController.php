@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\MaterialRequest;
-use App\Models\ProductMaterial;
+use App\Models\Material;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -24,7 +24,7 @@ class MaterialController extends Controller
      */
     public function index(): View|Factory|Application
     {
-        $materials = ProductMaterial::query()->orderBy('id', 'desc')->get();
+        $materials = Material::query()->orderBy('id', 'desc')->get();
 
         return view('admin.additional-to-products.material.index', compact('materials'));
     }
@@ -49,7 +49,7 @@ class MaterialController extends Controller
     {
         $request->setActiveField();
 
-        ProductMaterial::query()->create($request->all());
+        Material::query()->create($request->all());
 
         return redirect('/admin/materials')->with(['success-message' => 'Матеріал успішно додано.']);
     }
@@ -62,7 +62,7 @@ class MaterialController extends Controller
      */
     public function edit(int $id): View|Factory|Response|Application
     {
-        $material = ProductMaterial::query()->find($id);
+        $material = Material::query()->find($id);
 
         if(!$material){
             abort(404);
@@ -80,7 +80,7 @@ class MaterialController extends Controller
      */
     public function update(MaterialRequest $request, int $id): Redirector|RedirectResponse|Application
     {
-        $material = ProductMaterial::query()->find($id);
+        $material = Material::query()->find($id);
 
         if(!$material){
             abort(404);
@@ -101,7 +101,7 @@ class MaterialController extends Controller
      */
     public function destroy(int $id): Redirector|RedirectResponse|Application
     {
-        $material = ProductMaterial::query()->find($id);
+        $material = Material::query()->find($id);
 
         if(!$material){
             abort(404);

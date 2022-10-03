@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrdersListsTable extends Migration
+class CreateOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateOrdersListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders_lists', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned()->nullable();
             // внешний ключ, ссылается на поле id таблицы users
@@ -41,6 +41,6 @@ class CreateOrdersListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders_lists');
+        Schema::dropIfExists('orders');
     }
 }

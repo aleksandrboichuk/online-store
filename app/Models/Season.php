@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class ProductSeason extends BaseModel
+class Season extends BaseModel
 {
     use HasFactory;
     protected $fillable = [
@@ -16,6 +16,8 @@ class ProductSeason extends BaseModel
         'active'
     ];
 
+    protected $table = 'seasons';
+
     /**
      * Связь Сезон - продукты
      *
@@ -23,6 +25,6 @@ class ProductSeason extends BaseModel
      */
     public function products(): HasMany
     {
-        return $this->hasMany('App\Models\Product','product_season_id', 'id');
+        return $this->hasMany(Product::class,'product_season_id', 'id');
     }
 }

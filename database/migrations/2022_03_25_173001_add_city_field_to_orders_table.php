@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPromocodeFieldToOrdersListsTable extends Migration
+class AddCityFieldToOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddPromocodeFieldToOrdersListsTable extends Migration
      */
     public function up()
     {
-        Schema::table('orders_lists', function (Blueprint $table) {
-            $table->string('promocode')->after('total_cost')->nullable();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->string('city')->after('phone');
         });
     }
 
@@ -25,7 +25,7 @@ class AddPromocodeFieldToOrdersListsTable extends Migration
      */
     public function down()
     {
-        Schema::table('orders_lists', function (Blueprint $table) {
+        Schema::table('orders', function (Blueprint $table) {
             //
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddOrdersListIdToOrderListItemsTable extends Migration
+class AddPayNowFieldToOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddOrdersListIdToOrderListItemsTable extends Migration
      */
     public function up()
     {
-        Schema::table('order_list_items', function (Blueprint $table) {
-            $table->integer('orders_list_id')->after('total_cost');
-            $table->timestamps();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->boolean('pay_now')->after('email')->default(0);
         });
     }
 
@@ -26,7 +25,7 @@ class AddOrdersListIdToOrderListItemsTable extends Migration
      */
     public function down()
     {
-        Schema::table('order_list_items', function (Blueprint $table) {
+        Schema::table('orders', function (Blueprint $table) {
             //
         });
     }

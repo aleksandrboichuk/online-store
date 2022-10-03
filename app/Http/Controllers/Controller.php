@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\CategoryGroup;
-use App\Models\ProductBrand;
-use App\Models\ProductColor;
+use App\Models\Brand;
+use App\Models\Color;
 use App\Models\ProductImage;
-use App\Models\ProductMaterial;
-use App\Models\ProductSeason;
-use App\Models\ProductSize;
+use App\Models\Material;
+use App\Models\Season;
+use App\Models\Size;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -100,7 +100,7 @@ class Controller extends BaseController
     public function getGroupBrands(int $group_id): array|null
     {
         //TODO
-        $brands = ProductBrand::query()->where('active', 1)->get();
+        $brands = Brand::query()->where('active', 1)->get();
         foreach ($brands as $brand) {
             foreach ($brand->products as $brand_product){
                 if($brand_product->category_group_id == $group_id){
@@ -169,10 +169,10 @@ class Controller extends BaseController
     protected function getProductProperties(): array
     {
         return [
-            'colors' => ProductColor::query()->where('active', 1)->get(),
-            "materials"=> ProductMaterial::query()->where('active', 1)->get(),
-            "seasons" => ProductSeason::query()->where('active', 1)->get(),
-            "sizes" => ProductSize::query()->where('active', 1)->get(),
+            'colors' => Color::query()->where('active', 1)->get(),
+            "materials"=> Material::query()->where('active', 1)->get(),
+            "seasons" => Season::query()->where('active', 1)->get(),
+            "sizes" => Size::query()->where('active', 1)->get(),
             "images"=> ProductImage::all(),
         ];
     }

@@ -13,7 +13,7 @@ class CreateProductSeasonsTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_seasons', function (Blueprint $table) {
+        Schema::create('seasons', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('seo_name');
@@ -29,6 +29,6 @@ class CreateProductSeasonsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_seasons');
+        Schema::dropIfExists('seasons');
     }
 }

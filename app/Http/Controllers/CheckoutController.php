@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CheckoutRequest;
-use App\Models\OrdersList;
+use App\Models\Order;
 use App\Models\UkraineCity;
-use App\Models\UserPromocode;
+use App\Models\Promocode;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -50,7 +50,7 @@ class CheckoutController extends Controller
         $promocodeParameter = $request->get('promocode');
 
         if($promocodeParameter && $promocodeParameter != 'no'){
-            $promocode = UserPromocode::getPromocode($promocodeParameter);
+            $promocode = Promocode::getPromocode($promocodeParameter);
         }
 
         $this->setBreadcrumbs($this->getBreadcrumbs());
@@ -131,7 +131,7 @@ class CheckoutController extends Controller
 
         $request->merge($arrBasicData);
 
-        return OrdersList::query()->create($request->toArray());
+        return Order::query()->create($request->toArray());
     }
 
 
@@ -143,7 +143,7 @@ class CheckoutController extends Controller
      */
     private function setTotalWithPromocode(string $promocodeParameter): void
     {
-        $promocode = UserPromocode::getPromocode($promocodeParameter);
+        $promocode = Promocode::getPromocode($promocodeParameter);
 
         if($promocode){
 

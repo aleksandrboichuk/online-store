@@ -6,12 +6,12 @@ namespace App\Http\Controllers;
 use App\Models\Banner;
 use App\Models\Category;
 use App\Models\CategoryGroup;
-use App\Models\ProductBrand;
-use App\Models\ProductColor;
+use App\Models\Brand;
+use App\Models\Color;
 use App\Models\ProductImage;
-use App\Models\ProductMaterial;
-use App\Models\ProductSeason;
-use App\Models\ProductSize;
+use App\Models\Material;
+use App\Models\Season;
+use App\Models\Size;
 use App\Models\SubCategory;
 use App\Services\ElasticSearchService;
 use Illuminate\Contracts\Foundation\Application;
@@ -332,7 +332,7 @@ class SearchFilterController extends Controller
         $colors = [];
 
         foreach ($requestColors as $rc){
-            $colorModel = ProductColor::getOneBySeoName($rc);
+            $colorModel = Color::getOneBySeoName($rc);
             $colors[] = $colorModel->id;
         }
         $this->arrElasticQuery["bool"][$this->filterType][] =  [
@@ -352,7 +352,7 @@ class SearchFilterController extends Controller
         $requestBrands =  explode(' ', $this->arrQuery['brands']);
         $brands = [];
         foreach ($requestBrands as $rb){
-            $brandModel = ProductBrand::getOneBySeoName($rb);
+            $brandModel = Brand::getOneBySeoName($rb);
             $brands[] = $brandModel->id;
         }
         $this->arrElasticQuery["bool"][$this->filterType][] =  [
@@ -372,7 +372,7 @@ class SearchFilterController extends Controller
         $requestSeasons =  explode(' ', $this->arrQuery['seasons']);
         $seasons = [];
         foreach ($requestSeasons as $rs){
-            $seasonModel = ProductSeason::getOneBySeoName($rs);
+            $seasonModel = Season::getOneBySeoName($rs);
             $seasons[] = $seasonModel->id;
         }
         $this->arrElasticQuery["bool"][$this->filterType][] =  [
@@ -392,7 +392,7 @@ class SearchFilterController extends Controller
         $requestMaterials =  explode(' ', $this->arrQuery['materials']);
         $materials = [];
         foreach ($requestMaterials as $rm){
-            $materialModel = ProductMaterial::getOneBySeoName($rm);
+            $materialModel = Material::getOneBySeoName($rm);
             $materials[] = $materialModel->id;
         }
         $this->arrElasticQuery["bool"][$this->filterType][] =  [
@@ -412,7 +412,7 @@ class SearchFilterController extends Controller
         $requestSizes  =  explode(' ', $this->arrQuery['sizes']);
         $sizes = [];
         foreach ($requestSizes as $size){
-            $sizeModel = ProductSize::getOneBySeoName($size);
+            $sizeModel = Size::getOneBySeoName($size);
             $sizes[] = $sizeModel->id;
         }
         $this->arrElasticQuery["bool"][$this->filterType][] =  [

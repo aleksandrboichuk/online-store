@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class ProductMaterial extends BaseModel
+class Material extends BaseModel
 {
     use HasFactory;
     protected $fillable = [
@@ -16,6 +16,8 @@ class ProductMaterial extends BaseModel
         'active'
     ];
 
+    protected $table = 'materials';
+
     /**
      * Связь материалы - продукты
      *
@@ -23,6 +25,6 @@ class ProductMaterial extends BaseModel
      */
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Product');
+        return $this->belongsToMany(Product::class, 'product_materials');
     }
 }

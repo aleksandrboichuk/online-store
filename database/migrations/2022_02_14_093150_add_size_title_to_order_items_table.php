@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCityFieldToOrdersListsTable extends Migration
+class AddSizeTitleToOrderListItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddCityFieldToOrdersListsTable extends Migration
      */
     public function up()
     {
-        Schema::table('orders_lists', function (Blueprint $table) {
-            $table->string('city')->after('phone');
+        Schema::table('order_items', function (Blueprint $table) {
+            $table->integer('size')->nullable()->after('count');
         });
     }
 
@@ -25,7 +25,7 @@ class AddCityFieldToOrdersListsTable extends Migration
      */
     public function down()
     {
-        Schema::table('orders_lists', function (Blueprint $table) {
+        Schema::table('order_items', function (Blueprint $table) {
             //
         });
     }

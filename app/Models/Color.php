@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class ProductBrand extends BaseModel
+class Color extends BaseModel
 {
-    use HasFactory;
     protected $fillable = [
         'id',
         'name',
@@ -16,13 +15,17 @@ class ProductBrand extends BaseModel
         'active'
     ];
 
+    protected $table = 'colors';
+
+    use HasFactory;
+
     /**
-     * Связь бернд - продукты
+     * Связь цвет - продукты
      *
      * @return HasMany
      */
     public function products(): HasMany
     {
-        return $this->hasMany('App\Models\Product','product_brand_id', 'id');
+        return $this->hasMany(Product::class,'product_color_id', 'id');
     }
 }
