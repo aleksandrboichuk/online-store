@@ -149,7 +149,7 @@ class CheckoutController extends Controller
 
             $this->total = $this->total - (round($this->total * ($promocode->discount * 0.01)));
 
-            $this->user()->promocodes()->where('user_promocode_id', $promocode->id)->detach();
+            $this->user()->promocodes()->where('promocode_id', $promocode->id)->detach();
         }
     }
 

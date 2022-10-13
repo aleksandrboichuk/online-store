@@ -5,29 +5,30 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Models\Banner;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\CategoryGroup;
 use App\Models\Product;
-use App\Models\Brand;
 use App\Models\SubCategory;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
-class ProductController extends Controller
+class ProductController extends AdminController
 {
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @param string|null $category_group
      * @return Application|Factory|View|string
      */
-    public function index(Request $request, string $category_group = null): View|Factory|string|Application
+    public function index(string $category_group = null): View|Factory|string|Application
     {
+        $this->canSee('content');
+
         if ($category_group) {
 
             $category_group_id = CategoryGroup::getCategoryGroupsArray()[$category_group] ?? null;
@@ -42,7 +43,7 @@ class ProductController extends Controller
 
             $products = Product::query()->orderBy('id', 'desc')->paginate(5);
         }
-        if($request->ajax()){
+        if(request()->ajax()){
             return view('admin.product.ajax.pagination', compact('products'))->render();
         }
 
@@ -57,6 +58,8 @@ class ProductController extends Controller
      */
     public function create(Request  $request): View|Factory|string|Application
     {
+        $this->canCreate('content');
+
         // ajax getting categories of selected category group or subcategories of selected category
         if(request()->ajax()){
 
@@ -85,6 +88,8 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request): Redirector|RedirectResponse|Application
     {
+        $this->canCreate('content');
+
         $request->setActiveField();
 
         $request->merge([
@@ -120,6 +125,8 @@ class ProductController extends Controller
      */
     public function edit(Request $request, int $id): View|Factory|Application
     {
+        $this->canEdit('content');
+
         $product = Product::query()->find($id);
 
         if(!$product){
@@ -162,6 +169,8 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, int $id): Redirector|RedirectResponse|Application
     {
+        $this->canEdit('content');
+
         $product = Product::query()->find($id);
 
         if(!$product) {
@@ -205,6 +214,8 @@ class ProductController extends Controller
      */
     public function destroy(int $id): Redirector|RedirectResponse|Application
     {
+        $this->canDelete('content');
+
         $product = Product::query()->find($id);
 
         if(!$product) {

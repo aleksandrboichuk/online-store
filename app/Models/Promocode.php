@@ -41,4 +41,14 @@ class Promocode extends BaseModel
     {
         return self::query()->where('promocode', $promocode)->first();
     }
+
+    /**
+     * Return promocode for new users
+     *
+     * @return Builder|Model|null
+     */
+    public static function getPromocodeForNewUser(): Model|Builder|null
+    {
+        return self::getPromocode('special-for-reg-user');
+    }
 }

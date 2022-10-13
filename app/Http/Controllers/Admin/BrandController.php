@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\BannerRequest;
 use App\Http\Requests\Admin\BrandRequest;
 use App\Models\Brand;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Validator;
 
 class BrandController extends AdminController
 {
@@ -24,6 +20,8 @@ class BrandController extends AdminController
      */
     public function index(): Application|Factory|View
     {
+        $this->canSee('content');
+
         $brands =  Brand::query()->orderBy('id', 'desc')->get();
         return view('admin.additional-to-products.brand.index', compact('brands'));
     }
@@ -35,6 +33,8 @@ class BrandController extends AdminController
      */
     public function create(): View|Factory|Application
     {
+        $this->canCreate('content');
+
         return view('admin.additional-to-products.brand.add');
     }
 
@@ -46,6 +46,8 @@ class BrandController extends AdminController
      */
     public function store(BrandRequest $request): Redirector|RedirectResponse|Application
     {
+        $this->canCreate('content');
+
         $request->setActiveField();
 
         Brand::query()->create($request->all());
@@ -62,6 +64,8 @@ class BrandController extends AdminController
      */
     public function edit(int $id): View|Factory|Application
     {
+        $this->canEdit('content');
+
         $brand = Brand::query()->find($id);
 
         if(!$brand){
@@ -80,6 +84,8 @@ class BrandController extends AdminController
      */
     public function update(BrandRequest $request, int $id): Redirector|RedirectResponse|Application
     {
+        $this->canEdit('content');
+
         $brand = Brand::query()->find($id);
 
         if(!$brand) {
@@ -101,6 +107,8 @@ class BrandController extends AdminController
      */
     public function destroy($id): Redirector|RedirectResponse|Application
     {
+        $this->canDelete('content');
+
         $brand = Brand::query()->find($id);
 
         if(!$brand){

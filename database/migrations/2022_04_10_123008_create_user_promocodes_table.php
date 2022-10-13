@@ -16,14 +16,14 @@ class CreateUserUserPromocodeTable extends Migration
         Schema::create('user_user_promocode', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('user_promocode_id')->unsigned();
+            $table->bigInteger('promocode_id')->unsigned();
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
-            $table->foreign('user_promocode_id')
+            $table->foreign('promocode_id')
                 ->references('id')
-                ->on('user_promocodes')
+                ->on('promocodes')
                 ->onDelete('cascade');
             $table->timestamps();
         });

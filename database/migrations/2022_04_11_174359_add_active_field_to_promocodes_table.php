@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserPromocodesTable extends Migration
+class AddActiveFieldToUserPromocodesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateUserPromocodesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_promocodes', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('description');
-            $table->string('promocode', 15);
-            $table->timestamps();
+        Schema::table('promocodes', function (Blueprint $table) {
+            $table->boolean('active')->default(1)->after('promocode');
         });
     }
 
@@ -29,6 +25,8 @@ class CreateUserPromocodesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_promocodes');
+        Schema::table('promocodes', function (Blueprint $table) {
+            //
+        });
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SubCategoryRequest;
 use App\Models\Category;
 use App\Models\SubCategory;
@@ -11,8 +10,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request;
 
 class SubCategoryController extends AdminController
 {
@@ -24,6 +21,8 @@ class SubCategoryController extends AdminController
      */
     public function index(): View|Factory|Application
     {
+        $this->canSee('content');
+
         $subcategories =  SubCategory::query()->orderBy('id', 'desc')->get();
 
         return view('admin.subcategory.index', compact('subcategories'));
@@ -36,6 +35,8 @@ class SubCategoryController extends AdminController
      */
     public function create(): View|Factory|Application
     {
+        $this->canCreate('content');
+
         $categories = Category::getActiveEntries();
 
         return view('admin.subcategory.add',compact('categories'));
@@ -49,6 +50,8 @@ class SubCategoryController extends AdminController
      */
     public function store(SubCategoryRequest $request): Redirector|RedirectResponse|Application
     {
+        $this->canCreate('content');
+
         $request->setActiveField();
 
         SubCategory::query()->create($request->all());
@@ -65,6 +68,8 @@ class SubCategoryController extends AdminController
      */
     public function edit(int $id): View|Factory|Application
     {
+        $this->canEdit('content');
+
         $subcategory = SubCategory::query()->find($id);
 
         if(!$subcategory){
@@ -85,6 +90,8 @@ class SubCategoryController extends AdminController
      */
     public function update(SubCategoryRequest $request, int $id): Redirector|RedirectResponse|Application
     {
+        $this->canEdit('content');
+
         $subcategory = SubCategory::query()->find($id);
 
         if(!$subcategory){
@@ -113,6 +120,8 @@ class SubCategoryController extends AdminController
      */
     public function destroy(int $id): Redirector|RedirectResponse|Application
     {
+        $this->canDelete('content');
+
         $subcategory = SubCategory::query()->find($id);
 
         if(!$subcategory){

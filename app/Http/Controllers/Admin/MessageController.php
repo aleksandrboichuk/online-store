@@ -8,11 +8,10 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 
-class MessageController extends Controller
+class MessageController extends AdminController
 {
     /**
      * Display a listing of the resource.
@@ -21,6 +20,8 @@ class MessageController extends Controller
      */
     public function index(): View|Factory|string|Application
     {
+        $this->canSee('messages');
+
         $messages = UserMessage::query()->orderBy('id', 'desc')->paginate(3);
 
         // ajax pagination
@@ -41,6 +42,8 @@ class MessageController extends Controller
      */
     public function show(int $id): View|Factory|Response|Application
     {
+        $this->canSee('messages');
+
         $message = UserMessage::query()->find($id);
 
         if(!$message){
@@ -58,6 +61,8 @@ class MessageController extends Controller
      */
     public function destroy(int $id): Redirector|RedirectResponse|Application
     {
+        $this->canDelete('messages');
+
         $message = UserMessage::query()->find($id);
 
         if(!$message){

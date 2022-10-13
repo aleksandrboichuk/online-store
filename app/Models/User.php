@@ -11,10 +11,12 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -81,15 +83,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Связь юзер - роли
-     * @return BelongsToMany
-     */
-    public function roles(): BelongsToMany
-    {
-        return $this->belongsToMany(UserRole::class);
-    }
-
-    /**
      * Получение юзера по его почте
      * @param string $email
      * @return Builder|Model|null
@@ -108,15 +101,6 @@ class User extends Authenticatable
         return Cart::query()->create(['user_id' => $this->id]);
     }
 
-    /**
-     * Returns is user superuser or not
-     *
-     * @return bool
-     */
-    public static function isSuperuser(): bool
-    {
-        return auth()->user()->superuser == 1;
-    }
 
     /**
      * Update statistic about amount user orders and total their cost
@@ -171,5 +155,25 @@ class User extends Authenticatable
         }
 
         return $promocodes ?? null;
+    }
+
+    /**
+     * Returns all role names, except User role
+     *
+     * @return array
+     */
+    public static function getAdminRoles(): array
+    {
+        return Role::query()->where('name', '!=','User')->pluck('name')->toArray();
+    }
+
+    /**
+     * Assign promocode to user
+     *
+     * @return void
+     */
+    public function assignPromocode(): void
+    {
+        $this->promocodes()->attach(Promocode::getPromocodeForNewUser());
     }
 }

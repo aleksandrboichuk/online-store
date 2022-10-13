@@ -13,7 +13,7 @@ class AddMinTotalFieldToUserPromocodesTable extends Migration
      */
     public function up()
     {
-        Schema::table('user_promocodes', function (Blueprint $table) {
+        Schema::table('promocodes', function (Blueprint $table) {
             $table->integer('discount')->after('description')->nullable();
             $table->integer('min_cart_total')->after('discount')->nullable();
             $table->integer('min_cart_products')->after('min_cart_total')->nullable();
@@ -28,7 +28,7 @@ class AddMinTotalFieldToUserPromocodesTable extends Migration
      */
     public function down()
     {
-        Schema::table('user_promocodes', function (Blueprint $table) {
+        Schema::table('promocodes', function (Blueprint $table) {
             //
         });
     }

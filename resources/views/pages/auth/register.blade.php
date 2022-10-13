@@ -18,7 +18,7 @@
                             {{--<label for="firstname" class="col-md-4 col-form-label text-md-end">{{ __('Ім\'я') }}</label>--}}
 
                             <div class="col-md-12">
-                                <input id="first_name" type="text" placeholder="Ім'я" class="form-control" name="first_name" value="{{ old('firstname') }}" required autocomplete="first_name" autofocus>
+                                <input id="first_name" type="text" placeholder="Ім'я" class="form-control" name="first_name" value="{{ old('first_name') }}" required autocomplete="first_name" autofocus>
                             </div>
 
                             @error('firstname')
@@ -31,7 +31,7 @@
                             {{--<label for="lastname" class="col-md-4 col-form-label text-md-end">{{ __('Прізвище') }}</label>--}}
 
                             <div class="col-md-12">
-                                <input id="last_name" type="text" placeholder="Прізвище" class="form-control" name="last_name" value="{{ old('lastname') }}" required autocomplete="last_name">
+                                <input id="last_name" type="text" placeholder="Прізвище" class="form-control" name="last_name" value="{{ old('last_name') }}" required autocomplete="last_name">
                             </div>
                             @error('lastname')
                             <span class="invalid-feedback auth-feedback" role="alert">

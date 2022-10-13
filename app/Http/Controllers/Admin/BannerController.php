@@ -2,21 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BannerRequest;
 use App\Models\Banner;
 use App\Models\CategoryGroup;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 class BannerController extends AdminController
 {
@@ -29,6 +22,8 @@ class BannerController extends AdminController
      */
     public function index(string $category_group_seo_name = null): Application|Factory|View
     {
+        $this->canSee('content');
+
         if ($category_group_seo_name) {
 
             $category_group_id = CategoryGroup::getCategoryGroupsArray()[$category_group_seo_name] ?? null;
@@ -55,6 +50,8 @@ class BannerController extends AdminController
      */
     public function create(): Application|Factory|View
     {
+        $this->canCreate('content');
+
         return view('admin.banner.add',[
             'category_groups' => CategoryGroup::getActiveEntries(),
         ]);
@@ -68,6 +65,8 @@ class BannerController extends AdminController
      */
     public function store(BannerRequest $request): Redirector|RedirectResponse|Application
     {
+        $this->canCreate('content');
+
         $image = $request->file('image');
 
         $request->setActiveField();
@@ -92,6 +91,8 @@ class BannerController extends AdminController
      */
     public function edit($id): View|Factory|Application
     {
+        $this->canEdit('content');
+
         $banner = Banner::query()->find($id);
 
         if(!$banner){
@@ -113,6 +114,8 @@ class BannerController extends AdminController
      */
     public function update(BannerRequest $request, int $id): Redirector|RedirectResponse|Application
     {
+        $this->canEdit('content');
+
         $banner = Banner::query()->find($id);
 
         if(!$banner)
@@ -143,6 +146,8 @@ class BannerController extends AdminController
      */
     public function destroy(int $id): Redirector|RedirectResponse|Application
     {
+        $this->canDelete('content');
+
         $banner = Banner::query()->find($id);
 
         if(!$banner) {

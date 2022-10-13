@@ -5,19 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\OrderRequest;
 use App\Models\Order;
-use App\Models\Size;
 use App\Models\StatusList;
-use App\Models\Promocode;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 
-class OrderController extends Controller
+class OrderController extends AdminController
 {
     /**
      * Display a listing of the resource.
@@ -26,6 +22,8 @@ class OrderController extends Controller
      */
     public function index(): View|Factory|string|Application
     {
+        $this->canSee('orders');
+
         $orders = Order::query()
             ->orderBy('status')
             ->orderBy('created_at', 'desc')
@@ -51,6 +49,8 @@ class OrderController extends Controller
      */
     public function edit(int $id): View|Factory|Response|Application
     {
+        $this->canEdit('orders');
+
         $order = Order::query()->find($id);
 
         if(!$order){
@@ -73,6 +73,8 @@ class OrderController extends Controller
      */
     public function update(OrderRequest $request, int $id): Redirector|RedirectResponse|Application
     {
+        $this->canEdit('orders');
+
         $order = Order::query()->find($id);
 
         if(!$order){
@@ -110,6 +112,8 @@ class OrderController extends Controller
      */
     public function destroy(int $id): Redirector|RedirectResponse|Application
     {
+        $this->canDelete('orders');
+
         $order = Order::query()->find($id);
 
         if(!$order){

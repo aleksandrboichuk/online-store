@@ -9,11 +9,9 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Validator;
 
-class SizeController extends Controller
+class SizeController extends AdminController
 {
 
     /**
@@ -23,7 +21,10 @@ class SizeController extends Controller
      */
     public function index(): View|Factory|Application
     {
+        $this->canSee('content');
+
         $sizes =  Size::query()->orderBy('id', 'desc')->get();
+
         return view('admin.additional-to-products.size.index', compact('sizes'));
     }
 
@@ -45,6 +46,8 @@ class SizeController extends Controller
      */
     public function store(SizeRequest $request): Redirector|RedirectResponse|Application
     {
+        $this->canCreate('content');
+
         $request->setActiveField();
 
         Size::query()->create($request->all());
@@ -61,6 +64,8 @@ class SizeController extends Controller
      */
     public function edit(int $id): View|Factory|Application
     {
+        $this->canEdit('content');
+
         $size = Size::query()->find($id);
 
         if(!$size){
@@ -77,8 +82,10 @@ class SizeController extends Controller
      * @param int $id
      * @return Application|RedirectResponse|Redirector
      */
-    public function update(SizeRequest $request, int $id)
+    public function update(SizeRequest $request, int $id): Redirector|RedirectResponse|Application
     {
+        $this->canEdit('content');
+
         $size = Size::query()->find($id);
 
         if(!$size){
@@ -100,6 +107,8 @@ class SizeController extends Controller
      */
     public function destroy(int $id): Redirector|RedirectResponse|Application
     {
+        $this->canDelete('content');
+
         $size = Size::query()->find($id);
 
         if(!$size){

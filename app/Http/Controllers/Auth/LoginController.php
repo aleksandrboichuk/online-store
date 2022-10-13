@@ -47,6 +47,7 @@ class LoginController extends Controller
     public function __construct()
     {
 //        $this->middleware('guest')->except('logout');
+        $this->middleware('app.auth')->except('logout');
     }
 
     /**
@@ -87,13 +88,13 @@ class LoginController extends Controller
             $this->updateEntryAfterLogin($email);
 
             return  redirect('/shop/women');
-
-        }else{
-
-            return redirect()->back()
-                ->withInput($request->all())
-                ->withErrors(['error' => 'Логін або пароль невірний' ]);
         }
+
+        return redirect()
+            ->back()
+            ->withInput($request->all())
+            ->withErrors(['error' => 'Логін або пароль невірний' ]);
+
     }
 
     /**

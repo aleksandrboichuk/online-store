@@ -9,12 +9,10 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Validator;
 
-class MaterialController extends Controller
+class MaterialController extends AdminController
 {
 
     /**
@@ -24,6 +22,8 @@ class MaterialController extends Controller
      */
     public function index(): View|Factory|Application
     {
+        $this->canSee('content');
+
         $materials = Material::query()->orderBy('id', 'desc')->get();
 
         return view('admin.additional-to-products.material.index', compact('materials'));
@@ -36,6 +36,8 @@ class MaterialController extends Controller
      */
     public function create(): View|Factory|Application
     {
+        $this->canCreate('content');
+
         return view('admin.additional-to-products.material.add');
     }
 
@@ -47,6 +49,8 @@ class MaterialController extends Controller
      */
     public function store(MaterialRequest $request): Redirector|RedirectResponse|Application
     {
+        $this->canCreate('content');
+
         $request->setActiveField();
 
         Material::query()->create($request->all());
@@ -62,6 +66,8 @@ class MaterialController extends Controller
      */
     public function edit(int $id): View|Factory|Response|Application
     {
+        $this->canEdit('content');
+
         $material = Material::query()->find($id);
 
         if(!$material){
@@ -80,6 +86,8 @@ class MaterialController extends Controller
      */
     public function update(MaterialRequest $request, int $id): Redirector|RedirectResponse|Application
     {
+        $this->canEdit('content');
+
         $material = Material::query()->find($id);
 
         if(!$material){
@@ -101,6 +109,8 @@ class MaterialController extends Controller
      */
     public function destroy(int $id): Redirector|RedirectResponse|Application
     {
+        $this->canDelete('content');
+
         $material = Material::query()->find($id);
 
         if(!$material){

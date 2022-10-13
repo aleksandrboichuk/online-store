@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCountToProductProductSizeTable extends Migration
+class CreateSizesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddCountToProductProductSizeTable extends Migration
      */
     public function up()
     {
-        Schema::table('product_product_size', function (Blueprint $table) {
-            $table->integer('count')->nullable()->after('size_id');
+        Schema::create('sizes', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('seo_name');
+            $table->boolean('active');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ class AddCountToProductProductSizeTable extends Migration
      */
     public function down()
     {
-        Schema::table('product_product_size', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('sizes');
     }
 }

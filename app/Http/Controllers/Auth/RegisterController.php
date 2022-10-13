@@ -51,6 +51,7 @@ class RegisterController extends Controller
     public function __construct()
     {
 //        $this->middleware('guest');
+        $this->middleware('app.auth');
     }
 
     /**
@@ -69,35 +70,23 @@ class RegisterController extends Controller
      * @param RegistrationRequest $request
      * @return Application|RedirectResponse|Redirector
      */
-    public function toRegister(RegistrationRequest $request): Redirector|RedirectResponse|Application
+    public function register(RegistrationRequest $request): Redirector|RedirectResponse|Application
     {
         //   Создаем юзера
         $user = User::query()->create($request->all());
 
-        //   Создание корзины
-        $user->createCart();
+        if($user){
+            //   Создание корзины
+            $user->createCart();
 
-        // выдаем промокод
-        $this->setPromocode($user);
+            // выдаем промокод
+            $user->assignPromocode();
 
-        Auth::loginUsingId($user->id);
+            Auth::loginUsingId($user->id);
+
+            $user->assignRole('user');
+        }
 
         return redirect('/shop/women');
-    }
-
-    /**
-     * Выдача промокода юзеру
-     *
-     * @param Model $user
-     * @return void
-     */
-    private function setPromocode(Model $user): void
-    {
-        $promocode = Promocode::where('promocode', 'special-for-reg-user')->first();
-
-        $user->promocodes()->attach($promocode->id, [
-            'user_id' => $user->id,
-            'user_promocode_id' => $promocode->id
-        ]);
     }
 }

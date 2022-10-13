@@ -19,7 +19,7 @@ class PromocodeRequest extends AdminFormRequest
             'description' => ['string', 'min:10'],
             'promocode' => [
                 'string',
-                Rule::unique('user_promocodes', 'promocode')->ignore($this->route('promocode')) ,
+                Rule::unique('promocodes', 'promocode')->ignore($this->route('promocode')) ,
                 'min:3'
             ],
         ];

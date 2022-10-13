@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddActiveFieldToUserPromocodesTable extends Migration
+class AddCountToProductProductSizeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddActiveFieldToUserPromocodesTable extends Migration
      */
     public function up()
     {
-        Schema::table('user_promocodes', function (Blueprint $table) {
-            $table->boolean('active')->default(1)->after('promocode');
+        Schema::table('product_sizes', function (Blueprint $table) {
+            $table->integer('count')->nullable()->after('size_id');
         });
     }
 
@@ -25,7 +25,7 @@ class AddActiveFieldToUserPromocodesTable extends Migration
      */
     public function down()
     {
-        Schema::table('user_promocodes', function (Blueprint $table) {
+        Schema::table('product_sizes', function (Blueprint $table) {
             //
         });
     }

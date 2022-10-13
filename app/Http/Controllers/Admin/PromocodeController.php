@@ -4,17 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PromocodeRequest;
-use App\Models\Cart;
 use App\Models\Promocode;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Validator;
 
-class PromocodeController extends Controller
+class PromocodeController extends AdminController
 {
     /**
      * Display a listing of the resource.
@@ -23,6 +20,8 @@ class PromocodeController extends Controller
      */
     public function index(): View|Factory|string|Application
     {
+        $this->canSee('content');
+
         $promocodes = Promocode::query()->orderBy('id', 'desc')->paginate(5);
 
         if(request()->ajax()){
@@ -39,6 +38,8 @@ class PromocodeController extends Controller
      */
     public function create(): View|Factory|Application
     {
+        $this->canCreate('content');
+
         return view('admin.promocode.add');
     }
 
@@ -50,13 +51,15 @@ class PromocodeController extends Controller
      */
     public function store(PromocodeRequest $request): Redirector|RedirectResponse|Application
     {
-       $request->setMinimalPromocodeConditionsFields();
+        $this->canCreate('content');
 
-       $request->setActiveField();
+        $request->setMinimalPromocodeConditionsFields();
 
-       Promocode::query()->create($request->all());
+        $request->setActiveField();
 
-       return redirect('/admin/promocodes')->with(['success-message' => 'Промокод успішно додано.']);
+        Promocode::query()->create($request->all());
+
+        return redirect('/admin/promocodes')->with(['success-message' => 'Промокод успішно додано.']);
     }
 
 
@@ -68,6 +71,8 @@ class PromocodeController extends Controller
      */
     public function edit(int $id): View|Factory|Application
     {
+        $this->canEdit('content');
+
         $promocode = Promocode::find($id);
 
         if(!$promocode){
@@ -85,6 +90,8 @@ class PromocodeController extends Controller
      */
     public function update(PromocodeRequest $request, int $id): Redirector|RedirectResponse|Application
     {
+        $this->canEdit('content');
+
         $promocode = Promocode::query()->find($id);
 
         if(!$promocode){
@@ -108,6 +115,8 @@ class PromocodeController extends Controller
      */
     public function destroy(int $id): Redirector|RedirectResponse|Application
     {
+        $this->canDelete('content');
+
         $promocode = Promocode::query()->find($id);
 
         if(!$promocode){

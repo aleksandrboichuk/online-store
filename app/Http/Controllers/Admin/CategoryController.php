@@ -21,6 +21,8 @@ class CategoryController extends AdminController
      */
     public function index(): Application|Factory|View
     {
+        $this->canSee('content');
+
         return view('admin.category.index',[
             'categories' => Category::query()->orderBy('id', 'desc')->get()
         ]);
@@ -33,6 +35,8 @@ class CategoryController extends AdminController
      */
     public function create(): View|Factory|Application
     {
+        $this->canCreate('content');
+
         return view('admin.category.add',[
             'category_groups' => CategoryGroup::getActiveEntries()
         ]);
@@ -46,6 +50,8 @@ class CategoryController extends AdminController
      */
     public function store(CategoryRequest $request): Redirector|RedirectResponse|Application
     {
+        $this->canCreate('content');
+
         $request->setActiveField();
 
         Category::query()->create($request->all());
@@ -61,6 +67,8 @@ class CategoryController extends AdminController
      */
     public function edit(int $id): View|Factory|Application
     {
+        $this->canEdit('content');
+
         $category =  Category::query()->find($id);
 
         if(!$category){
@@ -82,6 +90,8 @@ class CategoryController extends AdminController
      */
     public function update(CategoryRequest $request, int $id): Redirector|RedirectResponse|Application
     {
+        $this->canEdit('content');
+
         $category = Category::query()->find($id);
 
         $request->setActiveField();
@@ -105,6 +115,8 @@ class CategoryController extends AdminController
      */
     public function destroy(int $id): Redirector|RedirectResponse|Application
     {
+        $this->canDelete('content');
+
         $category = Category::query()->find($id);
 
         if(!$category){

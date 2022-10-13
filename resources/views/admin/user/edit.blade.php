@@ -57,9 +57,15 @@
                         <div class="inputs-block">
                             @foreach($roles as $r)
                                 <div class="input-block-item">
-                                    <input id="{{$r->seo_name}}" name="roles[]" type="checkbox" value="{{$r->id}}" class="many-input"
-                                            {{ !empty($arRoles) && in_array($r->id, $arRoles) ? 'checked' : '' }}>
-                                    <label class="many-input-label" for="{{$r->seo_name}}">{{$r->name}}</label>
+                                    <input
+                                        id="{{$r->id}}"
+                                        name="roles[]"
+                                        type="checkbox"
+                                        value="{{$r->name}}"
+                                        class="many-input"
+                                        {{!$selected_user->hasRole($r->name) ?: 'checked'}}
+                                        {{$r->name == env('SUPER_ADMIN_ROLE') && $selected_user->hasRole($r->name) ? 'disabled' : ''}}>
+                                    <label class="many-input-label" for="{{$r->id}}">{{$r->name}}</label>
                                 </div>
                             @endforeach
                         </div>
