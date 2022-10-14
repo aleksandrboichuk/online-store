@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrderListItemsTable extends Migration
+class CreateOrderItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -25,7 +25,7 @@ class CreateOrderListItemsTable extends Migration
             // внешний ключ, ссылается на поле id таблицы orders
             $table->foreign('order_id')
                 ->references('id')
-                ->on('orders_lists')
+                ->on('orders')
                 ->cascadeOnDelete();
             // внешний ключ, ссылается на поле id таблицы products
             $table->foreign('product_id')

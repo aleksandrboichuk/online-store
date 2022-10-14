@@ -27,7 +27,6 @@ class CreateOrdersTable extends Migration
             $table->string('address');
             $table->string('comment')->nullable();
             $table->integer('total_cost')->unsigned();
-            $table->integer('status')->default(0);
             $table->timestamps();
 
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductProductMaterialTable extends Migration
+class CreateProductMaterialsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateProductProductMaterialTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_product_material', function (Blueprint $table) {
+        Schema::create('product_materials', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')
@@ -37,6 +37,6 @@ class CreateProductProductMaterialTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_product_material');
+        Schema::dropIfExists('product_materials');
     }
 }

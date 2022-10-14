@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserUserPromocodeTable extends Migration
+class CreateUserPromocodesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateUserUserPromocodeTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_user_promocode', function (Blueprint $table) {
+        Schema::create('user_promocodes', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('promocode_id')->unsigned();
@@ -36,6 +36,6 @@ class CreateUserUserPromocodeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_user_promocode');
+        Schema::dropIfExists('user_promocodes');
     }
 }
