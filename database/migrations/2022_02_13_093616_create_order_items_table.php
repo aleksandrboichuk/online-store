@@ -30,6 +30,8 @@ class CreateOrderItemsTable extends Migration
                 ->references('id')
                 ->on('products')
                 ->nullOnDelete();
+
+            $table->timestamps();
         });
     }
 
