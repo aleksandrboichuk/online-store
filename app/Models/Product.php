@@ -432,7 +432,7 @@ class Product extends BaseModel
      * @param int $to
      * @return void
      */
-    public function saveAdditionalImages(ProductRequest $request, int $from = 0, int $to = 7): void
+    public function saveAdditionalImages(ProductRequest $request, int $from = 1, int $to = 7): void
     {
         $additional_images = [];
 
