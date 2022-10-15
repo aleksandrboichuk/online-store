@@ -38,7 +38,27 @@ class OrderController extends AdminController
             )->render();
         }
 
-        return view('admin.order.index', compact('orders', 'statuses'));
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
+        return view('admin.order.index', [
+            'orders' => $orders,
+            'statuses' => $statuses,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    protected function getBreadcrumbs(): array
+    {
+        $breadcrumbs = parent::getBreadcrumbs();
+
+        $breadcrumbs[] = ["Замовлення"];
+
+        return $breadcrumbs;
     }
 
     /**
@@ -57,10 +77,13 @@ class OrderController extends AdminController
            abort(404);
         }
 
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('orders',false));
+
         return view('admin.order.edit',[
-            'statuses'  => StatusList::all(),
-            'order'     => $order,
-            'items'     => $order->items
+            'statuses'      => StatusList::all(),
+            'order'         => $order,
+            'items'         => $order->items,
+            'breadcrumbs'   => $this->breadcrumbs
         ]);
     }
 

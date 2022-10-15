@@ -28,7 +28,26 @@ class PromocodeController extends AdminController
             return view('admin.promocode.ajax.pagination', compact('promocodes'))->render();
         }
 
-        return view('admin.promocode.index', compact('promocodes'));
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
+        return view('admin.promocode.index', [
+            'promocodes' => $promocodes,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    protected function getBreadcrumbs(): array
+    {
+        $breadcrumbs = parent::getBreadcrumbs();
+
+        $breadcrumbs[] = ["Промокоди"];
+
+        return $breadcrumbs;
     }
 
     /**
@@ -40,7 +59,11 @@ class PromocodeController extends AdminController
     {
         $this->canCreate('content');
 
-        return view('admin.promocode.add');
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('promocodes',true));
+
+        return view('admin.promocode.add',[
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
     }
 
     /**
@@ -78,7 +101,13 @@ class PromocodeController extends AdminController
         if(!$promocode){
             abort(404);
         }
-        return view('admin.promocode.edit', compact('promocode'));
+
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('promocodes',false));
+
+        return view('admin.promocode.edit', [
+            'promocode' => $promocode,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
     }
 
     /**

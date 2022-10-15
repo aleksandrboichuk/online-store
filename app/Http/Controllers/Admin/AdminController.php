@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class AdminController extends Controller
 {
-
     /**
      * Admin panel page
      *
@@ -132,5 +131,35 @@ class AdminController extends Controller
         if(!auth()->user()->hasAnyRole(User::getAdminRoles())){
             abort(403);
         }
+    }
+
+    /**
+     * Returns basic breadcrumbs array
+     *
+     * @return array[]
+     */
+    protected function getBreadcrumbs(): array
+    {
+        return [
+            ['Головна', route('index', 'women')],
+            ['Панель Адміністратора', route('admin.panel')]
+        ];
+    }
+
+
+    /**
+     * Return breadcrumbs for create admin page
+     *
+     * @return array[]
+     */
+    protected function getCreateOrEditPageBreadcrumbs(string $route, bool $create): array
+    {
+        $breadcrumbs = $this->getBreadcrumbs();
+
+        $breadcrumbs[2][] = route("$route.index");
+
+        $breadcrumbs[] = [$create ? 'Додавання' : 'Редагування'];
+
+        return $breadcrumbs;
     }
 }

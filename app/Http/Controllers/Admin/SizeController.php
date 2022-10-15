@@ -25,7 +25,26 @@ class SizeController extends AdminController
 
         $sizes =  Size::query()->orderBy('id', 'desc')->get();
 
-        return view('admin.additional-to-products.size.index', compact('sizes'));
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
+        return view('admin.additional-to-products.size.index', [
+            'sizes' => $sizes,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    protected function getBreadcrumbs(): array
+    {
+        $breadcrumbs = parent::getBreadcrumbs();
+
+        $breadcrumbs[] = ["Розміри"];
+
+        return $breadcrumbs;
     }
 
     /**
@@ -35,7 +54,13 @@ class SizeController extends AdminController
      */
     public function create(): View|Factory|Application
     {
-        return view('admin.additional-to-products.size.add');
+        $this->canCreate('content');
+
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('sizes',true));
+
+        return view('admin.additional-to-products.size.add', [
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
     }
 
     /**
@@ -72,7 +97,12 @@ class SizeController extends AdminController
             abort(404);
         }
 
-        return view('admin.additional-to-products.size.edit', compact('size'));
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('sizes',false));
+
+        return view('admin.additional-to-products.size.edit', [
+            'size' => $size,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
     }
 
     /**

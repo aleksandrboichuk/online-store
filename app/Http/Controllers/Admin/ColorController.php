@@ -22,9 +22,26 @@ class ColorController extends AdminController
     {
         $this->canSee('content');
 
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
         return view('admin.additional-to-products.color.index', [
-            'colors' => Color::query()->orderBy('id', 'desc')->get()
+            'colors' => Color::query()->orderBy('id', 'desc')->get(),
+            'breadcrumbs' => $this->breadcrumbs
         ]);
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    protected function getBreadcrumbs(): array
+    {
+        $breadcrumbs = parent::getBreadcrumbs();
+
+        $breadcrumbs[] = ["Кольори"];
+
+        return $breadcrumbs;
     }
 
     /**
@@ -36,7 +53,11 @@ class ColorController extends AdminController
     {
         $this->canCreate('content');
 
-        return view('admin.additional-to-products.color.add');
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('colors',true));
+
+        return view('admin.additional-to-products.color.add', [
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
     }
 
     /**
@@ -72,7 +93,12 @@ class ColorController extends AdminController
             abort(404);
         }
 
-        return view('admin.additional-to-products.color.edit', compact('color'));
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('colors',false));
+
+        return view('admin.additional-to-products.color.edit', [
+            'color' => $color,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
     }
 
     /**

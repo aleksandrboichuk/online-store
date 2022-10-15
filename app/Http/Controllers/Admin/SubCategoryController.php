@@ -25,7 +25,26 @@ class SubCategoryController extends AdminController
 
         $subcategories =  SubCategory::query()->orderBy('id', 'desc')->get();
 
-        return view('admin.subcategory.index', compact('subcategories'));
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
+        return view('admin.subcategory.index', [
+            'subcategories' => $subcategories,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    protected function getBreadcrumbs(): array
+    {
+        $breadcrumbs = parent::getBreadcrumbs();
+
+        $breadcrumbs[] = ["Підкатегорії"];
+
+        return $breadcrumbs;
     }
 
     /**
@@ -39,7 +58,12 @@ class SubCategoryController extends AdminController
 
         $categories = Category::getActiveEntries();
 
-        return view('admin.subcategory.add',compact('categories'));
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('subcategories',true));
+
+        return view('admin.subcategory.add',[
+            'categories' => $categories,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
     }
 
     /**
@@ -78,7 +102,13 @@ class SubCategoryController extends AdminController
 
         $categories = Category::getActiveEntries();
 
-        return view('admin.subcategory.edit',compact('subcategory', 'categories'));
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('subcategories',false));
+
+        return view('admin.subcategory.edit', [
+            'subcategory'   => $subcategory,
+            'categories'    => $categories,
+            'breadcrumbs'   => $this->breadcrumbs
+        ]);
     }
 
     /**

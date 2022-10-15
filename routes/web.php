@@ -37,15 +37,15 @@ Route::group([
     'middleware' => ['auth']
 ],function () {
     //admin panel CRUD operations
-    Route::get('', [\App\Http\Controllers\Admin\AdminController::class, 'index']);
+    Route::get('', [\App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.panel');
     Route::resource('promocodes', \App\Http\Controllers\Admin\PromocodeController::class);
-    Route::get('/banners/{cat_group?}', [\App\Http\Controllers\Admin\BannerController::class, 'index']);
     Route::resource('banners', \App\Http\Controllers\Admin\BannerController::class);
+    Route::get('/banners/{cat_group?}', [\App\Http\Controllers\Admin\BannerController::class, 'index']);
     Route::resource('messages', \App\Http\Controllers\Admin\MessageController::class);
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
     Route::resource('subcategories', \App\Http\Controllers\Admin\SubCategoryController::class);
-    Route::get('/products/{cat_group?}', [\App\Http\Controllers\Admin\ProductController::class, 'index']);
     Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
+    Route::get('/products/{cat_group?}', [\App\Http\Controllers\Admin\ProductController::class, 'index']);
     Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class);
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
     Route::resource('colors', \App\Http\Controllers\Admin\ColorController::class);

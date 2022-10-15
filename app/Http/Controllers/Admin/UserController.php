@@ -32,7 +32,26 @@ class UserController extends AdminController
             return view('admin.user.ajax.pagination', compact('users'))->render();
         }
 
-        return view('admin.user.index', compact('users'));
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
+        return view('admin.user.index', [
+            'users' => $users,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    protected function getBreadcrumbs(): array
+    {
+        $breadcrumbs = parent::getBreadcrumbs();
+
+        $breadcrumbs[] = ["Користувачі"];
+
+        return $breadcrumbs;
     }
 
     /**
@@ -51,10 +70,13 @@ class UserController extends AdminController
             abort(404);
         }
 
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('users',false));
+
         return view('admin.user.edit',[
             'selected_user' => $user,
             'roles' => Role::all(),
             'arRoles' => $arRoles ?? null,
+            'breadcrumbs' => $this->breadcrumbs
         ]);
     }
 

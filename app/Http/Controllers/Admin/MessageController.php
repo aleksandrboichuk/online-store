@@ -31,7 +31,26 @@ class MessageController extends AdminController
             ])->render();
         }
 
-        return view('admin.message.index', compact('messages'));
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
+        return view('admin.message.index', [
+            'messages' => $messages,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    protected function getBreadcrumbs(): array
+    {
+        $breadcrumbs = parent::getBreadcrumbs();
+
+        $breadcrumbs[] = ["Повідомлення"];
+
+        return $breadcrumbs;
     }
 
     /**
@@ -50,7 +69,12 @@ class MessageController extends AdminController
            abort(404);
         }
 
-        return view('admin.message.single-message', compact('message'));
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('messages',false));
+
+        return view('admin.message.single-message',[
+            'message' => $message,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
     }
 
     /**

@@ -26,7 +26,26 @@ class MaterialController extends AdminController
 
         $materials = Material::query()->orderBy('id', 'desc')->get();
 
-        return view('admin.additional-to-products.material.index', compact('materials'));
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
+        return view('admin.additional-to-products.material.index',[
+            'materials' => $materials,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    protected function getBreadcrumbs(): array
+    {
+        $breadcrumbs = parent::getBreadcrumbs();
+
+        $breadcrumbs[] = ["Матеріали"];
+
+        return $breadcrumbs;
     }
 
     /**
@@ -38,7 +57,11 @@ class MaterialController extends AdminController
     {
         $this->canCreate('content');
 
-        return view('admin.additional-to-products.material.add');
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('materials',true));
+
+        return view('admin.additional-to-products.material.add',[
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
     }
 
     /**
@@ -74,7 +97,12 @@ class MaterialController extends AdminController
             abort(404);
         }
 
-        return view('admin.additional-to-products.material.edit', compact('material'));
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('materials',false));
+
+        return view('admin.additional-to-products.material.edit', [
+            'material'  => $material,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
     }
 
     /**

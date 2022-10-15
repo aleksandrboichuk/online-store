@@ -23,9 +23,26 @@ class CategoryController extends AdminController
     {
         $this->canSee('content');
 
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
         return view('admin.category.index',[
-            'categories' => Category::query()->orderBy('id', 'desc')->get()
+            'categories' => Category::query()->orderBy('id', 'desc')->get(),
+            'breadcrumbs' => $this->breadcrumbs
         ]);
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    protected function getBreadcrumbs(): array
+    {
+        $breadcrumbs = parent::getBreadcrumbs();
+
+        $breadcrumbs[] = ["Категорії"];
+
+        return $breadcrumbs;
     }
 
     /**
@@ -37,8 +54,11 @@ class CategoryController extends AdminController
     {
         $this->canCreate('content');
 
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('categories',true));
+
         return view('admin.category.add',[
-            'category_groups' => CategoryGroup::getActiveEntries()
+            'category_groups' => CategoryGroup::getActiveEntries(),
+            'breadcrumbs' => $this->breadcrumbs
         ]);
     }
 
@@ -75,9 +95,12 @@ class CategoryController extends AdminController
             abort(404);
         }
 
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('categories',false));
+
         return view('admin.category.edit',[
             'category' => $category,
-            'category_groups' => CategoryGroup::all()
+            'category_groups' => CategoryGroup::all(),
+            'breadcrumbs' => $this->breadcrumbs
         ]);
     }
 

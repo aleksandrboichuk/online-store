@@ -13,7 +13,6 @@ use Illuminate\Routing\Redirector;
 
 class BannerController extends AdminController
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -38,9 +37,26 @@ class BannerController extends AdminController
             $banners = Banner::query()->orderBy('id', 'desc')->get();
         }
 
-        return view('admin.banner.index',[
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
+        return view('admin.banner.index', [
             'banners' => $banners,
+            'breadcrumbs' => $this->breadcrumbs
         ]);
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    protected function getBreadcrumbs(): array
+    {
+        $breadcrumbs = parent::getBreadcrumbs();
+
+        $breadcrumbs[] = ["Банери"];
+
+        return $breadcrumbs;
     }
 
     /**
@@ -52,8 +68,11 @@ class BannerController extends AdminController
     {
         $this->canCreate('content');
 
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('banners',true));
+
         return view('admin.banner.add',[
             'category_groups' => CategoryGroup::getActiveEntries(),
+            'breadcrumbs'     => $this->breadcrumbs
         ]);
     }
 
@@ -99,9 +118,12 @@ class BannerController extends AdminController
             abort(404);
         }
 
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('banners',false));
+
         return view('admin.banner.edit',[
             'banner'          => $banner ,
-            'category_groups' => CategoryGroup::all()
+            'category_groups' => CategoryGroup::all(),
+            'breadcrumbs'     => $this->breadcrumbs
         ]);
     }
 

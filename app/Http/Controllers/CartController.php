@@ -34,14 +34,30 @@ class CartController extends Controller
             }
         }
 
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
         return view('pages.cart.index', [
-            'promocodes' => $this->user()?->getPromocodes(),
-            'products'   => $cart->products ?? null
+            'promocodes'    => $this->user()?->getPromocodes(),
+            'products'      => $cart->products ?? null,
+            'breadcrumbs'   => $this->breadcrumbs
         ]);
     }
 
     /**
-     * Удаление товара из корзины
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    private function getBreadcrumbs(): array
+    {
+        return [
+            ['Головна', route('index', 'women')],
+            ["Кошик"],
+        ];
+    }
+
+    /**
+     * Deleting product from cart
      *
      * @param Request $request
      * @return RedirectResponse

@@ -12,7 +12,6 @@ use Illuminate\Routing\Redirector;
 
 class BrandController extends AdminController
 {
-
     /**
      * Index page
      *
@@ -23,7 +22,27 @@ class BrandController extends AdminController
         $this->canSee('content');
 
         $brands =  Brand::query()->orderBy('id', 'desc')->get();
-        return view('admin.additional-to-products.brand.index', compact('brands'));
+
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
+        return view('admin.additional-to-products.brand.index',  [
+            'brands' => $brands,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    protected function getBreadcrumbs(): array
+    {
+        $breadcrumbs = parent::getBreadcrumbs();
+
+        $breadcrumbs[] = ["Бренди"];
+
+        return $breadcrumbs;
     }
 
     /**
@@ -35,7 +54,11 @@ class BrandController extends AdminController
     {
         $this->canCreate('content');
 
-        return view('admin.additional-to-products.brand.add');
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('brands',true));
+
+        return view('admin.additional-to-products.brand.add', [
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
     }
 
     /**
@@ -72,7 +95,12 @@ class BrandController extends AdminController
            abort(404);
         }
 
-        return view('admin.additional-to-products.brand.edit',compact('brand'));
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('brands',false));
+
+        return view('admin.additional-to-products.brand.edit', [
+            'brand' => $brand,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
     }
 
     /**

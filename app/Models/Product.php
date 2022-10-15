@@ -143,6 +143,70 @@ class Product extends BaseModel
         return $this->belongsToMany(Cart::class, 'product_carts');
     }
 
+    /**
+     * Create product item with all necessary actions
+     *
+     * @param ProductRequest $request
+     * @return bool
+     */
+    public static function createItem(ProductRequest $request): bool
+    {
+        try{
+            $item= parent::query()->create($request->all());
+
+            // saving images into DB and storage
+            $preview_img = $request->file('preview_image');
+
+            $item->storeImage($preview_img, "preview");
+
+            $item->saveAdditionalImages($request);
+
+            $item->updateMaterials($request);
+
+            $item->updateSizes($request);
+
+            $item->updateProductCountField();
+
+        }catch (\Exception $e){
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Update product item with all necessary actions
+     *
+     * @param ProductRequest $request
+     * @param array $options
+     * @return bool
+     */
+    public function updateItem(ProductRequest $request, array $options = []): bool
+    {
+        try{
+            parent::update($request->all(), $options);
+
+            $this->updatePreviewImage($request);
+
+            // if request has images which must replace some product images which it has
+            $this->updateAdditionalImages($request);
+
+            // store other images, which keys does not exist
+            $this->saveAdditionalImages($request, $this->images()->count());
+
+            $this->updateMaterials($request);
+
+            $this->updateSizes($request);
+
+            $this->updateProductCountField();
+
+        }catch (\Exception $e){
+            return false;
+        }
+
+        return true;
+    }
+
 
     /**
      * Получение статуса остатка товара на складе

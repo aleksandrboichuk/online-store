@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Models\Banner;
 use App\Models\Brand;
@@ -13,6 +12,9 @@ use App\Models\SubCategory;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -47,7 +49,26 @@ class ProductController extends AdminController
             return view('admin.product.ajax.pagination', compact('products'))->render();
         }
 
-        return view('admin.product.index', compact('products'));
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
+        return view('admin.product.index', [
+            'products' => $products,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    protected function getBreadcrumbs(): array
+    {
+        $breadcrumbs = parent::getBreadcrumbs();
+
+        $breadcrumbs[] = ["Товари"];
+
+        return $breadcrumbs;
     }
 
     /**
@@ -68,16 +89,9 @@ class ProductController extends AdminController
             return view('admin.product.ajax.select-categories', $viewData)->render();
         }
 
-        return view('admin.product.add', array_merge(
-           [
-               'banners'         => Banner::getActiveEntries(),
-               'brands'          => Brand::getActiveEntries(),
-               'category_groups' => CategoryGroup::getActiveEntries(),
-               'categories'      => Category::getActiveEntries(),
-               'sub_categories'  => SubCategory::getActiveEntries(),
-           ],
-           $this->getProductProperties(),
-        ));
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('products',true));
+
+        return view('admin.product.add', $this->getCreatePageData());
     }
 
     /**
@@ -98,20 +112,7 @@ class ProductController extends AdminController
             'preview_img_url'   => $request->file('preview_image')->getClientOriginalName(),
         ]);
 
-        $product = Product::query()->create($request->all());
-
-        // добавление картинок в хранилище и в БД
-        $preview_img = $request->file('preview_image');
-
-        $product->storeImage($preview_img, "preview");
-
-        $product->saveAdditionalImages($request);
-
-        $product->updateMaterials($request);
-
-        $product->updateSizes($request);
-
-        $product->updateProductCountField();
+        Product::createItem($request);
 
         return redirect('/admin/products')->with(['success-message' => 'Товар успішно додано.']);
     }
@@ -133,31 +134,14 @@ class ProductController extends AdminController
             abort(404);
         }
 
-        // ajax на удаление картинки
+        // request for deleting image
         if($delete_image = $request->get('imgUrl')){
             $product->deleteImage("details", $delete_image);
         }
 
-        $selectedMaterials =  $product->getRelationIds('materials');
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('products',false));
 
-        $selectedSizes =  $product->getRelationIds('sizes');
-
-        $count_sizes = $product->getSizesCount();
-
-        return view('admin.product.edit', array_merge(
-            [
-                'banners'           => Banner::getActiveEntries(),
-                'brands'            => Brand::getActiveEntries(),
-                'category_groups'   => CategoryGroup::getActiveEntries(),
-                'categories'        => Category::getActiveEntries(),
-                'sub_categories'    => SubCategory::getActiveEntries(),
-                'selectedMaterials' => $selectedMaterials,
-                'selectedSizes'     => $selectedSizes,
-                'count_sizes'       => $count_sizes,
-                'product'           => $product
-            ],
-            $this->getProductProperties(),
-        ));
+        return view('admin.product.edit', $this->getEditPageData($product));
     }
 
     /**
@@ -187,21 +171,7 @@ class ProductController extends AdminController
             'preview_img_url'   => $preview_image ? $preview_image->getClientOriginalName() : $product->preview_img_url
         ]);
 
-        $product->update($request->all());
-
-        $product->updatePreviewImage($request);
-
-        // if request has images which must replace some product images which it has
-        $product->updateAdditionalImages($request);
-
-        // store other images, which keys does not exist
-        $product->saveAdditionalImages($request, $product->images()->count());
-
-        $product->updateMaterials($request);
-
-        $product->updateSizes($request);
-
-        $product->updateProductCountField();
+        $product->updateItem($request);
 
         return redirect("/admin/products")->with(['success-message' => 'Товар успішно змінено.']);
     }
@@ -251,5 +221,50 @@ class ProductController extends AdminController
         return [
             'items' => $relation && $result ? $result->$relation()->get() : []
         ];
+    }
+
+    /**
+     * Returns array with page data for creating product
+     *
+     * @return array|array[]|Builder[][]|Collection[]
+     */
+    private function getCreatePageData(): array
+    {
+        return array_merge(
+            [
+                'banners'         => Banner::getActiveEntries(),
+                'brands'          => Brand::getActiveEntries(),
+                'category_groups' => CategoryGroup::getActiveEntries(),
+                'categories'      => Category::getActiveEntries(),
+                'sub_categories'  => SubCategory::getActiveEntries(),
+            ],
+            $this->getProductProperties(),
+            ['breadcrumbs' => $this->breadcrumbs]
+        );
+    }
+
+    /**
+     * Returns array with page data for editing product
+     *
+     * @param Model $product
+     * @return array|array[]|Builder[][]|Collection[]
+     */
+    private function getEditPageData(Model $product): array
+    {
+        return array_merge(
+            [
+                'banners'           => Banner::getActiveEntries(),
+                'brands'            => Brand::getActiveEntries(),
+                'category_groups'   => CategoryGroup::getActiveEntries(),
+                'categories'        => Category::getActiveEntries(),
+                'sub_categories'    => SubCategory::getActiveEntries(),
+                'selectedMaterials' => $product->getRelationIds('materials'),
+                'selectedSizes'     => $product->getRelationIds('sizes'),
+                'count_sizes'       => $product->getSizesCount(),
+                'product'           => $product
+            ],
+            $this->getProductProperties(),
+            ['breadcrumbs' => $this->breadcrumbs]
+        );
     }
 }
