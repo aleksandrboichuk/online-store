@@ -12,7 +12,7 @@ class CartController extends Controller
 {
 
     /**
-     * Страница корзины
+     * Cart page
      *
      * @param Request $request
      * @return Application|Factory|View|string
@@ -21,7 +21,7 @@ class CartController extends Controller
     {
         $cart = $this->getCart();
 
-        //   AJAX обновления количества продукта в корзине
+        //  AJAX for refresh amount of product in the cart
         if ($request->get('updateId') && $request->get('updateSize') && $request->get('value')) {
 
             $cart->updateProductCount($request);

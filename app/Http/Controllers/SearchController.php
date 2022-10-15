@@ -41,7 +41,7 @@ class SearchController extends Controller
     protected ElasticSearchService $elasticSearch;
 
     /**
-     * Construct
+     * Constructor
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface

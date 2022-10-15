@@ -40,7 +40,7 @@ class CategoryGroupController extends Controller
     }
 
     /**
-     * Returns data for the view
+     * Sets page data for view
      *
      * @return void
      */

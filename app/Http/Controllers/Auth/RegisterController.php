@@ -72,19 +72,10 @@ class RegisterController extends Controller
      */
     public function register(RegistrationRequest $request): Redirector|RedirectResponse|Application
     {
-        //   Создаем юзера
-        $user = User::query()->create($request->all());
+        $user_id = User::create($request->all());
 
-        if($user){
-            //   Создание корзины
-            $user->createCart();
-
-            // выдаем промокод
-            $user->assignPromocode();
-
-            Auth::loginUsingId($user->id);
-
-            $user->assignRole('user');
+        if($user_id){
+            Auth::loginUsingId($user_id);
         }
 
         return redirect('/shop/women');

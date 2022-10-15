@@ -22,21 +22,21 @@ use Psr\Container\NotFoundExceptionInterface;
 class CheckoutController extends Controller
 {
     /**
-     * Переменная суммы корзины
+     * Sum cost of products in the cart
      *
      * @var int
      */
     private int $total;
 
     /**
-     * Переменная с корзиной пользователя
+     * User cart
      *
      * @var Model
      */
     private Model $cart;
 
     /**
-     * Страница оформления заказа
+     * Checkout page
      *
      * @param Request $request
      * @return Application|Factory|View|RedirectResponse
@@ -65,7 +65,7 @@ class CheckoutController extends Controller
     }
 
     /**
-     * Get the breadcrumbs array
+     * Returns the breadcrumbs array
      *
      * @return array[]
      */
@@ -136,7 +136,7 @@ class CheckoutController extends Controller
 
 
     /**
-     * Установка полной стоимости с учетом промокода
+     * Sets total cost with promocode
      *
      * @param string $promocodeParameter
      * @return void
@@ -154,7 +154,7 @@ class CheckoutController extends Controller
     }
 
     /**
-     * определение поля доставки
+     * Defines delivery field
      *
      * @return array
      * @throws ContainerExceptionInterface
@@ -177,7 +177,7 @@ class CheckoutController extends Controller
     }
 
     /**
-     * Определение статуса оплаты
+     * Defines payment field
      *
      * @return array
      * @throws ContainerExceptionInterface
@@ -217,7 +217,7 @@ class CheckoutController extends Controller
     }
 
     /**
-     * Редирект юзера в зависимости от регистрации
+     * Redirects user (depending on auth)
      *
      * @return RedirectResponse
      */

@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 class SubCategoryController extends Controller
 {
     /**
-     * Страница под-категории
+     * Subcategory page
      *
      * @param Request $request
      * @param string $group_seo_name
@@ -51,7 +51,7 @@ class SubCategoryController extends Controller
     }
 
     /**
-     * Получение всех данных для вьюхи
+     * Sets page data for the view
      *
      * @return void
      */

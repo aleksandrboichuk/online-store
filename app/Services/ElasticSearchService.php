@@ -21,13 +21,15 @@ class ElasticSearchService
     private string $index_name = 'products';
 
     /**
-     * Клиент эластика
+     * Elasticsearch Client
      *
      * @var Client
      */
     private Client $elasticsearch;
 
-
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->elasticsearch = ClientBuilder::create()
@@ -37,7 +39,7 @@ class ElasticSearchService
 
 
     /**
-     * Поиск по строке запроса
+     * Search by query string
      *
      * @param string $seo_name
      * @param string $query
@@ -52,7 +54,7 @@ class ElasticSearchService
     }
 
     /**
-     * Запрос в эластик для поиска по строке запроса
+     * Request to elastic for search by query string
      *
      * @param string $seo_name
      * @param string $query
@@ -92,7 +94,7 @@ class ElasticSearchService
 
 
     /**
-     * Фильтрация
+     * Filtration
      *
      * @param array $must
      * @param array $arData
@@ -111,7 +113,7 @@ class ElasticSearchService
     }
 
     /**
-     * Запрос в эластик для фильтрации
+     * Request to elastic
      *
      * @param array $must
      * @param array $arrData
@@ -154,7 +156,7 @@ class ElasticSearchService
 
 
     /**
-     * Создание коллекции с результатами поиска
+     * Making collection with search results
      *
      * @param array $items
      * @return LengthAwarePaginator

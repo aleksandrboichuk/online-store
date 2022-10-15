@@ -38,7 +38,7 @@ class ReindexProduct extends Command
      *
      * @var string
      */
-    protected $description = 'indexes all products';
+    protected $description = 'Indexing all products to elasticsearch';
 
     /**
      * Products for indexing

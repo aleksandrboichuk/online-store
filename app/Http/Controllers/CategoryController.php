@@ -16,7 +16,7 @@ class CategoryController extends Controller
 {
 
     /**
-     * Страница категории
+     * Category page
      *
      * @param Request $request
      * @param $group_seo_name
@@ -44,7 +44,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Получение всех данных для вьюхи
+     * Sets page data for view
      *
      * @return void
      */

@@ -26,28 +26,28 @@ class SearchFilterController extends Controller
 {
 
     /**
-     * Флаг присутствия страницы акции
+     * Field which determines page of promotion
      *
      * @var bool
      */
     private bool $promotion;
 
     /**
-     * Модель акции (если она есть)
+     * Promotion model
      *
      * @var  Model|null
      */
     private  Model|null $promotionBanner = null;
 
     /**
-     * Группа категорий
+     * Category group model
      *
      * @var  Model|null
      */
     private  Model|null $group = null;
 
     /**
-     * Категория
+     * Category model
      *
      * @var  Model|null
      */
@@ -61,49 +61,49 @@ class SearchFilterController extends Controller
     private  Model|null $subCategory = null;
 
     /**
-     * Глобальный массив с запросом в эластик
+     * Global array with full request to elastic
      *
      * @var array
      */
     private array $arrElasticQuery;
 
     /**
-     * Тип строгости поиска в эластика
+     * Strict mode of search
      *
      * @var string
      */
     private string $filterType;
 
     /**
-     * Клиент эластика
+     * Elasticsearch service
      *
      * @var ElasticSearchService
      */
     protected ElasticSearchService $elasticSearch;
 
     /**
-     * Вьюха
+     * View
      *
      * @var string
      */
     protected string $view;
 
     /**
-     * Массив с параметрами запроса
+     * Query parameters
      *
      * @var array
      */
     protected array $arrQuery;
 
     /**
-     * Массив с запросом в эластик
+     * "must" key of elastic query
      *
      * @var array
      */
     protected array $must;
 
     /**
-     * Construct
+     * Constructor
      */
     public function __construct()
     {
@@ -111,7 +111,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Страница поиска
+     * Search page
      *
      * @return Application|Factory|View|string
      * @throws ContainerExceptionInterface
@@ -145,7 +145,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Установка must массива для запроса в эластик
+     * Sets must array to elastic query
      *
      * @return void
      */
@@ -173,7 +173,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Осуществление поиска в зависимости от сущестовования сортировки
+     * To do search depending on sorting
      *
      * @var string|null $sorting
      * @return LengthAwarePaginator
@@ -188,7 +188,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Устанавливаем массив в случае если мы на странице подкатегории
+     * Sets the must array if we are at subcategory page
      *
      * @return void
      */
@@ -202,7 +202,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Устанавливаем массив в случае если мы на странице категории
+     * Sets the must array if we are at category page
      *
      * @return void
      */
@@ -215,7 +215,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Устанавливаем массив с запросом в случае если мы на главной странице
+     * Sets a must array if we are at category group (main) page
      *
      * @return void
      */
@@ -227,7 +227,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Устанавливаем массив в случае если мы на странице акции
+     * Sets the must array if we are at promotion page
      *
      * @return void
      */
@@ -240,7 +240,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Установка дефолтного массива с запросом в эластик
+     * Sets default must array
      *
      * @return void
      */
@@ -250,7 +250,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Устанавливаем сео имена категорий для использования в формировании запроса
+     * Sets categories seo names for using in request to elastic
      *
      * @return void
      */
@@ -264,7 +264,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Устанавливает глобальный массив с запросом в эластик на основе строки запроса
+     * Sets to main elasticsearch query array different filters
      *
      * @return void
      */
@@ -291,7 +291,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Устанавливает промежуток цены в запрос к эластику
+     * Sets price range to elasticsearch query
      *
      * @return void
      */
@@ -322,7 +322,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Устанавливает цвета в большой массив с запросом в эластик
+     * Sets the colors to elasticsearch query array for filtration
      *
      * @return void
      */
@@ -343,7 +343,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Устанавливает цвета в большой массив с запросом в эластик
+     * Sets the brands to elasticsearch query array for filtration
      *
      * @return void
      */
@@ -363,7 +363,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Устанавливает цвета в большой массив с запросом в эластик
+     * Sets the seasons to elasticsearch query array for filtration
      *
      * @return void
      */
@@ -383,7 +383,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Устанавливает цвета в большой массив с запросом в эластик
+     * Sets the materials to elasticsearch query array for filtration
      *
      * @return void
      */
@@ -403,7 +403,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Устанавливает цвета в большой массив с запросом в эластик
+     * Sets the sizes to elasticsearch query array for filtration
      *
      * @return void
      */
@@ -423,7 +423,7 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Устанавливает базовые глобальные переменные категорий и возможно акции
+     * Sets categories (and maybe promotion) models depending on segments of query string
      *
      * @return void
      */
@@ -456,7 +456,7 @@ class SearchFilterController extends Controller
 
 
     /**
-     * Получение всех данных для вьюхи
+     * Sets page data for the view
      *
      * @return void
      * @throws ContainerExceptionInterface

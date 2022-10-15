@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
@@ -114,6 +115,32 @@ class User extends Authenticatable
             'orders_amount' => $this->orders_amount + 1,
             'orders_sum' => $this->orders_sum + $order_total_cost
         ]);
+    }
+
+    /**
+     * Creating a new user with all necessary actions
+     *
+     * @param array $requestData
+     * @return int|bool
+     */
+    public static function create(array $requestData): int|bool
+    {
+        try{
+            $user = self::query()->create($requestData);
+
+            // create user cart
+            $user->createCart();
+
+            // give promocode for new users
+            $user->assignPromocode();
+
+            $user->assignRole('user');
+        }catch (\Exception $e){
+            //TODO::logging
+            return false;
+        }
+
+        return $user->id;
     }
 
     /**
