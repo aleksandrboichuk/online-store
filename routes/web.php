@@ -50,6 +50,7 @@ Route::group([
     Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class);
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
     Route::resource('colors', \App\Http\Controllers\Admin\ColorController::class);
+    Route::resource('seasons', \App\Http\Controllers\Admin\SeasonController::class);
     Route::resource('brands', \App\Http\Controllers\Admin\BrandController::class);
     Route::resource('materials', \App\Http\Controllers\Admin\MaterialController::class);
     Route::resource('sizes', \App\Http\Controllers\Admin\SizeController::class);
