@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 use App\View\Composers\BasicPageDataComposer;
-use App\View\Composers\AdminHeaderComposer;
+use App\View\Composers\MenuComposer;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -31,7 +31,7 @@ class ViewServiceProvider extends ServiceProvider
         ], BasicPageDataComposer::class);
 
         View::composer([
-            'admin.*'
-        ], AdminHeaderComposer::class);
+            'layouts.*'
+        ], MenuComposer::class);
     }
 }

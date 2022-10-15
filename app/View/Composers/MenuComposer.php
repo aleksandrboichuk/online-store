@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CategoryGroup;
 use Illuminate\View\View;
 
-class AdminHeaderComposer
+class MenuComposer
 {
     /**
      * Bind data to the view.

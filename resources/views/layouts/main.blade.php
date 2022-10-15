@@ -105,15 +105,11 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a href="/shop/women" class="women">Жінкам</a></li>
-                            <li><a href="/shop/men" class="men">Чоловікам</a></li>
-                            <li class="dropdown">
-                                <a class="kids">Дітям<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
-                                    <li><a href="/shop/girls">Дівчаткам</a></li>
-                                    <li><a href="/shop/boys">Хлопчикам</a></li>
-                                </ul>
-                            </li>
+                            @if(isset($categoryGroups) && !empty($categoryGroups))
+                                @foreach($categoryGroups as $categoryGroup)
+                                <li><a href="/shop/{{$categoryGroup->seo_name}}" class="{{$categoryGroup->seo_name}}">{{$categoryGroup->name}}</a></li>
+                                @endforeach
+                            @endif
                             <li><a class="contact" href="/contact">Контакти</a></li>
                         </ul>
                     </div>
@@ -187,15 +183,7 @@
 <script src="/js/jquery.scrollUp.min.js"></script>>
 <script src="/js/main.js"></script>
 <script>
-    var url = window.location.href;
-    var uri = url.split(",");
-    if(uri[1] === "men"){
-        $('.navbar-collapse').find('.men').addClass("active");
-    }else if(uri[1] === "women"){
-        $('.navbar-collapse').find('.women').addClass("active");
-    }else if(uri[1] === "girls" || uri[1] === "boys" ){
-        $('.navbar-collapse').find('.kids').addClass("active");
-    }
+    $('.navbar-collapse').find('.' + "{{request()->segment(2)}}").addClass("active");
 </script>
 <script src="/js/components/validity.js"></script>
 @yield('custom-js')

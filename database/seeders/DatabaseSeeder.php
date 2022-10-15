@@ -32,6 +32,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin'),
         ]);
 
+        $user->createCart();
+
         $user->assignRole($role);
     }
 }
