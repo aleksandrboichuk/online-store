@@ -129,6 +129,7 @@
                                         <li><a href="/admin/brands">Бренди</a></li>
                                         <li><a href="/admin/materials">Матеріали</a></li>
                                         <li><a href="/admin/sizes">Розміри</a></li>
+                                        <li><a href="/admin/seasons">Сезони</a></li>
                                     </ul>
                                 </li>
                             @endcanany
