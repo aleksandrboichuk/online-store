@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 use App\View\Composers\BasicPageDataComposer;
+use App\View\Composers\AdminHeaderComposer;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,5 +29,9 @@ class ViewServiceProvider extends ServiceProvider
         View::composer([
             '*'
         ], BasicPageDataComposer::class);
+
+        View::composer([
+            'admin.*'
+        ], AdminHeaderComposer::class);
     }
 }

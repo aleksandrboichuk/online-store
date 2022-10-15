@@ -22,11 +22,11 @@ class CreateUsersTable extends Migration
             $table->boolean('is_admin')->default(0);
             $table->string('first_name', 64)->default('');
             $table->string('last_name', 64)->default('');
-            $table->string('sex', 200)->default('');
-            $table->string('address', 200)->default('');
-            $table->string('city', 200)->default('');
-            $table->string('phone', 32)->default('');
-            $table->string('session_token', 60)->default('');
+            $table->string('sex', 200)->nullable();
+            $table->string('address', 200)->nullable();
+            $table->string('city', 200)->nullable();
+            $table->string('phone', 32)->nullable();
+            $table->string('session_token', 60)->nullable();
             $table->boolean('active')->default(1);
             $table->dateTime('last_logged_in')->nullable();
         });

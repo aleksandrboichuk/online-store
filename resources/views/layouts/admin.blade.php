@@ -92,28 +92,35 @@
                             @endcanany
                             @canany(['see content', 'everything'])
                                 <li><a href="/admin/promocodes">Промокоди</a></li>
-                                <li><a href="/admin/banners">Банери<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                        <li><a href="/admin/banners/women">Для жінок</a></li>
-                                        <li><a href="/admin/banners/men">Для чоловіків</a></li>
-                                        <li><a href="/admin/banners/boys">Для хлопчиків</a></li>
-                                        <li><a href="/admin/banners/girls">Для дівчаток</a></li>
-                                    </ul>
-                                </li>
+                                @if(isset($categoryGroups) && !empty($categoryGroups))
+                                        <li><a href="/admin/banners">Банери <i class="fa fa-angle-down"></i></a>
+                                            <ul role="menu" class="sub-menu">
+                                                @foreach($categoryGroups as $category_group)
+                                                    <li><a href="/admin/banners/{{$category_group->seo_name}}">{{$category_group->name}}</a></li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                @else
+                                        <li><a href="/admin/banners">Банери</a></li>
+                                @endif
+
                                 <li><a href="/admin/categories" >Групи категорій<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="/admin/categories">Категорії</a></li>
                                         <li><a href="/admin/subcategories">Підкатегорії</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="/admin/products">Товари<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                        <li><a href="/admin/products/women">Жіночі</a></li>
-                                        <li><a href="/admin/products/men">Чоловічі</a></li>
-                                        <li><a href="/admin/products/boys">Для хлопчиків</a></li>
-                                        <li><a href="/admin/products/girls">Для дівчаток</a></li>
-                                    </ul>
-                                </li>
+                                    @if(isset($categoryGroups) && !empty($categoryGroups))
+                                        <li><a href="/admin/products">Товари<i class="fa fa-angle-down"></i></a>
+                                            <ul role="menu" class="sub-menu">
+                                                @foreach($categoryGroups as $category_group)
+                                                    <li><a href="/admin/products/{{$category_group->seo_name}}">{{$category_group->name}}</a></li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                    @else
+                                        <li><a href="/admin/products">Товари</a></li>
+                                    @endif
                                 <li class="dropdown">
                                     <a href="#">Властивості товарів<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">

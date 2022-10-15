@@ -39,12 +39,12 @@ Route::group([
     //admin panel CRUD operations
     Route::get('', [\App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.panel');
     Route::resource('promocodes', \App\Http\Controllers\Admin\PromocodeController::class);
-    Route::resource('banners', \App\Http\Controllers\Admin\BannerController::class);
+    Route::resource('banners', \App\Http\Controllers\Admin\BannerController::class)->except('show');
     Route::get('/banners/{cat_group?}', [\App\Http\Controllers\Admin\BannerController::class, 'index']);
     Route::resource('messages', \App\Http\Controllers\Admin\MessageController::class);
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
     Route::resource('subcategories', \App\Http\Controllers\Admin\SubCategoryController::class);
-    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
+    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->except('show');
     Route::get('/products/{cat_group?}', [\App\Http\Controllers\Admin\ProductController::class, 'index']);
     Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class);
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class);

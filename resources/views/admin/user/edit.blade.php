@@ -64,7 +64,7 @@
                                         value="{{$r->name}}"
                                         class="many-input"
                                         {{!$selected_user->hasRole($r->name) ?: 'checked'}}
-                                        {{$r->name == env('SUPER_ADMIN_ROLE') && $selected_user->hasRole($r->name) ? 'disabled' : ''}}>
+                                    >
                                     <label class="many-input-label" for="{{$r->id}}">{{$r->name}}</label>
                                 </div>
                             @endforeach
