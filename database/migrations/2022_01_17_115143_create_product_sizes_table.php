@@ -37,6 +37,12 @@ class CreateProductSizesTable extends Migration
      */
     public function down()
     {
+        if(Schema::hasTable('product_sizes')){
+            Schema::table('product_sizes', function (Blueprint $table) {
+                $table->dropForeign('product_sizes_product_id_foreign');
+                $table->dropForeign('product_sizes_size_id_foreign');
+            });
+        }
         Schema::dropIfExists('product_sizes');
     }
 }

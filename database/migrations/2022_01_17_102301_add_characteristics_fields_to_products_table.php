@@ -28,8 +28,13 @@ class AddCharacteristicsFieldsToProductsTable extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('products')
+            && Schema::hasColumns('products', ['product_season_id', 'product_color_id'])
+        ){
+            Schema::table('products', function (Blueprint $table) {
+                $table->dropColumn('product_season_id');
+                $table->dropColumn('product_color_id');
+            });
+        }
     }
 }

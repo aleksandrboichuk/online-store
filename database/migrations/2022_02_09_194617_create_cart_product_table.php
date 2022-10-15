@@ -38,6 +38,14 @@ class CreateCartProductTable extends Migration
      */
     public function down()
     {
+        if(Schema::hasTable('cart_product')
+            && Schema::hasColumns('cart_product', ['cart_id', 'product_id'])
+        ){
+            Schema::table('cart_product', function (Blueprint $table) {
+                $table->dropForeign('cart_product_cart_id_foreign');
+                $table->dropForeign('cart_product_product_id_foreign');
+            });
+        }
         Schema::dropIfExists('cart_product');
     }
 }

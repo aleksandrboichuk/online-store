@@ -25,8 +25,12 @@ class AddDiscountToProductsTable extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-
-        });
+        if(Schema::hasTable('products')
+            && Schema::hasColumns('products', ['discount'])
+        ){
+            Schema::table('products', function (Blueprint $table) {
+                $table->dropColumn('discount');
+            });
+        }
     }
 }

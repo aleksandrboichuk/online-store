@@ -25,8 +25,12 @@ class AddSizeTitleToOrderItemsTable extends Migration
      */
     public function down()
     {
-        Schema::table('order_items', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('order_items')
+            && Schema::hasColumns('order_items', ['size'])
+        ){
+            Schema::table('order_items', function (Blueprint $table) {
+                $table->dropColumn('size');
+            });
+        }
     }
 }

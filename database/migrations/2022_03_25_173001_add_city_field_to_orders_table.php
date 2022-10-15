@@ -25,8 +25,12 @@ class AddCityFieldToOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('orders')
+            && Schema::hasColumns('orders', ['city'])
+        ){
+            Schema::table('orders', function (Blueprint $table) {
+                $table->dropColumn('city');
+            });
+        }
     }
 }

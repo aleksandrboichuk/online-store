@@ -15,7 +15,7 @@ class CreateCartsTable extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
@@ -32,6 +32,13 @@ class CreateCartsTable extends Migration
      */
     public function down()
     {
+        if(Schema::hasTable('carts')
+            && Schema::hasColumns('carts', ['user_id'])
+        ){
+            Schema::table('carts', function (Blueprint $table) {
+                $table->dropForeign('carts_user_id_foreign');
+            });
+        }
         Schema::dropIfExists('carts');
     }
 }

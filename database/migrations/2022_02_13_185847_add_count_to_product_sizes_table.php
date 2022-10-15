@@ -25,8 +25,13 @@ class AddCountToProductSizesTable extends Migration
      */
     public function down()
     {
-        Schema::table('product_sizes', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('product_sizes')
+            && Schema::hasColumns('product_sizes', ['count'])
+        ){
+            Schema::table('product_sizes', function (Blueprint $table) {
+
+                $table->dropColumn('count');
+            });
+        }
     }
 }

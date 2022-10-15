@@ -37,6 +37,12 @@ class CreateProductMaterialsTable extends Migration
      */
     public function down()
     {
+        if(Schema::hasTable('product_materials')){
+            Schema::table('product_materials', function (Blueprint $table) {
+                $table->dropForeign('product_materials_product_id_foreign');
+                $table->dropForeign('product_materials_material_id_foreign');
+            });
+        }
         Schema::dropIfExists('product_materials');
     }
 }

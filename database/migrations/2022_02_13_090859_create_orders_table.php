@@ -16,7 +16,6 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned()->nullable();
-            // внешний ключ, ссылается на поле id таблицы users
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
@@ -40,6 +39,13 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
+        if(Schema::hasTable('orders')
+            && Schema::hasColumns('orders', ['user_id'])
+        ){
+            Schema::table('orders', function (Blueprint $table) {
+                $table->dropForeign('orders_user_id_foreign');
+            });
+        }
         Schema::dropIfExists('orders');
     }
 }

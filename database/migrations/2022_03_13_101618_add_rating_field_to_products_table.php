@@ -25,8 +25,12 @@ class AddRatingFieldToProductsTable extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('products')
+            && Schema::hasColumns('products', ['rating'])
+        ){
+            Schema::table('products', function (Blueprint $table) {
+                $table->dropColumn('rating');
+            });
+        }
     }
 }

@@ -25,8 +25,12 @@ class AddTitleToSubCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::table('sub_categories', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('sub_categories')
+            && Schema::hasColumns('sub_categories', ['title'])
+        ){
+            Schema::table('sub_categories', function (Blueprint $table) {
+                $table->dropColumn('title');
+            });
+        }
     }
 }

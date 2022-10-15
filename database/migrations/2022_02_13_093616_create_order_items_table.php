@@ -22,12 +22,10 @@ class CreateOrderItemsTable extends Migration
             $table->integer('count')->default(1);
             $table->integer('total_cost')->unsigned();
 
-            // внешний ключ, ссылается на поле id таблицы orders
             $table->foreign('order_id')
                 ->references('id')
                 ->on('orders')
                 ->cascadeOnDelete();
-            // внешний ключ, ссылается на поле id таблицы products
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products')
@@ -42,6 +40,14 @@ class CreateOrderItemsTable extends Migration
      */
     public function down()
     {
+        if(Schema::hasTable('order_items')
+            && Schema::hasColumns('order_items', ['order_id','product_id'])
+        ){
+            Schema::table('order_items', function (Blueprint $table) {
+                $table->dropForeign('order_items_product_id_foreign');
+                $table->dropForeign('order_items_order_id_foreign');
+            });
+        }
         Schema::dropIfExists('order_items');
     }
 }

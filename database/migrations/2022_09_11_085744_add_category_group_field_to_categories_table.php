@@ -29,9 +29,14 @@ class AddCategoryGroupFieldToCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->dropForeign('category_group');
-            $table->dropColumn('category_group');
-        });
+        if(Schema::hasTable('categories')
+            && Schema::hasColumns('categories', ['category_group'])
+        ){
+            Schema::table('categories', function (Blueprint $table) {
+                $table->dropForeign('categories_category_group_foreign');
+
+                $table->dropColumn('category_group');
+            });
+        }
     }
 }

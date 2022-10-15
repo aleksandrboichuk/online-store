@@ -34,6 +34,13 @@ class CreateUserMessagesTable extends Migration
      */
     public function down()
     {
+        if(Schema::hasTable('user_messages')
+            && Schema::hasColumns('user_messages', ['user_id'])
+        ){
+            Schema::table('user_messages', function (Blueprint $table) {
+                $table->dropForeign('user_messages_user_id_foreign');
+            });
+        }
         Schema::dropIfExists('user_messages');
     }
 }

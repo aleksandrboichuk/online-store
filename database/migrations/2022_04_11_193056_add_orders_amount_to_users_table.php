@@ -26,8 +26,13 @@ class AddOrdersAmountToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('users')
+            && Schema::hasColumns('users', ['orders_amount', 'orders_sum'])
+        ){
+            Schema::table('users', function (Blueprint $table) {
+                $table->dropColumn('orders_amount');
+                $table->dropColumn('orders_sum');
+            });
+        }
     }
 }

@@ -25,8 +25,12 @@ class AddPopularityFieldToProductsTable extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('products')
+            && Schema::hasColumns('products', ['popularity'])
+        ){
+            Schema::table('products', function (Blueprint $table) {
+                $table->dropColumn('popularity');
+            });
+        }
     }
 }

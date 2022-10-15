@@ -36,6 +36,15 @@ class CreateUserPromocodesTable extends Migration
      */
     public function down()
     {
+        if(Schema::hasTable('user_promocodes')
+            && Schema::hasColumns('user_promocodes', ['user_id', 'promocode_id'])
+        ){
+            Schema::table('user_promocodes', function (Blueprint $table) {
+                $table->dropForeign('user_promocodes_promocode_id_foreign');
+                $table->dropForeign('user_promocodes_user_id_foreign');
+            });
+        }
+
         Schema::dropIfExists('user_promocodes');
     }
 }

@@ -29,8 +29,14 @@ class AddCategoryGroupIdToBannersTable extends Migration
      */
     public function down()
     {
-        Schema::table('banners', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('banners')
+            && Schema::hasColumns('banners', ['category_group_id'])
+        ){
+            Schema::table('banners', function (Blueprint $table) {
+                $table->dropForeign('banners_category_group_id_foreign');
+
+                $table->dropColumn('category_group_id');
+            });
+        }
     }
 }

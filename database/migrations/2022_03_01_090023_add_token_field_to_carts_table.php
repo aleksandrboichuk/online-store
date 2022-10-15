@@ -25,8 +25,12 @@ class AddTokenFieldToCartsTable extends Migration
      */
     public function down()
     {
-        Schema::table('carts', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('carts')
+            && Schema::hasColumns('carts', ['token'])
+        ){
+            Schema::table('carts', function (Blueprint $table) {
+                $table->dropColumn('token');
+            });
+        }
     }
 }

@@ -32,8 +32,13 @@ class AddForeignKeysToProductsTable extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('products')
+            && Schema::hasColumns('products', ['product_season_id', 'product_color_id'])
+        ){
+            Schema::table('products', function (Blueprint $table) {
+                $table->dropForeign('products_product_color_id_foreign');
+                $table->dropForeign('products_product_season_id_foreign');
+            });
+        }
     }
 }

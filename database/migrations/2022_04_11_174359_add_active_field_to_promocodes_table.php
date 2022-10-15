@@ -25,8 +25,12 @@ class AddActiveFieldToPromocodesTable extends Migration
      */
     public function down()
     {
-        Schema::table('promocodes', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('promocodes')
+            && Schema::hasColumns('promocodes', ['active'])
+        ){
+            Schema::table('promocodes', function (Blueprint $table) {
+                $table->dropColumn('active');
+            });
+        }
     }
 }

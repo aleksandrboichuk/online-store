@@ -38,6 +38,14 @@ class CreateUserReviewsTable extends Migration
      */
     public function down()
     {
+        if(Schema::hasTable('user_reviews')
+            && Schema::hasColumns('user_reviews', ['product_id', 'user_id'])
+        ){
+            Schema::table('user_reviews', function (Blueprint $table) {
+                $table->dropForeign('user_reviews_product_id_foreign');
+                $table->dropForeign('user_reviews_user_id_foreign');
+            });
+        }
         Schema::dropIfExists('user_reviews');
     }
 }

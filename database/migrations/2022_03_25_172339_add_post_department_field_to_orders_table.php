@@ -25,8 +25,12 @@ class AddPostDepartmentFieldToOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('orders')
+            && Schema::hasColumns('orders', ['post_department'])
+        ){
+            Schema::table('orders', function (Blueprint $table) {
+                $table->dropColumn('post_department');
+            });
+        }
     }
 }

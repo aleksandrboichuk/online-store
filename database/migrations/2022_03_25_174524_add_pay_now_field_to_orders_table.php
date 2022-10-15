@@ -25,8 +25,12 @@ class AddPayNowFieldToOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('orders')
+            && Schema::hasColumns('orders', ['pay_now'])
+        ){
+            Schema::table('orders', function (Blueprint $table) {
+                $table->dropColumn('pay_now');
+            });
+        }
     }
 }

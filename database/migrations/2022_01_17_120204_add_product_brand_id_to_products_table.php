@@ -16,11 +16,11 @@ class AddProductBrandIdToProductsTable extends Migration
         Schema::table('products', function (Blueprint $table) {
             if(!Schema::hasColumn('products','product_brand_id')) {
                 $table->bigInteger('product_brand_id')->unsigned();
+                $table->foreign('product_brand_id')
+                    ->references('id')
+                    ->on('brands')
+                    ->onDelete('cascade');
             }
-            $table->foreign('product_brand_id')
-                ->references('id')
-                ->on('brands')
-                ->onDelete('cascade');
         });
     }
 
@@ -31,8 +31,14 @@ class AddProductBrandIdToProductsTable extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('products')
+            && Schema::hasColumns('products', ['product_brand_id'])
+        ){
+            Schema::table('products', function (Blueprint $table) {
+                $table->dropForeign('products_product_brand_id_foreign');
+
+                $table->dropColumn('product_brand_id');
+            });
+        }
     }
 }

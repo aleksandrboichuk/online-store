@@ -31,8 +31,14 @@ class AddProductIdToProductImagesTable extends Migration
      */
     public function down()
     {
-        Schema::table('product_images', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('product_images')
+            && Schema::hasColumns('product_images', ['product_id'])
+        ){
+            Schema::table('product_images', function (Blueprint $table) {
+                $table->dropForeign('product_images_product_id_foreign');
+
+                $table->dropColumn('product_id');
+            });
+        }
     }
 }

@@ -25,8 +25,12 @@ class AddSeoNameToBannersTable extends Migration
      */
     public function down()
     {
-        Schema::table('banners', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('banners')
+            && Schema::hasColumns('banners', ['seo_name'])
+        ){
+            Schema::table('banners', function (Blueprint $table) {
+                $table->dropColumn('seo_name');
+            });
+        }
     }
 }

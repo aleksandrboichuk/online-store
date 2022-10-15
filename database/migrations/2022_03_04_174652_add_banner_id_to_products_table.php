@@ -29,8 +29,14 @@ class AddBannerIdToProductsTable extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('products')
+            && Schema::hasColumns('products', ['banner_id'])
+        ){
+            Schema::table('products', function (Blueprint $table) {
+                $table->dropForeign('products_banner_id_foreign');
+
+                $table->dropColumn('banner_id');
+            });
+        }
     }
 }

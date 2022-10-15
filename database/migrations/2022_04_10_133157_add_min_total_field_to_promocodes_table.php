@@ -28,8 +28,14 @@ class AddMinTotalFieldToPromocodesTable extends Migration
      */
     public function down()
     {
-        Schema::table('promocodes', function (Blueprint $table) {
-            //
-        });
+        if(Schema::hasTable('promocodes')
+            && Schema::hasColumns('promocodes', ['discount', 'min_cart_total', 'min_cart_products'])
+        ){
+            Schema::table('promocodes', function (Blueprint $table) {
+                $table->dropColumn('discount');
+                $table->dropColumn('min_cart_total');
+                $table->dropColumn('min_cart_products');
+            });
+        }
     }
 }
