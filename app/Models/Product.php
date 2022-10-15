@@ -168,6 +168,7 @@ class Product extends BaseModel
             $item->updateProductCountField();
 
         }catch (\Exception $e){
+            //TODO:: logging
             return false;
         }
 
@@ -191,7 +192,7 @@ class Product extends BaseModel
             // if request has images which must replace some product images which it has
             $this->updateAdditionalImages($request);
 
-            // store other images, which keys does not exist
+            // store other images, which keys do not exist
             $this->saveAdditionalImages($request, $this->images()->count());
 
             $this->updateMaterials($request);
@@ -201,6 +202,7 @@ class Product extends BaseModel
             $this->updateProductCountField();
 
         }catch (\Exception $e){
+            //TODO::logging
             return false;
         }
 
