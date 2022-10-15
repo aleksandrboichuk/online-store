@@ -4,7 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\UserMessage;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 class HomeController extends Controller
 {
@@ -20,30 +26,39 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return Renderable
      */
-    public function index()
+    public function index(): Renderable
     {
         return view('home');
     }
 
-    public function contact(){
-        if(!$this->getUser()){
-            $cart = $this->getCartByToken();
-        }
-        return view('contact.contact', [
-           'user' => $this->getUser(),
-            'cart' => isset($cart) && !empty($cart) ? $cart : null,
-        ]);
-    }
-    public function sendMessage(Request $request)
+    /**
+     * Contact page
+     *
+     * @return Application|Factory|View
+     */
+    public function contact(): View|Factory|Application
     {
-       UserMessage::create([
-          'user_id' => $request['id'],
+        return view('pages.contact.index');
+    }
+
+    /**
+     * Receiving message from contact page
+     *
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function sendMessage(Request $request): Redirector|RedirectResponse|Application
+    {
+        //TODO:: validation
+       UserMessage::query()->create([
+           'user_id' => $request['id'],
            'email' => $request['email'],
            'theme' => $request['theme'],
            'message'=> $request['message']
        ]);
+
        return redirect('/shop/women');
 
     }

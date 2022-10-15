@@ -3,174 +3,135 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Cart;
-use App\Models\UserPromocode;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\Admin\PromocodeRequest;
+use App\Models\Promocode;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 
-class PromocodeController extends Controller
+class PromocodeController extends AdminController
 {
-    protected function validator(array $data){
-        $messages = [
-            'title-field.min' => 'Заговоловок має містити не менше 3-х символів.',
-            'promocode-field.min' => 'Промокод має містити не менше 3-х символів.',
-            'promocode-field.unique' => 'Промокод вже існує.',
-            'description-field.min' => 'Опис має містити не менше 10-ти символів.',
-        ];
-        return Validator::make($data, [
-            'title-field' => ['string', 'min:3'],
-            'description-field' => ['string', 'min:10'],
-            'promocode-field' => ['string', 'min:3','unique:user_promocodes,promocode'],
-        ], $messages);
-    }
-
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View|string
      */
-    public function index()
+    public function index(): View|Factory|string|Application
     {
-        $promocodes = UserPromocode::orderBy('id', 'desc')->paginate(5);
+        $this->canSee('content');
+
+        $promocodes = Promocode::query()->orderBy('id', 'desc')->paginate(5);
 
         if(request()->ajax()){
-            return view('admin.promocode.ajax.ajax-pagination', [
-                'promocodes' => $promocodes,
-            ])->render();
+            return view('admin.promocode.ajax.pagination', compact('promocodes'))->render();
         }
 
-        return view('admin.promocode.index',[
-            'user'=>$this->getUser(),
-            'promocodes' => $promocodes,
+        $this->setBreadcrumbs($this->getBreadcrumbs());
 
+        return view('admin.promocode.index', [
+            'promocodes' => $promocodes,
+            'breadcrumbs' => $this->breadcrumbs
         ]);
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    protected function getBreadcrumbs(): array
+    {
+        $breadcrumbs = parent::getBreadcrumbs();
+
+        $breadcrumbs[] = ["Промокоди"];
+
+        return $breadcrumbs;
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
+        $this->canCreate('content');
+
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('promocodes',true));
+
         return view('admin.promocode.add',[
-            'user'=>$this->getUser(),
+            'breadcrumbs' => $this->breadcrumbs
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param PromocodeRequest $request
+     * @return Application|RedirectResponse|Redirector
      */
-    public function store(Request $request)
+    public function store(PromocodeRequest $request): Redirector|RedirectResponse|Application
     {
-        $validator = $this->validator($request->all());
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        $this->canCreate('content');
 
-        $active = false;
-        if($request['active-field'] == "on"){
-            $active = true;
-        }
-        UserPromocode::create([
-            'title' => $request['title-field'],
-            'description' => $request['description-field'],
-            'discount' => $request['discount-field'],
-            'min_cart_total' => !empty( $request['min-cart-total-field']) &&  $request['min-cart-total-field'] != '0' ?  $request['min-cart-total-field'] : null,
-            'min_cart_products' =>  !empty( $request['min-cart-products-field']) &&  $request['min-cart-products-field'] != '0' ?  $request['min-cart-products-field'] : null,
-            'promocode' => $request['promocode-field'],
-            'active' => $active,
-        ]);
+        $request->setMinimalPromocodeConditionsFields();
+
+        $request->setActiveField();
+
+        Promocode::query()->create($request->all());
+
         return redirect('/admin/promocodes')->with(['success-message' => 'Промокод успішно додано.']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Application|Factory|View
      */
-    public function edit($id)
+    public function edit(int $id): View|Factory|Application
     {
-        $promocode = UserPromocode::find($id);
+        $this->canEdit('content');
+
+        $promocode = Promocode::find($id);
 
         if(!$promocode){
-            return response()->view('errors.404-admin', [
-                'user' => $this->getUser(),
-            ], 404);
+            abort(404);
         }
-        return view('admin.promocode.edit',[
-            'user' => $this->getUser(),
-            'promocode' => $promocode ,
+
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('promocodes',false));
+
+        return view('admin.promocode.edit', [
+            'promocode' => $promocode,
+            'breadcrumbs' => $this->breadcrumbs
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param PromocodeRequest $request
+     * @param int $id
+     * @return Application|RedirectResponse|Redirector
      */
-    public function update(Request $request, $id)
+    public function update(PromocodeRequest $request, int $id): Redirector|RedirectResponse|Application
     {
-        $promocode = UserPromocode::find($id);
-        //   в случае старого promocode не делать валидацию на уникальность
-        if($request['promocode-field'] == $promocode->promocode){
-            $validator = $this->validator($request->except('promocode-field'));
-            if ($validator->fails()) {
-                return redirect()
-                    ->back()
-                    ->withErrors($validator)
-                    ->withInput();
-            }
-        }else{
-            //   если promocode все же изменили то проверить на уникальность
-            $validator = $this->validator($request->all());
-            if ($validator->fails()) {
-                return redirect()
-                    ->back()
-                    ->withErrors($validator)
-                    ->withInput();
-            }
-        }
+        $this->canEdit('content');
+
+        $promocode = Promocode::query()->find($id);
+
         if(!$promocode){
-            if($this->getUser()){
-                $cart = $this->getCartByToken();
-            }
-            return response()->view('errors.404', ['user' => $this->getUser(), 'cart' => isset($cart) ? $cart : null ], 404);
+            abort(404);
         }
-        $active = false;
-        if($request['active-field'] == "on"){
-            $active = true;
-        }
-        $promocode->update([
-            'title' => $request['title-field'],
-            'description' => $request['description-field'],
-            'discount' => $request['discount-field'],
-            'min_cart_total' => isset( $request['min-cart-total-field']) &&  $request['min-cart-total-field'] != '0' ?  $request['min-cart-total-field'] : null,
-            'min_cart_products' =>  isset( $request['min-cart-products-field']) &&  $request['min-cart-products-field'] != '0' ?  $request['min-cart-products-field'] : null,
-            'promocode' => $request['promocode-field'],
-            'active' => $active,
-            'updated_at' => date("Y-m-d H:i:s")
-        ]);
+
+        $request->setMinimalPromocodeConditionsFields();
+
+        $request->setActiveField();
+
+        $promocode->update($request->all());
 
         return redirect("/admin/promocodes")->with(['success-message' => 'Промокод успішно змінено.']);
     }
@@ -178,13 +139,21 @@ class PromocodeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return Application|RedirectResponse|Redirector
      */
-    public function destroy($id)
+    public function destroy(int $id): Redirector|RedirectResponse|Application
     {
-        $promocode = UserPromocode::find($id);
+        $this->canDelete('content');
+
+        $promocode = Promocode::query()->find($id);
+
+        if(!$promocode){
+            abort(404);
+        }
+
         $promocode->delete();
+
         return redirect("/admin/promocodes")->with(['success-message' => 'Промокод успішно видалено.']);
     }
 }

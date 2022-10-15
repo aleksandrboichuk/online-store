@@ -11,12 +11,9 @@
         @php(session()->forget('success-message'))
     @endif
     <section id="table_items">
-        <div class="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="/admin">Панель Адміністратора</a> </li>
-                <li class="active">Матеріали</li>
-            </ol>
-        </div>
+        @if(isset($breadcrumbs))
+            @include('admin.components.breadcrumbs')
+        @endif
         <div class="container">
             <div class="row">
                 <div class="btn-admin">
@@ -76,11 +73,5 @@
 
 @endsection
 @section('custom-js')
-    <script>
-        $(document).ready(function () {
-            $('.alert-btn-close').click(function () {
-                $(this).parent().parent().removeClass('alert-active');
-            });
-        });
-    </script>
+    <script src="/js/components/admin/alerts.js"></script>
 @endsection

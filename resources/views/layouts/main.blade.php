@@ -40,7 +40,7 @@
                 </div>
                 <div class="col-md-{{isset($user) && !empty($user) && $user->superuser ? "4" : "5"}}">
                     <div class="search_box {{isset($user) && !empty($user) && $user->superuser ? : "wide"}}">
-                        @include('parts.search-form')
+                        @include('components.search')
                     </div>
                 </div>
                 <div class="col-md-{{isset($user) && !empty($user) && $user->superuser ? "6" : "5"}} clearfix">
@@ -60,9 +60,9 @@
                                  @endif
                                 <li>
                                     @if(isset($user->cart->products) && !empty($user->cart->products))
-                                        <a class="a-cart-title"    href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>{{count($user->cart->products)}}</b></a>
+                                        <a class="a-cart-title"    href="{{route('cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>{{count($user->cart->products)}}</b></a>
                                     @else
-                                        <a class="a-cart-title" href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>0</b></a>
+                                        <a class="a-cart-title" href="{{route('cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>0</b></a>
                                     @endif
                                 </li>
                                 <li>
@@ -72,9 +72,9 @@
                             @else
                                 <li>
                                 @if(!empty($cart->products))
-                                    <a class="a-cart-title" href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>{{count($cart->products)}}</b></a>
+                                    <a class="a-cart-title" href="{{route('cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>{{count($cart->products)}}</b></a>
                                 @else
-                                    <a class="a-cart-title" href="{{route('show.cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>0</b></a>
+                                    <a class="a-cart-title" href="{{route('cart')}}"><i class="fa fa-shopping-cart"></i> Кошик <b>0</b></a>
                                  @endif
                                 </li>
                             <li>
@@ -181,7 +181,7 @@
 
 <!--end footer-->
 
-<script src="/js/menu.js"></script>
+<script src="/js/components/menu.js"></script>
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/jquery.scrollUp.min.js"></script>>
@@ -197,7 +197,7 @@
         $('.navbar-collapse').find('.kids').addClass("active");
     }
 </script>
-<script src="/js/validity.js"></script>
+<script src="/js/components/validity.js"></script>
 @yield('custom-js')
 </body>
 </html>

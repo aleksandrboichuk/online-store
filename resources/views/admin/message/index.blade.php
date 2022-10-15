@@ -10,12 +10,9 @@
         @php(session()->forget('success-message'))
     @endif
     <section id="table_items">
-        <div class="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="/admin">Панель Адміністратора</a> </li>
-                <li class="active">Повідомлення</li>
-            </ol>
-        </div>
+        @if(isset($breadcrumbs))
+            @include('admin.components.breadcrumbs')
+        @endif
         <div class="container">
             <div class="table-responsive general-table-index general-table-index-with-pagination">
                 <table class="table table-condensed table-admin-with-pagination">
@@ -67,35 +64,12 @@
                     @endforeach
                     </tbody>
                 </table>
-                {{$messages->appends(request()->query())->links('parts.pagination')}}
+                {{$messages->appends(request()->query())->links('components.pagination')}}
             </div>
         </div>
     </section>
 
 @endsection
 @section('custom-js')
-    <script>
-        $(document).ready(function () {
-
-            let countPage = 1;
-            $('.next-page').click(function () {
-                event.preventDefault();
-                countPage += 1;
-                let url = location.href;
-                if (countPage <= $(this).attr('id')) {
-                    $.ajax({
-                        url: url.split('?page')[0] + '?page=' + countPage,
-                        type: "GET",
-                        success: function (data) {
-                            $('.general-table').append(data)
-                        }
-                    });
-                }
-
-                if (countPage == $(this).attr('id')) {
-                    $(this).css('display', 'none');
-                }
-            });
-        });
-    </script>
+    <script src="/js/components/admin/pagination.js"></script>
 @endsection

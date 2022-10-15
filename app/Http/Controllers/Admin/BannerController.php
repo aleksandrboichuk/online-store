@@ -2,223 +2,185 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\BannerRequest;
 use App\Models\Banner;
 use App\Models\CategoryGroup;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 
-class BannerController extends Controller
+class BannerController extends AdminController
 {
-
-    protected function validator(array $data){
-        $messages = [
-            'title-field.min' => 'Заговоловок має містити не менше 3-х символів.',
-            'description-field.min' => 'Опис має містити не менше 10-ти символів.',
-            'seo-field.min' => 'СЕО має містити не менше 3-х символів.',
-            'seo-field.unique' => 'СЕО вже існує.',
-        ];
-        return Validator::make($data, [
-            'title-field' => ['string', 'min:3'],
-            'description-field' => [ 'string', 'min:10'],
-            'seo-field' => ['string', 'unique:banners,seo_name', 'min:3'],
-        ], $messages);
-    }
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
-     * @param $cat_group
+     * @param string|null $category_group_seo_name
+     * @return Application|Factory|View
      */
-    public function index($cat_group = null)
+    public function index(string $category_group_seo_name = null): Application|Factory|View
     {
-        $banners = Banner::orderBy('id', 'desc')->get();
-        if (!empty($cat_group)) {
-            switch ($cat_group) {
-                case 'men':
-                    $banners = Banner::where('category_group_id', 1)->orderBy('id', 'desc')->get();
-                    break;
-                case 'women':
-                    $banners = Banner::where('category_group_id', 2)->orderBy('id', 'desc')->get();
-                    break;
-                case 'boys':
-                    $banners = Banner::where('category_group_id', 3)->orderBy('id', 'desc')->get();
-                    break;
-                case 'girls':
-                    $banners = Banner::where('category_group_id', 4)->orderBy('id', 'desc')->get();
-                    break;
-            }
-        }
-        return view('admin.banner.index',[
-            'user'=>$this->getUser(),
-            'banners' => $banners,
+        $this->canSee('content');
 
+        if ($category_group_seo_name) {
+
+            $category_group_id = CategoryGroup::getCategoryGroupsArray()[$category_group_seo_name] ?? null;
+
+            if(!$category_group_id) {
+               abort(404);
+            }
+
+            $banners = Banner::getListByCategoryGroup($category_group_id, 'desc');
+        }else{
+
+            $banners = Banner::query()->orderBy('id', 'desc')->get();
+        }
+
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
+        return view('admin.banner.index', [
+            'banners' => $banners,
+            'breadcrumbs' => $this->breadcrumbs
         ]);
+    }
+
+    /**
+     * Get the breadcrumbs array
+     *
+     * @return array[]
+     */
+    protected function getBreadcrumbs(): array
+    {
+        $breadcrumbs = parent::getBreadcrumbs();
+
+        $breadcrumbs[] = ["Банери"];
+
+        return $breadcrumbs;
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
-    public function create()
+    public function create(): Application|Factory|View
     {
+        $this->canCreate('content');
+
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('banners',true));
+
         return view('admin.banner.add',[
-            'user'=>$this->getUser(),
-            'category_groups' => CategoryGroup::where('active', 1)->get(),
+            'category_groups' => CategoryGroup::getActiveEntries(),
+            'breadcrumbs'     => $this->breadcrumbs
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param BannerRequest $request
+     * @return Application|RedirectResponse|Redirector
      */
-    public function store(Request $request)
+    public function store(BannerRequest $request): Redirector|RedirectResponse|Application
     {
-        $validator = $this->validator($request->all());
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-        //   Определение активности чекбокса
-        $active = false;
-        if($request['active-field'] == "on"){
-            $active = true;
-        }
-        $banner = Banner::create([
-            'title' => $request['title-field'],
-            'category_group_id' => $request['cat-field'],
-            'seo_name' => $request['seo-field'],
-            'description' => $request['description-field'],
-            'active' => $active,
-        ]);
-        //   добавление картинок в хранилище и в БД
-        $mainImageFile = $request->file('main-image-field');
-        Storage::disk('banners')->putFileAs('banner-images/'.$banner->id, $mainImageFile, $mainImageFile->getClientOriginalName());
-//        $miniImageFile = $request->file('mini-image-field');
-//        Storage::disk('banners')->putFileAs('banner-images/'.$getBanner->id, $miniImageFile, $miniImageFile->getClientOriginalName());
-        $banner->update([
-            'image_url' => $mainImageFile->getClientOriginalName(),
-//            'mini_img_url' => $miniImageFile->getClientOriginalName(),
-        ]);
-        return redirect('/admin/banners')->with(['success-message' => 'Банер успішно додано.']);
-    }
+        $this->canCreate('content');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $image = $request->file('image');
+
+        $request->setActiveField();
+
+        $request->merge([
+            'image_url' => $image->getClientOriginalName()
+        ]);
+
+        $banner = Banner::query()->create($request->all());
+
+        $banner->saveImage($image);
+
+        return redirect('/admin/banners')
+            ->with(['success-message' => 'Банер успішно додано.']);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return Application|Factory|View
      */
-    public function edit($id)
+    public function edit($id): View|Factory|Application
     {
-        $banner = Banner::find($id);
-        //   в случае неправильной строки запроса отдать 404
-        if(!$banner){
-            return response()->view('errors.404-admin', [
-                'user' => $this->getUser(),
-            ], 404);
-        }
-        return view('admin.banner.edit',[
-            'user' => $this->getUser(),
-            'banner' => $banner ,
-            'category_groups' => CategoryGroup::all()
+        $this->canEdit('content');
 
+        $banner = Banner::query()->find($id);
+
+        if(!$banner){
+            abort(404);
+        }
+
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('banners',false));
+
+        return view('admin.banner.edit',[
+            'banner'          => $banner ,
+            'category_groups' => CategoryGroup::all(),
+            'breadcrumbs'     => $this->breadcrumbs
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param BannerRequest $request
+     * @param int $id
+     * @return Application|RedirectResponse|Redirector
      */
-    public function update(Request $request, $id)
+    public function update(BannerRequest $request, int $id): Redirector|RedirectResponse|Application
     {
-        $banner = Banner::find($id);
-        //   в случае старого сео не делать валидацию на уникальность
-        if($request['seo-field'] == $banner->seo_name){
-            $validator = $this->validator($request->except('seo-field'));
-            if ($validator->fails()) {
-                return redirect()
-                    ->back()
-                    ->withErrors($validator)
-                    ->withInput();
-            }
-        }else{
-            //   если сео все же изменили то проверить на уникальность
-            $validator = $this->validator($request->all());
-            if ($validator->fails()) {
-                return redirect()
-                    ->back()
-                    ->withErrors($validator)
-                    ->withInput();
-            }
+        $this->canEdit('content');
+
+        $banner = Banner::query()->find($id);
+
+        if(!$banner)
+        {
+            abort(404);
         }
-        //   определяем активность чекбокса
-        $active = false;
-        if($request['active-field'] == "on"){
-            $active = true;
+
+        if($image = $request->file('image')){
+            $banner->updateImageInStorage($image);
         }
-        //   обновляем запись в базе
-        $banner->update([
-            'title' => $request['title-field'],
-            'category_group_id' => $request['cat-field'],
-            'seo_name' => $request['seo-field'],
-            'description' => $request['description-field'],
-            'active' => $active,
-            'updated_at' => date("Y-m-d H:i:s")
+
+        $request->setActiveField();
+
+        $request->merge([
+            'image_url' => $image ? $image->getClientOriginalName() : $banner->image_url
         ]);
-        //   обновление картинок, если они были загружены
-        if(isset($request['main-image-field'])){
-            $mainImageFile = $request->file('main-image-field');
-            Storage::disk('banners')->delete('banner-images/'.$banner->id.'/' . $banner->image_url);
-            Storage::disk('banners')->putFileAs('banner-images/'.$banner->id.'/', $mainImageFile, $mainImageFile->getClientOriginalName());
-            $banner->update([
-                'image_url' => $mainImageFile->getClientOriginalName()
-            ]);
-        }
-//        if(isset($request['mini-image-field'])){
-//            $miniImageFile = $request->file('mini-image-field');
-//            Storage::disk('banners')->delete('banner-images/'.$banner->id.'/' . $banner->mini_img_url);
-//            Storage::disk('banners')->putFileAs('banner-images/'.$banner->id.'/', $miniImageFile, $miniImageFile->getClientOriginalName());
-//            $banner->update([
-//                'mini_img_url' => $miniImageFile->getClientOriginalName()
-//            ]);
-//        }
+
+        $banner->update($request->all());
+
         return redirect("/admin/banners")->with(['success-message' => 'Банер успішно змінено.']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Application|RedirectResponse|Redirector
      */
-    public function destroy($id)
+    public function destroy(int $id): Redirector|RedirectResponse|Application
     {
-        $banner = Banner::find($id);
+        $this->canDelete('content');
+
+        $banner = Banner::query()->find($id);
+
+        if(!$banner) {
+            abort(404);
+        }
+
         $banner->delete();
-        //   удаление папки баннера в хранилище
-        Storage::disk('public')->deleteDirectory('banner-images/'.$banner->id);
+
+        $banner->deleteFolder();
 
         return redirect("/admin/banners")->with(['success-message' => 'Банер успішно видалено.']);
     }
+
 }

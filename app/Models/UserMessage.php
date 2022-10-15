@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class UserMessage extends Model
+class UserMessage extends BaseModel
 {
     use HasFactory;
     protected $fillable = [
@@ -14,7 +15,12 @@ class UserMessage extends Model
         'user_id',
         'email',
     ];
-    public function users(){
+
+    /**
+     * @return BelongsTo
+     */
+    public function users(): BelongsTo
+    {
         return $this->belongsTo('App\Models\User');
     }
 }

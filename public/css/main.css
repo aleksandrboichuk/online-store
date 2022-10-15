@@ -1801,7 +1801,7 @@ h2.title {
 
 /*cart*/
 .spad {
-    padding-top: 105px;
+    padding-top: 25px;
     padding-bottom: 205px;
 }
 .cart_area {
@@ -2148,7 +2148,7 @@ h2.title {
     padding-left: 20px;
     margin-top: 5px;
 }
-.address-field{
+.address{
     display: none;
 }
 .post-department-field input{
@@ -2157,7 +2157,7 @@ h2.title {
     border-radius: 4px;
     max-width: 50px;
 }
-.address-field input{
+.address input{
     margin-left: 5px;
     border: 1px solid #9c9c9c;
     border-radius: 4px;
@@ -2190,10 +2190,10 @@ h2.title {
 .total-sum-info h4{
     color: red;
 }
-.email-field{
+.email{
     display: none;
 }
-.email-field input{
+.email input{
     margin-left: 5px;
     border: 1px solid #9c9c9c;
     border-radius: 4px;

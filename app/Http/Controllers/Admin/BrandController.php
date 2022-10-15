@@ -2,166 +2,149 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\ProductBrand;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\Admin\BrandRequest;
+use App\Models\Brand;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 
-class BrandController extends Controller
+class BrandController extends AdminController
 {
+    /**
+     * Index page
+     *
+     * @return Application|Factory|View
+     */
+    public function index(): Application|Factory|View
+    {
+        $this->canSee('content');
 
-    protected function validator(array $data){
-        $messages = [
-            'name-field.min' => 'Заговоловок має містити не менше 2-х символів.',
-            'seo-field.min' => 'СЕО має містити не менше 2-х символів.',
-            'seo-field.unique' => 'СЕО вже існує.',
-        ];
-        return Validator::make($data, [
-            'name-field' => ['string', 'min:2'],
-            'seo-field' => ['string', 'unique:product_brands,seo_name', 'min:2'],
-        ], $messages);
+        $brands =  Brand::query()->orderBy('id', 'desc')->get();
+
+        $this->setBreadcrumbs($this->getBreadcrumbs());
+
+        return view('admin.additional-to-products.brand.index',  [
+            'brands' => $brands,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
     }
 
     /**
-     * Display a listing of the resource.
+     * Get the breadcrumbs array
      *
-     * @return \Illuminate\Http\Response
+     * @return array[]
      */
-    public function index()
+    protected function getBreadcrumbs(): array
     {
-        $brands =  ProductBrand::orderBy('id', 'desc')->get();
-        return view('admin.additional-to-products.brand.index', [
-            'user' => $this->getUser(),
-            'brands' => $brands
-        ]);
+        $breadcrumbs = parent::getBreadcrumbs();
+
+        $breadcrumbs[] = ["Бренди"];
+
+        return $breadcrumbs;
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
-        return view('admin.additional-to-products.brand.add',[
-            'user' => $this->getUser(),
+        $this->canCreate('content');
+
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('brands',true));
+
+        return view('admin.additional-to-products.brand.add', [
+            'breadcrumbs' => $this->breadcrumbs
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param BrandRequest $request
+     * @return Application|RedirectResponse|Redirector
      */
-    public function store(Request $request)
+    public function store(BrandRequest $request): Redirector|RedirectResponse|Application
     {
-        $validator = $this->validator($request->all());
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        $this->canCreate('content');
 
-        //   определяем активность чекбокса
-        $active = false;
-        if($request['active-field'] == "on"){
-            $active = true;
-        }
-        //   Создание бренда
-        ProductBrand::create([
-            'name' => $request['name-field'],
-            'seo_name'=> $request['seo-field'],
-            'active' => $active
+        $request->setActiveField();
 
-        ]);
+        Brand::query()->create($request->all());
+
         return redirect('/admin/brands')->with(['success-message' => 'Бренд успішно додано.']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Application|Factory|View
      */
-    public function edit($id)
+    public function edit(int $id): View|Factory|Application
     {
-        $brand = ProductBrand::find($id);
+        $this->canEdit('content');
+
+        $brand = Brand::query()->find($id);
+
         if(!$brand){
-            return response()->view('errors.404-admin', [
-                'user' => $this->getUser(),
-            ], 404);
+           abort(404);
         }
-        return view('admin.additional-to-products.brand.edit',[
-            'user' => $this->getUser(),
-            'brand' => $brand
+
+        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('brands',false));
+
+        return view('admin.additional-to-products.brand.edit', [
+            'brand' => $brand,
+            'breadcrumbs' => $this->breadcrumbs
         ]);
     }
 
     /**
-     * Update the specified resource in storage.
+     *  Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param BrandRequest $request
+     * @param int $id
+     * @return Application|RedirectResponse|Redirector
      */
-    public function update(Request $request, $id)
+    public function update(BrandRequest $request, int $id): Redirector|RedirectResponse|Application
     {
-        $brand = ProductBrand::find($id);
-        //   в случае старого сео не делать валидацию на уникальность
-        if($request['seo-field'] == $brand->seo_name){
-            $validator = $this->validator($request->except('seo-field'));
-            if ($validator->fails()) {
-                return redirect()
-                    ->back()
-                    ->withErrors($validator)
-                    ->withInput();
-            }
-        }else{
-            //   если сео все же изменили то проверить на уникальность
-            $validator = $this->validator($request->all());
-            if ($validator->fails()) {
-                return redirect()
-                    ->back()
-                    ->withErrors($validator)
-                    ->withInput();
-            }
+        $this->canEdit('content');
+
+        $brand = Brand::query()->find($id);
+
+        if(!$brand) {
+            abort(404);
         }
-        //   определяем активность чекбокса
-        $active = false;
-        if($request['active-field'] == "on"){
-            $active = true;
-        }
-        //   обновляем запись в базе
-        $brand->update([
-            'name' => $request['name-field'],
-            'seo_name'=> $request['seo-field'],
-            'active' => $active
-        ]);
+
+        $request->setActiveField();
+
+        $brand->update($request->all());
+
         return redirect('admin/brands')->with(['success-message' => 'Бренд успішно змінено.']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return Application|RedirectResponse|Redirector
      */
-    public function destroy($id)
+    public function destroy($id): Redirector|RedirectResponse|Application
     {
-        ProductBrand::find($id)->delete();
+        $this->canDelete('content');
+
+        $brand = Brand::query()->find($id);
+
+        if(!$brand){
+            abort(404);
+        }
+
+        $brand->delete();
+
         return redirect('admin/brands')->with(['success-message' => 'Бренд успішно видалено.']);
     }
 }

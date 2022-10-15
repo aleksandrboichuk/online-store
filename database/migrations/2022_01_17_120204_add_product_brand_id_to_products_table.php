@@ -19,7 +19,7 @@ class AddProductBrandIdToProductsTable extends Migration
             }
             $table->foreign('product_brand_id')
                 ->references('id')
-                ->on('product_brands')
+                ->on('brands')
                 ->onDelete('cascade');
         });
     }

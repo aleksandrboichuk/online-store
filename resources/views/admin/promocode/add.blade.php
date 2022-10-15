@@ -2,13 +2,9 @@
 
 @section('content')
 
-    <div class="breadcrumbs admin-bread">
-        <ol class="breadcrumb">
-            <li><a href="/admin">Панель Адміністратора</a> </li>
-            <li><a href="/admin/promocodes">Промокоди</a> </li>
-            <li class="active">Додавання</li>
-        </ol>
-    </div>
+    @if(isset($breadcrumbs))
+        @include('admin.components.breadcrumbs')
+    @endif
     <section class="form-add">
         <div class="container">
             <div class="col-sm-1"></div>
@@ -16,47 +12,47 @@
                 <form action="{{route('promocodes.store')}}" method="post">
                     <input type="hidden" name="id">
                     <div class="add-block">
-                        <label for="title-field">Назва*</label>
-                        <input type="text" name="title-field" required maxlength="20">
+                        <label for="title">Назва*</label>
+                        <input type="text" name="title" required maxlength="20">
                     </div>
-                    @if($errors->has('title-field'))
+                    @if($errors->has('title'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('title-field') }}</strong>
+                            <strong>{{ $errors->first('title') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="description-field">Опис* </label>
-                        <textarea  name="description-field" cols="30"  rows="10" required maxlength="100"></textarea>
+                        <label for="description">Опис* </label>
+                        <textarea  name="description" cols="30"  rows="10" required maxlength="100"></textarea>
                     </div>
-                    @if($errors->has('description-field'))
+                    @if($errors->has('description'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('description-field') }}</strong>
+                            <strong>{{ $errors->first('description') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="discount-field">Знижка на товари у кошику* </label>
-                        <input type="text" name="discount-field" required  onkeyup="this.value = this.value.replace(/[^\d]/g,'');" maxlength="2">
+                        <label for="discount">Знижка на товари у кошику* </label>
+                        <input type="text" name="discount" required  onkeyup="this.value = this.value.replace(/[^\d]/g,'');" maxlength="2">
                     </div>
                     <div class="add-block">
-                        <label for="promocode-field">Промокод* </label>
-                        <input type="text" name="promocode-field" required maxlength="20">
+                        <label for="promocode">Промокод* </label>
+                        <input type="text" name="promocode" required maxlength="20">
                     </div>
-                    @if($errors->has('promocode-field'))
+                    @if($errors->has('promocode'))
                         <div class="invalid-feedback admin-feedback" role="alert">
-                            <strong>{{ $errors->first('promocode-field') }}</strong>
+                            <strong>{{ $errors->first('promocode') }}</strong>
                         </div>
                     @endif
                     <div class="add-block">
-                        <label for="min-cart-products-field">Мінімальна кількість товарів у кошику </label>
-                        <input type="text"  name="min-cart-products-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');" placeholder="0 - без обмежень">
+                        <label for="min_cart_products">Мінімальна кількість товарів у кошику </label>
+                        <input type="text"  name="min_cart_products" onkeyup="this.value = this.value.replace(/[^\d]/g,'');" placeholder="0 - без обмежень">
                     </div>
                     <div class="add-block">
-                        <label for="min-cart-total-field">Мінімальна сума товарів у кошику (₴) </label>
-                        <input type="text"  name="min-cart-total-field" onkeyup="this.value = this.value.replace(/[^\d]/g,'');" placeholder="0 - без обмежень">
+                        <label for="min_cart_total">Мінімальна сума товарів у кошику (₴) </label>
+                        <input type="text"  name="min_cart_total" onkeyup="this.value = this.value.replace(/[^\d]/g,'');" placeholder="0 - без обмежень">
                     </div>
                     <div class="add-block">
-                        <label for="active-field">Активність </label>
-                        <input type="checkbox" name="active-field" checked>
+                        <label for="active">Активність </label>
+                        <input type="checkbox" name="active" checked>
                     </div>
                     <button type="submit" class="btn btn-default todo-btn">Зберегти</button>
                 </form>

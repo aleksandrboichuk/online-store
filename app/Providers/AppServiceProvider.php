@@ -1,12 +1,9 @@
 <?php
 
 namespace App\Providers;
-use App\Models\Product;
-use App\Observers\ElasticSearchObserver;
-use App\Services\ElasticSearch;
+use App\Services\ElasticSearchService;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
-use App\Models\Category;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
