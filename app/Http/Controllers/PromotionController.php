@@ -69,7 +69,7 @@ class PromotionController extends Controller
     {
         return [
             [$group->name, route('index', $group->seo_name)],
-            [$banner->name],
+            [$banner->title],
         ];
     }
 }
