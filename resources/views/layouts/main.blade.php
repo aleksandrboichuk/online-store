@@ -38,12 +38,12 @@
                     </div>
 
                 </div>
-                <div class="col-md-{{isset($user) && !empty($user) && $user->superuser ? "4" : "5"}}">
-                    <div class="search_box {{isset($user) && !empty($user) && $user->superuser ? : "wide"}}">
+                <div class="col-md-{{isset($user) && !empty($user) && $user->is_admin ? "4" : "5"}}">
+                    <div class="search_box {{isset($user) && !empty($user) && $user->is_admin ? : "wide"}}">
                         @include('components.search')
                     </div>
                 </div>
-                <div class="col-md-{{isset($user) && !empty($user) && $user->superuser ? "6" : "5"}} clearfix">
+                <div class="col-md-{{isset($user) && !empty($user) && $user->is_admin ? "6" : "5"}} clearfix">
                     <div class="shop-menu clearfix pull-right">
                         <ul class="nav navbar-nav">
                             @if(isset($user) && !empty($user))
@@ -53,7 +53,7 @@
                                 {{--<li>--}}
                                     {{--<a href="/"><i class="fa fa-eye"></i> Обране</a>--}}
                                 {{--</li>--}}
-                                @if($user->superuser)
+                                @if($user->is_admin)
                                 <li>
                                     <a href="/admin"><i class="fa fa-crosshairs"></i> Адмін-панель</a>
                                 </li>

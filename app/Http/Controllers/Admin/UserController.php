@@ -99,9 +99,13 @@ class UserController extends AdminController
 
         $request->setActiveField();
 
-        $user->update($request->all());
-
         $user->syncRoles($request->get('roles'));
+
+        $request->merge([
+            'is_admin' => $user->hasAnyAdminRole() === true
+        ]);
+
+        $user->update($request->all());
 
         return redirect('/admin/users')->with(['success-message' => 'Користувача успішно змінено.']);
     }

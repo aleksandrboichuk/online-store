@@ -25,6 +25,7 @@ class CreateCartProductTable extends Migration
                     ->references('id')
                     ->on('products')
                     ->onDelete('cascade');
+            $table->integer('product_count');
             $table->integer('count');
             $table->integer('size');
             $table->timestamps();

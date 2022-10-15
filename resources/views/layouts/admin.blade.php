@@ -46,7 +46,7 @@
                                     <a href="/personal/orders"><i class="fa fa-user"></i> Особистий кабінет</a>
                                 </li>
 
-                                @if($user->superuser)
+                                @if($user->is_admin)
                                     <li>
                                         <a href="/admin"><i class="fa fa-crosshairs"></i>Адмін-панель</a>
                                     </li>

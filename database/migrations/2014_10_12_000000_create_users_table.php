@@ -15,12 +15,11 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('nickname');
             $table->string('email')->unique();
             $table->string('password');
             $table->string('remember_token', 100)->nullable();
             $table->timestamps();
-            $table->boolean('superuser')->default(0);
+            $table->boolean('is_admin')->default(0);
             $table->string('first_name', 64)->default('');
             $table->string('last_name', 64)->default('');
             $table->string('sex', 200)->default('');
@@ -29,7 +28,6 @@ class CreateUsersTable extends Migration
             $table->string('phone', 32)->default('');
             $table->string('session_token', 60)->default('');
             $table->boolean('active')->default(1);
-            $table->string('user_session_token')->nullable();
             $table->dateTime('last_logged_in')->nullable();
         });
     }

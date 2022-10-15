@@ -128,7 +128,7 @@ class AdminController extends Controller
      */
     protected function hasAnyAdminRole(): void
     {
-        if(!auth()->user()->hasAnyRole(User::getAdminRoles())){
+        if(!auth()->user()->hasAnyAdminRole()){
             abort(403);
         }
     }

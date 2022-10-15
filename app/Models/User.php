@@ -30,7 +30,8 @@ class User extends Authenticatable
         'phone',
         'city',
         'active',
-        'superuser',
+        'address',
+        'is_admin',
         'email',
         'password',
         'orders_amount',
@@ -189,7 +190,7 @@ class User extends Authenticatable
      *
      * @return array
      */
-    public static function getAdminRoles(): array
+    public function getAdminRoles(): array
     {
         return Role::query()->where('name', '!=','User')->pluck('name')->toArray();
     }
@@ -202,5 +203,15 @@ class User extends Authenticatable
     public function assignPromocode(): void
     {
         $this->promocodes()->attach(Promocode::getPromocodeForNewUser());
+    }
+
+    /**
+     * Check user has any admin role
+     *
+     * @return bool
+     */
+    public function hasAnyAdminRole(): bool
+    {
+        return auth()->user()->hasAnyRole($this->getAdminRoles());
     }
 }
