@@ -110,12 +110,22 @@
                                                     <li><b>Ім'я:</b><span><input type="text" name="first_name" value="{{$user->first_name}}" required></span></li>
                                                     <li><b>Прізвище:</b><span><input type="text" name="last_name" value="{{$user->last_name}}" required></span></li>
                                                     <li><b>Телефон:</b><span><input type="text" name="phone" value="{{!empty($user->phone) ? $user->phone : ""}}" required onkeyup="this.value = this.value.replace(/[^\d]/g,'');"></span></li>
+                                                    @error('phone')
+                                                    <li><span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                    </span></li>
+                                                    @enderror
                                                 </ul>
                                             @else
                                                 <ul class="total-area-user-data">
                                                     <li><b>Ім'я:</b><span><input type="text" name="first_name" value="" required></span></li>
                                                     <li><b>Прізвище:</b><span><input type="text" name="last_name" value="" required></span></li>
                                                     <li><b>Телефон:</b><span><input type="text" name="phone" value="" required onkeyup="this.value = this.value.replace(/[^\d]/g,'');"></span></li>
+                                                    @error('phone')
+                                                    <li><span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                    </span></li>
+                                                    @enderror
                                                 </ul>
                                             @endif
                                         </div>
@@ -138,6 +148,11 @@
                                                 <option value="{{$city->name}}" {{!empty($user) && $city->name == $user->city ? "selected" : ""}}>{{$city->name}}</option>
                                             @endforeach
                                         </select>
+                                        @error('city')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                         <div class="delivery-input">
                                             <input type="radio" name="delivery" id="post" checked >
                                             <label for="post">Самовивіз з відділення Нова Пошта</label>
