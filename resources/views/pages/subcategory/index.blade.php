@@ -42,18 +42,8 @@
 @endsection
 
 @section('custom-js')
-    {{--<script src="/js/ajax-filters.js"></script>--}}
-    {{--<script>--}}
-        {{--indexAjax("{{route('subcategory', [$group->seo_name, $category->seo_name, $sub_category->seo_name])}}");--}}
-    {{--</script>--}}
-    <script>
-        $(document).on('mouseover','.hidden-img', function () {
-            $(this).parent().css("background-image", "url('/images/products/" + $(this).attr('id') +  "')");
-        });
-        $(document).on('mouseout','.hidden-img',function () {
-            $(this).parent().css("background-image", "url('/images/products/" + $(this).parent().attr('id') +  "')");
-        });
-    </script>
-    <script src="/js/elastic-filters.js"></script>
+    <script src="/js/components/images.js"></script>
+    <script src="/js/search/filtration.js"></script>
+    <script src="/js/components/pagination.js"></script>
 
 @endsection

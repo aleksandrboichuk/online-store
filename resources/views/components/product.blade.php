@@ -23,7 +23,7 @@
                     @if($item->discount != 0)
                         <div class="product-single-prices">
                             <span class="product-single-old-price">₴{{$item->price}}</span>
-                            <span class="product-single-discount">₴{{$item->getProductPriceWithDiscount()}}</span>
+                            <span class="product-single-discount">₴{{$item->price - (round($item->price * ($item->discount * 0.01)))}}</span>
                         </div>
                     @else
                         <h4>₴{{$item->price}}</h4>

@@ -156,23 +156,8 @@
 
 @endsection
 @section('custom-js')
-    <script src="/js/ajax-product-admin.js"></script>
+    <script src="/js/admin/product/script.js"></script>
     <script>
         ajaxRequests("{{route('products.create')}}")
-        $(document).ready(function () {
-            var countImages = 1;
-            $('.add-image').click(function () {
-                $(this).parent().before(function () {
-                    return '<div class="add-block">\n' +
-                        '                <label for="image">Детальне зобр. №'+ countImages + '  </label>\n' +
-                        '                   <input type="file" name="additional-image-'+ countImages +'" accept=".jpg, .jpeg, .png">\n' +
-                        '                </div>'
-                });
-                countImages += 1;
-                if(countImages == 7){
-                    $(this).attr('disabled', 'disabled').css('background-color', '#6fa1f4');
-                }
-            });
-        });
     </script>
 @endsection

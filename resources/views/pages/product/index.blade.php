@@ -280,9 +280,9 @@
 @endsection
 @section('custom-js')
     <script src="/js/jquery.fancybox.min.js"></script>
-    <script src="/js/product-single.js"></script>
+    <script src="/js/product/script.js"></script>
+    <script src="/js/components/images.js"></script>
     <script>
         addToCart("{{route('product', [$group->seo_name, $category->seo_name, $sub_category->seo_name, $product->seo_name])}}");
-        animatePreview()
     </script>
-    @endsection
+@endsection

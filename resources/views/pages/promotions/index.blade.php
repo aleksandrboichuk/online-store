@@ -42,13 +42,7 @@
     {{--<script>--}}
         {{--indexAjax("{{route('promotion', [$group->seo_name, $banner->seo_name])}}");--}}
     {{--</script>--}}
-    <script>
-        $('.hidden-img').hover(function () {
-            $(this).parent().css("background-image", "url('/images/products/" + $(this).attr('id') +  "')")
-        });
-        $('.hidden-img').mouseout(function () {
-            $(this).parent().css("background-image", "url('/images/products/" + $(this).parent().attr('id') +  "')");
-        })
-    </script>
-    <script src="/js/elastic-filters.js"></script>
+    <script src="/js/components/images.js"></script>
+    <script src="/js/search/filtration.js"></script>
+    <script src="/js/components/pagination.js"></script>
 @endsection

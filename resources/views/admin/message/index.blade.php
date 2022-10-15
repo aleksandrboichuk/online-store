@@ -71,28 +71,5 @@
 
 @endsection
 @section('custom-js')
-    <script>
-        $(document).ready(function () {
-
-            let countPage = 1;
-            $('.next-page').click(function () {
-                event.preventDefault();
-                countPage += 1;
-                let url = location.href;
-                if (countPage <= $(this).attr('id')) {
-                    $.ajax({
-                        url: url.split('?page')[0] + '?page=' + countPage,
-                        type: "GET",
-                        success: function (data) {
-                            $('.general-table').append(data)
-                        }
-                    });
-                }
-
-                if (countPage == $(this).attr('id')) {
-                    $(this).css('display', 'none');
-                }
-            });
-        });
-    </script>
+    <script src="/js/components/admin/pagination.js"></script>
 @endsection

@@ -181,7 +181,7 @@
 
 <!--end footer-->
 
-<script src="/js/menu.js"></script>
+<script src="/js/components/menu.js"></script>
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/jquery.scrollUp.min.js"></script>>
@@ -197,7 +197,7 @@
         $('.navbar-collapse').find('.kids').addClass("active");
     }
 </script>
-<script src="/js/validity.js"></script>
+<script src="/js/components/validity.js"></script>
 @yield('custom-js')
 </body>
 </html>

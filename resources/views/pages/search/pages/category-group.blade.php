@@ -18,16 +18,7 @@
                         <h2 class="title text-center">Результати пошуку</h2>
                     </div>
                     <div class="row">
-                        <div class="col-sm-9 select-order-by filters" >
-                            <select name="order-by">
-                                <option value="none" selected >За замовчуванням</option>
-                                <option value="discount">За знижками</option>
-                                <option value="created_at">За новинками</option>
-                                <option value="count">За популярністю</option>
-                                <option value="price-asc">За зростанням ціни</option>
-                                <option value="price-desc">За спаданням ціни</option>
-                            </select>
-                        </div>
+                       @include('components.sorting')
                     </div>
                     <div class="row">
                         <div class="products">
@@ -55,7 +46,7 @@
     {{--<script>--}}
         {{--indexAjax("{{route('category', [$group->seo_name, $category->seo_name])}}");--}}
     {{--</script>--}}
-    <script src="/js/search-page.js"> </script>
+    <script src="/js/search/page/script.js"> </script>
 @endsection
 
 
