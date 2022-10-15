@@ -23,7 +23,7 @@ class CreateOrdersTable extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('phone');
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->string('comment')->nullable();
             $table->integer('total_cost')->unsigned();
             $table->timestamps();
