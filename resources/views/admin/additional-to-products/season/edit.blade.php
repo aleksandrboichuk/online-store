@@ -10,11 +10,11 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-8">
                 {{--<h2>Додавання категорії</h2>--}}
-                <form action="{{route('seasons.update', $color->id)}}" method="post">
+                <form action="{{route('seasons.update', $season->id)}}" method="post">
                     @method('PUT')
                     <div class="add-block">
                         <label for="name">Назва* </label>
-                        <input type="text" value="{{$color->name}}" name="name" required maxlength="20">
+                        <input type="text" value="{{$season->name}}" name="name" required maxlength="20">
                     </div>
                     @if($errors->has('name'))
                         <div class="invalid-feedback admin-feedback" role="alert">
@@ -23,7 +23,7 @@
                     @endif
                     <div class="add-block">
                         <label for="seo_name">SEO* </label>
-                        <input type="text" value="{{$color->seo_name}}" name="seo_name"  required maxlength="20">
+                        <input type="text" value="{{$season->seo_name}}" name="seo_name"  required maxlength="20">
                     </div>
                     @if($errors->has('seo_name'))
                         <div class="invalid-feedback admin-feedback" role="alert">
@@ -32,7 +32,7 @@
                     @endif
                     <div class="add-block">
                         <label for="active">Активність </label>
-                        <input type="checkbox" name="active" {{$color->active ? "checked" : ""}}>
+                        <input type="checkbox" name="active" {{$season->active ? "checked" : ""}}>
                     </div>
                     <button type="submit" class="btn btn-default todo-btn">Зберегти</button>
                 </form>
