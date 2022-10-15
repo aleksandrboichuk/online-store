@@ -17,7 +17,7 @@ class ColorRequest extends AdminFormRequest
             'name' => ['string', 'min:2'],
             'seo_name' => [
                 'string',
-                Rule::unique('colors', 'seo_name')->ignore($this->route('id')) ,
+                Rule::unique('colors', 'seo_name')->ignore($this->route('color')) ,
                 'min:2'
             ],
         ];
