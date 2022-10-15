@@ -41,8 +41,13 @@
                     @endif
                     <div class="add-block">
                         <label for="phone">Телефон </label>
-                        <input type="text" value="{{!empty($selected_user->phone) ? $selected_user->phone : ''}}" readonly name="phone" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
+                        <input type="text" value="{{!empty($selected_user->phone) ? $selected_user->phone : ''}}" name="phone" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                     </div>
+                    @if($errors->has('phone'))
+                        <div class="invalid-feedback admin-feedback" role="alert">
+                            <strong>{{ $errors->first('phone') }}</strong>
+                        </div>
+                    @endif
                     <div class="add-block">
                         <label for="city">Місто </label>
                         <input type="text" value="{{$selected_user->city}}" name="city">
