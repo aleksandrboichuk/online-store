@@ -103,9 +103,10 @@
                                 @else
                                         <li><a href="/admin/banners">Банери</a></li>
                                 @endif
-
-                                <li><a href="/admin/categories" >Групи категорій<i class="fa fa-angle-down"></i></a>
+                                <li class="dropdown">
+                                    <a href="#">Категорії<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
+                                        <li><a href="/admin/category-groups">Групи категорій</a></li>
                                         <li><a href="/admin/categories">Категорії</a></li>
                                         <li><a href="/admin/subcategories">Підкатегорії</a></li>
                                     </ul>

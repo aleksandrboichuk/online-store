@@ -14,6 +14,9 @@ class CategoryGroup extends BaseModel
 {
 
     protected $fillable = [
+        'name',
+        'seo_name',
+        'active',
         'category_group_id',
         'category_id',
         'created_at',
