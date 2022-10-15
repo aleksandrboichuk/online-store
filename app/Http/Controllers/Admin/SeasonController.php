@@ -39,7 +39,7 @@ class SeasonController extends AdminController
     {
         $breadcrumbs = parent::getBreadcrumbs();
 
-        $breadcrumbs[] = ["Кольори"];
+        $breadcrumbs[] = ["Сезони"];
 
         return $breadcrumbs;
     }
