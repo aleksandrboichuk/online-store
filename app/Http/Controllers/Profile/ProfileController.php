@@ -46,7 +46,7 @@ class ProfileController extends Controller
 
         $status = $this->status ? StatusList::getOneBySeoName($this->status) : null;
 
-        $user_orders = $this->status
+        $user_orders = $status
             ? Order::getUserOrdersByUserIdAndStatus($user_id, $status->id)
             : Order::getUserOrders($user_id);
 
