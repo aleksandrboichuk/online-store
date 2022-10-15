@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CategoryGroup;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
@@ -35,5 +36,17 @@ class DatabaseSeeder extends Seeder
         $user->createCart();
 
         $user->assignRole($role);
+
+        CategoryGroup::query()->create([
+            'name' => 'Жінкам',
+            'seo_name' => 'women',
+        ]);
+
+        CategoryGroup::query()->create([
+            'name' => 'Чоловікам',
+            'seo_name' => 'men',
+        ]);
+
+        //TODO::
     }
 }

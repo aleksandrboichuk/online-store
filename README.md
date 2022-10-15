@@ -1,66 +1,75 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Інтернет-магазин одягу та аксесуарів Divisima
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Проєкт був розроблений як дипломна робота за допомогою фреймворку PHP Laravel.
+У приорітет ставилася Backend розробка.
 
-## About Laravel
+## Про проєкт
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Магазин розділений по групам категорій (стать людини). Для кожної групи категорій є окремий розділ магазину, де відображено індивідуально всі пункти меню, бренди (до яких прив'язаний хоча б один товар цієї групи категорій), банери та інше. Тобто, група категорій - це великий окремий розділ (як і у приміщенні магазину), у якому відображається все індивідуально для даної групи категорій.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Реалізовано наступний функціонал:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### _Відображення товарів_
+Відображення відбувається за групами категорій (Жінки/Чоловіки тощо), категоріями та підкатегоріями (підкатегорії та категорії передбачено окремо для кожної групи категорій). 
+### _Сторінка товару_
+На даній сторінці відображена уся інформація про товар та наявна можливість додати його у кошик (для будь-якого користувача), а також залишити відгк (для зареєстрованих користувачів).
+### _Банери_
+Знаходяться на головній сторінці, для кожної групи категорій індивідуально.
+### _Пошук товарів_.
+В залежності від з якої він здійснюється - виконується пошук товарів з урахуванням групи категорій, якій належить сторінка. Тобто, якщо користувач знаходится у розділі для чоловіків, то пошук виконається тільки по товарам для чоловіків (_Реалізовано за допомогою пошукового двигуна **ElasticSearch**_).
+### _Фільтрація товарів_.
+Реалізовані фільтри по розмірам, кольорам, брендам, сезонам, матеріалам, цінами (проміжок) (_Реалізовано за допомогою пошукового двигуна **ElasticSearch**_).
+### _Сортування_ 
+На кожній сторінці передбачено сортування відображення товарів як і без застосування фільтрів, так і з ними (_Реалізовано за допомогою пошукового двигуна **ElasticSearch**_).
+### _Кошик_. 
+Додавання товарів у кошик можливо як і зареєстрованому користувачу так і незареєстрованому. У кошику є можливість обрати промокоди (про них далі).
+### _Оформлення замовлення_
+Також доступне для усіх відвідувачів магазину. 
+### _Промокоди_
+"З коробки" (при застосуванні db:seed) у базі даних є 2 промокоди, з якими взаємодіє деякий функціонал: для кожного нового користувача видається промокод на знижку 15% (з деякими умовами для застосування), за загальну кількість товарів у кошку (вказана у таблиці).
+### _Особистий кабінет_
+У кожного зареєстрованого користувача є доступ до особистого кабінету. Там він може відфільтрувати та переглянути замовлення, їх деталі та статус який поставив адміністратор. Також є можливість змінити налаштування профілю, пароль, пошту, ім'я тощо. У кабінеті також відображаются активні промокоди користувача, які він може застосувати та їхній опис, умови застосування. Відображена також інформація про кількість здійснених замовлень користувачем та їхню суму.
+### _Відгуки_
+Кожен зареєстрований користувач може залишити відгук про товар з оцінкою. Також на основі оцінок відображаються "зірочки" та кількість відгуків у кожного товара на його сторінці.
+###  _Реєстрація_
+Доступна реєстрація для усіх користувачів.
+### _Авторизація_
+Раніше зареєстровані користувачі можуть, звісно, увійти в свій акаунт. У разі, якщо користувач забув пароль, існує відповідна кнопка на сторінці входу для відправки повідомлення на пошту користувачу з посиланням для відновлення паролю.
+### _Ролі_
+У кожного користувача за замовчуванням є відповідна роль 'user". Також є "з коробки" ролі "content manager", "orders manager", "feedback manager" та "super admin". Відповідно до їх назви можна зрозуміти набір  їх доступів до пунктів адмін-панелі та виконання певних дій.
+### _Адміністративна панель_
+Уся база даних може регулюватись адміністратором за допомогою адміністративної панелі (за наявності доступу, про нього нижче). У ній в таблицях відображені усі необхідні дані, доступні для редагування, або створення нових. А саме:
+   
+  + **Товари**. Додавання, редагування, видалення товарів, усіх їх додаткових параметрів (розміри, матеріали, бренди тощо) окремо. За кожним товаром закріплена якась кількість його розмірів, які мають кількість цього самого товару. Наприклад 44-го розміру на складі знаходиться 1000 шт., 45-го - 2000 шт. Це все можна регулювати при додаванні, редагуванні товарів. Також встановлення знижки, прив'язка до банеру (акції), зображення тощо.
+  + **Замовлення**. Редагування та перегляд кожного замовлення та надання йому певного статусу. При наданні статусу "Доставляється" (з коробки при виконанні db:seed ці статуси буде вже додано) - для всіх товарів з даного замовлення від кількості певного розміру цього товару автоматично відніметься кількість цього товару у замовленні (коли забрали якусь кількість товару якогось розміру зі складу та відправили клієнтові).
+  + **Властивості товарів**. Сезони, розміри, матеріали, бренди, кольори - усе це може бути відредаговано або додано до магазину.
+  + **Категорії**. Усі види категорій також можна редагувати, додавати та видаляти.
+  + **Повідомлення**. Зі сторінки контактів можна відправити фідбек, який можна буде переглянути відповідній людині (за наявності ролі) у цьому розділі адміністративної панелі.
+  + **Промокоди**. Можна також додавати, редагувати промокоди та їхні умови застосування.
+  + **Банери**. Банери, що на головній сторінці також представлені у адміністративній панелі для редагування, видалення чи додавання.
+  + **Користувачі**. Так звані суперадміни можуть редагувати користувачів та надавати ім якість ролі.
 
-## Learning Laravel
+## Розгортання проєкту
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Для того, щоб коректно розгорнути проєкт локально, потрібно виконати наступні кроки:
 
-## Laravel Sponsors
+- Завантажити у папку серверу проєкт (для OpenServer папка domains);
+- Скопіювати у файл `.env` зміст файлу `.env.example` та налаштувати відповідно до своїх налаштувань серверу та БД;
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-### Premium Partners
+**_[УВАГА!] Оскільки пошук,  фільтрація та сортування товарів працюють на основі запитів до двигуна ElasticSearch, тому для коректної їх роботи необхідно встановити та запустити пошуковий двигун ElasticSearch. А також визначити його хост та порт у змінній `ELASTICSEARCH_HOSTS` файлу `.env`_. (Попередження: двигун дуже тяжкий для ОЗП, у разі запуску його на комп'ютері.)** 
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-- **[Romega Software](https://romegasoftware.com)**
+- У консолі, знаходячись в дерикторії проєкту виконати наступні консольні команди почергово:
+    + `composer install`
+    + `php artisan key:generate`
+    + `php artisan migrate`
+    + `php artisan db:seed`
+-  Для запуску проєкту виконати команду `php artisan serve`
 
-## Contributing
+Після виконання вищевказаних кроків проєкт має бути повністю готовим для використання з деякими початковими даними у БД.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### Для входу в його акаунт супер адміністратора потрібно використати такі "креди":
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    Логін:  admin@example.com
+    Пароль: admin
