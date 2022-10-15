@@ -17,6 +17,7 @@ class BrandRequest extends AdminFormRequest
             'name' => ['string', 'min:2'],
             'seo_name' => [
                 'string',
+                'required' ,
                 Rule::unique('brands', 'seo_name')->ignore($this->route('brand')) ,
                 'min:2'
             ],

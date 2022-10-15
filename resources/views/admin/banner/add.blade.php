@@ -29,8 +29,8 @@
                     </div>
                 @endif
                 <div class="add-block">
-                    <label for="description">SEO name* </label>
-                    <input type="text" name="seo" maxlength="40">
+                    <label for="seo_name">SEO name* </label>
+                    <input type="text" name="seo_name" maxlength="40">
                 </div>
                 @if($errors->has('seo_name'))
                     <div class="invalid-feedback admin-feedback" role="alert">

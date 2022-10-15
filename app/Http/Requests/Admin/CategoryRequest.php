@@ -18,6 +18,7 @@ class CategoryRequest extends AdminFormRequest
             'name' => [ 'string', 'min:3'],
             'seo_name' => [
                 'string',
+                'required' ,
                 Rule::unique('categories', 'seo_name')->ignore($this->route('category')) ,
                 'min:3'
             ],

@@ -18,6 +18,7 @@ class ProductRequest extends AdminFormRequest
             'description' => [ 'string', 'min:10'],
             'seo_name' => [
                 'string',
+                'required' ,
                 Rule::unique('products', 'seo_name')->ignore($this->route('product')) ,
                 'min:3'
             ],

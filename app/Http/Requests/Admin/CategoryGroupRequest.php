@@ -17,6 +17,7 @@ class CategoryGroupRequest extends AdminFormRequest
             'name' => [ 'string', 'min:3'],
             'seo_name' => [
                 'string',
+                'required' ,
                 Rule::unique('category_groups', 'seo_name')->ignore($this->route('category-group')) ,
                 'min:3'
             ],

@@ -18,6 +18,7 @@ class SubCategoryRequest extends AdminFormRequest
             'name' => [ 'string', 'min:3'],
             'seo_name' => [
                 'string',
+                'required' ,
                 Rule::unique('sub_categories', 'seo_name')->ignore($this->route('subcategory')) ,
                 'min:3'
             ],

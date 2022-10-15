@@ -17,6 +17,7 @@ class SeasonRequest extends AdminFormRequest
             'name' => ['string', 'min:2'],
             'seo_name' => [
                 'string',
+                'required' ,
                 Rule::unique('seasons', 'seo_name')->ignore($this->route('season')) ,
                 'min:2'
             ],

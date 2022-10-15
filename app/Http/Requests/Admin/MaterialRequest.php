@@ -18,6 +18,7 @@ class MaterialRequest extends AdminFormRequest
             'title' => ['string', 'min:3'],
             'seo_name' => [
                 'string',
+                'required' ,
                 Rule::unique('materials', 'seo_name')->ignore($this->route('material')) ,
                 'min:3'
             ],
