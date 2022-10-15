@@ -68,7 +68,6 @@ class LoginController extends Controller
      */
     public function toLogin(Request $request): Redirector|RedirectResponse|Application
     {
-
         $user = User::getUserByEmail($request->get('email'));
 
         if($user && !$user->active){
