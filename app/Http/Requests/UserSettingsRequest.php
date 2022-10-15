@@ -37,7 +37,7 @@ class UserSettingsRequest extends FormRequest
             'first_name' => ['string', 'min:2'],
             'last_name' => ['string', 'min:2'],
             'phone' => ['string', 'nullable','min:10', 'unique:users,phone,' . $this->user_id . ',id'],
-            'city' => ['string', 'exists:ukraine_cities,name'],
+            'city' => ['string',  'nullable','exists:ukraine_cities,name'],
             'email' => ['string', 'unique:users,email,' . $this->user_id . ',id', 'min:8'],
             'password' => ['nullable', 'min:3', 'confirmed'],
         ];
