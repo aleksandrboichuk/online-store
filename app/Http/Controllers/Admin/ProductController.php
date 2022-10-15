@@ -109,6 +109,7 @@ class ProductController extends AdminController
         $request->merge([
             'discount'          => $request->get('discount') ?? 0,
             'banner_id'         => $request->get('banner')  ?? null,
+            'count'             => $this->getTotalCount($request),
             'preview_img_url'   => $request->file('preview_image')->getClientOriginalName(),
         ]);
 
@@ -167,6 +168,7 @@ class ProductController extends AdminController
 
         $request->merge([
             'discount'          => $request->get('discount') ?? 0,
+            'count'             => $this->getTotalCount($request),
             'banner_id'         => $request->get('banner')  ?? null,
             'preview_img_url'   => $preview_image ? $preview_image->getClientOriginalName() : $product->preview_img_url
         ]);
@@ -266,5 +268,30 @@ class ProductController extends AdminController
             $this->getProductProperties(),
             ['breadcrumbs' => $this->breadcrumbs]
         );
+    }
+
+    /**
+     * Returns total count of product by count all it's sizes
+     *
+     * @param ProductRequest $request
+     * @return int
+     */
+    private function getTotalCount(ProductRequest $request): int
+    {
+        $sizes = $request->get('sizes');
+        $sizes_count = $request->get('size-count');
+
+        $count = 0;
+
+        if ($sizes && $sizes_count){
+
+            $sizes_count = array_values(array_filter($sizes_count, fn($value) => !is_null($value)));
+
+            foreach ($sizes as $key => $size) {
+                $count += $sizes_count[$key] ?? 1;
+            }
+        }
+
+        return $count;
     }
 }
