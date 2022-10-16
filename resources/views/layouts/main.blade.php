@@ -33,8 +33,7 @@
             <div class="row">
                 <div class="col-md-2 clearfix">
                     <div class="logo">
-                        <a href="/shop/women"><img src="/images/home/logo.png" alt=""
-                            /></a>
+                       <h1>PHP - bottom</h1>
                     </div>
 
                 </div>
