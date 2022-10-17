@@ -19,7 +19,7 @@ class UsersSeeder extends Seeder
         $admin = User::query()->create([
             'first_name' => 'Super',
             'last_name' => 'Admin',
-            'email' => 'admin@example.com',
+            'email' => 'admin@divisima.com',
             'is_admin' => true,
             'password' => Hash::make('admin'),
         ]);
@@ -32,7 +32,7 @@ class UsersSeeder extends Seeder
         $content_manager = User::query()->create([
             'first_name' => 'Content',
             'last_name' => 'Manager',
-            'email' => 'content_manager@example.com',
+            'email' => 'content_manager@divisima.com',
             'is_admin' => true,
             'password' => Hash::make('content_manager'),
         ]);
@@ -45,7 +45,7 @@ class UsersSeeder extends Seeder
         $orders_manager= User::query()->create([
             'first_name' => 'Orders',
             'last_name' => 'Manager',
-            'email' => 'orders_manager@example.com',
+            'email' => 'orders_manager@divisima.com',
             'is_admin' => true,
             'password' => Hash::make('orders_manager'),
         ]);
@@ -58,7 +58,7 @@ class UsersSeeder extends Seeder
         $feedback_manager= User::query()->create([
             'first_name' => 'Feedback',
             'last_name' => 'Manager',
-            'email' => 'feedback_manager@example.com',
+            'email' => 'feedback_manager@divisima.com',
             'is_admin' => true,
             'password' => Hash::make('feedback_manager'),
         ]);
@@ -71,7 +71,7 @@ class UsersSeeder extends Seeder
         $user = User::query()->create([
             'first_name' => 'Simple',
             'last_name' => 'User',
-            'email' => 'user@example.com',
+            'email' => 'user@divisima.com',
             'is_admin' => true,
             'password' => Hash::make('user'),
         ]);

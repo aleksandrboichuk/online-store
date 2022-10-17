@@ -74,10 +74,10 @@
 ### Акаунти:
 В залежності від ролі акаунту представлені окремі пункти меню в адміністративній панелі. Якщо вам вдалося виконати раніше команду `php artisan db:seed`, то нижче представлені "креди" для входу в акаунти вже створених користувачів:
 
-| Роль                  |            Логін             |                                  Пароль |
-|-----------------------|:----------------------------:|----------------------------------------:|
-| Адміністратор         |      admin@example.com       |                                   admin |
-| Контент менеджер      | content_manager@example.com  |                         content_manager |
-| Менеджер замовлень    |  orders_manager@example.com  |                          orders_manager |
-| Менеджер повідомдлень | feedback_manager@example.com |                        feedback_manager |
-| Користувач            |       user@example.com       |                                    user |
+| Роль                  |             Логін             |                                  Пароль |
+|-----------------------|:-----------------------------:|----------------------------------------:|
+| Адміністратор         |      admin@divisima.com       |                                   admin |
+| Контент менеджер      | content_manager@divisima.com  |                         content_manager |
+| Менеджер замовлень    |  orders_manager@divisima.com  |                          orders_manager |
+| Менеджер повідомдлень | feedback_manager@divisima.com |                        feedback_manager |
+| Користувач            |       user@divisima.com       |                                    user |
