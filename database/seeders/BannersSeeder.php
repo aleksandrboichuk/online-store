@@ -21,7 +21,7 @@ class BannersSeeder extends Seeder
 
         if($women && Storage::disk('banners')->exists('temp_images_sales_10_percent')){
             $women_banner = Banner::query()->create([
-                'name' => 'ЗНИЖКИ -10%',
+                'title' => 'ЗНИЖКИ -10%',
                 'seo_name' => 'sales-10-percent',
                 'description' => 'Цієї п\'ятниці діють знижки на товари усіх категорій для жінок! Знижки діятимуть усі вихідні. Встигніть придбати бажаний товар по низькій ціні!',
                 'image_url' => 'sales-10-percent.jpg',
@@ -35,7 +35,7 @@ class BannersSeeder extends Seeder
 
         if($men && Storage::disk('banners')->exists('temp_images_new_men_collection')){
             $men_banner = Banner::query()->create([
-                'name' => 'НОВА КОЛЕКЦІЯ ДЛЯ ЧОЛОВІКІВ',
+                'title' => 'НОВА КОЛЕКЦІЯ ДЛЯ ЧОЛОВІКІВ',
                 'seo_name' => 'new-men-collection',
                 'description' => 'Вже у наявності нова колекція для чоловіків! У перші 4 дні, а саме з 10.10 до 14.10 буде діяти знижка на цю колекцію у розмірі -15% від вартості товару колекції.',
                 'image_url' => 'new-men-collection.jpg',

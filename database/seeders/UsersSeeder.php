@@ -29,7 +29,7 @@ class UsersSeeder extends Seeder
         $admin->assignRole('super admin');
 
         // content manager
-        $content_manager= User::query()->create([
+        $content_manager = User::query()->create([
             'first_name' => 'Content',
             'last_name' => 'Manager',
             'email' => 'content_manager@example.com',
