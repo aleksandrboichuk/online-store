@@ -29,7 +29,8 @@ class BannersSeeder extends Seeder
                 'category_group_id' => $women->id,
             ]);
 
-            rename(public_path('/images/banners/temp_images_sales_10_percent'), public_path('/images/banners/' . $women_banner->id));
+            Storage::disk('banners')->makeDirectory($women_banner->id);
+            Storage::disk('banners')->put($women_banner->id, Storage::disk('banners')->get('temp_images_sales_10_percent'));
 
         }
 
@@ -43,7 +44,8 @@ class BannersSeeder extends Seeder
                 'category_group_id' => $men->id,
             ]);
 
-            rename(public_path('/images/banners/temp_images_new_men_collection'), public_path('/images/banners/' . $men_banner->id));
+            Storage::disk('banners')->makeDirectory($men_banner->id);
+            Storage::disk('banners')->put($men_banner->id, Storage::disk('banners')->get('temp_images_new_men_collection'));
         }
     }
 }
