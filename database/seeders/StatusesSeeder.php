@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\StatusList;
 use Illuminate\Database\Seeder;
 
-class G_StatusesSeeder extends Seeder
+class StatusesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

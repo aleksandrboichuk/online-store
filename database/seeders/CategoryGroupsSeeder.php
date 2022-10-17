@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\CategoryGroup;
 use Illuminate\Database\Seeder;
 
-class B_CategoryGroupsSeeder extends Seeder
+class CategoryGroupsSeeder extends Seeder
 {
     /**
      * Run the database seeds.

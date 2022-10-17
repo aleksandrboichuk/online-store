@@ -9,7 +9,7 @@ use App\Models\Season;
 use App\Models\Size;
 use Illuminate\Database\Seeder;
 
-class E_ProductsPropertiesSeeder extends Seeder
+class ProductsPropertiesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -15,7 +15,7 @@ use App\Models\SubCategory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 
-class I_ProductsSeeder extends Seeder
+class ProductsSeeder extends Seeder
 {
     /**
      * Run the database seeds.

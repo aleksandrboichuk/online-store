@@ -6,7 +6,7 @@ use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Database\Seeder;
 
-class D_SubCategoriesSeeder extends Seeder
+class SubCategoriesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

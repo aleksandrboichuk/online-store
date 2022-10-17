@@ -7,7 +7,7 @@ use App\Models\CategoryGroup;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 
-class H_BannersSeeder extends Seeder
+class BannersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
