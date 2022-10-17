@@ -9,6 +9,7 @@ use App\Models\CategoryGroup;
 use App\Models\Color;
 use App\Models\Material;
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\Season;
 use App\Models\Size;
 use App\Models\SubCategory;
@@ -87,7 +88,7 @@ class ProductsSeeder extends Seeder
                 'product_brand_id' => $brand_gj->id,
             ]);
 
-            $jeans->sizes()->attach([
+            $jeans->sizes()->attach($jeans->id, [
                 'size_id' => $size_26->id,
                 'count' =>  1001
             ]);
@@ -97,9 +98,9 @@ class ProductsSeeder extends Seeder
             // detail images
             for($i = 1; $i <=3; $i++){
                 if(Storage::disk('products')
-                    ->exists('temp_images_sorochka_chorna/details/dzhinsy-blakytni-gj-' . $i . '.jpg')
+                    ->exists('temp_images_dzhinsy-blakytni-gj/details/dzhinsy-blakytni-gj-' . $i . '.jpg')
                 ){
-                    $jeans->images()->attach([
+                    ProductImage::query()->create([
                         'url' => 'dzhinsy-blakytni-gj-' . $i . '.jpg',
                         'product_id' => $jeans->id,
                     ]);
@@ -141,7 +142,7 @@ class ProductsSeeder extends Seeder
                 'product_brand_id' => $brand_house->id,
             ]);
 
-            $shirt->sizes()->attach([
+            $shirt->sizes()->attach($shirt->id, [
                 'size_id' => $size_44->id,
                 'count' =>  1001
             ]);
@@ -153,7 +154,7 @@ class ProductsSeeder extends Seeder
                 if(Storage::disk('products')
                     ->exists('temp_images_sorochka_chorna/details/sorochka-chorna-' . $i . '.jpg')
                 ){
-                    $shirt->images()->attach([
+                    ProductImage::query()->create([
                         'url' => 'sorochka-chorna-' . $i . '.jpg',
                         'product_id' => $shirt->id,
                     ]);
