@@ -24,9 +24,9 @@ Route::get('/', function (){
  * Contact page
  */
 //  contact page
-Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
+Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
 //  process feedback request
-Route::post('/send-message',  [App\Http\Controllers\HomeController::class, 'sendMessage'])->name('send.message');
+Route::post('/send-message',  [App\Http\Controllers\ContactController::class, 'sendMessage'])->name('send.message');
 
 
 /**

@@ -32,11 +32,4 @@ class CheckoutRequest extends FormRequest
             'post_department' => ['nullable', 'integer', 'min:1'],
         ];
     }
-
-    public function messages()
-    {
-        return [
-          //TODO:: messages
-        ];
-    }
 }
