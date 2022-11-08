@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+    php:
+        build: ./docker/php
+        volumes:
+            - ./:/var/www
+        depends_on:
+            - mysql
+
+    nginx:
+        build: ./docker/nginx
+        ports:
+            - 80:80
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/conf.d:/etc/nginx/conf.d
+        depends_on:
+            - php
+    mysql:
+        image: mysql:8.0
+        restart: always
+        volumes:
+            - ./docker/tmp/db:/var/lib/mysql
+        environment:
+            MYSQL_DATABASE: divisima
+            MYSQL_ROOT_PASSWORD: root
+        ports:
+            - 8101:3306
+        command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
+
+    elasticsearch:
+        build: ./docker/elasticsearch
+        environment:
+            - xpack.security.enabled=false
+            - discovery.type=single-node
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+            - cluster.name=thegoodocs-cluster
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        ports:
+            - 9200:9200
+        restart: unless-stopped
+
+
+
+
