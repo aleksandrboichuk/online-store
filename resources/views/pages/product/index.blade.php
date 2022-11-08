@@ -118,15 +118,15 @@
                                 </div>
                                     <div class="product-characteristics">
                                         <b>Бренд: </b>
-                                        <p>{{$product->brands['name']}}</p>
+                                        <p>{{$product->brands->name}}</p>
                                     </div>
                                     <div class="product-characteristics">
                                         <b>Колір: </b>
-                                        <p>{{$product->colors['name']}}</p>
+                                        <p>{{$product->colors->name}}</p>
                                     </div>
                                     <div class="product-characteristics">
                                         <b>Сезон: </b>
-                                        <p>{{$product->seasons['name']}}</p>
+                                        <p>{{$product->seasons->name}}</p>
                                     </div>
                                     <div class="product-characteristics">
                                         <b>Матеріал: </b>
@@ -177,7 +177,7 @@
                                            @foreach($reviews as $review)
                                                <ul>
                                                    <li>
-                                                       <a><i class="fa fa-user"></i>{{$review->users['first_name'] . ' ' . $review->users['last_name']}}</a>
+                                                       <a><i class="fa fa-user"></i>{{$review->users->first_name . ' ' . $review->users->last_name}}</a>
                                                    </li>
                                                    <li>
                                                        <a><i class="fa fa-calendar-o"></i>{{date("d.m.Y - H:i", strtotime($review->created_at))}}</a>
