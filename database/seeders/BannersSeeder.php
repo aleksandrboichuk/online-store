@@ -29,8 +29,7 @@ class BannersSeeder extends Seeder
                 'category_group_id' => $women->id,
             ]);
 
-            rename(public_path('/images/banners/temp_images_sales_10_percent'), public_path('/images/banners/' . $women_banner->id));
-
+            exec("mv " . public_path('/images/banners/temp_images_sales_10_percent') . ' ' . public_path('/images/banners/' . $women_banner->id));
         }
 
         if($men && Storage::disk('banners')->exists('temp_images_new_men_collection')){
@@ -43,7 +42,7 @@ class BannersSeeder extends Seeder
                 'category_group_id' => $men->id,
             ]);
 
-            rename(public_path('/images/banners/temp_images_new_men_collection'), public_path('/images/banners/' . $men_banner->id));
+            exec("mv " . public_path('/images/banners/temp_images_new_men_collection') . ' ' . public_path('/images/banners/' . $men_banner->id));
         }
     }
 }

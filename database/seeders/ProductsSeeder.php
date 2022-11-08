@@ -107,7 +107,7 @@ class ProductsSeeder extends Seeder
                 }
             }
 
-            rename(public_path('/images/products/dzhinsy-blakytni-gj'), public_path('/images/products/' . $jeans->id));
+            exec("mv " . public_path('/images/products/dzhinsy-blakytni-gj') . ' ' . public_path('/images/products/' . $jeans->id));
         }
 
 
@@ -160,8 +160,7 @@ class ProductsSeeder extends Seeder
                     ]);
                 }
             }
-
-            rename(public_path('/images/products/temp_images_sorochka_chorna'), public_path('/images/products/' . $shirt->id));
+            exec("mv " . public_path('/images/products/temp_images_sorochka_chorna') . ' ' . public_path('/images/products/' . $shirt->id));
         }
     }
 }
