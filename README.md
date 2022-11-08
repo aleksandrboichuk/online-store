@@ -50,7 +50,7 @@
   + **Користувачі**. Так звані суперадміни можуть редагувати користувачів та надавати ім якість ролі.
 
 ## У розробці
-- Інтегровація Docker + NGINX + php-fpm + mysql + Elasticsearch
+- Інтеграція Docker + NGINX + php-fpm + mysql + Elasticsearch
 - Покриття коду Unit тестами.
 
 
