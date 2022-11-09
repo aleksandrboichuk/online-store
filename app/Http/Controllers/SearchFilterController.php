@@ -65,7 +65,7 @@ class SearchFilterController extends Controller
      *
      * @var array
      */
-    private array $arrElasticQuery;
+    private array $arrElasticQuery = [];
 
     /**
      * Strict mode of search
@@ -101,6 +101,19 @@ class SearchFilterController extends Controller
      * @var array
      */
     protected array $must;
+
+    /**
+     * Array with static list of product properties
+     *
+     * @var string[]
+     */
+    protected array $product_properties_array = [
+          'seasons',
+          'colors',
+          'materials',
+          'brands',
+          'sizes',
+    ];
 
     /**
      * Constructor
@@ -195,9 +208,9 @@ class SearchFilterController extends Controller
     private function setMustArrayWithAllCategories(): void
     {
         $this->must = [
-            ['match' => ['category_group_id' => $this->group->id]],
-            ['match' => ['category_id' => $this->category->id]],
-            ['match' => ['category_sub_id' => $this->subCategory->id]]
+            ['match' => ['category_group.id' => $this->group->id]],
+            ['match' => ['category.id' => $this->category->id]],
+            ['match' => ['sub_category._id' => $this->subCategory->id]]
         ];
     }
 
@@ -209,8 +222,8 @@ class SearchFilterController extends Controller
     private function setMustArrayWithGroupAndCategory(): void
     {
         $this->must = [
-            ['match' => ['category_group_id' => $this->group->id]],
-            ['match' => ['category_id' => $this->category->id]]
+            ['match' => ['category_group.id' => $this->group->id]],
+            ['match' => ['category.id' => $this->category->id]]
         ];
     }
 
@@ -222,7 +235,7 @@ class SearchFilterController extends Controller
     private function setMustArrayWithGroup(): void
     {
         $this->must = [
-            ['match' => ['category_group_seo_name' => $this->group_seo_name]],
+            ['match' => ['category_group.seo_name' => $this->group_seo_name]],
         ];
     }
 
@@ -234,7 +247,7 @@ class SearchFilterController extends Controller
     private function setMustArrayWithPromotion(): void
     {
         $this->must = [
-            ['match' => ['category_group_seo_name' => $this->group_seo_name]],
+            ['match' => ['category_group.seo_name' => $this->group_seo_name]],
             ['match' => ['banner_id' => $this->promotionBanner->id]],
         ];
     }
@@ -246,7 +259,7 @@ class SearchFilterController extends Controller
      */
     private function setDefaultMustArray(): void
     {
-        $this->must = ['match' => ['category_group_seo_name' => "women"]];
+        $this->must = ['match' => ['category_group.seo_name' => "women"]];
     }
 
     /**
@@ -270,23 +283,34 @@ class SearchFilterController extends Controller
      */
     private function setElasticQueryByQueryString(): void
     {
-        if(isset($this->arrQuery['colors'])){
-            $this->setColorsToElasticQuery();
+        foreach ($this->arrQuery as $entity => $value) {
+            if(in_array($entity, $this->product_properties_array)){
+                $this->setEntityToElasticQuery($entity);
+            }
         }
-        if(isset($this->arrQuery['brands'])){
-            $this->setBrandsToElasticQuery();
-        }
-        if(isset($this->arrQuery['seasons'])){
-            $this->setSeasonsToElasticQuery();
-        }
-        if(isset($this->arrQuery['materials'])){
-            $this->setMaterialsToElasticQuery();
-        }
-        if(isset($this->arrQuery['sizes'])){
-            $this->setSizesToElasticQuery();
-        }
+
         if(isset($this->arrQuery['priceFrom']) && isset($this->arrQuery['priceTo'])){
             $this->setPriceRangeToElasticQuery();
+        }
+    }
+
+    /**
+     * Sets the entity to elasticsearch query array for filtration
+     *
+     * @param string $entity
+     * @return void
+     */
+    private function setEntityToElasticQuery(string $entity): void
+    {
+        if(isset($this->arrQuery[$entity]))
+        {
+            $requestSeoNames = explode(' ', $this->arrQuery[$entity]);
+
+            $this->arrElasticQuery["bool"][$this->filterType][] =  [
+                'terms' => [
+                    $entity . '.seo_name' => $requestSeoNames,
+                ]
+            ];
         }
     }
 
@@ -322,107 +346,6 @@ class SearchFilterController extends Controller
     }
 
     /**
-     * Sets the colors to elasticsearch query array for filtration
-     *
-     * @return void
-     */
-    private function setColorsToElasticQuery(): void
-    {
-        $requestColors = explode(' ', $this->arrQuery['colors']);
-        $colors = [];
-
-        foreach ($requestColors as $rc){
-            $colorModel = Color::getOneBySeoName($rc);
-            $colors[] = $colorModel->id;
-        }
-        $this->arrElasticQuery["bool"][$this->filterType][] =  [
-            'terms' => [
-                'product_color_id' => $colors
-            ]
-        ];
-    }
-
-    /**
-     * Sets the brands to elasticsearch query array for filtration
-     *
-     * @return void
-     */
-    private function setBrandsToElasticQuery(): void
-    {
-        $requestBrands =  explode(' ', $this->arrQuery['brands']);
-        $brands = [];
-        foreach ($requestBrands as $rb){
-            $brandModel = Brand::getOneBySeoName($rb);
-            $brands[] = $brandModel->id;
-        }
-        $this->arrElasticQuery["bool"][$this->filterType][] =  [
-            'terms' => [
-                'product_brand_id' => $brands
-            ]
-        ];
-    }
-
-    /**
-     * Sets the seasons to elasticsearch query array for filtration
-     *
-     * @return void
-     */
-    private function setSeasonsToElasticQuery(): void
-    {
-        $requestSeasons =  explode(' ', $this->arrQuery['seasons']);
-        $seasons = [];
-        foreach ($requestSeasons as $rs){
-            $seasonModel = Season::getOneBySeoName($rs);
-            $seasons[] = $seasonModel->id;
-        }
-        $this->arrElasticQuery["bool"][$this->filterType][] =  [
-            'terms' => [
-                'product_season_id' => $seasons
-            ]
-        ];
-    }
-
-    /**
-     * Sets the materials to elasticsearch query array for filtration
-     *
-     * @return void
-     */
-    private function setMaterialsToElasticQuery(): void
-    {
-        $requestMaterials =  explode(' ', $this->arrQuery['materials']);
-        $materials = [];
-        foreach ($requestMaterials as $rm){
-            $materialModel = Material::getOneBySeoName($rm);
-            $materials[] = $materialModel->id;
-        }
-        $this->arrElasticQuery["bool"][$this->filterType][] =  [
-            'terms' => [
-                'materials_id' => $materials
-            ]
-        ];
-    }
-
-    /**
-     * Sets the sizes to elasticsearch query array for filtration
-     *
-     * @return void
-     */
-    private function setSizesToElasticQuery(): void
-    {
-        $requestSizes  =  explode(' ', $this->arrQuery['sizes']);
-        $sizes = [];
-        foreach ($requestSizes as $size){
-            $sizeModel = Size::getOneBySeoName($size);
-            $sizes[] = $sizeModel->id;
-        }
-        $this->arrElasticQuery["bool"][$this->filterType][] =  [
-            'terms' => [
-                'sizes_id' => $sizes
-            ]
-        ];
-    }
-
-    /**
      * Sets categories (and maybe promotion) models depending on segments of query string
      *
      * @return void
@@ -453,7 +376,6 @@ class SearchFilterController extends Controller
             }
         }
     }
-
 
     /**
      * Sets page data for the view

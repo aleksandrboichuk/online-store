@@ -124,7 +124,7 @@ class ReindexProduct extends Command
     {
         $products = Product::query()
             ->where('active', 1)
-            ->with(['categories', 'categoryGroup', 'subCategories', 'materials', 'sizes', 'brands', 'images'])
+            ->with(['colors', 'seasons', 'categories', 'categoryGroup', 'subCategories', 'materials', 'sizes', 'brands', 'images'])
             ->get();
 
         foreach ($products as $product) {
@@ -133,37 +133,11 @@ class ReindexProduct extends Command
 
             $product->created_at = Carbon::createFromFormat('Y-m-d H:i:s',  $product->created_at);
 
-            // category groups
-            $product->category_group_name = $product->categoryGroup->name;
-            $product->category_group_seo_name = $product->categoryGroup->seo_name;
+            $product->category_group = $product->categoryGroup;
 
-            // categories
-            $product->category_title = $product->categories->title;
-            $product->category_name = $product->categories->name;
-            $product->category_seo_name = $product->categories->seo_name;
+            $product->category = $product->categories;
 
-            // subcategories
-            $product->subcategory_title = $product->subCategories->title;
-            $product->subcategory_name = $product->subCategories->name;
-            $product->subcategory_seo_name = $product->subCategories->seo_name;
-
-            // sizes
-            $sizes = [];
-
-            foreach ($product->sizes as $size) {
-                $sizes[] = $size->id;
-            }
-
-            $product->sizes_id = $sizes;
-
-            // materials
-            $materials = [];
-
-            foreach ($product->materials as $material) {
-                $materials[] = $material->id;
-            }
-
-            $product->materials_id = $materials;
+            $product->sub_category = $product->subCategories;
         }
 
         $this->products = $products;
@@ -273,68 +247,26 @@ class ReindexProduct extends Command
                                'type' => 'date',
                                'format' => 'strict_date_optional_time'
                            ],
-                           'category_group_id' =>[
-                               'type' => 'integer',
-                           ],
-                           'category_id' =>[
-                               'type' => 'integer',
-                           ],
-                           'category_sub_id' =>[
-                               'type' => 'integer',
-                           ],
-                           'product_color_id' =>[
-                               'type' => 'integer',
-                           ],
-                           'product_season_id' =>[
-                               'type' => 'integer',
-                           ],
-                           'product_brand_id' =>[
-                               'type' => 'integer',
-                           ],
-                           'category_group_name' =>[
-                               'type' => 'text',
-                           ],
-                           'category_group_seo_name' =>[
-                               'type' => 'text',
-                           ],
-                           'category_title' =>[
-                               'type' => 'text',
-                           ],
-                           'category_name' =>[
-                               'type' => 'text',
-                           ],
-                           'category_seo_name' => [
-                               'type' => 'text',
-                           ],
-                           'subcategory_title' =>[
-                               'type' => 'text',
-                           ],
-                           'subcategory_name' => [
-                               'type' => 'text',
-                           ],
-                           'subcategory_seo_name' =>[
-                               'type' => 'text',
-                           ],
-                           'categoryGroup' => [
+                           'category_group' => [
                                'type' => 'object',
                            ],
-                           'subCategories' => [
+                           'sub_category' => [
                                'type' => 'object',
                            ],
-                           'categories' => [
+                           'category' => [
                                'type' => 'object',
                            ],
                            'brands' => [
                                'type' => 'object',
                            ],
-                           'sizes_id' => [
-                               'type' => 'integer',
+                           'colors' => [
+                               'type' => 'object',
+                           ],
+                           'seasons' => [
+                               'type' => 'object',
                            ],
                            'sizes' => [
                                'type' => 'object',
-                           ],
-                           'materials_id' => [
-                               'type' => 'integer',
                            ],
                            'materials' => [
                                'type' => 'object',
