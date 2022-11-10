@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
                 ->on('users')
                 ->nullOnDelete();
             $table->string('name');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('phone');
             $table->string('address')->nullable();
             $table->string('comment')->nullable();
