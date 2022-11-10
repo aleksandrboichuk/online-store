@@ -107,7 +107,7 @@ class ProductsSeeder extends Seeder
                 }
             }
 
-            exec("mv " . public_path('/images/products/dzhinsy-blakytni-gj') . ' ' . public_path('/images/products/' . $jeans->id));
+            exec("mv " . public_path('/images/products/temp_images_dzhinsy-blakytni-gj') . ' ' . public_path('/images/products/' . $jeans->id));
         }
 
 
