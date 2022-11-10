@@ -39,8 +39,8 @@ class ProductsSeeder extends Seeder
         $color_blue = Color::getOneBySeoName('blue');
         $color_black = Color::getOneBySeoName('black');
 
-        $brand_gj = Brand::getOneBySeoName('gloria-jeans');
-        $brand_house = Brand::getOneBySeoName('house-brand');
+        $brand_gj = Brand::getOneBySeoName('bershka');
+        $brand_house = Brand::getOneBySeoName('housebrand');
 
         $season_summer = Season::getOneBySeoName('summer');
         $season_spring = Season::getOneBySeoName('spring');

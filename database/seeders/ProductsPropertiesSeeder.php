@@ -30,12 +30,12 @@ class ProductsPropertiesSeeder extends Seeder
 
         Brand::query()->create([
             'name' => 'House Brand',
-            'seo_name' => 'house-brand',
+            'seo_name' => 'housebrand',
         ]);
 
         Brand::query()->create([
-            'name' => 'Gloria Jeans',
-            'seo_name' => 'gloria-jeans',
+            'name' => 'Bershka',
+            'seo_name' => 'bershka',
         ]);
 
         Season::query()->create([
