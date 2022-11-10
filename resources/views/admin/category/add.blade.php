@@ -10,6 +10,7 @@
         <div class="col-sm-8">
             {{--<h2>Додавання категорії</h2>--}}
             <form action="{{route('categories.store')}}" method="post">
+                @csrf
                 <div class="add-block">
                     <label for="title">Заголовок* </label>
                     <input type="text" name="title" required maxlength="20">

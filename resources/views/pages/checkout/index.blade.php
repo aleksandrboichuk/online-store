@@ -101,6 +101,7 @@
                         {{--<a class="btn btn-primary" href="">Get Quotes</a>--}}
                         <div class="col-sm-12 ">
                             <form action="{{route('save.order')}}" method="post" >
+                                @csrf
                                 <div class="checkout-area">
                                     <div class="bill-to">
                                         <p>Контактні дані користувача</p>

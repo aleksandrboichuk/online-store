@@ -212,6 +212,7 @@
                                         <div class="send-review">
                                             <p class="write-review-title"><b>Залишити відгук</b></p>
                                             <form action="{{route('send.review', [$product->id])}}" method="post">
+                                                @csrf
                                                 <div class="grade">
                                                    <i class="fa fa-star"></i>
                                                     <select name="grade" id="grade">

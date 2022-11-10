@@ -14,6 +14,7 @@
                         <h2 class="title text-center">Залишити повідомлення</h2>
                         <div class="status alert alert-success" style="display: none" ></div>
                         <form id="main-contact-form" class="contact-form row" name="contact-form" method="post" action="{{route('send.message')}}" >
+                            @csrf
                             <input type="hidden" name="id" value="{{!empty($user) ? $user->id : ""}}">
                             <div class="form-group col-md-6">
                                 <input type="text" name="name" value="{{!empty($user) ? $user->first_name : ""}}" class="form-control" required="required" placeholder="Ім'я" />

@@ -10,6 +10,7 @@
             <div class="col-sm-8">
                 {{--<h2>Додавання категорії</h2>--}}
                 <form action="{{route('materials.update',$material->id)}}" method="post">
+                    @csrf
                     @method('PUT')
                     <div class="add-block">
                         <label for="name">Назва </label>

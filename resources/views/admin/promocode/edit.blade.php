@@ -9,6 +9,7 @@
             <div class="col-sm-1"></div>
             <div class="col-sm-10">
                 <form action="{{route('promocodes.update', $promocode->id)}}" method="post">
+                    @csrf
                     @method('PUT')
                     <div class="add-block">
                         <label for="title">Назва*</label>

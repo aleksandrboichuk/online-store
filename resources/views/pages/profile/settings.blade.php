@@ -12,6 +12,7 @@
             <div class="col-sm-12 col-lg-9">
                 <div class="title-page-personal"><h3>Налаштування</h3></div>
                 <form action="{{route('user.settings.save')}}" method="post">
+                    @csrf
                     <input type="hidden" name="id" value="{{$user->id}}">
                     <div class="add-block">
                         <label for="first_name">Ім'я </label>

@@ -11,6 +11,7 @@
             <div class="col-sm-8">
                 {{--<h2>Додавання категорії</h2>--}}
                 <form action="{{route('categories.update', $category->id)}}" method="post">
+                    @csrf
                     @method('PUT')
                     <div class="add-block">
                         <label for="title">Заголовок* </label>

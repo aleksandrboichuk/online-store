@@ -10,6 +10,7 @@
             <div class="col-sm-8">
                 {{--<h2>Додавання категорії</h2>--}}
                 <form action="{{route('colors.store')}}" method="post">
+                    @csrf
                     <div class="add-block">
                         <label for="name">Назва* </label>
                         <input type="text" name="name"  required maxlength="20">

@@ -11,6 +11,7 @@
             <div class="col-sm-8">
                 {{--<h2>Додавання категорії</h2>--}}
                 <form action="{{route('users.update', $selected_user->id)}}" method="post">
+                    @csrf
                     @method('PUT')
                     <div class="add-block">
                         <label for="first_name">Ім'я </label>

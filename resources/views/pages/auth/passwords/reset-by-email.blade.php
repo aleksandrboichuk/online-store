@@ -12,6 +12,7 @@
                         <div class="card-header">{{ __('Введіть ваш логін (E-mail адресу)') }}</div>
                         <div class="card-body">
                             <form method="POST" action="{{route('send.code')}}">
+                                @csrf
                                 <div class="row mb-3">
                                     <div class="col-md-12">
                                         <input id="email" type="email" placeholder="E-mail" class="form-control"  name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>

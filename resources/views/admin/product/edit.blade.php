@@ -9,6 +9,7 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-9">
                 <form action="{{route('products.update', $product->id)}}" method="post" enctype="multipart/form-data">
+                    @csrf
                     @method('PUT')
                     <div class="add-block">
                         <label for="name">Назва* </label>

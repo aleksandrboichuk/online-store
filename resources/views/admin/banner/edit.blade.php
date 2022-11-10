@@ -11,6 +11,7 @@
             <div class="col-sm-9">
                 {{--<h2>Додавання категорії</h2>--}}
                 <form action="{{route('banners.update', $banner->id)}}" method="post" enctype="multipart/form-data">
+                    @csrf
                     @method('PUT')
                     <div class="add-block">
                         <label for="title">Заголовок* </label>

@@ -67,6 +67,7 @@
 
                 </div>
                 <form action="{{route('orders.update',$order->id)}}" method="post">
+                    @csrf
                     @method('PUT')
                     <div class="add-block">
                         <label for="status">Статус </label>

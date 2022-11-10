@@ -81,6 +81,7 @@
                                             </h4></td>
                                             <td class="del-col">
                                                 <form action="{{route('delete.from.cart')}}" method="post">
+                                                    @csrf
                                                     <input type="hidden" name="delete-id" value="{{$item->id}}">
                                                     <input type="hidden" name="size" value="{{$item->pivot->size}}">
                                                     <button type="submit" class="btn btn-danger"><svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">

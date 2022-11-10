@@ -12,6 +12,7 @@
                         <div class="card-header">{{ __('Введіть новий пароль') }}</div>
                         <div class="card-body">
                             <form method="POST" action="{{route('reset.password')}}">
+                                @csrf
                                 <div class="row mb-3">
                                     <input
                                         id="token"

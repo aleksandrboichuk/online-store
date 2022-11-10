@@ -10,6 +10,7 @@
             <div class="col-sm-1"></div>
             <div class="col-sm-10">
                 <form action="{{route('promocodes.store')}}" method="post">
+                    @csrf
                     <input type="hidden" name="id">
                     <div class="add-block">
                         <label for="title">Назва*</label>
