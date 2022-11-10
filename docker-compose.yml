@@ -6,7 +6,7 @@ services:
         volumes:
             - ./:/var/www
         depends_on:
-            - mysql
+            - precona
 
     nginx:
         build: ./docker/nginx
@@ -17,8 +17,8 @@ services:
             - ./docker/nginx/conf.d:/etc/nginx/conf.d
         depends_on:
             - php
-    mysql:
-        image: mysql:8.0
+    precona:
+        image: percona:8.0
         restart: always
         volumes:
             - ./docker/tmp/db:/var/lib/mysql
@@ -31,6 +31,8 @@ services:
 
     elasticsearch:
         build: ./docker/elasticsearch
+        volumes:
+            - ./docker/elasticsearch/data:/usr/share/elasticsearch/data
         environment:
             - xpack.security.enabled=false
             - discovery.type=single-node

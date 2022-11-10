@@ -28,7 +28,6 @@ class CreateOrdersTable extends Migration
             $table->integer('total_cost')->unsigned();
             $table->timestamps();
 
-
         });
     }
 

@@ -70,7 +70,7 @@ class ElasticSearchService
                'size'=> 1000,
                'query' => [
                    'bool' => [
-                       'must' => [
+                       'should' => [
                            [
                                'match' => [
                                    'category_group_seo_name' => $seo_name

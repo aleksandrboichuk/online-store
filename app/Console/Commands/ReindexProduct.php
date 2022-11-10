@@ -173,19 +173,25 @@ class ReindexProduct extends Command
                                ],
                            ],
                            'analyzer' => [
-                               'rebuilt_russian'=> [
-                                   'type' => 'custom',
-                                   'tokenizer' =>'standard',
-                                   'filter' => [
-                                       'lowercase',
-                                       'length_filter',
-                                       'trim',
-                                       'russian_stemmer',
-                                       'russian_stop',
+                               'autocomplete' => [
+                                   'tokenizer' => 'custom_tokenizer'
+                               ]
+                           ],
+                           'tokenizer' => [
+                               'custom_tokenizer'=> [
+                                   'type' => 'ngram',
+                                   'min_gram' => 1,
+                                   'max_gram' => 5,
+                                   'token_chars' => [
+                                       'letter',
+                                       'digit',
+                                       'symbol',
+                                       'punctuation',
                                    ]
                                ]
                            ]
-                       ]
+                       ],
+                       'max_ngram_diff' => 50,
                    ],
                    'mappings' => [
                        'properties' =>[
@@ -197,10 +203,6 @@ class ReindexProduct extends Command
                                'fields' => [
                                    'raw' => [
                                        'type' => 'keyword',
-                                   ],
-                                   'rebuilt_russian' => [
-                                       'type' => 'text',
-                                       'analyzer' => 'rebuilt_russian',
                                    ],
                                ],
                            ],
@@ -215,10 +217,6 @@ class ReindexProduct extends Command
                                'fields' => [
                                    'raw' => [
                                        'type' => 'keyword',
-                                   ],
-                                   'rebuilt_russian' => [
-                                       'type' => 'text',
-                                       'analyzer' => 'rebuilt_russian',
                                    ],
                                ],
                            ],
@@ -258,6 +256,11 @@ class ReindexProduct extends Command
                            ],
                            'brands' => [
                                'type' => 'object',
+                               'properties' => [
+                                   'seo_name' =>[
+                                       'type' => 'text',
+                                   ]
+                                ],
                            ],
                            'colors' => [
                                'type' => 'object',

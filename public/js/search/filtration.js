@@ -167,7 +167,7 @@ $(document).ready(function() {
      *
      * ------------------------------
      */
-    $('select[name="order-by"]').find('option').mouseup(function() {
+    $('select[name="order-by"]').change(function() {
 
         setUrl()
 

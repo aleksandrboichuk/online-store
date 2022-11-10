@@ -35,7 +35,7 @@ $(document).ready(function() {
     /**
      * Sorting
      */
-    $('select[name="order-by"]').find('option').mouseup( function() {
+    $('select[name="order-by"]').change(function() {
 
         if (url.split('?').length > 1) {
             url += '&orderBy=' + $(this).val();
