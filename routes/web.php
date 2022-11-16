@@ -140,7 +140,7 @@ Route::post('/{product_id}/{user_id}',[\App\Http\Controllers\CartController::cla
 // accepting filters at any shop page
 if(preg_match("/\?colors|\?brands|\?materials|\?orderBy|\?seasons|\?sizes|\?price/", request()->getRequestUri())){
 
-    Route::any('/{seo_name?}/{category_seo_name?}/{sub_category_seo_name?}', [\App\Http\Controllers\SearchFilterController::class, 'index'])
+    Route::any('/{group_seo_name?}/{category_seo_name?}/{sub_category_seo_name?}', [\App\Http\Controllers\SearchFilterController::class, 'index'])
         ->name('filters.request');
 }
 
@@ -154,7 +154,8 @@ Route::get('/{group_seo_name}/{category_seo_name}',[\App\Http\Controllers\Catego
 Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}',[\App\Http\Controllers\SubCategoryController::class,'index'])
     ->name('subcategory');
 //  product page
-Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}/{product_seo_name}',[\App\Http\Controllers\ProductController::class, 'index'])    ->name('product');
+Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}/{product_seo_name}',[\App\Http\Controllers\ProductController::class, 'index'])
+    ->name('product');
 
 // send product review request
 Route::post('/{product_id}',[\App\Http\Controllers\ReviewController::class, 'index'])->name('send.review');

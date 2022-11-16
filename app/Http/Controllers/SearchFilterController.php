@@ -100,7 +100,7 @@ class SearchFilterController extends Controller
      *
      * @var array
      */
-    protected array $must;
+    protected array $must = [];
 
     /**
      * Array with static list of product properties
@@ -252,15 +252,6 @@ class SearchFilterController extends Controller
         ];
     }
 
-    /**
-     * Sets default must array
-     *
-     * @return void
-     */
-    private function setDefaultMustArray(): void
-    {
-        $this->must = ['match' => ['category_group.seo_name' => "women"]];
-    }
 
     /**
      * Sets categories seo names for using in request to elastic
@@ -357,7 +348,7 @@ class SearchFilterController extends Controller
         //в зависимости от присутствия признака того, что запрос со страницы акций
         // выборка происходит по определенным сегментам строки запроса
 
-        $this->group = CategoryGroup::getOneBySeoName(request()->segment(2));
+        $this->group = CategoryGroup::getOneBySeoName(request()->route()->parameter(''));
 
         if(request()->segment(1) == 'promotions'){
 
