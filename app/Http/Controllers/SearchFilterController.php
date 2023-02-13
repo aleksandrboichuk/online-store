@@ -348,7 +348,7 @@ class SearchFilterController extends Controller
         //в зависимости от присутствия признака того, что запрос со страницы акций
         // выборка происходит по определенным сегментам строки запроса
 
-        $this->group = CategoryGroup::getOneBySeoName(request()->route()->parameter(''));
+        $this->group = CategoryGroup::getOneBySeoName(request()->route()->parameter('group_seo_name'));
 
         if(request()->segment(1) == 'promotions'){
 
