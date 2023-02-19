@@ -25,6 +25,6 @@ class Season extends BaseModel
      */
     public function products(): HasMany
     {
-        return $this->hasMany(Product::class,'product_season_id', 'id');
+        return $this->hasMany(Product::class,'season_id', 'id');
     }
 }

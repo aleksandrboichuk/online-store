@@ -16,7 +16,7 @@ class CreateSeasonsTable extends Migration
         Schema::create('seasons', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('seo_name');
+            $table->string('seo_name')->unique();
             $table->boolean('active')->default(1);
             $table->timestamps();
         });

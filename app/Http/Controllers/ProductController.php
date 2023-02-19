@@ -21,23 +21,18 @@ class ProductController extends Controller
      * Product page
      *
      * @param Request $request
-     * @param string $group_seo_name
      * @param string $category_seo_name
-     * @param string $sub_category_seo_name
      * @param string $product_seo_name
      * @return View|Factory|int|string|Application
      */
     public function index (
         Request $request,
-        string $group_seo_name,
         string $category_seo_name,
-        string $sub_category_seo_name,
         string $product_seo_name
     ): View|Factory|int|string|Application
     {
-        $this->setCategoryGroupSeoName($group_seo_name);
         $this->setCategorySeoName($category_seo_name);
-        $this->setSubCategorySeoName($sub_category_seo_name);
+
         $this->setProductSeoName($product_seo_name);
 
         $this->setPageData();
@@ -67,27 +62,23 @@ class ProductController extends Controller
      */
     public function setPageData(): void
     {
-        $group = CategoryGroup::getOneBySeoName($this->group_seo_name);
-
         $category = Category::getOneBySeoName($this->category_seo_name);
 
-        $sub_category = SubCategory::getOneBySeoName($this->sub_category_seo_name);
+        $product = $category ? $category->getProductBySeoName($this->product_seo_name) : abort(404);
 
-        $product = Product::getOneBySeoName($this->product_seo_name);
+        $group = $category->categoryGroup;
 
-        if(!$group || !$category || !$sub_category || !$product){
-            abort(404);
-        }
+        $parentCategory = $category->oarent;
 
-        $this->setBreadcrumbs($this->getBreadcrumbs($group, $category, $sub_category, $product));
+        $this->setBreadcrumbs($this->getBreadcrumbs($group, $category, $parentCategory, $product));
 
         $data = [
             'group'                => $group,
+            'parentCategory'       => $parentCategory,
             'category'             => $category,
-            'sub_category'         => $sub_category,
             'product'              => $product,
-            'group_categories'     => $group->getCategories(),
-            'brands'               => $this->getGroupBrands($group->id),
+            'group_categories'     => $group->getCategoriesForSidebar(),
+            'brands'               => $group->getBrands(),
             'stockStatus'          => $product->getProductAmountStatus(),
             'recommended_products' => Product::getRecommendedProducts($group->id),
             'reviews'              => UserReview::getPaginatedProductReviews($product->id),
@@ -104,40 +95,27 @@ class ProductController extends Controller
      *
      * @param Model $group
      * @param Model $category
-     * @param Model $sub_category
+     * @param Model|null $parentCategory
      * @param Model $product
      * @return array[]
      */
-    private function getBreadcrumbs(Model $group, Model $category, Model $sub_category, Model $product): array
+    private function getBreadcrumbs(Model $group, Model $category, Model|null $parentCategory, Model $product): array
     {
-        return [
-            [$group->name,        route('index', $group->seo_name)],
-            [$category->name,     route('category', [$group->seo_name, $category->seo_name])],
-            [$sub_category->name, route('subcategory', [$group->seo_name, $category->seo_name, $sub_category->seo_name])],
-            [$product->name],
+        $breadcrumbs =  [
+            [$group->name,          route('index', $group->seo_name)]
         ];
-    }
 
-    /**
-     * Adding or updating product in the cart
-     *
-     * @param Request $request
-     * @return int
-     */
-    private function setProductToCart(Request  $request): int
-    {
-        $cart = $this->getCart();
-
-        $product_id = $request->get('productId');
-        $product_size = $request->get('productSize');
-        $product_count = $request->get('productCount');
-
-        $was_product_updated = $cart->updateCartProductCount($product_id, $product_size, $product_count);
-
-        if (!$was_product_updated) {
-           $cart->addProductToTheCart($product_id, $product_size, $product_count);
+        if($parentCategory){
+            $breadcrumbs[] = [$parentCategory->name, $parentCategory->url];
         }
 
-        return $cart->products()->count();
+        array_push(
+            $breadcrumbs,
+            [$category->name, $category->url],
+            [$product->name]
+        );
+
+        return $breadcrumbs;
+
     }
 }

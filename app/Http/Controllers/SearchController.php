@@ -3,22 +3,13 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Banner;
-use App\Models\Category;
 use App\Models\CategoryGroup;
-use App\Models\Brand;
-use App\Models\Color;
 use App\Models\ProductImage;
-use App\Models\Material;
-use App\Models\Season;
-use App\Models\Size;
-use App\Models\SubCategory;
 use App\Services\ElasticSearchService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -111,8 +102,8 @@ class SearchController extends Controller
         $data = [
             'group'            => $group,
             'products'         => $this->searchProducts(),
-            'group_categories' => $group->getCategories(),
-            'brands'           => $this->getGroupBrands($group->id),
+            'group_categories' => $group->getCategoriesForSidebar(),
+            'brands'           => $group->getBrands(),
             'breadcrumbs'      => $this->breadcrumbs
         ];
 

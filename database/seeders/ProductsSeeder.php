@@ -32,8 +32,8 @@ class ProductsSeeder extends Seeder
         $clothes_women = Category::getOneBySeoName('women-clothes');
         $clothes_men = Category::getOneBySeoName('men-clothes');
 
-        $jeans_women = SubCategory::getOneBySeoName('jeans-women');
-        $shirts_men = SubCategory::getOneBySeoName('shirt-men');
+        $jeans_women = Category::getOneBySeoName('jeans-women');
+        $shirts_men = Category::getOneBySeoName('shirt-men');
 
         // properties
         $color_blue = Color::getOneBySeoName('blue');
@@ -83,9 +83,9 @@ class ProductsSeeder extends Seeder
                 'category_group_id' => $women->id,
                 'category_id' => $clothes_women->id,
                 'category_sub_id' => $jeans_women->id,
-                'product_color_id' => $color_blue->id,
-                'product_season_id' => $season_summer->id,
-                'product_brand_id' => $brand_gj->id,
+                'color_id' => $color_blue->id,
+                'season_id' => $season_summer->id,
+                'brand_id' => $brand_gj->id,
             ]);
 
             $jeans->sizes()->attach($jeans->id, [
@@ -137,9 +137,9 @@ class ProductsSeeder extends Seeder
                 'category_group_id' => $men->id,
                 'category_id' => $clothes_men->id,
                 'category_sub_id' => $shirts_men->id,
-                'product_color_id' => $color_black->id,
-                'product_season_id' => $season_spring->id,
-                'product_brand_id' => $brand_house->id,
+                'color_id' => $color_black->id,
+                'season_id' => $season_spring->id,
+                'brand_id' => $brand_house->id,
             ]);
 
             $shirt->sizes()->attach($shirt->id, [

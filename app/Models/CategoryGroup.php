@@ -60,11 +60,41 @@ class CategoryGroup extends BaseModel
     }
 
     /**
-     * Получение всех активных категорий группы
+     * Returns all brands of category group which has a products
+     *
+     * @return Builder[]|Collection
+     */
+    public function getBrands(): Collection|array
+    {
+        return Brand::query()
+            ->where('active', 1)
+            ->whereHas('products', function (Builder $query){
+                return $query->where('category_group_id', $this->id);
+            })
+            ->get();
+    }
+
+    /**
+     * Get all active categories of category group fro sidebar
      * @return Collection
      */
-    public function getCategories(): Collection
+    public function getCategoriesForSidebar(): Collection
     {
-        return $this->categories()->where('active', 1)->get();
+        return $this->categories()
+            ->where('active', 1)
+            ->where('level', 1)
+            ->get();
     }
+
+    /**
+     * Returns one child category by it seo name
+     *
+     * @param string|null $seo_name
+     * @return mixed
+     */
+    public function getChildCategoryBySeoName(string|null $seo_name): mixed
+    {
+        return $this->categories()->where('seo_name', $seo_name)->where('active', 1)->first();
+    }
+
 }

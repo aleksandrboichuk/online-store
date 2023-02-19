@@ -11,11 +11,11 @@ function ajaxRequests(url) {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(data){
-                $('select[name="category_id"]').html(data)
+                $('select[name="category"]').html(data)
             }
         });
     });
-    $('select[name="category_id"]').click(function () {
+    $('select[name="category"]').click(function () {
         var category = $(this).val();
         $.ajax({
             url: url,
@@ -27,7 +27,7 @@ function ajaxRequests(url) {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(data){
-                $('select[name="category_sub_id"]').html(data)
+                $('select[name="category_id"]').html(data)
             }
         });
     });

@@ -147,16 +147,12 @@ if(preg_match("/\?colors|\?brands|\?materials|\?orderBy|\?seasons|\?sizes|\?pric
 //  category group page
 Route::get('/{group_seo_name}', [\App\Http\Controllers\CategoryGroupController::class,'index'])
     ->name('index');
-//  category page
-Route::get('/{group_seo_name}/{category_seo_name}',[\App\Http\Controllers\CategoryController::class,'index'])
-    ->name('category');
-//  subcategory page
-Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}',[\App\Http\Controllers\SubCategoryController::class,'index'])
-    ->name('subcategory');
 //  product page
-Route::get('/{group_seo_name}/{category_seo_name}/{sub_category_seo_name}/{product_seo_name}',[\App\Http\Controllers\ProductController::class, 'index'])
+Route::get('/{category_seo_name}/{product_seo_name}.php',[\App\Http\Controllers\ProductController::class, 'index'])
     ->name('product');
-
+//  category page
+Route::get('/{group_seo_name}/{category_seo_name}/{second_category_seo_name?}', [\App\Http\Controllers\CategoryController::class,'index'])
+    ->name('category');
 // send product review request
 Route::post('/{product_id}',[\App\Http\Controllers\ReviewController::class, 'index'])->name('send.review');
 

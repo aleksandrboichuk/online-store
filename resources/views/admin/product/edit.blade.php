@@ -97,48 +97,48 @@
                     <div class="add-block">
                         <label for="category_group_id">Група категорій </label>
                         <select required size="4" name="category_group_id" class="select-option">
-                            @foreach($category_groups as $g)
-                                <option value="{{$g->id}}" {{$g->id == $product->category_group_id ? "selected": ""}}>{{$g->name}}</option>
+                            @foreach($categoryGroups as $group)
+                                <option value="{{$group->id}}" {{$group->id == $product->category_group_id ? "selected": ""}}>{{$group->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="category_id">Категорія </label>
-                        <select required size="3" name="category_id" class="select-option" >
-                            @foreach($categories as $c)
-                                <option value="{{$c->id}}" {{$c->id == $product->category_id ? "selected": ""}}>{{$c->title}}</option>
+                        <label for="category">Категорія </label>
+                        <select required size="3" name="category" class="select-option" >
+                            @foreach($categories as $category)
+                                <option value="{{$category->id}}" {{$category->id == $productCategory->parent_id ? "selected": ""}}>{{$category->title}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="category_sub_id">Підкатегорія </label>
-                        <select required size="7" name="category_sub_id" class="select-option" >
-                            @foreach($sub_categories as $sc)
-                                <option value="{{$sc->id}}" {{$sc->id == $product->category_sub_id ? "selected": ""}}>{{$sc->title}}</option>
+                        <label for="category_id">Підкатегорія </label>
+                        <select required size="7" name="category_id" class="select-option" >
+                            @foreach($nestedCategories as $nestedCategory)
+                                <option value="{{$nestedCategory->id}}" {{$nestedCategory->id == $product->category_id ? "selected": ""}}>{{$nestedCategory->title}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="product_color_id">Колір </label>
-                        <select required size="7" name="product_color_id" class="select-option">
+                        <label for="color_id">Колір </label>
+                        <select required size="7" name="color_id" class="select-option">
                             @foreach($colors as $col)
-                                <option value="{{$col->id}}"  {{$col->id == $product->product_color_id ? "selected": ""}}>{{$col->name}}</option>
+                                <option value="{{$col->id}}"  {{$col->id == $product->color_id ? "selected": ""}}>{{$col->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="product_season_id">Сезон </label>
-                        <select required size="7" name="product_season_id" class="select-option">
+                        <label for="season_id">Сезон </label>
+                        <select required size="7" name="season_id" class="select-option">
                             @foreach($seasons as $s)
-                                <option value="{{$s->id}}"  {{$s->id == $product->product_season_id ? "selected": ""}}>{{$s->name}}</option>
+                                <option value="{{$s->id}}"  {{$s->id == $product->season_id ? "selected": ""}}>{{$s->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="product_brand_id">Бренд </label>
-                        <select required size="7" name="product_brand_id" class="select-option">
+                        <label for="brand_id">Бренд </label>
+                        <select required size="7" name="brand_id" class="select-option">
                             @foreach($brands as $b)
-                                <option value="{{$b->id}}" {{$b->id == $product->product_brand_id ? "selected": ""}}>{{$b->name}}</option>
+                                <option value="{{$b->id}}" {{$b->id == $product->brand_id ? "selected": ""}}>{{$b->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -222,4 +222,10 @@
         });
        });
     </script>
-    @endsection
+
+    <script src="/js/admin/product/script.js"></script>
+    <script>
+        ajaxRequests("{{route('api.admin.getCategoriesOrSubcategoriesData')}}")
+    </script>
+
+@endsection

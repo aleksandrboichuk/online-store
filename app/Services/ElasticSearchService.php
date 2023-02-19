@@ -230,7 +230,7 @@ class ElasticSearchService
 
             $item['categoryGroup'] = $item['category_group'];
 
-            $item['subCategories'] = $item['sub_categories'];
+            $item['subCategories'] = $item['subcategory'];
 
             unset($item['category_group'], $item['sub_categories']);
 

@@ -18,27 +18,32 @@ class CategoryController extends Controller
     /**
      * Category page
      *
-     * @param Request $request
-     * @param $group_seo_name
-     * @param $category_seo_name
+     * @param string $group_seo_name
+     * @param string $category_seo_name
+     * @param string|null $subcategory_seo_name
      * @return Application|Factory|View|string
      */
-    public function index(Request $request, $group_seo_name, $category_seo_name): Application|Factory|View|string
+    public function index(
+        string $group_seo_name,
+        string $category_seo_name,
+        string|null $subcategory_seo_name = null
+    ): Application|Factory|View|string
     {
         $this->setCategoryGroupSeoName($group_seo_name);
 
         $this->setCategorySeoName($category_seo_name);
 
+        $this->setSubCategorySeoName($subcategory_seo_name);
+
         $this->setPageData();
 
-        if($request->ajax()){
-            return view('ajax.ajax',[
+        if(request()->ajax()){
+            return view('pages.components.ajax.pagination',[
                 'products' => $this->pageData['products'],
                 'group' => $this->pageData['group'],
                 "images"=> ProductImage::all(),
             ])->render();
         }
-
 
         return view('pages.category.index', $this->pageData);
     }
@@ -52,20 +57,25 @@ class CategoryController extends Controller
     {
         $group = CategoryGroup::getOneBySeoName($this->group_seo_name);
 
-        $category = Category::getOneBySeoName($this->category_seo_name);
+        $category = $group ? $group->getChildCategoryBySeoName($this->category_seo_name) : abort(404);
 
-        if(!$group || !$category){
+        $subcategory = $category ? $category->getChildCategoryBySeoName($this->subcategory_seo_name) : abort(404);
+
+        if($this->subcategory_seo_name && !$subcategory){
             abort(404);
         }
 
-        $this->setBreadcrumbs($this->getBreadcrumbs($group, $category));
+        $products = ($subcategory ?? $category)->getPaginateProducts(8);
+
+        $this->setBreadcrumbs($this->getBreadcrumbs($group, $category, $subcategory));
 
         $data = [
             'group'            => $group,
             'category'         => $category,
-            'products'         => $category->getPaginateProducts(8),
-            'group_categories' => $group->getCategories(),
-            'brands'           => $this->getGroupBrands($group->id),
+            'subcategory'      => $subcategory,
+            'products'         => $products,
+            'group_categories' => $group->getCategoriesForSidebar(),
+            'brands'           => $group->getBrands(),
             'breadcrumbs'      => $this->breadcrumbs
         ];
 
@@ -77,13 +87,25 @@ class CategoryController extends Controller
      *
      * @param Model $group
      * @param Model $category
+     * @param Model|null $subcategory
      * @return array[]
      */
-    private function getBreadcrumbs(Model $group, Model $category): array
+    private function getBreadcrumbs(Model $group, Model $category, Model|null $subcategory = null): array
     {
-        return [
-            [$group->name, route('index', $group->seo_name)],
-            [$category->name],
+        $breadcrumbs = [
+            [$group->name, route('index', $group->seo_name)]
         ];
+
+        if($subcategory){
+            array_push(
+                $breadcrumbs,
+                [$category->name, $category->url],
+                [$subcategory->name]
+            );
+        }else{
+            $breadcrumbs[] = [$category->name];
+        }
+
+        return $breadcrumbs;
     }
 }

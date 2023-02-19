@@ -124,7 +124,7 @@ class ReindexProduct extends Command
     {
         $products = Product::query()
             ->where('active', 1)
-            ->with(['colors', 'seasons', 'categories', 'categoryGroup', 'subCategories', 'materials', 'sizes', 'brands', 'images'])
+            ->with(['colors', 'seasons', 'category', 'categoryGroup', 'materials', 'sizes', 'brands', 'images'])
             ->get();
 
         foreach ($products as $product) {
@@ -135,9 +135,9 @@ class ReindexProduct extends Command
 
             $product->category_group = $product->categoryGroup;
 
-            $product->category = $product->categories;
+            $product->category = $product->category?->parent;
 
-            $product->sub_category = $product->subCategories;
+            $product->subcategory = $product->category;
         }
 
         $this->products = $products;
@@ -241,6 +241,12 @@ class ReindexProduct extends Command
                            'banner_id' =>[
                                'type' => 'integer'
                            ],
+                           'url' =>[
+                               'type' => 'text'
+                           ],
+                           'category_id' =>[
+                               'type' => 'integer'
+                           ],
                            'created_at' =>[
                                'type' => 'date',
                                'format' => 'strict_date_optional_time'
@@ -248,10 +254,10 @@ class ReindexProduct extends Command
                            'category_group' => [
                                'type' => 'object',
                            ],
-                           'sub_category' => [
+                           'category' => [
                                'type' => 'object',
                            ],
-                           'category' => [
+                           'subcategory' => [
                                'type' => 'object',
                            ],
                            'brands' => [

@@ -57,7 +57,7 @@ function addToCart(route) {
         if ( productId > 0 ){
             $.ajax({
                 url: route ,
-                type: "GET",
+                type: "POST",
                 data: {
                     productId: productId,
                     productCount: productCount,

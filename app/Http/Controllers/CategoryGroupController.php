@@ -52,7 +52,7 @@ class CategoryGroupController extends Controller
             abort(404);
         }
 
-        $brands = $this->getGroupBrands($group->id);
+        $brands = $group->getBrands();
 
         $products = $group->getPaginateProducts(8);
 
@@ -60,7 +60,7 @@ class CategoryGroupController extends Controller
             'banners'          => Banner::getBanners($group->id),
             'group'            => $group,
             'products'         => $products,
-            'group_categories' => $group->getCategories(),
+            'group_categories' => $group->getCategoriesForSidebar(),
             'brands'           => $brands
         ];
 

@@ -38,7 +38,7 @@ class PromotionController extends Controller
     {
         $group = CategoryGroup::getOneBySeoName($this->group_seo_name);
 
-        $brands = $this->getGroupBrands($group->id);
+        $brands = $group->getBrands();
 
         $banner = Banner::getBannerBySeoName($this->banner_seo_name);
 
@@ -50,7 +50,7 @@ class PromotionController extends Controller
             'banner'           => $banner ,
             'products'         => $products,
             'group'            => $group,
-            'group_categories' => $group->categories,
+            'group_categories' => $group->getCategoriesForSidebar(),
             'brands'           => $brands,
             'breadcrumbs'      => $this->breadcrumbs
         ];

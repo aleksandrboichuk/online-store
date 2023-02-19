@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Events\ProductSaved;
 use App\Http\Requests\Admin\ProductRequest;
+use App\Jobs\UpdateProductUrl;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -22,6 +24,7 @@ class Product extends BaseModel
     protected $fillable = [
         'name',
         'seo_name',
+        'url',
         'preview_img_url',
         'description',
         'price',
@@ -37,20 +40,20 @@ class Product extends BaseModel
         'category_group_id',
         'category_id',
         'category_sub_id',
-        'product_color_id',
-        'product_season_id',
-        'product_brand_id',
+        'color_id',
+        'season_id',
+        'brand_id',
     ];
 
     protected $table = 'products';
 
     /**
      * Связь продукт - категории
-     * @return BelongsTo
+     * @return HasOne
      */
-    public function categories(): BelongsTo
+    public function category(): HasOne
     {
-        return $this->belongsTo(Category::class,'category_id', 'id');
+        return $this->hasOne(Category::class,'id', 'category_id');
     }
 
     /**
@@ -60,15 +63,6 @@ class Product extends BaseModel
     public function categoryGroup(): HasOne
     {
         return $this->hasOne(CategoryGroup::class,'id', 'category_group_id');
-    }
-
-    /**
-     * Связь продукт - подкатегории
-     * @return BelongsTo
-     */
-    public function subCategories(): BelongsTo
-    {
-        return $this->belongsTo(SubCategory::class,'category_sub_id', 'id');
     }
 
     /**
@@ -86,7 +80,7 @@ class Product extends BaseModel
      */
     public function brands(): BelongsTo
     {
-        return $this->belongsTo(Brand::class,'product_brand_id', 'id');
+        return $this->belongsTo(Brand::class,'brand_id', 'id');
     }
 
     /**
@@ -95,7 +89,7 @@ class Product extends BaseModel
      */
     public function colors(): BelongsTo
     {
-        return $this->belongsTo(Color::class,'product_color_id', 'id');
+        return $this->belongsTo(Color::class,'color_id', 'id');
     }
 
     /**
@@ -104,7 +98,7 @@ class Product extends BaseModel
      */
     public function seasons(): BelongsTo
     {
-        return $this->belongsTo(Season::class,'product_season_id', 'id');
+        return $this->belongsTo(Season::class,'season_id', 'id');
     }
 
     /**
@@ -141,6 +135,20 @@ class Product extends BaseModel
     public function carts(): BelongsToMany
     {
         return $this->belongsToMany(Cart::class, 'product_carts');
+    }
+
+    /**
+     * Boot model event
+     *
+     * @return void
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        self::saved(function($model){
+            UpdateProductUrl::dispatch($model->id);
+        });
     }
 
     /**
@@ -539,5 +547,27 @@ class Product extends BaseModel
     public function deleteFolder(): void
     {
         Storage::disk('products')->deleteDirectory($this->id);
+    }
+
+    /**
+     * Returns url to product page
+     *
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return route('product', [
+            $this->category->seo_name,
+            $this->seo_name
+        ], false);
+    }
+
+    public static function retrieveByCategories(array $categories, int $perPage)
+    {
+        return self::query()->where('active', 1)
+            ->whereHas('category', function ($query) use ($categories){
+                $query->whereIn('id', $categories);
+            })
+            ->paginate($perPage);
     }
 }

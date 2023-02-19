@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\CategorySaved;
+use App\Events\ProductSaved;
+use App\Listeners\SetCategoryUrl;
+use App\Listeners\SetProductUrl;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;

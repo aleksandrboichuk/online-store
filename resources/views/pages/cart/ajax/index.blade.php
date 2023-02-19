@@ -3,7 +3,7 @@
         <td class="product-col">
             <img src="/images/products/{{$item->id}}/preview/{{$item->preview_img_url}}" alt="">
             <div class="pc-title">
-                <h4><a href="{{route('product', [$item->categoryGroup->seo_name, $item->categories->seo_name, $item->subCategories->seo_name, $item->seo_name])}}">{{$item->name}}</a></h4>
+                <h4><a href="{{$item->url}}">{{$item->name}}</a></h4>
                 @if($item->discount != 0)
                     <s>₴{{$item->price}}</s>
                     <p>₴{{$item->getProductPriceWithDiscount()}}</p>

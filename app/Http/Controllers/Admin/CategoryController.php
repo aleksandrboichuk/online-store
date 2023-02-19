@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\CategorySaved;
 use App\Http\Requests\Admin\CategoryRequest;
 use App\Models\Category;
 use App\Models\CategoryGroup;
@@ -74,7 +75,9 @@ class CategoryController extends AdminController
 
         $request->setActiveField();
 
-        Category::query()->create($request->all());
+        $category = Category::query()->create($request->all());
+
+        event(new CategorySaved($category->id));
 
         return redirect('/admin/categories')->with(['success-message' => 'Категорію успішно додано.']);
     }
@@ -126,6 +129,8 @@ class CategoryController extends AdminController
         }
 
         $category->update($request->all());
+
+        event(new CategorySaved($category->id));
 
         return redirect("/admin/categories")->with(['success-message' => 'Категорію успішно змінено.']);
     }
