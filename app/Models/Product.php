@@ -147,7 +147,7 @@ class Product extends BaseModel
         parent::boot();
 
         self::saved(function($model){
-            UpdateProductUrl::dispatch($model->id);
+            $this->url = $this->getUrl();
         });
     }
 

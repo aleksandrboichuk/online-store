@@ -44,7 +44,7 @@ Route::group([
     Route::resource('messages', \App\Http\Controllers\Admin\MessageController::class);
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
     Route::resource('category-groups', \App\Http\Controllers\Admin\CategoryGroupController::class);
-    Route::resource('subcategories', \App\Http\Controllers\Admin\SubCategoryController::class);
+//    Route::resource('subcategories', \App\Http\Controllers\Admin\SubCategoryController::class);
     Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->except('show');
     Route::get('/products/{cat_group?}', [\App\Http\Controllers\Admin\ProductController::class, 'index']);
     Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class);

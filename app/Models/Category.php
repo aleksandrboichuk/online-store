@@ -64,21 +64,62 @@ class Category extends BaseModel
     }
 
     /**
+     * Boot model event
+     *
+     * @return void
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        parent::creating(function (){
+            $this->level = $this->getLevel($this->id);
+            $this->url = $this->getUrl();
+        });
+
+        parent::updating(function (){
+            $this->level = $this->getLevel($this->id);
+            $this->url = $this->getUrl();
+        });
+    }
+
+    /**
      * Recursively count category level
      *
+     * @param int $categoryId
      * @param int $level
      * @return int
      */
-    private function getLevel(int $level = 1): int
+    public function getLevel(int $categoryId, int $level = 1): int
     {
-        if($parent = $this->parent){
+        $item = self::query()->select('id')->find($categoryId);
 
-            $level++;
+        if (!$item) {
+            return $level;
+        }
 
-            return $this->getCategoryLevel($parent, $level);
+        ++$level;
+
+        if (!empty($item) && !empty($item->parent_id)) {
+            $depth = self::getLevel($item->parent_id, $level);
         }
 
         return $level;
+    }
+
+    /**
+     * Returns root category
+     *
+     * @param $category
+     * @return mixed
+     */
+    public function getRootCategory($category): mixed
+    {
+        if ($parent = $category->parent()->first()) {
+            return $this->getRootCategory($parent);
+        }
+
+        return $category;
     }
 
     /**
