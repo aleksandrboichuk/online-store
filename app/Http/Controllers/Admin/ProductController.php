@@ -81,15 +81,9 @@ class ProductController extends AdminController
     {
         $this->canCreate('content');
 
-        // ajax getting categories of selected category group or subcategories of selected category
-        if(request()->ajax()){
-
-            $viewData = $this->getCategoriesOrSubcategoriesData($request);
-
-            return view('admin.product.ajax.select-categories', $viewData)->render();
-        }
-
-        $this->setBreadcrumbs($this->getCreateOrEditPageBreadcrumbs('products',true));
+        $this->setBreadcrumbs(
+            $this->getCreateOrEditPageBreadcrumbs('products',true)
+        );
 
         return view('admin.product.add', $this->getCreatePageData());
     }
@@ -202,30 +196,6 @@ class ProductController extends AdminController
     }
 
     /**
-     * Returns categories of category group or subcategories of category by their ids
-     *
-     * @param Request $request
-     * @return array
-     */
-    private function getCategoriesOrSubcategoriesData(Request $request): array
-    {
-        $group = $request->get('categoryGroup');
-        $category = $request->get('category');
-
-        $model = $group ? new CategoryGroup() : ($category ? new Category() : null);
-
-        $id = $group ?? ($category ?? null);
-
-        $relation = $group ? 'categories' : ($category ? 'subCategories' : null);
-
-        $result = $model?->query()->find($id);
-
-        return [
-            'items' => $relation && $result ? $result->$relation()->get() : []
-        ];
-    }
-
-    /**
      * Returns array with page data for creating product
      *
      * @return array|array[]|Builder[][]|Collection[]
@@ -238,7 +208,6 @@ class ProductController extends AdminController
                 'brands'          => Brand::getActiveEntries(),
                 'category_groups' => CategoryGroup::getActiveEntries(),
                 'categories'      => Category::getActiveEntries(),
-                'sub_categories'  => SubCategory::getActiveEntries(),
             ],
             $this->getProductProperties(),
             ['breadcrumbs' => $this->breadcrumbs]
@@ -253,13 +222,20 @@ class ProductController extends AdminController
      */
     private function getEditPageData(Model $product): array
     {
+        $allowedCategories = $product->categoryGroup->getActiveParentCategories();
+
+        $productCategory = $product->category ?? null;
+
+        $allowedNestedCategories = $productCategory?->parent?->getNestedCategories(['id', 'title']);
+
         return array_merge(
             [
                 'banners'           => Banner::getActiveEntries(),
                 'brands'            => Brand::getActiveEntries(),
-                'category_groups'   => CategoryGroup::getActiveEntries(),
-                'categories'        => Category::getActiveEntries(),
-                'sub_categories'    => SubCategory::getActiveEntries(),
+                'categoryGroups'    => CategoryGroup::getActiveEntries(),
+                'categories'        => $allowedCategories,
+                'nestedCategories'  => $allowedNestedCategories,
+                'productCategory'   => $productCategory,
                 'selectedMaterials' => $product->getRelationIds('materials'),
                 'selectedSizes'     => $product->getRelationIds('sizes'),
                 'count_sizes'       => $product->getSizesCount(),

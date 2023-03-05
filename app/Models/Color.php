@@ -26,6 +26,6 @@ class Color extends BaseModel
      */
     public function products(): HasMany
     {
-        return $this->hasMany(Product::class,'product_color_id', 'id');
+        return $this->hasMany(Product::class,'color_id', 'id');
     }
 }

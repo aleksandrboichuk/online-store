@@ -14,11 +14,11 @@ class AddForeignKeysToProductsTable extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->foreign('product_color_id')
+            $table->foreign('color_id')
                 ->references('id')
                 ->on('colors')
                 ->onDelete('cascade');
-            $table->foreign('product_season_id')
+            $table->foreign('season_id')
                 ->references('id')
                 ->on('seasons')
                 ->onDelete('cascade');
@@ -33,11 +33,11 @@ class AddForeignKeysToProductsTable extends Migration
     public function down()
     {
         if(Schema::hasTable('products')
-            && Schema::hasColumns('products', ['product_season_id', 'product_color_id'])
+            && Schema::hasColumns('products', ['season_id', 'color_id'])
         ){
             Schema::table('products', function (Blueprint $table) {
-                $table->dropForeign('products_product_color_id_foreign');
-                $table->dropForeign('products_product_season_id_foreign');
+                $table->dropForeign('products_color_id_foreign');
+                $table->dropForeign('products_season_id_foreign');
             });
         }
     }

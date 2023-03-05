@@ -24,11 +24,6 @@ class AddFieldsToProductsTable extends Migration
                 ->references('id')
                 ->on('categories')
                 ->onDelete('cascade');
-            $table->bigInteger('category_sub_id')->unsigned();
-            $table->foreign('category_sub_id')
-                ->references('id')
-                ->on('sub_categories')
-                ->onDelete('cascade');
         });
     }
 
@@ -40,17 +35,15 @@ class AddFieldsToProductsTable extends Migration
     public function down()
     {
         if(Schema::hasTable('products')
-            && Schema::hasColumns('products', ['category_group_id', 'category_id', 'category_sub_id'])
+            && Schema::hasColumns('products', ['category_group_id', 'category_id'])
         ){
 
            Schema::table('products', function (Blueprint $table) {
                $table->dropForeign('products_category_group_id_foreign');
                $table->dropForeign('products_category_id_foreign');
-               $table->dropForeign('products_category_sub_id_foreign');
 
                $table->dropColumn('category_group_id');
                $table->dropColumn('category_id');
-               $table->dropColumn('category_sub_id');
            });
        }
     }

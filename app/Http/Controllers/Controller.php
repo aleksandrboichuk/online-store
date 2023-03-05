@@ -44,7 +44,7 @@ class Controller extends BaseController
      *
      * @var string
      */
-    protected string $sub_category_seo_name;
+    protected string|null $subcategory_seo_name;
 
     /**
      * Seo name of product
@@ -99,22 +99,6 @@ class Controller extends BaseController
     public function userId(): int|null
     {
         return Auth::check() ? Auth::id() : null;
-    }
-
-    /**
-     * Returns all brands of category group which has a products
-     *
-     * @param int $group_id
-     * @return Builder[]|Collection
-     */
-    public function getGroupBrands(int $group_id): Collection|array
-    {
-        return Brand::query()
-            ->where('active', 1)
-            ->whereHas('products', function (Builder $query) use ($group_id){
-                return $query->where('category_group_id', $group_id);
-            })
-            ->get();
     }
 
     /**
@@ -222,12 +206,12 @@ class Controller extends BaseController
     /**
      * Sets a subcategory seo name variable
      *
-     * @param string $seo_name
+     * @param string|null $seo_name
      * @return void
      */
-    protected function setSubCategorySeoName(string $seo_name): void
+    protected function setSubCategorySeoName(string|null $seo_name): void
     {
-        $this->sub_category_seo_name = $seo_name;
+        $this->subcategory_seo_name = $seo_name;
     }
 
     /**

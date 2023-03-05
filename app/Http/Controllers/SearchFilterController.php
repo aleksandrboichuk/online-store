@@ -12,7 +12,7 @@ use App\Models\ProductImage;
 use App\Models\Material;
 use App\Models\Season;
 use App\Models\Size;
-use App\Models\SubCategory;
+use App\Models\subcategory;
 use App\Services\ElasticSearchService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -58,7 +58,7 @@ class SearchFilterController extends Controller
      *
      * @var  Model|null
      */
-    private  Model|null $subCategory = null;
+    private  Model|null $subcategory = null;
 
     /**
      * Global array with full request to elastic
@@ -178,7 +178,7 @@ class SearchFilterController extends Controller
             $this->setMustArrayWithGroupAndCategory();
             $this->setView('pages.category.index');
 
-        }elseif($this->atSubCategoryPage()){
+        }elseif($this->atsubcategoryPage()){
             // if we at subcategory page
             $this->setMustArrayWithAllCategories();
             $this->setView('pages.subcategory.index');
@@ -210,7 +210,7 @@ class SearchFilterController extends Controller
         $this->must = [
             ['match' => ['category_group.id' => $this->group->id]],
             ['match' => ['category.id' => $this->category->id]],
-            ['match' => ['sub_category._id' => $this->subCategory->id]]
+            ['match' => ['subcategory.id' => $this->subcategory->id]]
         ];
     }
 
@@ -264,7 +264,7 @@ class SearchFilterController extends Controller
 
         $this->setCategorySeoName($this->category ? $this->category->seo_name : '');
 
-        $this->setSubCategorySeoName($this->subCategory ? $this->subCategory->seo_name : '');
+        $this->setsubcategorySeoName($this->subcategory ? $this->subcategory->seo_name : '');
     }
 
     /**
@@ -359,11 +359,11 @@ class SearchFilterController extends Controller
         }else{
 
             if(request()->segment(3)){
-                $this->category = Category::getOneBySeoName(request()->segment(3));
+                $this->category = $this->group->getChildCategoryBySeoName(request()->segment(3));
             }
 
             if(request()->segment(4)){
-                $this->subCategory =  SubCategory::getOneBySeoName(request()->segment(4));
+                $this->subcategory =  $this->category->getChildCategoryBySeoName(request()->segment(4));
             }
         }
     }
@@ -392,10 +392,10 @@ class SearchFilterController extends Controller
         $data  = [
             'group'            => $this->group,
             'products'         => $this->searchProductsByFilters($sorting),
-            'group_categories' => $this->group->getCategories(),
-            'brands'           => $this->getGroupBrands($this->group->id),
+            'group_categories' => $this->group->getCategoriesForSidebar(),
+            'brands'           => $this->group->getBrands(),
             'category'         => $this->category ?? null,
-            'sub_category'     => $this->subCategory ?? null,
+            'sub_category'      => $this->subcategory ?? null,
             'banner'           => $this->promotionBanner ?? null,
             'banners'          => $banners ?? null,
             'breadcrumbs'      => $this->breadcrumbs
@@ -423,12 +423,12 @@ class SearchFilterController extends Controller
         if($this->category){
             $breadcrumbs[] = [
                 $this->category->name,
-                route('category', [$this->group->seo_name, $this->category->seo_name])
+                $this->category->url
             ];
         }
 
-        if($this->subCategory){
-            $breadcrumbs[] = [$this->subCategory->name];
+        if($this->subcategory){
+            $breadcrumbs[] = [$this->subcategory->name];
         }
 
         if($this->promotionBanner){
@@ -474,7 +474,7 @@ class SearchFilterController extends Controller
     {
         if( $this->group_seo_name != ''
             && $this->category_seo_name === ''
-            && $this->sub_category_seo_name === ''
+            && $this->subcategory_seo_name === ''
         ){
             return true;
         }
@@ -491,7 +491,7 @@ class SearchFilterController extends Controller
     {
         if( $this->group_seo_name != ''
             && $this->category_seo_name != ''
-            && $this->sub_category_seo_name === ''
+            && $this->subcategory_seo_name === ''
         ){
             return true;
         }
@@ -504,11 +504,11 @@ class SearchFilterController extends Controller
      *
      * @return bool
      */
-    private function atSubCategoryPage(): bool
+    private function atSubcategoryPage(): bool
     {
         if( $this->group_seo_name != ''
             && $this->category_seo_name != ''
-            && $this->sub_category_seo_name != ''
+            && $this->subcategory_seo_name != ''
         ){
             return true;
         }

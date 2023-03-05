@@ -14,25 +14,11 @@ class CartController extends Controller
     /**
      * Cart page
      *
-     * @param Request $request
      * @return Application|Factory|View|string
      */
-    public function index(Request $request): Application|Factory|View|string
+    public function index(): Application|Factory|View|string
     {
         $cart = $this->getCart();
-
-        //  AJAX for refresh amount of product in the cart
-        if ($request->get('updateId') && $request->get('updateSize') && $request->get('value')) {
-
-            $cart->updateProductCount($request);
-
-            if ($request->ajax()) {
-                return view('pages.cart.ajax.index', [
-                    'cart'     => $cart,
-                    'products' => $cart->products
-                ])->render();
-            }
-        }
 
         $this->setBreadcrumbs($this->getBreadcrumbs());
 

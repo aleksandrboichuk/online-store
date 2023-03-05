@@ -14,7 +14,7 @@ class AddSeoNameToBannersTable extends Migration
     public function up()
     {
         Schema::table('banners', function (Blueprint $table) {
-            $table->string('seo_name')->default('')->after('title');
+            $table->string('seo_name')->unique()->default('')->after('title');
         });
     }
 

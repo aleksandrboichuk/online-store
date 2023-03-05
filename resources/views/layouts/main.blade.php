@@ -182,9 +182,9 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/jquery.scrollUp.min.js"></script>>
 <script src="/js/main.js"></script>
-<script>
-    $('.navbar-collapse').find('.' + "{{request()->segment(2)}}").addClass("active");
-</script>
+{{--<script>--}}
+{{--    $('.navbar-collapse').find('.' + "{{request()->segment(2)}}").addClass("active");--}}
+{{--</script>--}}
 <script src="/js/components/validity.js"></script>
 @yield('custom-js')
 </body>

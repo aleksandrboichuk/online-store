@@ -13,10 +13,10 @@ class AddCharacteristicsFieldsToProductsTable extends Migration
      */
     public function up()
     {
-        if(!Schema::hasColumn('products','product_color_id')) {
+        if(!Schema::hasColumn('products','color_id')) {
             Schema::table('products', function (Blueprint $table) {
-                $table->bigInteger('product_color_id')->unsigned();
-                $table->bigInteger('product_season_id')->unsigned();
+                $table->bigInteger('color_id')->unsigned();
+                $table->bigInteger('season_id')->unsigned();
              });
         }
     }
@@ -29,11 +29,11 @@ class AddCharacteristicsFieldsToProductsTable extends Migration
     public function down()
     {
         if(Schema::hasTable('products')
-            && Schema::hasColumns('products', ['product_season_id', 'product_color_id'])
+            && Schema::hasColumns('products', ['season_id', 'color_id'])
         ){
             Schema::table('products', function (Blueprint $table) {
-                $table->dropColumn('product_season_id');
-                $table->dropColumn('product_color_id');
+                $table->dropColumn('season_id');
+                $table->dropColumn('color_id');
             });
         }
     }

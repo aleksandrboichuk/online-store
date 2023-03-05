@@ -85,36 +85,36 @@
 
                     </div>
                     <div class="add-block">
-                        <label for="category_id">Категорія* </label>
-                        <select required size="3" name="category_id" class="select-option">
+                        <label for="category">Категорія* </label>
+                        <select required size="3" name="category" class="select-option">
 
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="category_sub_id">Підкатегорія* </label>
-                        <select required size="7" name="category_sub_id" class="select-option">
+                        <label for="category_id">Підкатегорія* </label>
+                        <select required size="7" name="category_id" class="select-option">
 
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="product_color_id">Колір* </label>
-                        <select required size="7" name="product_color_id" class="select-option">
+                        <label for="color_id">Колір* </label>
+                        <select required size="7" name="color_id" class="select-option">
                             @foreach($colors as $col)
                                 <option value="{{$col->id}}">{{$col->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="product_season_id">Сезон* </label>
-                        <select required size="7" name="product_season_id" class="select-option">
+                        <label for="season_id">Сезон* </label>
+                        <select required size="7" name="season_id" class="select-option">
                             @foreach($seasons as $s)
                                 <option value="{{$s->id}}">{{$s->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="add-block">
-                        <label for="product_brand_id">Бренд* </label>
-                        <select required size="7" name="product_brand_id" class="select-option">
+                        <label for="brand_id">Бренд* </label>
+                        <select required size="7" name="brand_id" class="select-option">
                             @foreach($brands as $b)
                                 <option value="{{$b->id}}">{{$b->name}}</option>
                             @endforeach
@@ -159,6 +159,6 @@
 @section('custom-js')
     <script src="/js/admin/product/script.js"></script>
     <script>
-        ajaxRequests("{{route('products.create')}}")
+        ajaxRequests("{{route('api.admin.getCategoriesOrSubcategoriesData')}}")
     </script>
 @endsection

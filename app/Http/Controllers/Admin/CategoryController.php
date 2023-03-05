@@ -74,7 +74,7 @@ class CategoryController extends AdminController
 
         $request->setActiveField();
 
-        Category::query()->create($request->all());
+        $category = Category::query()->create($request->all());
 
         return redirect('/admin/categories')->with(['success-message' => 'Категорію успішно додано.']);
     }
@@ -122,7 +122,7 @@ class CategoryController extends AdminController
         $active = $request->get('active');
 
         if($category->active != $active){
-            $this->setActiveFieldToModelRelations($category, $active, ['products', 'subCategories']);
+            $this->setActiveFieldToModelRelations($category, $active, ['products']);
         }
 
         $category->update($request->all());
@@ -147,6 +147,7 @@ class CategoryController extends AdminController
         }
 
         $category->delete();
+
         return redirect("/admin/categories")->with(['success-message' => 'Категорію успішно видалено.']);
     }
 }

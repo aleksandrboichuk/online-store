@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use JetBrains\PhpStorm\NoReturn;
 
 class BaseModel extends Model
 {
@@ -58,5 +59,27 @@ class BaseModel extends Model
             ->where('category_group_id', $category_group_id)
             ->orderBy('id', $order_by)
             ->paginate($perPage);
+    }
+
+    /**
+     * Updates product url
+     *
+     * @return bool
+     */
+    public function updateUrl(): bool
+    {
+        return $this->update([
+            'url' => $this->getUrl()
+        ]);
+    }
+
+    /**
+     * Returns all active children categories of this entry
+     *
+     * @return Collection
+     */
+    public function getActiveParentCategories(): Collection
+    {
+        return $this->categories()->where('active', 1)->where('level', 1)->get();
     }
 }

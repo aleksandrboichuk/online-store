@@ -28,10 +28,10 @@
                         @foreach($products as $item)
                             <tr>
                                 <td class="cart_product">
-                                    <a href="{{route('product', [$item->categoryGroup->seo_name, $item->categories->seo_name, $item->subCategories->seo_name, $item->seo_name])}}"><img src="/images/products/{{$item->id}}/preview/{{$item->preview_img_url}}" alt="" /></a>
+                                    <a href="{{$item->url}}"><img src="/images/products/{{$item->id}}/preview/{{$item->preview_img_url}}" alt="" /></a>
                                 </td>
                                 <td class="cart_description">
-                                    <h4><a href="{{route('product', [$item->categoryGroup->seo_name, $item->categories->seo_name, $item->subCategories->seo_name, $item->seo_name])}}">{{$item->name}}</a></h4>
+                                    <h4><a href="{{$item->url}}">{{$item->name}}</a></h4>
                                     <p class="product-id">ID: {{$item->id}}</p>
                                 </td>
                                 @if($item->discount != 0)

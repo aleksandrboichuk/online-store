@@ -22,10 +22,10 @@
             <p>{{$item->categoryGroup->name}}</p>
         </td>
         <td>
-            <p>{{$item->categories->name}}</p>
+            <p>{{$item->category->parent->name}}</p>
         </td>
         <td>
-            <p>{{$item->subCategories->name}}</p>
+            <p>{{$item->category->name}}</p>
         </td>
         <td>
             <p>{{$item->brands->name}}</p>

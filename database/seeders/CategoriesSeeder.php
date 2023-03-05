@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\CategoryGroup;
+use App\Models\SubCategory;
 use Illuminate\Database\Seeder;
 
 class CategoriesSeeder extends Seeder
@@ -19,7 +20,7 @@ class CategoriesSeeder extends Seeder
         $men = CategoryGroup::getOneBySeoName('men');
 
         if($women){
-            Category::query()->create([
+            $clothes_women = Category::query()->create([
                 'title' => 'Одяг жіночий',
                 'name' => 'Одяг',
                 'seo_name' => 'women-clothes',
@@ -37,7 +38,7 @@ class CategoriesSeeder extends Seeder
         }
 
         if($men){
-            Category::query()->create([
+            $clothes_men = Category::query()->create([
                 'title' => 'Одяг чоловічий',
                 'name' => 'Одяг',
                 'seo_name' => 'men-clothes',
@@ -53,5 +54,28 @@ class CategoriesSeeder extends Seeder
                 'active' => 1,
             ]);
         }
+
+        if(isset($clothes_women)){
+            Category::query()->create([
+                'title' => 'Джинси жіночі',
+                'name' => 'Джинси',
+                'seo_name' => 'jeans-women',
+                'parent_id' => $clothes_women->id,
+                'category_group' => $clothes_men->category_group,
+                'active' => 1,
+            ]);
+        }
+
+        if(isset($clothes_men)){
+            Category::query()->create([
+                'title' => 'Сорочки чоловічі',
+                'name' => 'Сорочки',
+                'seo_name' => 'shirt-men',
+                'parent_id' => $clothes_men->id,
+                'category_group' => $clothes_men->category_group,
+                'active' => 1,
+            ]);
+        }
+
     }
 }
