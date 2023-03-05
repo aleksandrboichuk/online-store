@@ -72,15 +72,34 @@ class Category extends BaseModel
     {
         parent::boot();
 
-        parent::creating(function (){
-            $this->level = $this->getLevel($this->id);
-            $this->url = $this->getUrl();
+        parent::created(function ($category){
+            $category->level = $category->getNestingLevel();
+
+            $category->url = $category->getUrl();
+            $category->save();
+
         });
 
-        parent::updating(function (){
-            $this->level = $this->getLevel($this->id);
-            $this->url = $this->getUrl();
+        parent::updating(function ($category){
+            $category->level = $category->getNestingLevel();
+            $category->url = $category->getUrl();
         });
+    }
+
+    /**
+     * Returns nesting level of category
+     *
+     * @return int
+     */
+    public function getNestingLevel(): int
+    {
+        $nestingLevel = 1;
+
+        if(isset($this->parent_id) && !empty($this->parent_id)){
+            $nestingLevel = $this->getLevel($this->parent_id);
+        }
+
+        return $nestingLevel;
     }
 
     /**
@@ -101,7 +120,7 @@ class Category extends BaseModel
         ++$level;
 
         if (!empty($item) && !empty($item->parent_id)) {
-            $depth = self::getLevel($item->parent_id, $level);
+            $level = self::getLevel($item->parent_id, $level);
         }
 
         return $level;

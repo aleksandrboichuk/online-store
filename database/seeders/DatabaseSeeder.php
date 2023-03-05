@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
             UsersSeeder::class,
             CategoryGroupsSeeder::class,
             CategoriesSeeder::class,
-            SubCategoriesSeeder::class,
             StatusesSeeder::class,
             BannersSeeder::class,
             ProductsPropertiesSeeder::class,
