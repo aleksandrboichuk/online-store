@@ -1,94 +1,93 @@
-# Інтернет-магазин одягу та аксесуарів Divisima
+# Online clothing and accessories store Divisima
 
-Проєкт був розроблений як дипломна робота за допомогою фреймворку PHP Laravel, а також Docker, NGINX, MySQL, ElasticSearch.
-У приорітет ставилася Backend розробка.
+The project was developed as a thesis using the PHP Laravel framework, as well as Docker, NGINX, MySQL, ElasticSearch.
+Backend development was prioritized.
 
 ## Про проєкт
 
-Магазин розділений по групам категорій (стать людини). Для кожної групи категорій є окремий розділ магазину, де відображено індивідуально всі пункти меню, бренди (до яких прив'язаний хоча б один товар цієї групи категорій), банери та інше. Тобто, група категорій - це великий окремий розділ (як і у приміщенні магазину), у якому відображається все індивідуально для даної групи категорій.
+The store is divided into groups of categories (person's gender). For each group of categories, there is a separate section of the store, where all menu items, brands (to which at least one product of this group of categories is attached), banners, etc. are displayed individually. That is, a group of categories is a large separate section (as in the store) in which everything is displayed individually for a given group of categories.
 
-### Реалізовано наступний функціонал:
+### The following functionality has been implemented:
 
-#### _Відображення товарів_
-Відображення відбувається за групами категорій (Жінки/Чоловіки тощо), категоріями та підкатегоріями (підкатегорії та категорії передбачено окремо для кожної групи категорій). 
-#### _Сторінка товару_
-На даній сторінці відображена уся інформація про товар та наявна можливість додати його у кошик (для будь-якого користувача), а також залишити відгк (для зареєстрованих користувачів).
-#### _Банери_
-Знаходяться на головній сторінці, для кожної групи категорій індивідуально.
-#### _Пошук товарів_
-В залежності від сторінки з якої він здійснюється - виконується пошук товарів з урахуванням групи категорій, якій належить сторінка. Тобто, якщо користувач знаходится у розділі для чоловіків, то пошук виконається тільки по товарам для чоловіків (_Реалізовано за допомогою пошукового двигуна **ElasticSearch**_).
-#### _Фільтрація товарів_
-Реалізовані фільтри по розмірам, кольорам, брендам, сезонам, матеріалам, цінами (проміжок) (_Реалізовано за допомогою пошукового двигуна **ElasticSearch**_).
-#### _Сортування_ 
-На кожній сторінці передбачено сортування відображення товарів як і без застосування фільтрів, так і з ними (_Реалізовано за допомогою пошукового двигуна **ElasticSearch**_).
-#### _Кошик_
-Додавання товарів у кошик можливо як і зареєстрованому користувачу так і незареєстрованому. У кошику є можливість обрати промокоди (про них далі).
-#### _Оформлення замовлення_
-Також доступне для усіх відвідувачів магазину. 
-#### _Промокоди_
-"З коробки" (при застосуванні db:seed) у базі даних є 2 промокоди, з якими взаємодіє деякий функціонал: для кожного нового користувача видається промокод на знижку 15% (з деякими умовами для застосування), за загальну кількість товарів у кошку (вказана у таблиці).
-#### _Особистий кабінет_
-У кожного зареєстрованого користувача є доступ до особистого кабінету. Там він може відфільтрувати та переглянути замовлення, їх деталі та статус який поставив адміністратор. Також є можливість змінити налаштування профілю, пароль, пошту, ім'я тощо. У кабінеті також відображаются активні промокоди користувача, які він може застосувати та їхній опис, умови застосування. Відображена також інформація про кількість здійснених замовлень користувачем та їхню суму.
-#### _Відгуки_
-Кожен зареєстрований користувач може залишити відгук про товар з оцінкою. Також на основі оцінок відображаються "зірочки" та кількість відгуків у кожного товара на його сторінці.
-####  _Реєстрація_
-Доступна реєстрація для усіх користувачів.
-#### _Авторизація_
-Раніше зареєстровані користувачі можуть, звісно, увійти в свій акаунт. У разі, якщо користувач забув пароль, існує відповідна кнопка на сторінці входу для відправки повідомлення на пошту користувачу з посиланням для відновлення паролю.
-#### _Ролі_
-У кожного користувача за замовчуванням є відповідна роль 'user". Також є "з коробки" ролі "content manager", "orders manager", "feedback manager" та "super admin". Відповідно до їх назви можна зрозуміти набір  їх доступів до пунктів адмін-панелі та виконання певних дій.
-#### _Адміністративна панель_
-Уся база даних може регулюватись адміністратором за допомогою адміністративної панелі (за наявності доступу, про нього нижче). У ній в таблицях відображені усі необхідні дані, доступні для редагування, або створення нових. А саме:
+#### _Product display_
+Display is by category groups (Women/Men, etc.), categories and subcategories (subcategories and categories are provided separately for each category group).
+#### _Product page_
+On this page, all information about the product is displayed and it is possible to add it to the cart (for any user), as well as to leave feedback (for registered users).
+#### _Banners_
+They are located on the main page, individually for each group of categories.
+#### _Product search_
+Depending on the page from which it is carried out - the search for goods is performed taking into account the group of categories to which the page belongs. That is, if the user is in the section for men, then the search will be performed only on goods for men (_Implemented using the search engine **ElasticSearch**_).
+#### _Product filtering_
+Implemented filters for sizes, colors, brands, seasons, materials, prices (interval) (_Implemented using the search engine **ElasticSearch**_).
+#### _Sorting_
+On each page, there is provision for sorting the display of products both without applying filters and with them (_Implemented using the search engine **ElasticSearch**_).
+#### _Basket_
+Adding products to the cart is possible for both registered and unregistered users. There is an opportunity to choose promotional codes in the basket (more on them later).
+#### _Order processing_
+Also available to all store visitors.
+#### _Promo Codes_
+"Out of the box" (when using db:seed) in the database there are 2 promotional codes with which some functionality interacts: for each new user, a promotional code is issued for a 15% discount (with some conditions for application), for the total number of products in the cart (specified in the table).
+#### _Personal office_
+Each registered user has access to a personal account. There he can filter and view orders, their details and the status set by the administrator. It is also possible to change profile settings, password, mail, name, etc. The account also displays the user's active promotional codes that he can apply and their description, conditions of use. Information about the number of orders placed by the user and their amount is also displayed.
+#### _Reviews_
+Each registered user can leave a review about the product with a rating. Also, based on the ratings, "stars" and the number of reviews for each product are displayed on its page.
+#### _Registration_
+Registration is available for all users.
+#### _Authorization_
+Previously registered users can, of course, log in to their account. If the user has forgotten the password, there is a corresponding button on the login page to send a message to the user's mail with a link to reset the password.
+#### _Roles_
+Each user has a corresponding role 'user' by default. There are also "content manager", "orders manager", "feedback manager" and "super admin" roles "out of the box". According to their name, you can understand the set of their access to items admin panel and performing certain actions.
+#### _Administrative panel_
+The entire database can be adjusted by the administrator using the administrative panel (if access is available, see below). It displays all necessary data in tables, available for editing or creating new ones. Namely:
    
-  + **Товари**. Додавання, редагування, видалення товарів, усіх їх додаткових параметрів (розміри, матеріали, бренди тощо) окремо. За кожним товаром закріплена якась кількість його розмірів, які мають кількість цього самого товару. Наприклад 44-го розміру на складі знаходиться 1000 шт., 45-го - 2000 шт. Це все можна регулювати при додаванні, редагуванні товарів. Також встановлення знижки, прив'язка до банеру (акції), зображення тощо.
-  + **Замовлення**. Редагування та перегляд кожного замовлення та надання йому певного статусу. При наданні статусу "Доставляється" (з коробки при виконанні db:seed ці статуси буде вже додано) - для всіх товарів з даного замовлення від кількості певного розміру цього товару автоматично відніметься кількість цього товару у замовленні (коли забрали якусь кількість товару якогось розміру зі складу та відправили клієнтові).
-  + **Властивості товарів**. Сезони, розміри, матеріали, бренди, кольори - усе це може бути відредаговано або додано до магазину.
-  + **Категорії**. Усі види категорій також можна редагувати, додавати та видаляти.
-  + **Повідомлення**. Зі сторінки контактів можна відправити фідбек, який можна буде переглянути відповідній людині (за наявності ролі) у цьому розділі адміністративної панелі.
-  + **Промокоди**. Можна також додавати, редагувати промокоди та їхні умови застосування.
-  + **Банери**. Банери, що на головній сторінці також представлені у адміністративній панелі для редагування, видалення чи додавання.
-  + **Користувачі**. Так звані суперадміни можуть редагувати користувачів та надавати ім якість ролі.
+    + **Goods**. Adding, editing, deleting products, all their additional parameters (sizes, materials, brands, etc.) separately. For each product, a certain number of its sizes, which have the quantity of this same product, is fixed. For example, there are 1000 pieces of the 44th size in stock, 2000 pieces of the 45th size. All this can be adjusted when adding or editing products. Also setting a discount, linking to a banner (promotion), image, etc.
+    + **Order**. Editing and viewing each order and giving it a specific status. When providing the status "Delivered" (from the box, when executing db:seed, these statuses will already be added) - for all products from a given order, the quantity of a certain size of this product will automatically be subtracted from the quantity of this product in the order (when a certain amount of a product of a certain size is taken from the warehouse and sent to the client).
+    + **Properties of goods**. Seasons, sizes, materials, brands, colors - all this can be edited or added to the store.
+    + **Categories**. All types of categories can also be edited, added and deleted.
+    + **Message**. From the contact page, you can send feedback, which can be viewed by the relevant person (if there is a role) in this section of the admin panel.
+    + **Promo codes**. You can also add and edit promotional codes and their terms of use.
+    + **Banner**. Banners on the main page are also presented in the administrative panel for editing, removing or adding.
+    + **Users**. So-called superadmins can edit users and give them role quality.
 
-## У розробці
-- Покриття коду Unit тестами.
+## Under development
+- Covering Unit code with tests.
 
+## Deployment of the project
 
-## Розгортання проєкту 
+In order to correctly deploy the project locally, you need to perform the following steps:
 
-Для того, щоб коректно розгорнути проєкт локально, потрібно виконати наступні кроки:
+**_[ATTENTION!] To deploy the project locally, you need to have Docker installed (preferably. of course, you can do without deployment on a local server, but the ElasticSearch search engine will need to be installed and run additionally)_**
 
-**_[УВАГА!] Для розгортання проєкту локально потрібно мати встановлений Docker (бажано. звісно, можна обійтись розгортанням на локальному сервері, але пошуковий двигун ElasticSearch потрібно буде встановити та запустити додатково)_**
+- Download the project;
+- Open the project folder in the console and execute the following commands:
+     + `docker-compose build`
+     + `docker-compose up -d`
+- After all the components are installed, you need to go to the console of the php container using the `docker-compose exec php bash` command;
+- Then execute the following commands in the php container console:
+     + `composer install`
+     + `php artisan key:generate`
+     + `php artisan migrate`
+     + `php artisan db:seed`
+- Next, execute the `php artisan search:reindex` command to index the products so that the search engine can see them and take them into account when performing searches.
 
-- Завантажити проєкт;
-- Відкрити папку проєкту у консолі та виконати наступні команди:
-    + `docker-compose build`
-    + `docker-compose up -d`
-- Після того, як всі складові встановляться, потрібно перейти до консолі контейнеру php за допомогою команди `docker-compose exec php bash`; 
-- Далі у консолі контейнеру php виконати наступні команди:
-    + `composer install`
-    + `php artisan key:generate`
-    + `php artisan migrate`
-    + `php artisan db:seed`
-- Далі виконайте команду `php artisan search:reindex` для індексації товарів, щоб їх міг бачити пошуковий двигун та враховувати їх при виконанні пошуку.
+After successful completion of the above points, the project will be available locally at http://localhost:8080.
 
-Після вдалого виконання вищевказаних пунктів локально - проєкт буде доступний за посиланням http://localhost:8080. 
+If the project was deployed on cloud.google.com, then to display it, perform the following actions:
 
-Якщо проєкт розгортався на cloud.google.com, то для його відображення виконайте наступні дії:
+- Inside the console, on the panel, click on the "Web preview" icon
+- Next, select "Change port" in the menu
+- Enter the value `8080`
+- Click "Change and preview".
 
-- Всередині консолі на панелі натисніть на значок "Web preview"
-- Далі у меню оберіть "Change port"
-- Введіть значення `8080`
-- Натисніть "Change and preview".
+The project should be completely ready to use with some initial data in the database.
 
-Проєкт має бути повністю готовим для використання з деякими початковими даними у БД.
-
-### Акаунти:
-В залежності від ролі акаунту представлені окремі пункти меню в адміністративній панелі. Якщо вам вдалося виконати раніше команду `php artisan db:seed`, то нижче представлені "креди" для входу в акаунти вже створених користувачів:
+### Accounts:
+Depending on the role of the account, separate menu items are presented in the administrative panel. If you managed to execute the `php artisan db:seed` command earlier, then the "credentials" for logging into the accounts of already created users are presented below:
 
 | Роль                  |             Логін             |                                  Пароль |
 |-----------------------|:-----------------------------:|----------------------------------------:|
-| Адміністратор         |      admin@divisima.com       |                                   admin |
-| Контент менеджер      | content_manager@divisima.com  |                         content_manager |
-| Менеджер замовлень    |  orders_manager@divisima.com  |                          orders_manager |
-| Менеджер повідомдлень | feedback_manager@divisima.com |                        feedback_manager |
-| Користувач            |       user@divisima.com       |                                    user |
+| Administrator         |      admin@divisima.com       |                                   admin |
+| Content manager       | content_manager@divisima.com  |                         content_manager |
+| Orders manager        |  orders_manager@divisima.com  |                          orders_manager |
+| Feedback manager      | feedback_manager@divisima.com |                        feedback_manager |
+| User                  |       user@divisima.com       |                                    user |
