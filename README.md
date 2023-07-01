@@ -40,14 +40,14 @@ Each user has a corresponding role 'user' by default. There are also "content ma
 #### _Administrative panel_
 The entire database can be adjusted by the administrator using the administrative panel (if access is available, see below). It displays all necessary data in tables, available for editing or creating new ones. Namely:
    
-    + **Goods**. Adding, editing, deleting products, all their additional parameters (sizes, materials, brands, etc.) separately. For each product, a certain number of its sizes, which have the quantity of this same product, is fixed. For example, there are 1000 pieces of the 44th size in stock, 2000 pieces of the 45th size. All this can be adjusted when adding or editing products. Also setting a discount, linking to a banner (promotion), image, etc.
-    + **Order**. Editing and viewing each order and giving it a specific status. When providing the status "Delivered" (from the box, when executing db:seed, these statuses will already be added) - for all products from a given order, the quantity of a certain size of this product will automatically be subtracted from the quantity of this product in the order (when a certain amount of a product of a certain size is taken from the warehouse and sent to the client).
-    + **Properties of goods**. Seasons, sizes, materials, brands, colors - all this can be edited or added to the store.
-    + **Categories**. All types of categories can also be edited, added and deleted.
-    + **Message**. From the contact page, you can send feedback, which can be viewed by the relevant person (if there is a role) in this section of the admin panel.
-    + **Promo codes**. You can also add and edit promotional codes and their terms of use.
-    + **Banner**. Banners on the main page are also presented in the administrative panel for editing, removing or adding.
-    + **Users**. So-called superadmins can edit users and give them role quality.
++ **Goods**. Adding, editing, deleting products, all their additional parameters (sizes, materials, brands, etc.) separately. For each product, a certain number of its sizes, which have the quantity of this same product, is fixed. For example, there are 1000 pieces of the 44th size in stock, 2000 pieces of the 45th size. All this can be adjusted when adding or editing products. Also setting a discount, linking to a banner (promotion), image, etc.
++ **Order**. Editing and viewing each order and giving it a specific status. When providing the status "Delivered" (from the box, when executing db:seed, these statuses will already be added) - for all products from a given order, the quantity of a certain size of this product will automatically be subtracted from the quantity of this product in the order (when a certain amount of a product of a certain size is taken from the warehouse and sent to the client).
++ **Properties of goods**. Seasons, sizes, materials, brands, colors - all this can be edited or added to the store.
++ **Categories**. All types of categories can also be edited, added and deleted.
++ **Message**. From the contact page, you can send feedback, which can be viewed by the relevant person (if there is a role) in this section of the admin panel.
++ **Promo codes**. You can also add and edit promotional codes and their terms of use.
++ **Banner**. Banners on the main page are also presented in the administrative panel for editing, removing or adding.
++ **Users**. So-called superadmins can edit users and give them role quality.
 
 ## Under development
 - Covering Unit code with tests.
