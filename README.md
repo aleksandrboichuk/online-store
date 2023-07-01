@@ -1,9 +1,9 @@
-# Online clothing and accessories store Divisima
+# Online clothing and accessories store
 
 The project was developed as a thesis using the PHP Laravel framework, as well as Docker, NGINX, MySQL, ElasticSearch.
 Backend development was prioritized.
 
-## Про проєкт
+## About the project
 
 The store is divided into groups of categories (person's gender). For each group of categories, there is a separate section of the store, where all menu items, brands (to which at least one product of this group of categories is attached), banners, etc. are displayed individually. That is, a group of categories is a large separate section (as in the store) in which everything is displayed individually for a given group of categories.
 
