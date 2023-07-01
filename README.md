@@ -84,7 +84,7 @@ The project should be completely ready to use with some initial data in the data
 ### Accounts:
 Depending on the role of the account, separate menu items are presented in the administrative panel. If you managed to execute the `php artisan db:seed` command earlier, then the "credentials" for logging into the accounts of already created users are presented below:
 
-| Роль                  |             Логін             |                                  Пароль |
+| Role                  |             Login             |                                Password |
 |-----------------------|:-----------------------------:|----------------------------------------:|
 | Administrator         |      admin@divisima.com       |                                   admin |
 | Content manager       | content_manager@divisima.com  |                         content_manager |
